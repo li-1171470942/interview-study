@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>08 并发锁 · 学习手册</title><style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:60px; }
+.topnav { position:sticky; top:0; z-index:9; background:#1f2937; color:#fff; padding:10px 0; }
+.topnav .inner { max-width:960px; margin:0 auto; padding:0 18px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; font-size:13px; }
+.topnav a { color:#c7d2fe; text-decoration:none; padding:3px 12px; border-radius:14px; background:rgba(255,255,255,.08); }
+.topnav a:hover { background:rgba(255,255,255,.2); color:#fff; }
+.topnav .sep { opacity:.4; }
+.wrap { max-width:960px; margin:0 auto; padding:0 18px; }
+.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px; margin-top:22px; box-shadow:0 1px 3px rgba(20,30,60,.05); }
+.article h1 { font-size:26px; color:#4f46e5; border-bottom:3px solid #4f46e5; padding-bottom:12px; margin-bottom:18px; }
+.article h2 { font-size:20px; margin:30px 0 12px; padding:10px 14px; background:#eef2ff; border-left:4px solid #4f46e5; border-radius:6px; color:#312e81; }
+.article h3 { font-size:14px; color:#475569; margin:14px 0 6px; }
+.article p { margin:8px 0; font-size:14.5px; color:#2b3245; }
+.article ul, .article ol { margin:8px 0 8px 24px; }
+.article li { font-size:14.5px; margin:4px 0; }
+.article strong { color:#111827; }
+.article code { background:#f1f3fa; padding:1px 6px; border-radius:4px; font-size:13px; color:#be185d; }
+.article pre { background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:8px; overflow-x:auto; margin:12px 0; font-size:13px; line-height:1.6; }
+.article pre code { background:none; color:inherit; padding:0; }
+.article table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13.5px; display:block; overflow-x:auto; }
+.article th { background:#f1f3fa; padding:8px 10px; text-align:left; color:#475569; font-size:12.5px; border:1px solid #e4e8f0; }
+.article td { padding:8px 10px; border:1px solid #e4e8f0; vertical-align:top; }
+.article blockquote { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; margin:12px 0; border-radius:6px; color:#166534; font-size:14px; }
+.article blockquote strong { color:#14532d; }
+.article hr { border:none; border-top:1px dashed #d1d5db; margin:26px 0; }
+.bottomnav { max-width:960px; margin:20px auto 0; padding:0 18px; display:flex; gap:10px; }
+.bottomnav a { flex:1; text-align:center; background:#4f46e5; color:#fff; text-decoration:none; padding:12px 10px; border-radius:10px; font-size:14px; }
+.bottomnav a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
+@media (max-width:760px){ .article{padding:22px 18px;} .article h1{font-size:21px;} }
+</style></head>
+<body>
+<div class="topnav"><div class="inner"><a href="学习中心.html">🏠 学习中心</a> <span class="sep">|</span> <a href="学习手册索引.md">📚 手册索引</a> <span class="sep">|</span> <a href="学习手册_07_JVM.html">◀ 07 JVM</a> <span class="sep">|</span> <a href="学习手册_09_SSM框架.html">09 SSM ▶</a></div></div>
+<div class="wrap"><article class="article"><h1>📘 学习手册 08 · 并发与锁</h1>
+<blockquote>
+<p>配套《面试八股复习计划》第 2 节并发锁 + PDF 第 60-62 页
+模板：<strong>一句话结论 → 详细解释 → 面试话术/例题</strong>
+Java 岗重点；分布式锁部分与你 Node.js 日常强相关（Redis 锁）</p>
+</blockquote>
+<hr />
+<h2>1. 乐观锁 vs 悲观锁</h2>
+<p><strong>一句话结论</strong>：悲观锁假设一定冲突（先加锁再操作，synchronized/DB 行锁）；乐观锁假设不冲突（CAS/版本号，失败重试）。
+<strong>详细解释</strong>：
+- 悲观锁：操作前加锁，串行执行——安全但并发低
+- 乐观锁：读时不加锁，提交时校验（CAS 比较值 / 版本号字段 + 1），冲突则重试——并发高但频繁冲突时浪费
+- 适用：悲观锁适合写多；乐观锁适合读多写少（秒杀扣库存用乐观锁+重试）
+- 数据库实现：悲观=SELECT FOR UPDATE；乐观=UPDATE SET version=version+1 WHERE version=?
+<strong>话术/例题</strong>：一句"悲观锁先锁后做，乐观锁做完校验"。追问：秒杀库存怎么实现？→ 乐观锁（CAS 更新库存 where 库存&gt;0）+ 限流削峰。</p>
+<h2>2. 公平锁 vs 非公平锁</h2>
+<p><strong>一句话结论</strong>：公平锁按请求顺序排队（FIFO），非公平锁允许插队（性能高）；synchronized 非公平，ReentrantLock 可配置。
+<strong>详细解释</strong>：
+- 公平锁：先到先得（AQS 队列顺序），无饥饿——维护队列开销大、吞吐低
+- 非公平锁：新线程先抢一次，抢不到再排队——减少线程唤醒开销（上下文切换少），吞吐高；可能饥饿
+- synchronized 天生非公平；ReentrantLock 构造参数 new ReentrantLock(true/false)
+<strong>话术/例题</strong>：一句"非公平=插队，性能好；公平=排队，不饿死"。追问：为什么非公平反而快？→ 减少线程挂起唤醒的上下文切换。</p>
+<h2>3. 共享锁 vs 独占锁</h2>
+<p><strong>一句话结论</strong>：独占锁只有一个线程持有（写锁/普通锁），共享锁允许多个线程同时持有（读锁/CountDownLatch）。
+<strong>详细解释</strong>：
+- 独占（排他）：synchronized、ReentrantLock、ReentrantReadWriteLock 的写锁
+- 共享：ReentrantReadWriteLock 的读锁（多读并发）、Semaphore（N 个许可）
+- 读写锁：读读并发、读写互斥、写写互斥——读多写少场景吞吐翻倍
+<strong>话术/例题</strong>：读写锁场景（缓存）一句话。追问：读写锁什么时候会退化/死锁？→ 写锁等待时新读线程进入会饿死写锁（StampedLock 解决）。</p>
+<h2>4. 可重入锁</h2>
+<p><strong>一句话结论</strong>：同一线程可多次获取同一把锁（计数累加），不会自己锁死自己；synchronized 和 ReentrantLock 都可重入。
+<strong>详细解释</strong>：
+- 场景：递归方法、A 方法加锁后调 B 方法又加同锁
+- 实现：ReentrantLock 里 state 计数，每次 lock+1，unlock-1，归零才真正释放；线程持有者记录在 owner
+- 对比不可重入：自己锁自己会死锁
+<strong>话术/例题</strong>：一句"可重入=同线程重复进，计数释放"。追问：可重入怎么实现的？→ AQS state + 持有线程判断。</p>
+<h2>5. 什么是死锁？产生条件</h2>
+<p><strong>一句话结论</strong>：线程互相持有对方需要的资源并等待，形成环；四条件：互斥、持有等待、不可剥夺、循环等待，破一个即可。
+<strong>详细解释</strong>（结合 C/C++ 手册 58 题，这里 Java 视角）：
+- 例子：线程 A 持锁1 等锁2，线程 B 持锁2 等锁1
+- 四条件缺一不可：
+  1. 互斥（资源一次一人用）
+  2. 持有并等待（拿着一个等另一个）
+  3. 不可剥夺（锁不能强抢）
+  4. 循环等待（A→B→A 成环）
+- 避免：<strong>按固定顺序加锁</strong>、一次拿所有锁、tryLock 超时放弃、锁粒度小
+- 排查：jstack 会输出 "Found one Java-level deadlock"
+<strong>话术/例题</strong>：背四条件 + "jstack 直接检测"。追问：怎么预防？→ 锁排序 + 超时。</p>
+<h2>6. 获取锁失败后线程会怎样</h2>
+<p><strong>一句话结论</strong>：synchronized 失败进入 BLOCKED 等 monitor；ReentrantLock 失败入 AQS 队列（可中断/超时）；CAS 失败自旋重试。
+<strong>详细解释</strong>：
+- synchronized：竞争失败 → 线程阻塞（BLOCKED 状态），由 JVM 管理，不可中断
+- ReentrantLock.lock()：入 AQS 同步队列等待（WAITING），可被 lockInterruptibly 中断
+- tryLock()：失败立即返回 false，不阻塞
+- CAS：失败返回 false/自旋循环重试（AtomicInteger）
+<strong>话术/例题</strong>：对比三种"失败后去哪"（阻塞/排队/自旋）。追问：自旋会有什么问题？→ 空转耗 CPU，所以要自适应自旋或限制次数。</p>
+<h2>7. 除了锁，还有哪些并发方式</h2>
+<p><strong>一句话结论</strong>：原子类（CAS）、并发容器（ConcurrentHashMap）、同步工具（Semaphore/CountDownLatch/CyclicBarrier）、不可变对象、ThreadLocal 线程隔离。
+<strong>详细解释</strong>：
+- <strong>原子类</strong>：AtomicInteger/LongAdder（无锁，高并发计数用 LongAdder 分片）
+- <strong>并发容器</strong>：ConcurrentHashMap、CopyOnWriteArrayList（读多写少）
+- <strong>同步工具</strong>：Semaphore（信号量限流）、CountDownLatch（等 N 个完成）、CyclicBarrier（N 个到齐一起跑）、Exchanger
+- <strong>不可变对象</strong>：final + 无 setter，天然线程安全（String、LocalDate）
+- <strong>ThreadLocal</strong>：线程内副本，隔离变量
+- <strong>Future/CompletableFuture</strong>：异步结果
+<strong>话术/例题</strong>：能说出 5 类"无锁/工具"方案就是知识面广。追问：CountDownLatch 和 CyclicBarrier 区别？→ Latch 一次性等 N 个，Barrier 可循环复用且都到齐才放行。</p>
+<h2>8. synchronized 深入（与 volatile 对比）</h2>
+<p><strong>一句话结论</strong>：synchronized 管可见性+原子性+有序性（重量级能力），volatile 只管可见性+有序性（轻量）；i++ 用 volatile 照样丢更新。
+<strong>详细解释</strong>：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>volatile</th>
+<th>synchronized</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>可见性</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>原子性</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>禁止重排</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>阻塞</td>
+<td>无</td>
+<td>有</td>
+</tr>
+<tr>
+<td>- volatile 场景：状态标志位（boolean running）、双重检查锁（DCL）的实例字段</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- 经典错误：<code>volatile int count; count++</code> 不是原子（读-改-写三步）</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- DCL 为什么需要 volatile：new 对象三步（分配-初始化-赋值）可能重排，别的线程读到未初始化的半成品 → volatile 禁止重排</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>话术/例题</strong>：结论"volatile 轻量可见性，synchronized 全都要"。追问：DCL 单例为什么 double check + volatile？→ 防重排导致读到半初始化对象。</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>9. ThreadLocal 深入（关联 Java 基础 20 题）</h2>
+<p><strong>一句话结论</strong>：线程内共享、线程间隔离；Thread 里 ThreadLocalMap（key 弱引用），用完 remove 防泄漏。
+<strong>详细解释</strong>：
+- 结构：每个 Thread 一个 ThreadLocalMap；key 是 ThreadLocal（弱引用），value 是值
+- 泄漏链：ThreadLocal 被回收 → key 变 null，但 value 仍被 map 强引用 → 线程池长线程永远清不掉
+- 防：finally 里 remove()；ThreadLocal 设 static 防误回收
+- 场景：请求上下文、SimpleDateFormat（非线程安全）每个线程一份
+<strong>话术/例题</strong>：能讲"弱 key 强 value"机制即深度题。追问：为什么 key 要弱引用？→ 让 ThreadLocal 对象可被回收；value 靠手动 remove。</p>
+<h2>10. 分布式锁（Redis 视角，Node/Java 通用）</h2>
+<p><strong>一句话结论</strong>：SETNX + 过期时间 + 唯一值 + Lua 释放（详见手册 03 第 6 题）；强一致选 etcd/ZK。
+<strong>详细解释</strong>：
+- Java 实现：<code>SET lockKey value NX EX 30</code>（StringRedisTemplate/Redisson）
+- Redisson 封装：RLock，自动续期看门狗，可重入
+- 场景：分布式任务防重（定时任务多实例）、库存扣减、幂等
+- 结合你 RRM：多个 rrmcontrol 实例同时触发同一 AP 调优 → Redis 分布式锁串行化
+<strong>话术/例题</strong>：把 Redis 锁 + 看门狗 + 你的实际用法讲一遍。追问：锁过期业务没完成？→ 看门狗续期；锁误删？→ 唯一值 + Lua 比对删除。</p>
+<h2>📝 本章自测（闭卷）</h2>
+<ol>
+<li>乐观/悲观锁适用场景 + 秒杀扣库存实现</li>
+<li>公平/非公平锁差异，synchronized 是哪种</li>
+<li>读写锁在什么场景收益最大</li>
+<li>死锁四条件 + 最常用预防</li>
+<li>锁竞争失败三种去向（阻塞/排队/自旋）</li>
+<li>volatile vs synchronized 对比</li>
+<li>ThreadLocal 泄漏机制一句话</li>
+<li>分布式锁完整实现步骤</li>
+</ol>
+<blockquote>
+<p>完成自测后回《面试八股复习计划》勾选并发锁相关题</p>
+</blockquote></article></div>
+<div class="bottomnav"><a href="学习手册_07_JVM.html">◀ 上一本：07 JVM</a>
+<a class="ghost" href="面试八股复习计划_李鑫.html">📖 回复习计划勾选</a>
+<a href="学习手册_09_SSM框架.html">下一本：09 SSM ▶</a></div>
+</body></html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>10 算法项目 · 学习手册</title><style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:60px; }
+.topnav { position:sticky; top:0; z-index:9; background:#1f2937; color:#fff; padding:10px 0; }
+.topnav .inner { max-width:960px; margin:0 auto; padding:0 18px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; font-size:13px; }
+.topnav a { color:#c7d2fe; text-decoration:none; padding:3px 12px; border-radius:14px; background:rgba(255,255,255,.08); }
+.topnav a:hover { background:rgba(255,255,255,.2); color:#fff; }
+.topnav .sep { opacity:.4; }
+.wrap { max-width:960px; margin:0 auto; padding:0 18px; }
+.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px; margin-top:22px; box-shadow:0 1px 3px rgba(20,30,60,.05); }
+.article h1 { font-size:26px; color:#4f46e5; border-bottom:3px solid #4f46e5; padding-bottom:12px; margin-bottom:18px; }
+.article h2 { font-size:20px; margin:30px 0 12px; padding:10px 14px; background:#eef2ff; border-left:4px solid #4f46e5; border-radius:6px; color:#312e81; }
+.article h3 { font-size:14px; color:#475569; margin:14px 0 6px; }
+.article p { margin:8px 0; font-size:14.5px; color:#2b3245; }
+.article ul, .article ol { margin:8px 0 8px 24px; }
+.article li { font-size:14.5px; margin:4px 0; }
+.article strong { color:#111827; }
+.article code { background:#f1f3fa; padding:1px 6px; border-radius:4px; font-size:13px; color:#be185d; }
+.article pre { background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:8px; overflow-x:auto; margin:12px 0; font-size:13px; line-height:1.6; }
+.article pre code { background:none; color:inherit; padding:0; }
+.article table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13.5px; display:block; overflow-x:auto; }
+.article th { background:#f1f3fa; padding:8px 10px; text-align:left; color:#475569; font-size:12.5px; border:1px solid #e4e8f0; }
+.article td { padding:8px 10px; border:1px solid #e4e8f0; vertical-align:top; }
+.article blockquote { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; margin:12px 0; border-radius:6px; color:#166534; font-size:14px; }
+.article blockquote strong { color:#14532d; }
+.article hr { border:none; border-top:1px dashed #d1d5db; margin:26px 0; }
+.bottomnav { max-width:960px; margin:20px auto 0; padding:0 18px; display:flex; gap:10px; }
+.bottomnav a { flex:1; text-align:center; background:#4f46e5; color:#fff; text-decoration:none; padding:12px 10px; border-radius:10px; font-size:14px; }
+.bottomnav a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
+@media (max-width:760px){ .article{padding:22px 18px;} .article h1{font-size:21px;} }
+</style></head>
+<body>
+<div class="topnav"><div class="inner"><a href="学习中心.html">🏠 学习中心</a> <span class="sep">|</span> <a href="学习手册索引.md">📚 手册索引</a> <span class="sep">|</span> <a href="学习手册_09_SSM框架.html">◀ 09 SSM</a> <span class="sep">|</span> <a href="学习手册_11_设计模式.html">11 设计模式 ▶</a></div></div>
+<div class="wrap"><article class="article"><h1>📘 学习手册 10 · 算法与项目深挖</h1>
+<blockquote>
+<p>配套《面试八股复习计划》第 4、5 节
+模板：<strong>一句话结论 → 详细解释 → 手写模板/话术</strong>
+算法：大厂笔试/手写必考；项目：所有面试 60% 时间都在这里——决胜盘</p>
+</blockquote>
+<hr />
+<h2>第一部分：高频算法（手写模板）</h2>
+<blockquote>
+<p>算法建议：每天 20 分钟，手写以下 8 个模板到肌肉记忆。LeetCode 按"链表→树→数组→动态规划"顺序刷。</p>
+</blockquote>
+<h3>1. 两数之和</h3>
+<p><strong>一句话结论</strong>：哈希表存"值→下标"，遍历一遍 O(n)。
+<strong>模板</strong>：</p>
+<pre><code class="language-java">int[] twoSum(int[] nums, int target) {
+    Map&lt;Integer,Integer&gt; map = new HashMap&lt;&gt;();
+    for (int i = 0; i &lt; nums.length; i++) {
+        int need = target - nums[i];
+        if (map.containsKey(need)) return new int[]{map.get(need), i};
+        map.put(nums[i], i);
+    }
+    return new int[]{};
+}
+</code></pre>
+<p><strong>追问</strong>：要求不重复用自己/排序数组变体（双指针）。</p>
+<h3>2. 反转链表</h3>
+<p><strong>一句话结论</strong>：三指针（prev/cur/next）遍历翻转。
+<strong>模板</strong>：</p>
+<pre><code class="language-java">ListNode reverseList(ListNode head) {
+    ListNode prev = null, cur = head;
+    while (cur != null) {
+        ListNode next = cur.next;
+        cur.next = prev;
+        prev = cur; cur = next;
+    }
+    return prev;
+}
+</code></pre>
+<p><strong>追问</strong>：K 个一组翻转（先写"翻转一段"子函数）。</p>
+<h3>3. 手写快速排序</h3>
+<p><strong>一句话结论</strong>：选基准 → 分区 → 递归；平均 O(n log n)。
+<strong>模板</strong>：</p>
+<pre><code class="language-java">void quickSort(int[] a, int l, int r) {
+    if (l &gt;= r) return;
+    int i = l, j = r, pivot = a[l];
+    while (i &lt; j) {
+        while (i &lt; j &amp;&amp; a[j] &gt;= pivot) j--;
+        while (i &lt; j &amp;&amp; a[i] &lt;= pivot) i++;
+        if (i &lt; j) { int t = a[i]; a[i] = a[j]; a[j] = t; }
+    }
+    a[l] = a[i]; a[i] = pivot;
+    quickSort(a, l, i-1); quickSort(a, i+1, r);
+}
+</code></pre>
+<p><strong>追问</strong>：复杂度、最坏情况（已有序）、怎么优化（三数取中/随机）。</p>
+<h3>4. 二叉树遍历（前/中/后 + 层序）</h3>
+<p><strong>一句话结论</strong>：递归三行；层序用队列。
+<strong>模板</strong>（前序递归）：</p>
+<pre><code class="language-java">void preorder(TreeNode r) {
+    if (r == null) return;
+    visit(r);
+    preorder(r.left); preorder(r.right);
+}
+</code></pre>
+<p>层序：<code>Queue</code> + while 循环 + 每层 size 记录。
+<strong>追问</strong>：迭代版（栈模拟）；"树的深度"= 递归 max(left,right)+1。</p>
+<h3>5. LRU 缓存</h3>
+<p><strong>一句话结论</strong>：哈希表 + 双向链表，get/put 都 O(1)。
+<strong>思路</strong>：Map<key,Node> + 链表头插尾删；命中移到头部；满时删尾部。
+<strong>追问</strong>：为什么必须双向链表？→ 删除节点要 O(1) 拿到前驱。</p>
+<h3>6. 二分查找</h3>
+<p><strong>一句话结论</strong>：有序数组，每次砍半 O(log n)；注意边界（left&lt;=right 或 left&lt;right）。
+<strong>模板</strong>：</p>
+<pre><code class="language-java">int binarySearch(int[] a, int target) {
+    int l = 0, r = a.length - 1;
+    while (l &lt;= r) {
+        int mid = l + (r - l) / 2;  // 防溢出
+        if (a[mid] == target) return mid;
+        else if (a[mid] &lt; target) l = mid + 1;
+        else r = mid - 1;
+    }
+    return -1;
+}
+</code></pre>
+<p><strong>追问</strong>：旋转数组找目标 / 找第一个等于 target 的位置。</p>
+<h3>7. 合并两个有序链表</h3>
+<p><strong>一句话结论</strong>：双指针归并，虚拟头节点简化。
+<strong>追问</strong>：合并 K 个有序链表（优先队列）。</p>
+<h3>8. 动态规划入门：爬楼梯</h3>
+<p><strong>一句话结论</strong>：dp[i] = dp[i-1] + dp[i-2]，从底向上。</p>
+<pre><code class="language-java">int climb(int n) {
+    if (n &lt;= 2) return n;
+    int a = 1, b = 2;
+    for (int i = 3; i &lt;= n; i++) { int c = a + b; a = b; b = c; }
+    return b;
+}
+</code></pre>
+<p><strong>追问</strong>：最大子数组和（dp[i]=max(a[i], dp[i-1]+a[i])）。</p>
+<hr />
+<h2>第二部分：项目深挖（决胜盘）</h2>
+<blockquote>
+<p>原则：<strong>每个项目准备 3 层</strong>——① 30 秒概述（做了什么+结果）② 技术细节（架构/难点）③ 一个可深挖的追问（数据/原理）。
+每句话都要带"为什么 + 数据"。</p>
+</blockquote>
+<h3>项目 ① AI RRM 系统重构与规模化落地（主打，2024.08-至今）</h3>
+<p><strong>30 秒概述</strong>：原 RRM"云端收集-云端计算-下发"运维压力大、只开白名单。我主导重构为"AC+fitap 设备侧计算、云 AP 云端计算"的双计算架构，实现"下发-计算-上报-展示"闭环，二期做配置中心和规模化落地，<strong>适配现网 98%+ 组网、RRM 计算压力分流到设备侧</strong>。</p>
+<p><strong>技术细节准备</strong>：
+- 为什么双计算？→ 云端集中算力压力大（全量 AP 上报计算），设备侧算力闲置；按组网类型分流
+- 下发链路？→ WebSocket + netconf 下发调优参数，Kafka 上报结果，Redis 分布式锁防并发触发
+- 数据一致性？→ MongoDB 分库分表（按任务维度分片，索引 {taskId,apSN,RI}），Kafka 消息不丢（消费后提交 offset）
+- 配置中心？→ 配置统一管理 → 生成 ConfigMap → 一键部署 → 自动校验 → 异常回滚
+- 98% 怎么算的？→ 现网 AC+fitap 组网占比统计</p>
+<p><strong>高频追问应对</strong>：
+- "线上出过什么问题？" → 准备 1 个故障复盘：现象 → 根因（如 Kafka 消费积压/内存 OOM）→ 定位（日志 grep/指标）→ 修复（内存调 5Gi→5.5Gi、批次限流）→ 预防（监控告警）
+- "怎么保证调优下发不失败？" → 超时重试 + 幂等（taskId 去重）+ 失败告警</p>
+<h3>项目 ② RRM 支持 WiFi7（2024.01-2024.12）</h3>
+<p><strong>30 秒概述</strong>：RRM 原只支持 2.4G/5G，我主导新增 6GHz 频段全链路改造（采集/扫描/计算/调优/部署），用 node-ffi 调 C 算法库，<strong>从 2 频段扩展到 3 频段，支持 WiFi7 商用</strong>。</p>
+<p><strong>技术细节准备</strong>：
+- 4 个微服务链路？→ rrmcontrol 调度 / rrmserver 查询 / rrmcompute 计算 / aioptimize AI 优化
+- node-ffi 细节？→ 动态库加载、Buffer 传参、内存释放、C 函数签名映射
+- 6GHz 新增影响面？→ 频段参数、信道扫描范围、功率上限、页面展示全链路适配</p>
+<h3>项目 ③ WBC IoT 2.0 解耦（2023.07-2024.06）</h3>
+<p><strong>30 秒概述</strong>：WBC 云简与物联网模块高度耦合（出版本困难、内存紧张），我主导用虚拟化方案解耦，支持"一体机+虚拟机"双镜像，<strong>实现进程级隔离、独立版本生命周期</strong>。</p>
+<p><strong>技术细节准备</strong>：
+- 为什么用虚拟机？→ 进程级解耦不彻底，虚拟机隔离更彻底且不互相影响
+- VNC 通道？→ 安全通道建立、资源分配（内存紧张怎么分）</p>
+<hr />
+<h2>第三部分：行为面试与话术</h2>
+<h3>自我介绍（1 分钟版）</h3>
+<blockquote>
+<p>重邮硕士 → 新华三 3 年 Node.js 后端 → 主导 AI RRM 重构（双计算+微服务+K8s）→ 期望 30-35 万，可接受 Go/Java。</p>
+</blockquote>
+<p><strong>模板</strong>："面试官好，我叫李鑫，重邮电子信息硕士，在新华三云简网络做了 3 年 Node.js 后端。主要负责 RRM 无线资源管理，主导过 AI RRM 系统重构——把它从云端集中计算改成设备侧+云端双计算架构，适配了现网 98% 的组网，同时我负责 4 个微服务的 K8s 部署和 Kafka/Redis/MongoDB 的日常运维。我的优势是：有完整的微服务架构设计经验、对分布式中间件有实战、网络通信背景扎实。期待能加入贵司贡献价值。"</p>
+<h3>离职原因（安全版）</h3>
+<blockquote>
+<p>不吐槽前东家；讲成长诉求。</p>
+</blockquote>
+<p><strong>模板</strong>："在新华三三年成长很快，独立扛过多个重构项目。但现在是验证/测试为主的工作内容，我希望回到纯开发主线，在更大平台、更高并发场景下继续打磨架构能力。"</p>
+<h3>谈薪话术</h3>
+<ul>
+<li>锚点：现年包 24.5 万 → 期望 30-35 万（涨幅 22-43%）</li>
+<li>有 offer 在手："贵司是我很倾向的选择，不过目前手里有个 offer 给到 33 万左右，如果贵司能到 32-35 万这个区间，我今天就能确认。"</li>
+<li>被压价："我理解预算，但我现在的工作稳定性也不错，跳槽的成本和风险是实打实的，希望薪资上能体现诚意。"</li>
+</ul>
+<hr />
+<h2>📝 本章自测（闭卷）</h2>
+<ol>
+<li>手写：反转链表 / 快排 / 两数之和（5 分钟内）</li>
+<li>30 秒讲完 AI RRM 重构（带数据）</li>
+<li>讲一个线上故障的完整复盘（现象→根因→修复→预防）</li>
+<li>自我介绍 1 分钟脱稿</li>
+<li>为什么离职？（3 句版）</li>
+</ol>
+<blockquote>
+<p>完成自测后回《面试八股复习计划》勾选算法与项目相关</p>
+</blockquote></article></div>
+<div class="bottomnav"><a href="学习手册_09_SSM框架.html">◀ 上一本：09 SSM</a>
+<a class="ghost" href="面试八股复习计划_李鑫.html">📖 回复习计划勾选</a>
+<a href="学习手册_11_设计模式.html">下一本：11 设计模式 ▶</a></div>
+</body></html>

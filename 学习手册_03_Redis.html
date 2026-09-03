@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>03 Redis · 学习手册</title><style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:60px; }
+.topnav { position:sticky; top:0; z-index:9; background:#1f2937; color:#fff; padding:10px 0; }
+.topnav .inner { max-width:960px; margin:0 auto; padding:0 18px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; font-size:13px; }
+.topnav a { color:#c7d2fe; text-decoration:none; padding:3px 12px; border-radius:14px; background:rgba(255,255,255,.08); }
+.topnav a:hover { background:rgba(255,255,255,.2); color:#fff; }
+.topnav .sep { opacity:.4; }
+.wrap { max-width:960px; margin:0 auto; padding:0 18px; }
+.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px; margin-top:22px; box-shadow:0 1px 3px rgba(20,30,60,.05); }
+.article h1 { font-size:26px; color:#4f46e5; border-bottom:3px solid #4f46e5; padding-bottom:12px; margin-bottom:18px; }
+.article h2 { font-size:20px; margin:30px 0 12px; padding:10px 14px; background:#eef2ff; border-left:4px solid #4f46e5; border-radius:6px; color:#312e81; }
+.article h3 { font-size:14px; color:#475569; margin:14px 0 6px; }
+.article p { margin:8px 0; font-size:14.5px; color:#2b3245; }
+.article ul, .article ol { margin:8px 0 8px 24px; }
+.article li { font-size:14.5px; margin:4px 0; }
+.article strong { color:#111827; }
+.article code { background:#f1f3fa; padding:1px 6px; border-radius:4px; font-size:13px; color:#be185d; }
+.article pre { background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:8px; overflow-x:auto; margin:12px 0; font-size:13px; line-height:1.6; }
+.article pre code { background:none; color:inherit; padding:0; }
+.article table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13.5px; display:block; overflow-x:auto; }
+.article th { background:#f1f3fa; padding:8px 10px; text-align:left; color:#475569; font-size:12.5px; border:1px solid #e4e8f0; }
+.article td { padding:8px 10px; border:1px solid #e4e8f0; vertical-align:top; }
+.article blockquote { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; margin:12px 0; border-radius:6px; color:#166534; font-size:14px; }
+.article blockquote strong { color:#14532d; }
+.article hr { border:none; border-top:1px dashed #d1d5db; margin:26px 0; }
+.bottomnav { max-width:960px; margin:20px auto 0; padding:0 18px; display:flex; gap:10px; }
+.bottomnav a { flex:1; text-align:center; background:#4f46e5; color:#fff; text-decoration:none; padding:12px 10px; border-radius:10px; font-size:14px; }
+.bottomnav a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
+@media (max-width:760px){ .article{padding:22px 18px;} .article h1{font-size:21px;} }
+</style></head>
+<body>
+<div class="topnav"><div class="inner"><a href="学习中心.html">🏠 学习中心</a> <span class="sep">|</span> <a href="学习手册索引.md">📚 手册索引</a> <span class="sep">|</span> <a href="学习手册_02_MySQL核心.html">◀ 02 MySQL</a> <span class="sep">|</span> <a href="学习手册_04_Node.js专属.html">04 Node.js ▶</a></div></div>
+<div class="wrap"><article class="article"><h1>📘 学习手册 03 · Redis</h1>
+<blockquote>
+<p>配套《面试八股复习计划》第 2 节 Redis + PDF 第 66-70 页
+模板：<strong>一句话结论 → 详细解释 → 面试话术 → 例题/追问</strong>
+必考四件套：为什么快 / 持久化 / 三大缓存问题 / 分布式锁</p>
+</blockquote>
+<hr />
+<h2>1. Redis 为什么这么快</h2>
+<p><strong>一句话结论</strong>：纯内存操作 + 单线程避免锁竞争 + I/O 多路复用，三个原因叠加。</p>
+<p><strong>详细解释</strong>：
+1. <strong>基于内存</strong>：读写都在内存，纳秒级，没有磁盘 IO（持久化是异步的）
+2. <strong>单线程</strong>（6.0 前）：避免多线程上下文切换和锁竞争；命令执行串行天然原子
+3. <strong>I/O 多路复用</strong>：用 epoll 同时监听大量 socket，一个线程处理所有连接，避免阻塞等待
+4. 数据结构高效：哈希表、跳表（zset）、压缩列表等精心设计</p>
+<p>注意：Redis 单线程是指<strong>命令执行</strong>单线程，I/O 和持久化有独立线程/子进程（6.0 后多线程 I/O）。</p>
+<p><strong>面试话术</strong>：三个词"内存 + 单线程 + 多路复用"，再补一句"命令执行原子性是单线程的副产品，所以单条命令天然防并发问题"。</p>
+<p><strong>例题/追问</strong>：为什么 Redis 单线程还这么快而不像 CPU 密集场景要多线程？→ 瓶颈在 IO 不在 CPU；单线程省去锁和上下文切换。</p>
+<hr />
+<h2>2. 什么是阻塞 I/O、非阻塞 I/O、I/O 多路复用</h2>
+<p><strong>一句话结论</strong>：阻塞 I/O 等数据干等，非阻塞 I/O 轮询忙等，I/O 多路复用用内核监听多个 fd 就绪后统一处理。</p>
+<p><strong>详细解释</strong>：
+- <strong>阻塞 I/O</strong>：调用 read 后线程挂起，直到数据就绪——浪费线程
+- <strong>非阻塞 I/O</strong>：read 立即返回，没数据就返回错误，需要应用不断轮询——浪费 CPU
+- <strong>I/O 多路复用</strong>：select/poll/epoll 一次监听多个 fd，哪个就绪处理哪个——一个线程管成千上万连接
+  - select：fd 数组，有上限 1024，每次全量遍历 O(n)
+  - poll：链表无上限，仍全量遍历
+  - epoll：事件驱动（红黑树 + 就绪链表），只返回就绪的 fd O(1)，Linux 首选</p>
+<p><strong>面试话术</strong>：对比三者的"等的方式"，重点讲 epoll 为什么比 select 强（无上限 + 只返回就绪 fd + 事件回调）。这是网络高并发的基础。</p>
+<p><strong>例题/追问</strong>：epoll 的 LT 和 ET 模式区别？→ LT 只要缓冲区有数据就提醒（默认，安全），ET 只在状态变化时提醒一次（高效，要一次读完）。</p>
+<hr />
+<h2>3. Redis 持久化机制（RDB 和 AOF）</h2>
+<p><strong>一句话结论</strong>：RDB 定期生成全量快照（快、丢数据多），AOF 记录每步写命令（慢、丢数据少），可混合使用。</p>
+<p><strong>详细解释</strong>：
+- <strong>RDB</strong>：按时间点 fork 子进程生成二进制快照 dump.rdb
+  - 优点：文件小、恢复快、适合备份
+  - 缺点：两次快照间数据丢失（默认 900s 内 1 次变更才存）、fork 有开销
+- <strong>AOF</strong>：每写一条命令追加到 .aof 文件（appendonly）
+  - 刷盘策略：always（每条 fsync，最安全最慢）/ everysec（每秒，默认）/ no（系统刷）
+  - 优点：丢数据少（最多 1 秒）
+  - 缺点：文件大、恢复慢；AOF 重写（压缩）有开销
+- <strong>混合持久化</strong>（4.0+）：AOF 里放 RDB 头 + 增量命令，兼顾两者</p>
+<p><strong>面试话术</strong>：一张对比表（速度/数据安全/文件大小/恢复），结论"默认 RDB，要求高可用开 AOF，生产用混合模式"。</p>
+<p><strong>例题/追问</strong>：AOF 重写原理？→ 基于当前内存状态生成最小命令集，fork 子进程完成，期间新命令进缓冲。</p>
+<hr />
+<h2>4. 缓存穿透、缓存击穿、缓存雪崩</h2>
+<p><strong>一句话结论</strong>：穿透是查不存在的数据打穿缓存到 DB，击穿是热点 key 过期瞬间并发打到 DB，雪崩是大量 key 同时过期或 Redis 宕机。</p>
+<p><strong>详细解释</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>场景</th>
+<th>解决方案</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>穿透</strong></td>
+<td>查的 key 根本不存在（恶意攻击）</td>
+<td>缓存空值（短过期）、布隆过滤器、参数校验</td>
+</tr>
+<tr>
+<td><strong>击穿</strong></td>
+<td>单个热点 key 过期瞬间，高并发全打到 DB</td>
+<td>互斥锁（只放一个请求去重建）、逻辑过期、热点永不过期</td>
+</tr>
+<tr>
+<td><strong>雪崩</strong></td>
+<td>大量 key 同时过期 / Redis 宕机</td>
+<td>过期时间加随机值、多级缓存（本地+Redis）、熔断降级、Redis 集群高可用</td>
+</tr>
+</tbody>
+</table>
+<p><strong>面试话术</strong>：三个词先抛出来（穿透=查不存在、击穿=热点过期、雪崩=集体过期），再各配一个方案。<strong>能结合项目讲</strong>（比如你们缓存策略怎么做的）是加分。</p>
+<p><strong>例题/追问</strong>：布隆过滤器原理？→ bitmap + 多次哈希，判断"一定不在"100% 准确，"可能在"有误判率。击穿和穿透的区别一句话？→ 穿透打的是不存在的 key，击穿打的是刚过期的热点 key。</p>
+<hr />
+<h2>5. 缓存和数据库一致性</h2>
+<p><strong>一句话结论</strong>：先更新 DB 再删缓存（Cache Aside），配合延迟双删/消息队列兜底，容忍短暂不一致。</p>
+<p><strong>详细解释</strong>：
+- <strong>Cache Aside 模式</strong>：读先查缓存，miss 查 DB 回填；写先更新 DB，再删缓存
+- 为什么删缓存不是更新缓存：删比更新简单，避免并发写覆盖；更新有概率造成脏值
+- <strong>先删缓存再更新 DB 的问题</strong>：删完缓存、更新 DB 前，有读请求会查 DB 旧值回填 → 缓存变脏
+- <strong>先更新 DB 再删缓存</strong>：基本安全，但"更新 DB 和删缓存之间"仍有一瞬不一致窗口
+- 强化：<strong>延迟双删</strong>（更新 DB 后删缓存，等几百 ms 再删一次）、订阅 binlog（Canal）删缓存、MQ 异步重试</p>
+<p><strong>面试话术</strong>：结论"Cache Aside + 删缓存"，承认有短暂不一致窗口（秒级可接受），再提延迟双删/Canal 兜底——体现工程深度。</p>
+<p><strong>例题/追问</strong>：为什么更新操作删缓存而不是更新缓存？→ 更新缓存要算新值且可能被后到请求覆盖成脏数据；删缓存让下次读时重建，简单可靠。</p>
+<hr />
+<h2>6. Redis 分布式锁</h2>
+<p><strong>一句话结论</strong>：SETNX + 过期时间防死锁 + 值带唯一标识防误删，Redisson 封装了看门狗续期；跨实例用 Redlock。</p>
+<p><strong>详细解释</strong>：
+- 最简版：<code>SET lock_key value NX EX 30</code>（原子：不存在才设 + 30s 过期）
+- <strong>防死锁</strong>：必须带过期时间（EX），否则客户端挂了锁永远不释放
+- <strong>防误删</strong>：value 存唯一请求 id，删除前先比对（Lua 脚本保证"比对+删除"原子）——防止锁过期后别人拿到锁，你却把自己的删除操作执行在别人的锁上
+- <strong>看门狗（Redisson）</strong>：锁快过期时自动续期，业务执行完释放，避免"业务没跑完锁过期"问题
+- <strong>Redlock</strong>：多节点（≥3）加锁，过半成功才算拿到，应对 Redis 单点故障——但业界有争议（依赖时钟），多数场景单主+看门狗够用</p>
+<p><strong>面试话术</strong>：从"SETNX 三步"讲起（NX 防并发 + EX 防死锁 + 唯一值防误删），再补看门狗。能问出"为什么删除要比对值"就是有思考。</p>
+<p><strong>例题/追问</strong>：锁过期了但业务还没执行完怎么办？→ 看门狗续期；或把锁粒度拆小。你用 Redis 锁的场景？（RRM 分布式调优任务防重入，可结合项目讲）</p>
+<hr />
+<h2>7. Redis 集群模式：主从 / 哨兵 / Cluster</h2>
+<p><strong>一句话结论</strong>：主从是读写分离+备份，哨兵加自动故障转移，Cluster 是分片（16384 槽）横向扩展，三者解决不同问题。</p>
+<p><strong>详细解释</strong>：
+- <strong>主从复制</strong>：主写从读，数据单向复制；主挂了不会自动切换
+- <strong>哨兵 Sentinel</strong>：监控主从，主挂了自动把从提升为主（故障转移），客户端感知地址变化；解决高可用
+- <strong>Cluster</strong>：数据分 16384 个槽分布到多个节点，客户端通过 CRC16(key)%16384 路由；支持自动扩容和故障转移；解决容量和性能扩展
+- 选型：单机够用就单机；要 HA 加哨兵；数据量大/高并发加 Cluster</p>
+<p><strong>面试话术</strong>：一句话"主从=备份读写分离、哨兵=自动切换、Cluster=分片扩容"，各自解决"挂了/切换/装不下"的问题。</p>
+<p><strong>例题/追问</strong>：Cluster 下 key 怎么路由？→ CRC16 取模 16384 槽。多 key 操作（如 mset）跨槽怎么办？→ 用 hash tag（{user1} 前缀强制同槽）。</p>
+<hr />
+<h2>8. Redis 淘汰机制</h2>
+<p><strong>一句话结论</strong>：内存写满时按策略淘汰 key，常用 LRU（allkeys-lru）或 LFU，另外有惰性删除和定期删除清过期 key。</p>
+<p><strong>详细解释</strong>：
+- <strong>过期删除</strong>（清过期的 key）：惰性删除（访问时发现过期再删）+ 定期删除（周期抽样删除）
+- <strong>内存淘汰</strong>（内存满时，8 种策略）：
+  - noeviction：不淘汰，直接报错（默认）
+  - allkeys-lru：从所有 key 中淘汰最久没用的（常用）
+  - volatile-lru：从设置了过期的 key 中淘汰最久没用的
+  - allkeys-lfu：淘汰访问频率最低的（热点保护）
+  - 还有 random、ttl 等
+- 注意区分：过期删除针对"过期 key"，内存淘汰针对"内存满"</p>
+<p><strong>面试话术</strong>：先说两套机制（删过期 key 的惰性+定期；内存满的淘汰策略），推荐 allkeys-lru，说明"热点数据常驻用 LFU"。</p>
+<p><strong>例题/追问</strong>：Redis 的 LRU 是真正精确的 LRU 吗？→ 不是，近似 LRU（抽样淘汰，Redis 3.0 后 10 个采样），因为精确 LRU 要维护链表开销大。</p>
+<hr />
+<h2>9. 如何保证数据库与缓存的一致性（深化）</h2>
+<p><strong>一句话结论</strong>：写库后删缓存 + binlog 订阅兜底 + 过期时间兜底，三层保证最终一致性。</p>
+<p><strong>详细解释</strong>（工程实践）：
+1. 写 DB → 删缓存（主路径）
+2. <strong>Canal 订阅 binlog</strong>：监听 DB 变更，异步删缓存/刷新（不依赖应用主动删，避免删失败）
+3. <strong>过期时间兜底</strong>：所有缓存设过期，即使删失败最多脏一段时间
+4. 删除失败重试：MQ 重试队列，保证最终删掉
+- 核心原则：<strong>最终一致性</strong>即可，别追求强一致（代价高）</p>
+<p><strong>面试话术</strong>："主路径删缓存 + Canal 兜底 + TTL 兜底"三层结构，强调"工程上接受秒级不一致"。</p>
+<p><strong>例题/追问</strong>：为什么最终一致性就够？→ 缓存本质是加速，DB 才是事实；业务能容忍读多写少场景的短暂滞后。</p>
+<hr />
+<h2>10. Redis 为什么使用 LUA 脚本，如何保证原子性</h2>
+<p><strong>一句话结论</strong>：Lua 脚本在 Redis 中整体执行不被打断（单线程 + 脚本作为一个命令），保证多条操作原子性。</p>
+<p><strong>详细解释</strong>：
+- Redis 保证：脚本执行期间不会有其他命令插入（单线程执行整段脚本）→ 原子
+- 典型场景：<strong>比对+删除锁</strong>（GET 比对 → DEL）、<strong>扣库存</strong>（检查 → 扣减）
+- 步骤：EVAL 携带脚本和参数；脚本内用 KEYS[]/ARGV[] 取参数
+- 局限：脚本里不能有随机性破坏（5.0 之后有 redis.replicate_commands 解决）</p>
+<p><strong>面试话术</strong>：一句"脚本整体作为一个命令执行，天然原子"，举例"分布式锁释放时的先比对后删除"——这个例子面试官一听就知道你真用过。</p>
+<p><strong>例题/追问</strong>：Redis 事务 MULTI/EXEC 和 Lua 区别？→ 事务只是打包执行不保证原子回滚（出错继续执行），Lua 是整体原子。</p>
+<hr />
+<h2>11. Redis 有哪些常用数据类型及底层</h2>
+<p><strong>一句话结论</strong>：String / Hash / List / Set / ZSet，底层有 SDS、双向链表、压缩列表、跳表、整数数组等结构。</p>
+<p><strong>详细解释</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>结构</th>
+<th>底层（Redis 7 前）</th>
+<th>典型场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>String</td>
+<td>字符串</td>
+<td>SDS（简单动态字符串）</td>
+<td>缓存、计数器、分布式锁</td>
+</tr>
+<tr>
+<td>Hash</td>
+<td>哈希</td>
+<td>哈希表/压缩列表</td>
+<td>对象存储（用户信息）</td>
+</tr>
+<tr>
+<td>List</td>
+<td>列表</td>
+<td>双向链表/压缩列表</td>
+<td>消息队列（lpush+rpop）、最新列表</td>
+</tr>
+<tr>
+<td>Set</td>
+<td>集合</td>
+<td>整数数组/哈希表</td>
+<td>去重、标签、共同好友</td>
+</tr>
+<tr>
+<td>ZSet</td>
+<td>有序集合</td>
+<td>跳表+哈希表</td>
+<td>排行榜、延时队列（score=时间）</td>
+</tr>
+</tbody>
+</table>
+<p>7.0 后用 listpack 替代压缩列表。ZSet 跳表：多层索引加速查找，O(log n)。</p>
+<p><strong>面试话术</strong>：能背出"ZSet=跳表+哈希表"就是基础扎实。场景举例结合业务（你们 Kafka 队列之外 Redis 做什么）更好。</p>
+<p><strong>例题/追问</strong>：实现一个延时队列？→ ZSet，score=执行时间戳，起线程轮询 zrangebyscore 取出到期的处理。</p>
+<hr />
+<h2>12. Redis 单线程为什么能处理高并发（追问）</h2>
+<p><strong>一句话结论</strong>：并发瓶颈在 IO 等待不在 CPU 计算，epoll 多路复用让单线程等而不耗、忙而不乱。</p>
+<p><strong>详细解释</strong>：
+- 传统多线程模型：每个连接一个线程，线程数=连接数 → 线程上下文切换开销爆炸
+- Redis：epoll 监听全部连接，IO 就绪才回调处理，单线程顺序执行命令
+- 单线程的好处：无锁、无上下文切换、命令原子
+- 多线程 I/O（6.0）：读写网络数据用多线程，命令执行仍单线程——瓶颈在网卡吞吐</p>
+<p><strong>面试话术</strong>："IO 密集用多路复用单线程，CPU 密集才需要多线程"是通用结论，能讲这个就能答"为什么不担心单线程"。</p>
+<p><strong>例题/追问</strong>：Redis 会不会被某条慢命令拖垮？→ 会，O(n) 命令（keys *、hgetall 大 key）会阻塞后续命令 → 用 scan 替代 keys，控制 bigkey。</p>
+<hr />
+<h2>13. Redis 缓存雪崩的升级应对（多级缓存）</h2>
+<p><strong>一句话结论</strong>：Redis 宕机时用本地缓存（JVM/进程内）+ 熔断降级 + 请求限流，保证 DB 不被打爆。</p>
+<p><strong>详细解释</strong>：
+- <strong>多级缓存</strong>：本地缓存（Caffeine/内存 Map）→ Redis → DB，Redis 挂了本地还能扛一部分
+- <strong>熔断</strong>：Redis 不可用时直接返回默认值/降级数据，不打 DB
+- <strong>限流</strong>：对 DB 请求做并发控制（信号量）
+- 提前预防：key 过期时间随机化 +1 加随机值，避免同时过期</p>
+<p><strong>面试话术</strong>：层次"本地兜底 + 熔断 + 随机过期"——讲清楚"雪崩不只要治 Redis 挂，还要防 DB 被击穿"。</p>
+<p><strong>例题/追问</strong>：本地缓存的一致性问题？→ 本地缓存 TTL 短、只放低频数据；写操作走 Canal 广播失效。</p>
+<hr />
+<h2>14. RDB 和 AOF 的选择（生产实践）</h2>
+<p><strong>一句话结论</strong>：能容忍丢 1 秒数据用 AOF everysec + 定时 RDB 备份，数据安全要求极高用 AOF always。</p>
+<p><strong>详细解释</strong>（生产配置）：
+- 默认：RDB（save 900 1 等）
+- 推荐组合：<code>appendonly yes</code> + <code>appendfsync everysec</code>（每秒刷盘，最多丢 1s）+ 每天定时 RDB 快照做灾备
+- 只做缓存可不用持久化（Redis 当纯缓存，重启重建）
+- 大 key 注意：AOF 重写和 RDB 都是 fork 子进程，内存大时 fork 耗时长会卡顿 → 预留内存（overcommit）</p>
+<p><strong>面试话术</strong>："按数据重要性分级"——缓存型不持久化，业务型 AOF everysec，金融型 always。体现配置经验。</p>
+<p><strong>例题/追问</strong>：fork 会阻塞主线程多久？→ 主要阻塞在复制页表，内存越大越久，一般几十 ms 到几百 ms。</p>
+<hr />
+<h2>15. Redis 分布式锁的 Redlock 争议</h2>
+<p><strong>一句话结论</strong>：Redlock 用多节点过半加锁解决单点问题，但依赖时钟同步有理论缺陷，生产多数单主+看门狗够用。</p>
+<p><strong>详细解释</strong>：
+- Redlock：向 N（通常 5）个独立 Redis 实例加锁，超过半数成功才算拿到
+- 质疑（Martin Kleppmann）：网络分区/GC 停顿下锁可能同时被两个客户端持有（锁的数学上不成立）；依赖各节点时钟一致
+- 实践：大多数业务用单主 Redis + 看门狗续期即可；真需要强互斥用 ZooKeeper/etcd（带版本号，天然防脑裂）</p>
+<p><strong>面试话术</strong>：知道"Redlock 有争议"就能显示深度，结论"业务场景单主够用，强一致用 ZK/etcd"。</p>
+<p><strong>例题/追问</strong>：etcd 锁为什么更可靠？→ etcd 基于 Raft 强一致，租约续期，版本号防 ABA。</p>
+<hr />
+<h2>16. Redis 用作消息队列的局限</h2>
+<p><strong>一句话结论</strong>：List/Stream 可做简易 MQ（List 至少一次、Stream 支持消费者组），但可靠性/回溯不如 Kafka/RabbitMQ。</p>
+<p><strong>详细解释</strong>：
+- List：lpush + brpop 阻塞取 → 简单队列；生产者消费者都在 Redis，至少一次投递，丢消息风险（消费前崩溃）
+- Stream（5.0）：消费组、ACK 机制、消息持久化（AOF）→ 可做轻量可靠 MQ
+- 局限：持久化是最终一致（AOF 可能丢 1s）、无死信队列高级特性、大数据量性能不如专用 MQ</p>
+<p><strong>面试话术</strong>："轻量场景 Stream 够用，重可靠场景还是 Kafka"——你 Kafka 用得深，正好对比着讲（Kafka 的 ACK 机制、offset 提交、分区重平衡）。</p>
+<p><strong>例题/追问</strong>：为什么我们项目用 Kafka 不用 Redis 队列？→ 你们 RRM 上报量大 + 要回溯 + 多消费者组，Kafka 分区模型更合适。</p>
+<hr />
+<h2>17. Redis 哈希表（Hash）的优势 / 内部结构</h2>
+<p><strong>一句话结论</strong>：Hash 适合存对象（字段级读写，省内存省带宽），底层哈希表 + 渐进式 rehash。</p>
+<p><strong>详细解释</strong>：
+- 对比 String JSON：改一个字段要整串取出再写回；Hash 只需 hset 一个字段
+- 底层：哈希表（数组+链表），扩容时<strong>渐进式 rehash</strong>（分多次搬移，避免一次性阻塞）
+- 小 hash 用 ziplist/listpack 压缩存储省内存（hash-max-ziplist-entries 阈值）</p>
+<p><strong>面试话术</strong>："对象用 Hash"是存储设计常识；讲渐进式 rehash（扩容不卡顿）体现源码理解。</p>
+<p><strong>例题/追问</strong>：为什么小数据用压缩列表？→ 连续内存 + 紧凑编码，省内存且 cache 友好。</p>
+<hr />
+<h2>📝 本章自测（闭卷）</h2>
+<ol>
+<li>Redis 快在哪三个点？单线程为什么快？</li>
+<li>画 RDB / AOF 对比表，混合持久化是什么</li>
+<li>穿透/击穿/雪崩的定义 + 各自一个解决方案</li>
+<li>分布式锁的完整实现（SETNX + 过期 + 唯一值 + Lua 释放）？看门狗解决什么？</li>
+<li>主从/哨兵/Cluster 分别解决什么问题</li>
+<li>内存淘汰和过期删除的区别</li>
+<li>Cache Aside 为什么删缓存不更新缓存？延迟双删解决什么？</li>
+</ol>
+<blockquote>
+<p>完成自测后回《面试八股复习计划》勾选 Redis 相关题</p>
+</blockquote></article></div>
+<div class="bottomnav"><a href="学习手册_02_MySQL核心.html">◀ 上一本：02 MySQL</a>
+<a class="ghost" href="面试八股复习计划_李鑫.html">📖 回复习计划勾选</a>
+<a href="学习手册_04_Node.js专属.html">下一本：04 Node.js ▶</a></div>
+</body></html>

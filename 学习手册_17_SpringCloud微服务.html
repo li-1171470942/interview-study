@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>17 SpringCloud · 学习手册</title><style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:60px; }
+.topnav { position:sticky; top:0; z-index:9; background:#1f2937; color:#fff; padding:10px 0; }
+.topnav .inner { max-width:960px; margin:0 auto; padding:0 18px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; font-size:13px; }
+.topnav a { color:#c7d2fe; text-decoration:none; padding:3px 12px; border-radius:14px; background:rgba(255,255,255,.08); }
+.topnav a:hover { background:rgba(255,255,255,.2); color:#fff; }
+.topnav .sep { opacity:.4; }
+.wrap { max-width:960px; margin:0 auto; padding:0 18px; }
+.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px; margin-top:22px; box-shadow:0 1px 3px rgba(20,30,60,.05); }
+.article h1 { font-size:26px; color:#4f46e5; border-bottom:3px solid #4f46e5; padding-bottom:12px; margin-bottom:18px; }
+.article h2 { font-size:20px; margin:30px 0 12px; padding:10px 14px; background:#eef2ff; border-left:4px solid #4f46e5; border-radius:6px; color:#312e81; }
+.article h3 { font-size:14px; color:#475569; margin:14px 0 6px; }
+.article p { margin:8px 0; font-size:14.5px; color:#2b3245; }
+.article ul, .article ol { margin:8px 0 8px 24px; }
+.article li { font-size:14.5px; margin:4px 0; }
+.article strong { color:#111827; }
+.article code { background:#f1f3fa; padding:1px 6px; border-radius:4px; font-size:13px; color:#be185d; }
+.article table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13.5px; display:block; overflow-x:auto; }
+.article th { background:#f1f3fa; padding:8px 10px; text-align:left; color:#475569; font-size:12.5px; border:1px solid #e4e8f0; }
+.article td { padding:8px 10px; border:1px solid #e4e8f0; vertical-align:top; }
+.article blockquote { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; margin:12px 0; border-radius:6px; color:#166534; font-size:14px; }
+.article blockquote strong { color:#14532d; }
+.article hr { border:none; border-top:1px dashed #d1d5db; margin:26px 0; }
+.bottomnav { max-width:960px; margin:20px auto 0; padding:0 18px; display:flex; gap:10px; }
+.bottomnav a { flex:1; text-align:center; background:#4f46e5; color:#fff; text-decoration:none; padding:12px 10px; border-radius:10px; font-size:14px; }
+.bottomnav a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
+@media (max-width:760px){ .article{padding:22px 18px;} .article h1{font-size:21px;} }
+</style></head>
+<body>
+<div class="topnav"><div class="inner"><a href="学习中心.html">🏠 学习中心</a> <span class="sep">|</span> <a href="学习手册索引.md">📚 手册索引</a> <span class="sep">|</span> <a href="学习手册_16_AI应用工程.html">◀ 16 AI 应用工程</a> <span class="sep">|</span> <a href="学习手册_18_性能优化实战.html">18 性能优化 ▶</a></div></div>
+<div class="wrap"><article class="article"><h1>📘 学习手册 17 · Spring Cloud 微服务（Java 岗硬门槛）</h1>
+<blockquote>
+<p>来源：同事 Java 面试侧重点——"<strong>微服务框架必须有使用经验</strong>"
+⚠️ 你的情况：微服务经验是 <strong>Node.js 自研架构</strong>，不是 Spring Cloud。本册两手抓：① 补 Spring Cloud 全家桶知识 ② 学会把 Node 经验"转译"成 Java 面试官听得懂的话
+模板：<strong>一句话结论 → 详细解释 → 面试话术/例题</strong></p>
+</blockquote>
+<hr />
+<h2>1. Spring Cloud 全家桶总览</h2>
+<p><strong>一句话结论</strong>：注册中心（Nacos/Eureka）+ 网关（Gateway）+ 远程调用（OpenFeign）+ 负载均衡（LoadBalancer）+ 熔断限流（Sentinel）+ 配置中心（Nacos Config）+ 链路追踪（Micrometer）+ 分布式事务（Seata）。
+<strong>详细解释</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>职责</th>
+<th>类比你的 Node.js 经验</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>注册中心</strong> Nacos/Eureka</td>
+<td>服务注册与发现、健康检查</td>
+<td>你 K8s 的 Service/DNS 服务发现（同一概念）</td>
+</tr>
+<tr>
+<td><strong>网关</strong> Gateway</td>
+<td>统一入口、路由、鉴权、限流</td>
+<td>你 API 网关/nginx 前置</td>
+</tr>
+<tr>
+<td><strong>服务调用</strong> OpenFeign</td>
+<td>声明式 HTTP 调用</td>
+<td>你内部服务间 REST/消息调用</td>
+</tr>
+<tr>
+<td><strong>负载均衡</strong> Spring Cloud LoadBalancer</td>
+<td>客户端负载（轮询等）</td>
+<td>nginx/K8s Service 负载</td>
+</tr>
+<tr>
+<td><strong>熔断降级</strong> Sentinel/Hystrix</td>
+<td>故障隔离、限流</td>
+<td>你手册 04 的熔断限流（通用）</td>
+</tr>
+<tr>
+<td><strong>配置中心</strong> Nacos Config</td>
+<td>动态配置、热更新</td>
+<td><strong>你亲手做过配置中心！直接对应</strong></td>
+</tr>
+<tr>
+<td><strong>链路追踪</strong> Micrometer Tracing</td>
+<td>traceId 贯穿</td>
+<td>你手册 04 链路追踪题</td>
+</tr>
+<tr>
+<td><strong>事务</strong> Seata</td>
+<td>分布式事务</td>
+<td>你 Saga/最终一致性经验</td>
+</tr>
+</tbody>
+</table>
+<p><strong>话术/例题</strong>："Spring Cloud 是 Java 微服务全家桶，组件职责我在 Node.js 微服务里都有对等实践"——这句话是你的通关钥匙。</p>
+<h2>2. 注册中心：Nacos vs Eureka</h2>
+<p><strong>一句话结论</strong>：Nacos 支持 AP（临时实例）+ CP（持久实例）双模型、自带配置中心，国产主流；Eureka 纯 AP、已停更。
+<strong>详细解释</strong>：
+- <strong>服务注册</strong>：服务启动向注册中心注册 IP:端口，心跳续约，下线摘除
+- <strong>服务发现</strong>：消费方从注册中心拉取服务列表（定时拉取 + 订阅推送）
+- <strong>Nacos</strong>：阿里巴巴开源，<strong>注册+配置二合一</strong>，支持临时/持久实例，控制台好用 → 国内新项目主流
+- <strong>Eureka</strong>：Netflix，AP 模型（可用性优先，允许短暂不一致），2.0 停更 → 老项目
+- 对比：ZooKeeper/etcd 是 CP（一致性优先，leader 选举）
+<strong>话术/例题</strong>：背"Nacos=注册+配置、AP/CP 双模型"。追问：注册中心挂了服务还能调吗？→ 消费方有本地缓存列表，短暂可用（AP 的意义）。</p>
+<h2>3. 配置中心（Nacos Config）</h2>
+<p><strong>一句话结论</strong>：配置统一管理 + 动态刷新（不用重启），本地缓存兜底。
+<strong>详细解释</strong>：
+- 流程：配置存 Nacos → 客户端启动拉全量 + 长轮询监听变更 → 配置变更推送/客户端拉取 → 动态刷新（@RefreshScope）
+- 环境隔离：namespace（环境）+ group + dataId（服务粒度）
+- <strong>这是你的强项</strong>：你主导过 RRM 配置中心（统一管理→一键部署生成 ConfigMap→自动校验→回滚）——<strong>Spring Cloud 面试官问配置中心，你直接讲你真实做过的</strong>，把 ConfigMap 换成 Nacos 说即可
+<strong>话术/例题</strong>："配置中心我做过生产级的"——展开讲你的设计（版本/校验/回滚），这是全场的差异点。</p>
+<h2>4. 服务调用与负载均衡：OpenFeign</h2>
+<p><strong>一句话结论</strong>：OpenFeign 声明式接口调用（像调本地方法），内置负载均衡（Spring Cloud LoadBalancer）。
+<strong>详细解释</strong>：
+- Feign 流程：定义接口 + 注解 → 动态代理生成 HTTP 调用 → 结合注册中心拿实例列表 → 负载均衡选实例
+- 对比 RestTemplate：Feign 声明式（写接口就行），RestTemplate 手动拼 URL
+- 负载均衡策略：轮询/权重/最小连接/一致性哈希（可配）
+- 超时与重试：connectTimeout/readTimeout、重试策略（幂等才重试）
+<strong>话术/例题</strong>：一句"声明式 HTTP 客户端 + 客户端负载均衡"。追问：Feign 底层用什么 HTTP 客户端？→ 默认 OkHttp/HttpClient 可切换。</p>
+<h2>5. 网关：Spring Cloud Gateway</h2>
+<p><strong>一句话结论</strong>：统一流量入口，路由转发 + 过滤器（鉴权/日志/限流/灰度），基于 WebFlux 响应式。
+<strong>详细解释</strong>：
+- 路由：断言（Path/Host/Method）→ 转发到下游服务
+- 过滤器：Global Filter（全局，鉴权）、Gateway Filter（路由级）
+- 对比 Zuul 1.x：Gateway 非阻塞（WebFlux/Netty），Zuul1 是 Servlet 阻塞式 → 新项目用 Gateway
+- 能力：限流（Redis RateLimiter 令牌桶）、跨域、统一异常、灰度发布（权重路由）
+<strong>话术/例题</strong>：一句"网关 = 路由 + 过滤器链"。追问：网关和 nginx 区别？→ nginx 七层转发到网关/直接服务，网关做业务级路由鉴权限流，可 nginx→Gateway→微服务三层。</p>
+<h2>6. 熔断限流降级：Sentinel vs Hystrix</h2>
+<p><strong>一句话结论</strong>：Sentinel（阿里）资源级控制、控制台可视化、主流；Hystrix（Netflix）线程池隔离、已停更。
+<strong>详细解释</strong>：
+- 熔断：连续失败/慢调用超阈值 → 熔断（快速失败）→ 半开试探 → 恢复
+- 限流：QPS 阈值、并发线程数；算法：计数器/滑动窗口/令牌桶/漏桶（Sentinel 默认滑动窗口）
+- 降级：异常比例/RT 超阈值 → 走 fallback（返回兜底）
+- 规则持久化：推送到 Nacos
+- 关联：你手册 04 第 28 题（熔断限流降级）讲的通用概念完全适用
+<strong>话术/例题</strong>："Sentinel 资源 + 规则 + 控制台"。追问：Sentinel 和 Hystrix 区别？→ Sentinel 基于滑动窗口、支持实时监控控制台、规则可动态推送；Hystrix 线程池隔离、代码侵入大。</p>
+<h2>7. 链路追踪（Spring Cloud Sleuth/Micrometer Tracing）</h2>
+<p><strong>一句话结论</strong>：traceId 贯穿全链路 + span 记录每跳，上报 Zipkin/Jaeger 展示调用拓扑和耗时。
+<strong>详细解释</strong>：
+- 集成：引入依赖 → 日志自动带 traceId → 上报 Zipkin
+- 结合你：你 Node.js 4 微服务排查靠日志 grep traceId 串联（手册 04 第 29 题），Java 侧就是 Sleuth+Zipkin 自动化版
+<strong>话术/例题</strong>：能讲"traceId 透传原理 + 你们实际排查方式"即可，自动化工具是锦上添花。</p>
+<h2>8. 分布式事务：Seata</h2>
+<p><strong>一句话结论</strong>：Seata AT 模式（自动补偿，默认推荐）/TCC（手动）/Saga（长事务），解决跨服务数据一致。
+<strong>详细解释</strong>：
+- AT：一阶段本地事务+undo log 记录，二阶段全局提交/回滚（自动反向 SQL 补偿）——对业务无侵入
+- TCC：Try-Confirm-Cancel 手动三段（强一致场景）
+- Saga：长事务拆步 + 逆向补偿（你 Node 经验里的 Saga/最终一致性思想一致）
+- 使用场景：订单+库存+账户跨服务
+<strong>话术/例题</strong>：结合手册 04 第 27 题（分布式事务方案）一起答——AT 像"自动版本地消息表+Saga 组合"。追问：什么时候不需要分布式事务？→ 能通过最终一致性/消息补偿解决的场景，避免过度设计。</p>
+<h2>9. 微服务拆分与踩坑（结合你的真实经验）</h2>
+<p><strong>一句话结论</strong>：按业务域拆 + 数据独立 + 独立部署；坑：分布式事务、链路排查、配置管理、版本兼容。
+<strong>详细解释</strong>：
+- 拆分原则你做过（RRM 按职责拆 4 服务），Java 面试可直接复用你的拆分解读
+- Java 微服务踩坑：服务间调用超时链式放大（A 调 B 超时拖垮 A）→ 超时+熔断；配置散落 → 配置中心；日志无 traceId → 链路追踪
+- 版本兼容：接口加字段不删字段、灰度发布
+<strong>话术/例题</strong>："拆服务我做过、坑我也踩过（超时放大/配置散落/排查难）"——用真实经验讲，Java 面试官认架构思路。</p>
+<h2>10. 【关键】"你有没有微服务框架使用经验？"怎么答</h2>
+<p><strong>一句话结论</strong>：诚实说主力是 Node.js 自研微服务 + Spring Cloud 已系统学习，然后<strong>把架构通用性讲透</strong>。
+<strong>回答模板</strong>：</p>
+<blockquote>
+<p>"我的微服务生产经验主要建立在自研 Node.js 架构上——主导过 4 个微服务的拆分与重构（调度/查询/计算/AI 优化），覆盖了注册发现（K8s Service/DNS）、消息解耦（Kafka）、配置中心（自研，支持版本/回滚/热更）、熔断限流（手动实现+Redis 分布式锁）这些核心问题，<strong>微服务的拆分原则、分布式一致性、运维体系是语言无关的</strong>。
+Spring Cloud 我系统学过（Nacos/Gateway/OpenFeign/Sentinel），它解决的问题我在生产里都真实处理过，只是落地语言不同。给我 2-4 周我能直接上手业务。"</p>
+</blockquote>
+<p><strong>追问应对</strong>："具体用过 Nacos 吗？"→ 诚实："生产用的是 K8s+DNS 服务发现，Nacos 是同类方案的 Java 实现，我在学习环境完整跑通过注册+配置中心"——<strong>不要编生产经验</strong>，用"概念对等 + 学习验证"表述。</p>
+<h2>11. Node.js 微服务 vs Spring Cloud 对照速查</h2>
+<p><strong>一句话结论</strong>：概念全同构，把"你干过的"翻译成"Java 词"，就是你的经验证明。
+<strong>对照表（背熟）</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>能力</th>
+<th>你做过的（Node）</th>
+<th>Spring Cloud 对应</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>服务发现</td>
+<td>K8s Service/DNS</td>
+<td>Nacos/Eureka</td>
+</tr>
+<tr>
+<td>配置中心</td>
+<td>自研配置中心（生成 ConfigMap）</td>
+<td>Nacos Config</td>
+</tr>
+<tr>
+<td>消息解耦</td>
+<td>Kafka/RabbitMQ</td>
+<td>MQ（RabbitMQ/RocketMQ/Kafka）</td>
+</tr>
+<tr>
+<td>负载均衡</td>
+<td>K8s Service + nginx</td>
+<td>LoadBalancer/Gateway</td>
+</tr>
+<tr>
+<td>熔断限流</td>
+<td>手动 + Redis 锁</td>
+<td>Sentinel</td>
+</tr>
+<tr>
+<td>网关</td>
+<td>nginx/自定义中间层</td>
+<td>Spring Cloud Gateway</td>
+</tr>
+<tr>
+<td>链路排查</td>
+<td>日志 grep traceId</td>
+<td>Sleuth/Zipkin</td>
+</tr>
+<tr>
+<td>分布式锁</td>
+<td>Redis SETNX+Lua</td>
+<td>Redisson</td>
+</tr>
+<tr>
+<td>分布式事务</td>
+<td>幂等 + 最终一致</td>
+<td>Seata</td>
+</tr>
+</tbody>
+</table>
+<p><strong>话术</strong>：面试官问任何一个组件，先答组件职责，再补"这个能力我在 Node 生产里有对等实践（举一个具体场景）"，最后说"Spring Cloud 具体 API 我已学习，上手快"。</p>
+<h2>12. 软素质问题（H3C 培训文化：勤奋 / 迎难而上 / 客户第一）</h2>
+<p><strong>一句话结论</strong>：每个价值观准备一个真实小故事，套用"背景-行动-结果"。
+<strong>故事模板</strong>：
+- <strong>勤奋</strong>："RRM WiFi7 项目时间紧，我连续 3 周每天加班到 10 点梳理 4 个微服务调用链，提前一周完成 6GHz 全链路改造方案"
+- <strong>迎难而上</strong>："接手无文档的遗留系统，1 个月从零理清逻辑并独立维护，每周处理 1+ 线上问题没出过大事故"（这就是你真实经历）
+- <strong>客户第一</strong>："客户反馈 AI 调优结果不信任，我主导重构为设备侧计算模式提升实时性，最终适配现网 98% 组网，解决了客户核心痛点"
+- 如果对方是 H3C/华为系：强调奋斗者文化、结果导向、团队协作
+<strong>话术</strong>：每个故事 30-45 秒，数据结尾（98%、每周1+、提前 1 周）。</p>
+<h2>📝 本章自测（闭卷）</h2>
+<ol>
+<li>说出 Spring Cloud 八大组件一句话职责</li>
+<li>Nacos vs Eureka（AP/CP、是否含配置中心）</li>
+<li>OpenFeign 调用流程 + 负载均衡策略</li>
+<li>Gateway 与 nginx 的分工</li>
+<li>Sentinel 三种规则（熔断/限流/降级）+ 算法</li>
+<li>Seata AT 模式原理（undo log 补偿）</li>
+<li>【必背】"你有没有微服务框架使用经验"完整回答</li>
+<li>把"配置中心/K8s 服务发现/Redis 锁"翻译成 Spring Cloud 词汇</li>
+<li>三个软素质故事各 30 秒</li>
+</ol>
+<blockquote>
+<p>完成自测后，把第 10、11 题的回答练到脱稿——这是 Java 岗通关关键</p>
+</blockquote></article></div>
+<div class="bottomnav"><a href="学习手册_16_AI应用工程.html">◀ 上一本：16 AI 应用工程</a>
+<a class="ghost" href="面试八股复习计划_李鑫.html">📖 回复习计划勾选</a>
+<a href="学习手册_18_性能优化实战.html">下一本：18 性能优化 ▶</a></div>
+</body></html>

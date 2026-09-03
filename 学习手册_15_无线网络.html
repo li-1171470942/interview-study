@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>15 无线网络 · 学习手册</title><style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:60px; }
+.topnav { position:sticky; top:0; z-index:9; background:#1f2937; color:#fff; padding:10px 0; }
+.topnav .inner { max-width:960px; margin:0 auto; padding:0 18px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; font-size:13px; }
+.topnav a { color:#c7d2fe; text-decoration:none; padding:3px 12px; border-radius:14px; background:rgba(255,255,255,.08); }
+.topnav a:hover { background:rgba(255,255,255,.2); color:#fff; }
+.topnav .sep { opacity:.4; }
+.wrap { max-width:960px; margin:0 auto; padding:0 18px; }
+.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px; margin-top:22px; box-shadow:0 1px 3px rgba(20,30,60,.05); }
+.article h1 { font-size:26px; color:#4f46e5; border-bottom:3px solid #4f46e5; padding-bottom:12px; margin-bottom:18px; }
+.article h2 { font-size:20px; margin:30px 0 12px; padding:10px 14px; background:#eef2ff; border-left:4px solid #4f46e5; border-radius:6px; color:#312e81; }
+.article h3 { font-size:14px; color:#475569; margin:14px 0 6px; }
+.article p { margin:8px 0; font-size:14.5px; color:#2b3245; }
+.article ul, .article ol { margin:8px 0 8px 24px; }
+.article li { font-size:14.5px; margin:4px 0; }
+.article strong { color:#111827; }
+.article code { background:#f1f3fa; padding:1px 6px; border-radius:4px; font-size:13px; color:#be185d; }
+.article pre { background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:8px; overflow-x:auto; margin:12px 0; font-size:13px; line-height:1.6; }
+.article pre code { background:none; color:inherit; padding:0; }
+.article table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13.5px; display:block; overflow-x:auto; }
+.article th { background:#f1f3fa; padding:8px 10px; text-align:left; color:#475569; font-size:12.5px; border:1px solid #e4e8f0; }
+.article td { padding:8px 10px; border:1px solid #e4e8f0; vertical-align:top; }
+.article blockquote { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; margin:12px 0; border-radius:6px; color:#166534; font-size:14px; }
+.article blockquote strong { color:#14532d; }
+.article hr { border:none; border-top:1px dashed #d1d5db; margin:26px 0; }
+.bottomnav { max-width:960px; margin:20px auto 0; padding:0 18px; display:flex; gap:10px; }
+.bottomnav a { flex:1; text-align:center; background:#4f46e5; color:#fff; text-decoration:none; padding:12px 10px; border-radius:10px; font-size:14px; }
+.bottomnav a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
+@media (max-width:760px){ .article{padding:22px 18px;} .article h1{font-size:21px;} }
+</style></head>
+<body>
+<div class="topnav"><div class="inner"><a href="学习中心.html">🏠 学习中心</a> <span class="sep">|</span> <a href="学习手册索引.md">📚 手册索引</a> <span class="sep">|</span> <a href="学习手册_14_网络进阶.html">◀ 14 网络进阶</a></div></div>
+<div class="wrap"><article class="article"><h1>📘 学习手册 15 · 无线网络（WLAN 深度）</h1>
+<blockquote>
+<p><strong>你的王牌章节</strong>——RRM 无线资源管理工程师面试通信厂（中兴/锐捷/鼎桥/华为/长虹）的杀手锏
+别人只会 TCP/IP，你能讲 802.11、漫游、信道调优——这就是差异化
+模板：<strong>一句话结论 → 详细解释 → 面试话术/例题</strong>
+结合你的 RRM 实战：调优算法、WiFi7 项目、云 AP 组网都是现成弹药</p>
+</blockquote>
+<hr />
+<h2>1. 802.11 协议演进（WiFi1-7）</h2>
+<p><strong>一句话结论</strong>：802.11 协议从 a/b/g/n/ac/ax 到 <strong>be（WiFi7）</strong>，速率从 11Mbps 到 46Gbps，核心技术从 OFDM → MIMO → OFDMA → MLO。
+<strong>详细解释</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>标准</th>
+<th>别名</th>
+<th>频段</th>
+<th>核心技术</th>
+<th>理论速率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>802.11b</td>
+<td>WiFi1</td>
+<td>2.4G</td>
+<td>DSSS</td>
+<td>11M</td>
+</tr>
+<tr>
+<td>802.11a/g</td>
+<td>WiFi2/3</td>
+<td>5G/2.4G</td>
+<td>OFDM</td>
+<td>54M</td>
+</tr>
+<tr>
+<td>802.11n</td>
+<td>WiFi4</td>
+<td>2.4/5G</td>
+<td><strong>MIMO + 40MHz</strong></td>
+<td>600M</td>
+</tr>
+<tr>
+<td>802.11ac</td>
+<td>WiFi5</td>
+<td>5G</td>
+<td>MU-MIMO(下) + 80/160MHz</td>
+<td>6.9G</td>
+</tr>
+<tr>
+<td>802.11ax</td>
+<td><strong>WiFi6</strong></td>
+<td>2.4/5G</td>
+<td><strong>OFDMA + MU-MIMO(上下)</strong></td>
+<td>9.6G</td>
+</tr>
+<tr>
+<td>802.11be</td>
+<td><strong>WiFi7</strong></td>
+<td>2.4/5/<strong>6G</strong></td>
+<td><strong>MLO + 320MHz + 4096-QAM</strong></td>
+<td>46G</td>
+</tr>
+<tr>
+<td>- 你项目：RRM 支持 WiFi7 就是 802.11be 的 6GHz 适配</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>话术/例题</strong>：背"每代一个核心技术"（MIMO→OFDMA→MLO）。追问：WiFi6 比 WiFi5 强在哪？→ OFDMA 多用户并行（不是轮流）+ 上下行 MU-MIMO + TWT 省电。</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>2. 无线频段：2.4G / 5G / 6G</h2>
+<p><strong>一句话结论</strong>：2.4G 覆盖好但干扰大（3 个不重叠信道），5G 干扰少速度快（多信道），6G（WiFi7 新增）频谱宽干扰最小。
+<strong>详细解释</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>频段</th>
+<th>信道</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2.4G</td>
+<td>1/6/11（20MHz 不重叠）</td>
+<td>覆盖好、穿墙强，但设备多干扰大（蓝牙/微波）</td>
+</tr>
+<tr>
+<td>5G</td>
+<td>36-165 多信道（含 DFS）</td>
+<td>干扰少、速率高，覆盖稍差</td>
+</tr>
+<tr>
+<td>6G</td>
+<td>WiFi7 新增（5925-7125MHz）</td>
+<td>频谱超宽（1.2GHz）、可 320MHz 超大信道、干扰最低</td>
+</tr>
+<tr>
+<td>- <strong>信道规划</strong>：相邻 AP 用不重叠信道（2.4G 用 1/6/11），同信道 AP 拉开距离——这就是 RRM 信道调优的核心逻辑</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- DFS（动态频率选择）：5G 部分信道要避开雷达（检测到雷达自动让出）</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>话术/例题</strong>："2.4G 就 3 个干净信道，5G 一堆，6G 最宽"一句。追问：为什么 2.4G 干扰严重？→ 蓝牙/微波/老旧设备共用 + 只有 3 个不重叠信道。</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>3. AP/AC 架构：胖 AP vs 瘦 AP、CAPWAP</h2>
+<p><strong>一句话结论</strong>：胖 AP 独立工作（单机配置），瘦 AP 由 AC 集中管理（配置/漫游/认证都靠 AC），云 AP 由云平台管理（你的云简）。
+<strong>详细解释</strong>：
+- <strong>胖 AP（Fat）</strong>：本地有完整功能（转发/认证/管理），适合家庭/小店，运维各自为政
+- <strong>瘦 AP（Fit）</strong>：只做射频转发，AC 统一管理：
+  - <strong>CAPWAP 隧道</strong>：AP 与 AC 间控制（配置下发）+ 数据（转发）隧道，UDP 5246/5247
+  - 好处：集中配置、<strong>无缝漫游</strong>（AC 协调）、统一认证、集中监控
+- <strong>云 AP</strong>：AC 功能上云（云简就是），AP 通过公网连云平台，适合连锁/多门店
+- 组网：AC+Fit AP（企业传统）、云 AP（SMB/连锁）、本地 AC（园区）
+<strong>话术/例题</strong>："胖=单干、瘦=AC 管、云=平台管"一句。追问：CAPWAP 是什么？→ 无线接入点控制与配置协议，AP 与 AC 之间的控制/数据隧道。</p>
+<h2>4. WLAN 基本概念：SSID / BSSID / Beacon</h2>
+<p><strong>一句话结论</strong>：SSID 是网络名（可多个），BSSID 是 AP 射频的 MAC 地址，Beacon 是 AP 周期性广播的"自我介绍"。
+<strong>详细解释</strong>：
+- SSID（服务集标识）：用户看到的 WiFi 名；一个 AP 可广播多个 SSID（多 SSID 隔离）
+- BSSID：基本服务集标识，即 AP 的 MAC（每射频一个）；手机连接后 AP 角度区分
+- ESSID：扩展服务集，多个 AP 同一 SSID 组成漫游域
+- <strong>Beacon 帧</strong>：AP 每 100ms 广播（含 SSID/信道/能力/RSN），手机靠它发现网络
+- Probe Request/Response：手机主动探测
+- 关联（Association）：手机认证 + 关联后建立连接（四步握手在认证后）
+<strong>话术/例题</strong>："SSID 名字、BSSID 门牌号、Beacon 小广告"比喻。追问：手机怎么发现 WiFi？→ 被动等 Beacon + 主动发 Probe Request。</p>
+<h2>5. 无线漫游原理（基础）</h2>
+<p><strong>一句话结论</strong>：客户端从 AP1 覆盖移动到 AP2 覆盖，重新认证关联到新 AP（换 BSSID 不换 SSID），期间会短暂断流。
+<strong>详细解释</strong>：
+- 触发条件：信号变弱（RSSI 低于阈值）/丢包率高/速率低 → 客户端主动扫描找更强 AP
+- 过程：扫描（主动/被动）→ 认证 → 关联 → （802.1X 场景重认证）→ 新 AP 接入 → <strong>IP 不变</strong>（同子网二层漫游）
+- 问题：<strong>漫游时延</strong>（扫描 50-200ms + 重认证可能 100ms+）→ 语音/视频卡顿
+- <strong>粘滞问题（Sticky Client）</strong>：客户端"赖着"旧 AP 不走（信号差也不切换）→ AP 侧踢下线/漫游引导
+- 二层漫游（同网段，IP 不变）/ 三层漫游（跨网段，要移动 IP/隧道）
+<strong>话术/例题</strong>："信号弱触发 + 重新关联 + IP 不变"三步。追问：漫游时 IP 会变吗？→ 同子网二层漫游不变，跨子网三层漫游要隧道（CAPWAP 数据隧道可以解决）。</p>
+<h2>6. 快速漫游：802.11r / 802.11k / 802.11v</h2>
+<p><strong>一句话结论</strong>：802.11k 提前告诉你邻居 AP（少扫描），802.11v 引导你切换（解决粘滞），802.11r 快速切换（免完整重认证）——三件套把漫游时延从几百 ms 压到几十 ms。
+<strong>详细解释</strong>：
+- <strong>802.11k（邻居报告）</strong>：AP 告诉客户端"附近有哪些 AP 和信道"→ 客户端不用全信道扫描，直接定位候选 → 省扫描时间
+- <strong>802.11v（BSS 过渡管理）</strong>：网络侧建议客户端切换到哪个 AP（信号/负载感知）→ 解决粘滞 + 负载均衡
+- <strong>802.11r（快速 BSS 切换 FT）</strong>：预分配密钥（PMK 缓存），重关联时直接拿密钥跳过完整 802.1X 认证 → 切换 &lt;50ms（VoWiFi 要求）
+- 组合效果：语音漫游从 200ms+ 降到 &lt;50ms
+- 你场景：RRM 的漫游引导（调优下发里包含漫游阈值/邻居列表配置）
+<strong>话术/例题</strong>："k 告诉你邻居、v 让你走、r 走快点"口诀，这是通信厂面试的超纲加分。追问：802.11r 怎么做到快？→ 密钥提前分发给目标 AP（PMK-R0/R1 层次化密钥），省掉完整 EAP 认证。</p>
+<h2>7. 漫游触发与调优参数（RRM 相关）</h2>
+<p><strong>一句话结论</strong>：漫游靠 RSSI 阈值/丢包率触发，参数（最小 RSSI、漫游差量、扫描周期）由 AC/云平台下发——这就是 RRM 调优的内容。
+<strong>详细解释</strong>（你的专业领域，讲出深度）：
+- 触发参数：最小 RSSI（低于-75dBm 考虑漫游）、漫游差量（新 AP 比当前好多少才切，防乒乓）、丢包率阈值、重试率
+- <strong>乒乓效应</strong>：两个 AP 边界来回切 → 调大漫游差量/迟滞
+- 调优参数怎么下发：AC/云平台 → CAPWAP/Netconf → AP（你做的 WebSocket+netconf 下发就是干这个）
+- RRM 调优算法输入：AP 采集（信道利用率、邻区 RSSI、客户端分布）→ 云端计算（信道/功率/漫游参数）→ 下发 AP
+<strong>话术/例题</strong>：你能讲"RSSI 阈值 + 漫游差量 + 防乒乓"这些真实参数，普通面试者根本不会。追问：你们调优下发失败怎么处理？→ 重试 + 幂等 + 上报回执（结合你 Kafka 上报链路）。</p>
+<h2>8. MIMO / MU-MIMO / OFDMA / 波束成形（WiFi5→6/7 核心）</h2>
+<p><strong>一句话结论</strong>：MIMO 多天线并行收发（802.11n 引入），MU-MIMO 同时服务多设备（WiFi5 下行/WiFi6 上下行），OFDMA 把信道切成资源块多用户同时用（WiFi6 标志），波束成形定向增强。
+<strong>详细解释</strong>：
+- <strong>MIMO</strong>：多收多发，空间流叠加速率（2×2 = 2 流）；天线越多速率越高（AP 4×4/8×8）
+- <strong>MU-MIMO</strong>：多个空间流同时服务不同客户端（WiFi6 支持上下行）
+- <strong>OFDMA</strong>：把 20MHz 分成多个 RU（资源单元），多个客户端<strong>同时</strong>用不同 RU → 低延迟多设备场景质变（对比 OFDM 是轮流独占）
+- <strong>波束成形（Beamforming）</strong>：AP 按客户端位置调整天线相位，信号定向增强（SNR 提升）
+- WiFi7 升级：MLO（多链路同时收发，手机同时连 2.4+5G）、320MHz、4096-QAM
+<strong>话术/例题</strong>："MIMO 堆速率、OFDMA 分资源、波束定向打"一句。追问：OFDMA 和 OFDM 区别？→ OFDM 一个时刻一个用户用整信道，OFDMA 拆成 RU 多用户同时用。</p>
+<h2>9. 信道规划与同频干扰（RRM 核心逻辑）</h2>
+<p><strong>一句话结论</strong>：相邻 AP 用不同信道（不重叠）、拉开同信道距离，信道利用率监控是 RRM 自动调信道的前提。
+<strong>详细解释</strong>：
+- 不重叠信道：2.4G 只有 1/6/11 三个，5G 有几十个（含 DFS）
+- 干扰类型：同信道干扰（CCA/隐藏节点）、邻信道干扰（5G 较少）
+- <strong>自动信道规划</strong>：AP 扫描周边 → 上报信道占用 → 云/AC 计算最优分配（避免同频重叠）→ 下发；定期重评估（晚上低峰自动调）
+- 你的 RRM：newApUpScheduler 每 60s 检查新 AP → 空 autoOptDoc 时跳过——就是信道/功率调优任务触发逻辑
+<strong>话术/例题</strong>：讲"AP 扫描 → 云算 → 下发"的闭环 + 你实际调优逻辑，这是 RRM 岗位对口答案。追问：为什么 2.4G 只能 1/6/11？→ 20MHz 信道间隔 25MHz，只有 3 个不重叠。</p>
+<h2>10. 无线功率与覆盖（RRM 功率调优）</h2>
+<p><strong>一句话结论</strong>：AP 功率决定覆盖半径，功率过大同频干扰、过小有盲区；RRM 根据邻区关系自动调功率达"刚好覆盖"。
+<strong>详细解释</strong>：
+- 功率与覆盖：增大功率 → 覆盖变大但同频干扰区域也变大（隐藏节点问题加重）
+- 目标：覆盖连续 + 干扰最小（小区边缘信号合理衔接）
+- <strong>自动功率调优</strong>：AP 上报邻区 RSSI → 云平台算最优功率（目标边缘信号 -75dBm 左右）→ 下发调整
+- 你项目：rrmcompute 计算大场所、功率/信道调优是核心功能
+<strong>话术/例题</strong>："功率不是越大越好，覆盖衔接才最优"。追问：功率调太大有什么问题？→ 同频干扰扩大、客户端漫游变差（到处信号都好反而不漫游）。</p>
+<h2>11. WPA2 / WPA3 安全</h2>
+<p><strong>一句话结论</strong>：WPA2 用 AES-CCMP + 4 次握手，WPA3 解决 WPA2 的弱点（暴力破解/离线攻击），用 SAE 替代 PSK。
+<strong>详细解释</strong>：
+- WPA2-PSK：预共享密钥 + 4 次握手（生成 PTK）；弱点：<strong>离线字典攻击</strong>（抓握手包暴力试密码）、KRACK 攻击
+- <strong>WPA3</strong>：
+  - <strong>SAE（同时认证）</strong>：替代 PSK，防离线字典攻击（每客户端独立密钥派生）
+  - OWE（机会性无线加密）：开放网络也加密（防嗅探）
+  - 802.1X 增强（企业版 192 位安全）
+- 你场景：云简设备管理平台下发的 WiFi 配置含安全策略
+<strong>话术/例题</strong>："WPA2 握手可被抓包爆破，WPA3 SAE 防离线字典"一句。追问：KRACK 是什么？→ 4 次握手重装攻击，WPA2 设计缺陷，WPA3 修复。</p>
+<h2>12. 无线接入认证：802.1X / Portal / MAC</h2>
+<p><strong>一句话结论</strong>：802.1X 企业级（证书/账号，最安全）、Portal（网页认证，访客/酒店）、MAC 认证（白名单，简单）；企业办公常用 802.1X。
+<strong>详细解释</strong>：
+- <strong>802.1X</strong>：客户端 → 认证器（AP/交换机）→ RADIUS 服务器（对接 AD/数据库）；EAP-TLS（证书）/PEAP（账号）；漫游时重认证慢 → 靠 802.11r 加速
+- <strong>Portal</strong>：未认证先连开放 SSID → 弹网页输入账号/短信 → 认证后放行（访客 WiFi 标配）
+- <strong>MAC 认证</strong>：设备 MAC 白名单，简单但不安全（MAC 可伪造）
+- 结合漫游：802.1X 漫游重认证开销大 → 802.11r 预分配密钥解决（第 6 题联动）
+<strong>话术/例题</strong>："802.1X 安全、Portal 方便、MAC 简单"选型一句。追问：企业员工 WiFi 用什么？→ 802.1X + RADIUS 对接公司账号。</p>
+<h2>13. 无线干扰与排查</h2>
+<p><strong>一句话结论</strong>：无线问题 80% 是干扰/覆盖/漫游，排查流程：信道利用率 → 邻区干扰 → RSSI → 重传率 → 空口抓包。
+<strong>详细解释</strong>：
+- 干扰源：同频 AP、非 WiFi 设备（微波/蓝牙/无线摄像头）、DFS 雷达
+- 指标：信道利用率（高=拥堵/干扰）、重传率（&gt;20% 异常）、RSSI/SNR、客户端丢包
+- 排查手段：AP 射频扫描报告（你 RRM 的数据源）、<strong>wireshark 空口抓包（monitor 模式）</strong>、频谱分析仪
+- 典型故障：某区域网慢 → 查该 AP 信道利用率 → 发现同信道邻区干扰 → RRM 调信道/降功率
+<strong>话术/例题</strong>："先看信道利用率再看干扰再看重传"的顺序。追问：wireshark 能看 802.11 层吗？→ 网卡切 monitor 模式抓管理帧/数据帧，分析重传/Beacon 丢失。</p>
+<h2>14. WiFi7（802.11be）新技术深讲</h2>
+<p><strong>一句话结论</strong>：WiFi7 = MLO（多链路同时收发）+ 320MHz（6G）+ 4096-QAM + Multi-RU，你亲手做过 6GHz 全链路适配。
+<strong>详细解释</strong>：
+- <strong>MLO（多链路操作）</strong>：设备同时用 2.4+5G 或 5+6G 收发（一个链路丢另一个兜底）→ 延迟大降、可靠性大增——WiFi7 最大卖点
+- 320MHz 信道（6G 专属）：速率翻倍
+- 4096-QAM：单次传输更多比特（比 WiFi6 的 1024-QAM 高 20%）
+- Multi-RU：单个用户可用多个 RU（WiFi6 只能一个）
+- 兼容性：6GHz 设备需要 WiFi7（手机/新笔记本）
+- <strong>你的 RRM WiFi7 项目</strong>：6GHz 频段从 2 频段扩到 3 频段的采集/扫描/计算/调优/下发全链路改造
+<strong>话术/例题</strong>：这是你<strong>做过</strong>的技术（面试讲项目时直接展开），"MLO 双频并发 + 6G 320MHz"要讲得比面试官深。追问：6GHz 和 2.4/5G 信道规划差异？→ 6G 信道更多更宽，无 DFS 限制（美国之外），干扰最小。</p>
+<h2>15. RRM 调优算法整体逻辑（终极面试题）</h2>
+<p><strong>一句话结论</strong>：RRM = 自动信道规划 + 自动功率调整 + 漫游负载均衡 + 调优参数下发，目标是最小干扰、最优覆盖、最平滑漫游。
+<strong>详细解释</strong>（把你的工作讲成体系）：
+1. <strong>数据采集</strong>：AP 周期性上报（信道利用率、邻区 RSSI、客户端分布、干扰源）→ Kafka 到云端
+2. <strong>计算</strong>：rrmcompute 根据组网规模计算——信道分配（图着色算法思路，邻区尽量异频）、功率（目标边缘信号）、漫游参数（阈值/差量）
+3. <strong>下发</strong>：rrmcontrol 通过 WebSocket+netconf 下发到 AC/AP（调优参数、生效指令）
+4. <strong>上报闭环</strong>：设备调优结果 → Kafka → 校验入库（MongoDB 分表）→ 页面展示
+5. <strong>架构</strong>：AC+fitap 设备侧计算（就近快速）、云 AP 云端计算（集中优化）
+- 触发方式：新 AP 上线（你的 newApUpScheduler 60s 巡检）、定时（低峰窗口）、手动
+<strong>话术/例题</strong>：这题如果被问到（通信厂必问"你们 RRM 怎么调优"），按"采集→计算→下发→闭环"四步讲，直接展示架构师水平。追问：调优触发后怎么保证不重复？→ Redis 分布式锁 + 任务状态机。</p>
+<h2>16. 802.1X 与漫游结合 / 无线 QoS</h2>
+<p><strong>一句话结论</strong>：802.1X 漫游重认证开销大用 802.11r 加速；无线 QoS（WMM/802.11e）给语音视频优先队列。
+<strong>详细解释</strong>：
+- WMM：4 个访问类别（语音/视频/尽力/背景），语音最高优先级
+- 语音业务要求：时延 &lt;50ms、丢包 &lt;1% → 需要快速漫游 + WMM + 预留带宽
+- 你场景：云 AP 组网里 AC 下发 WMM 配置
+<strong>话术/例题</strong>："WMM 四队列 + 语音优先"。追问：视频会议卡顿排查方向？→ 漫游时延（802.11r 开没开）+ 信道干扰 + WMM 优先级。</p>
+<h2>📝 本章自测（闭卷）</h2>
+<ol>
+<li>WiFi5/6/7 各自核心技术（MU-MIMO/OFDMA/MLO）</li>
+<li>2.4G 为什么只有 1/6/11？5G 和 6G 优势</li>
+<li>胖/瘦/云 AP 区别 + CAPWAP 是什么</li>
+<li>SSID/BSSID/Beacon 各自是什么</li>
+<li>漫游触发条件 + 粘滞问题是什么</li>
+<li>802.11k/v/r 各自解决什么（漫游三件套）</li>
+<li>乒乓效应怎么防（漫游差量）</li>
+<li>MIMO vs MU-MIMO vs OFDMA 区别</li>
+<li>RRM 自动调信道/功率的完整闭环（采集→计算→下发→上报）</li>
+<li>WPA3 比 WPA2 强在哪（SAE）</li>
+<li>讲清你 WiFi7 项目做了什么（6GHz 全链路）</li>
+<li>你 RRM 调优的整体架构（双计算模式）</li>
+</ol>
+<blockquote>
+<p>完成自测后回《面试八股复习计划》勾选网络相关题</p>
+</blockquote></article></div>
+<div class="bottomnav"><a href="学习手册_14_网络进阶.html">◀ 上一本：14 网络进阶</a>
+<a class="ghost" href="面试八股复习计划_李鑫.html">📖 回复习计划勾选</a></div>
+</body></html>

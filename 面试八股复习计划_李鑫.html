@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>李鑫 · 面试八股复习计划</title>
+<style>
+  :root {
+    --bg:#f4f6fb; --card:#ffffff; --ink:#1f2430; --sub:#5b6478;
+    --line:#e4e8f0; --brand:#4f46e5; --brand-soft:#eef2ff;
+    --red:#dc2626; --green:#16a34a; --amber:#d97706;
+    --blue:#2563eb; --teal:#0d9488;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:var(--bg); color:var(--ink); line-height:1.75; padding-bottom:60px; }
+  .wrap { max-width:1080px; margin:0 auto; padding:0 20px; }
+
+  .hero { background:linear-gradient(135deg,#0f172a 0%,#1e3a8a 55%,#2563eb 100%); color:#fff; padding:44px 0 36px; margin-bottom:26px; }
+  .hero h1 { font-size:28px; margin-bottom:10px; }
+  .hero .sub { font-size:14.5px; opacity:.88; }
+  .hero .meta { display:flex; flex-wrap:wrap; gap:10px; margin-top:16px; }
+  .hero .chip { background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.28); padding:5px 14px; border-radius:20px; font-size:13px; }
+
+  .sec { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:24px 26px; margin-bottom:20px; box-shadow:0 1px 3px rgba(20,30,60,.05); }
+  .sec h2 { font-size:19px; margin-bottom:6px; display:flex; align-items:center; gap:10px; }
+  .sec h2 .no { background:var(--brand); color:#fff; width:26px; height:26px; border-radius:8px; display:inline-flex; align-items:center; justify-content:center; font-size:14px; flex:none; }
+  .sec .desc { color:var(--sub); font-size:13.5px; margin-bottom:14px; }
+
+  /* Overview cards */
+  .ov { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:6px; }
+  .ov .card { border:1px solid var(--line); border-radius:10px; padding:12px 14px; background:#fafbff; position:relative; }
+  .ov .card .name { font-size:13px; font-weight:700; display:flex; justify-content:space-between; align-items:center; }
+  .ov .card .name .n { color:var(--sub); font-size:11.5px; font-weight:400; }
+  .ov .card .pr { font-size:12px; margin-top:6px; }
+  .pr-h { color:var(--red); font-weight:700; } .pr-m { color:var(--amber); font-weight:700; } .pr-l { color:var(--green); font-weight:700; }
+  .bar { height:6px; background:#eef1f7; border-radius:4px; margin-top:8px; overflow:hidden; }
+  .bar i { display:block; height:100%; border-radius:4px; }
+
+  table { width:100%; border-collapse:collapse; font-size:13.5px; }
+  th { background:#f1f3fa; text-align:left; padding:8px 10px; font-size:12.5px; color:var(--sub); }
+  td { padding:8px 10px; border-top:1px solid var(--line); vertical-align:top; }
+  tr:hover td { background:#fafbff; }
+  .tag { display:inline-block; padding:1px 8px; border-radius:12px; font-size:11.5px; margin:1px 2px 1px 0; }
+  .t-hot { background:#fee2e2; color:#991b1b; }
+  .t-mid { background:#fef3c7; color:#92400e; }
+  .t-low { background:#dcfce7; color:#166534; }
+
+  /* Quiz checklist */
+  .quiz { columns:2; column-gap:26px; }
+  .quiz-item { break-inside:avoid; display:flex; align-items:flex-start; gap:8px; padding:7px 0; border-bottom:1px dashed var(--line); font-size:13.5px; cursor:pointer; }
+  .quiz-item input { margin-top:5px; accent-color:var(--brand); flex:none; cursor:pointer; }
+  .quiz-item.done label { color:#9aa3b5; text-decoration:line-through; }
+  .quiz-item.done::after { content:"✓"; color:var(--green); font-weight:700; margin-left:auto; flex:none; }
+  .group-title { break-inside:avoid; font-size:13px; font-weight:700; color:var(--brand); margin:10px 0 4px; padding-top:6px; border-top:1px solid var(--line); }
+
+  /* Calendar */
+  .cal { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+  .cal .d { border:1px solid var(--line); border-radius:10px; padding:14px; background:#fafbff; }
+  .cal .d .w { font-size:13.5px; font-weight:700; color:var(--brand); margin-bottom:8px; }
+  .cal .d ul { padding-left:16px; }
+  .cal .d li { font-size:12.5px; margin:4px 0; color:#3a4256; }
+  .cal .d .focus { background:var(--brand-soft); border-radius:6px; padding:6px 8px; font-size:12px; margin-top:8px; color:var(--brand); font-weight:600; }
+
+  .progress-bar { position:sticky; top:0; z-index:10; background:rgba(255,255,255,.92); backdrop-filter:blur(6px); border-bottom:1px solid var(--line); padding:8px 0; margin-bottom:20px; }
+  .progress-bar .inner { display:flex; align-items:center; gap:12px; max-width:1080px; margin:0 auto; padding:0 20px; font-size:13px; }
+  .progress-bar .pbar { flex:1; height:8px; background:#eef1f7; border-radius:5px; overflow:hidden; }
+  .progress-bar .pbar i { display:block; height:100%; background:var(--brand); border-radius:5px; width:0%; transition:width .3s; }
+  .progress-bar b { color:var(--brand); min-width:60px; }
+  .sync-bar { display:flex; align-items:center; gap:10px; max-width:1080px; margin:-10px auto 16px; padding:10px 20px; font-size:13px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; flex-wrap:wrap; }
+  .sync-bar button { padding:5px 14px; border:none; border-radius:6px; background:var(--green); color:#fff; font-size:12.5px; cursor:pointer; }
+  .sync-bar button.imp { background:var(--brand); }
+  .sync-bar textarea { flex:1; min-width:200px; height:34px; border:1px dashed #86efac; border-radius:6px; font-size:11px; padding:6px 8px; color:#14532d; resize:vertical; background:#fff; }
+  .sync-bar .msg { font-size:12px; color:var(--green); font-weight:600; }
+
+  .warn { background:#fffbeb; border:1px solid #fde68a; border-radius:10px; padding:12px 16px; font-size:13px; color:#92400e; margin-top:12px; }
+  .footer { text-align:center; color:#9aa3b5; font-size:12.5px; margin-top:28px; }
+
+  @media (max-width:900px){ .ov{grid-template-columns:repeat(2,1fr);} .cal{grid-template-columns:repeat(2,1fr);} .quiz{columns:1;} }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <h1>📖 李鑫 · 面试八股复习计划</h1>
+    <div class="sub">基于《八股文分类完全整理版.pdf》（78 页，Java 向）+ Node.js 专属补充清单 · 4 周冲刺 · 目标 30-35 万 offer</div>
+    <div class="meta">
+      <span class="chip">全量复习：Java 部分 + 通用部分全背</span>
+      <span class="chip">补充：Node.js 40 + C/C++ 30 + SpringCloud 12 + 性能优化 7（PDF 没有）</span>
+      <span class="chip">每日 1-2 小时 · 勾选打卡</span>
+      <span class="chip">大厂 Go/Java 岗 & Node.js 岗双线覆盖</span>
+    </div>
+  </div>
+</div>
+
+<div class="progress-bar">
+  <div class="inner">
+    <span>复习进度</span>
+    <div class="pbar"><i id="pfill"></i></div>
+    <b id="pnum">0 / 0</b>
+  </div>
+</div>
+
+<div class="sync-bar">
+  <span>🔄 跨设备同步</span>
+  <button onclick="expProgress()">📤 导出进度</button>
+  <button class="imp" onclick="impProgress()">📥 导入进度</button>
+  <textarea id="syncBox" placeholder="点「导出进度」复制代码 → 另一台电脑粘贴到这里 → 点「导入进度」"></textarea>
+  <span class="msg" id="syncMsg"></span>
+</div>
+
+<div class="wrap">
+
+<!-- ========== 一、复习总览 ========== -->
+<div class="sec">
+  <h2><span class="no">1</span>复习总览（PDF 全量 + Node.js/C++ 补充）</h2>
+  <div class="desc">优先级：<b style="color:var(--red)">高</b> = 必考且高频，<b style="color:var(--amber)">中</b> = 视岗位，<b style="color:var(--green)">低</b> = 有精力再背。你选全量复习，Java 部分也要过。</div>
+  <div class="ov">
+    <div class="card"><div class="name">MySQL / 数据库 <span class="n">≈55 题</span></div><div class="pr pr-h">优先级：高</div><div class="bar"><i style="width:100%;background:var(--red)"></i></div></div>
+    <div class="card"><div class="name">Java 基础 <span class="n">≈90 题</span></div><div class="pr pr-h">优先级：高</div><div class="bar"><i style="width:100%;background:var(--red)"></i></div></div>
+    <div class="card"><div class="name">计算机网络 <span class="n">≈11 题</span></div><div class="pr pr-h">优先级：高（强项）</div><div class="bar"><i style="width:100%;background:var(--red)"></i></div></div>
+    <div class="card"><div class="name">Redis <span class="n">≈17 题</span></div><div class="pr pr-h">优先级：高</div><div class="bar"><i style="width:100%;background:var(--red)"></i></div></div>
+    <div class="card"><div class="name">JVM <span class="n">≈13 题</span></div><div class="pr pr-m">优先级：中高</div><div class="bar"><i style="width:70%;background:var(--amber)"></i></div></div>
+    <div class="card"><div class="name">并发 / 锁 <span class="n">≈15 题</span></div><div class="pr pr-m">优先级：中高</div><div class="bar"><i style="width:70%;background:var(--amber)"></i></div></div>
+    <div class="card"><div class="name">SSM / MyBatis <span class="n">≈21 题</span></div><div class="pr pr-m">优先级：中（Java 岗）</div><div class="bar"><i style="width:60%;background:var(--amber)"></i></div></div>
+    <div class="card"><div class="name">Node.js 专属（补充）<span class="n">≈40 题</span></div><div class="pr pr-h">优先级：高（你的主场）</div><div class="bar"><i style="width:100%;background:var(--blue)"></i></div></div>
+    <div class="card"><div class="name">C/C++（D梯队/通信军工）<span class="n">≈30 题</span></div><div class="pr pr-m">优先级：中高（投通信岗前过）</div><div class="bar"><i style="width:70%;background:var(--amber)"></i></div></div>
+    <div class="card"><div class="name">SpringCloud 微服务（手册17）<span class="n">12 题</span></div><div class="pr pr-h">优先级：高（Java 岗硬门槛）</div><div class="bar"><i style="width:90%;background:var(--red)"></i></div></div>
+    <div class="card"><div class="name">性能优化实战（手册18）<span class="n">7 题</span></div><div class="pr pr-h">优先级：高（真实案例脱稿）</div><div class="bar"><i style="width:90%;background:var(--red)"></i></div></div>
+    <div class="card"><div class="name">算法 / 数据结构 <span class="n">≈15 题</span></div><div class="pr pr-m">优先级：中高</div><div class="bar"><i style="width:70%;background:var(--amber)"></i></div></div>
+    <div class="card"><div class="name">项目深挖 <span class="n">3 项目</span></div><div class="pr pr-h">优先级：高（决胜）</div><div class="bar"><i style="width:100%;background:var(--teal)"></i></div></div>
+    <div class="card"><div class="name">操作系统 <span class="n">≈3 题</span></div><div class="pr pr-l">优先级：低</div><div class="bar"><i style="width:40%;background:var(--green)"></i></div></div>
+    <div class="card"><div class="name">数据结构(PDF) <span class="n">≈3 题</span></div><div class="pr pr-l">优先级：低</div><div class="bar"><i style="width:40%;background:var(--green)"></i></div></div>
+  </div>
+</div>
+
+<!-- ========== 二、PDF 高频 TOP ========== -->
+<div class="sec">
+  <h2><span class="no">2</span>PDF 高频 TOP 题（先背这些，约 25 题）</h2>
+  <div class="desc">从 78 页 PDF 中挑出面试出现率最高的题，适合通勤/碎片时间反复过。</div>
+  <table>
+    <tr><th>分类</th><th>必背题目</th><th>优先级</th></tr>
+    <tr><td rowspan="4">Java 基础</td><td>hashCode() 与 equals() 的关系 / 为什么重写 equals 必须重写 hashCode</td><td><span class="tag t-hot">高</span></td></tr>
+    <tr><td>HashMap 底层实现？为什么线程不安全？ConcurrentHashMap 如何保证线程安全</td><td><span class="tag t-hot">高</span></td></tr>
+    <tr><td>String / StringBuffer / StringBuilder 区别？为什么 String 不可变</td><td><span class="tag t-hot">高</span></td></tr>
+    <tr><td>线程池参数与默认工作流程 / 拒绝策略？无界队列场景</td><td><span class="tag t-hot">高</span></td></tr>
+    <tr><td rowspan="3">并发 / 锁</td><td>synchronized 与 ReentrantLock 的区别</td><td><span class="tag t-hot">高</span></td></tr>
+    <tr><td>CAS 机制与 ABA 问题</td><td><span class="tag t-hot">高</span></td></tr>
+    <tr><td>ThreadLocal 原理与内存泄漏</td><td><span class="tag t-mid">中</span></td></tr>
+    <tr><td rowspan="5">MySQL</td><td>什么情况索引会失效</td><td><span class="tag t-hot">高</span></td></tr>
+    <tr><td>MySQL 为什么用 B+ 树做索引？InnoDB vs MyISAM</td><td><span class="tag t-hot">高</span></td></tr>
+    <tr><td>事务四大特性 / 隔离级别 / 幻读与不可重复读</td><td><span class="tag t-hot">高</span></td></tr>
+    <tr><td>MVCC 原理 / 快照读与当前读</td><td><span class="tag t-hot">高</span></td></tr>
+    <tr><td>binlog / redolog / undolog 三大日志区别</td><td><span class="tag t-hot">高</span></td></tr>
+    <tr><td rowspan="4">Redis</td><td>Redis 为什么这么快？I/O 多路复用</td><td><span class="tag t-hot">高</span></td></tr>
+    <tr><td>RDB 和 AOF 持久化原理与优缺点</td><td><span class="tag t-hot">高</span></td></tr>
+    <tr><td>缓存穿透 / 击穿 / 雪崩 区别与解决</td><td><span class="tag t-hot">高</span></td></tr>
+    <tr><td>分布式锁的三种实现方式（含 Redlock）</td><td><span class="tag t-hot">高</span></td></tr>
+    <tr><td rowspan="3">网络</td><td>TCP 三次握手与四次挥手 / 为什么</td><td><span class="tag t-hot">高</span></td></tr>
+    <tr><td>TCP 与 UDP 的区别</td><td><span class="tag t-hot">高</span></td></tr>
+    <tr><td>HTTPS 与 HTTP 的区别</td><td><span class="tag t-hot">高</span></td></tr>
+    <tr><td rowspan="3">JVM</td><td>JVM 内存区域划分</td><td><span class="tag t-hot">高</span></td></tr>
+    <tr><td>GC 是什么？垃圾回收器 G1 与 CMS 区别</td><td><span class="tag t-mid">中</span></td></tr>
+    <tr><td>类加载机制 / 双亲委派机制的作用</td><td><span class="tag t-hot">高</span></td></tr>
+    <tr><td rowspan="2">SSM</td><td>Spring / SpringMVC / SpringBoot 各自职责与区别</td><td><span class="tag t-mid">中</span></td></tr>
+    <tr><td>AOP 面向切面编程的好处与实现</td><td><span class="tag t-mid">中</span></td></tr>
+  </table>
+</div>
+
+<!-- ========== 三、Node.js 专属补充 ========== -->
+<div class="sec">
+  <h2><span class="no">3</span>Node.js 专属 + C/C++ 补充（PDF 没有，你的双主场）</h2>
+  <div class="desc">PDF 是 Java 向，但你的核心卖点是 Node.js、通信岗要 C/C++、Java 岗有硬门槛。共 89 题：Node.js 40（伍柒必乐/商云科汇必考）+ C/C++ 30（中兴/锐捷/鼎桥等通信岗）+ SpringCloud 12 + 性能优化 7（手册 17/18，Java 岗必须）。点击勾选打卡。</div>
+  <div class="warn" style="background:#f0fdf4;border-color:#bbf7d0;color:#166534;">📚 <b>配套课本</b>：<a href="学习中心.html" style="color:#4f46e5;font-weight:700;">🏠 学习中心</a> · <a href="学习手册_01_计算机网络.html" style="color:#4f46e5;font-weight:600;">01 计算机网络</a> · <a href="学习手册_02_MySQL核心.html" style="color:#4f46e5;font-weight:600;">02 MySQL 核心</a>（已交付，其余按周滚动补充）。每个知识点：一句话结论→详细解释→面试话术→例题。</div>
+  <div class="quiz" id="quiz">
+    <div class="group-title">⚡ 事件循环与异步</div>
+    <label class="quiz-item"><input type="checkbox" data-q="1"><label>Node.js 事件循环有几个阶段？各阶段执行什么？</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="2"><label>process.nextTick 与 setImmediate 的区别？微任务何时执行？</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="3"><label>libuv 是什么？线程池默认大小？哪些 API 会走线程池？</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="4"><label>宏任务 vs 微任务执行顺序（Promise/async-await/定时器）</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="5"><label>Node.js 如何实现高并发？单线程为什么能扛高并发？</label></label>
+    <div class="group-title">📦 Stream / Buffer / 内存</div>
+    <label class="quiz-item"><input type="checkbox" data-q="6"><label>什么是 Stream？可读流/可写流/背压（backpressure）机制</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="7"><label>Buffer 与二进制数据，如何与字符串互转</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="8"><label>Node.js 内存模型（V8 堆/栈），如何排查内存泄漏</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="9"><label>cluster 模块 vs worker_threads 区别与应用场景</label></label>
+    <div class="group-title">🛠️ 框架与工程</div>
+    <label class="quiz-item"><input type="checkbox" data-q="10"><label>Express 中间件机制？洋葱模型如何实现？</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="11"><label>NestJS 核心：DI 容器、装饰器、模块化（投伍柒必乐必考）</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="12"><label>GraphQL vs REST，什么时候用哪个？</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="13"><label>Node.js 如何做接口鉴权？JWT 原理与失效处理</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="14"><label>PM2 / Docker 如何部署 Node.js？优雅退出与 0 停机</label></label>
+    <div class="group-title">🗄️ MongoDB / Redis（你的日常）</div>
+    <label class="quiz-item"><input type="checkbox" data-q="15"><label>MongoDB 聚合管道原理？分库分表策略（你做过）</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="16"><label>MongoDB 索引类型与查询优化，WiredTiger 存储引擎</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="17"><label>Redis 分布式锁如何实现？Redis 集群模式（主从/哨兵/Cluster）</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="18"><label>如何保证数据库与缓存一致性？（双删/延时双删/Canal）</label></label>
+    <div class="group-title">📨 消息队列（你的日常）</div>
+    <label class="quiz-item"><input type="checkbox" data-q="19"><label>Kafka 消费者组/分区/offset 原理？如何保证消息不丢失不重复</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="20"><label>Kafka 与 RabbitMQ 选型对比？消息顺序性如何保证</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="21"><label>消息幂等性方案？你的 RRM 调优结果上报怎么做的</label></label>
+    <div class="group-title">☸️ K8s / Docker（你的差异化）</div>
+    <label class="quiz-item"><input type="checkbox" data-q="22"><label>Pod / Deployment / Service / Ingress 各自职责</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="23"><label>HPA 水平扩缩容原理？存活/就绪探针区别</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="24"><label>Docker 镜像分层原理？容器与虚拟机区别</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="25"><label>ConfigMap/Secret 如何管理配置？（你做过配置中心）</label></label>
+    <div class="group-title">🔗 微服务与分布式</div>
+    <label class="quiz-item"><input type="checkbox" data-q="26"><label>微服务拆分原则？服务发现与注册中心</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="27"><label>分布式事务方案：Saga / 本地消息表 / 最终一致性</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="28"><label>熔断 / 限流 / 降级 如何实现？（令牌桶/漏桶）</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="29"><label>链路追踪原理（你的 4 微服务调用链怎么排查）</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="30"><label>接口幂等性：重复提交如何防重</label></label>
+    <div class="group-title">🌐 网络（你的强项，背熟当亮点）</div>
+    <label class="quiz-item"><input type="checkbox" data-q="31"><label>WebSocket 与 HTTP 长轮询区别？心跳机制</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="32"><label>netconf 协议与 YANG 模型（通信厂必问，讲出深度）</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="33"><label>node-ffi 调用 C 库的原理与注意事项（体现底层能力）</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="34"><label>TCP 粘包/拆包？如何解决</label></label>
+    <div class="group-title">🛡️ 安全</div>
+    <label class="quiz-item"><input type="checkbox" data-q="35"><label>XSS / CSRF 原理与防御</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="36"><label>OAuth2 授权码流程？与 JWT 关系</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="37"><label>SQL 注入 / 越权防护</label></label>
+    <div class="group-title">🧠 系统设计（高级岗加试）</div>
+    <label class="quiz-item"><input type="checkbox" data-q="38"><label>设计一个分布式配置中心（你做过，讲架构）</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="39"><label>设计一个物联网设备数据上报系统（贴合你的 IoT 经验）</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="40"><label>LLM 应用开发与 Agent/DAG 工作流编排（投 AI 岗的加分话题）</label></label>
+    <div class="group-title">🔩 C/C++ · 基础与内存（D 梯队/通信军工岗必考）</div>
+    <label class="quiz-item"><input type="checkbox" data-q="41"><label>指针与引用的区别？const 修饰指针的几种情况</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="42"><label>static 关键字的作用（全局/局部/成员变量）</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="43"><label>new/delete 与 malloc/free 的区别</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="44"><label>内存分区（栈/堆/全局/常量/代码区）？堆与栈的区别</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="45"><label>野指针/悬空指针/内存泄漏？如何避免</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="46"><label>智能指针 unique_ptr/shared_ptr/weak_ptr 原理？循环引用</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="47"><label>深拷贝 vs 浅拷贝？何时需要手写拷贝构造函数</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="48"><label>虚函数/纯虚函数/虚函数表(vtable)原理？多态如何实现</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="49"><label>构造函数/析构函数能否是虚函数？为什么析构要声明 virtual</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="50"><label>重载/重写/隐藏的区别？C++ 与 C 的区别</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="51"><label>结构体内存对齐规则？为什么需要对齐</label></label>
+    <div class="group-title">🔩 C/C++ · STL 与数据结构</div>
+    <label class="quiz-item"><input type="checkbox" data-q="52"><label>vector 底层与扩容机制？map vs unordered_map 底层</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="53"><label>红黑树 vs 哈希表，各自适用场景</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="54"><label>sort 底层实现？（快排+插排+堆排混合策略）</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="55"><label>deque/set/multiset 底层与特性</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="56"><label>哈希冲突的解决方式（链地址法/开放寻址/再散列）</label></label>
+    <div class="group-title">🔩 C/C++ · 并发与系统（通信岗重点）</div>
+    <label class="quiz-item"><input type="checkbox" data-q="57"><label>线程与进程的区别？mutex/condition_variable/atomic 用法</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="58"><label>死锁的四个必要条件？如何避免</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="59"><label>线程池如何实现？任务队列+工作线程</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="60"><label>进程间通信 IPC 方式？（管道/共享内存/消息队列/Socket）</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="61"><label>socket 编程 TCP 服务端完整流程？（socket/bind/listen/accept）</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="62"><label>select / poll / epoll 的区别？（通信厂必问）</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="63"><label>阻塞/非阻塞、同步/异步？I/O 多路复用原理</label></label>
+    <div class="group-title">🔩 C/C++ · 编译链接与新特性</div>
+    <label class="quiz-item"><input type="checkbox" data-q="64"><label>编译过程四阶段？（预处理/编译/汇编/链接）</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="65"><label>静态库 vs 动态库？链接时做了什么</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="66"><label>extern "C" 的作用？（联系你的 node-ffi 调 C 库经验）</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="67"><label>头文件守卫 #pragma once vs #ifndef 区别</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="68"><label>C++11/14/17 新特性？右值引用/移动语义/move 原理</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="69"><label>lambda 表达式？auto 类型推导</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="70"><label>大端小端字节序？如何判断（写代码）</label></label>
+    <div class="group-title">☕ Spring Cloud 微服务（Java 岗硬门槛 · 手册 17）</div>
+    <label class="quiz-item"><input type="checkbox" data-q="71"><label>Spring Cloud 全家桶组件与职责总览（8 组件一句话）</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="72"><label>Nacos vs Eureka（AP/CP、注册+配置二合一）</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="73"><label>配置中心原理与动态刷新（你做过生产级配置中心，讲出来）</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="74"><label>OpenFeign 调用流程 + 负载均衡策略</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="75"><label>Spring Cloud Gateway 路由/过滤器 + 与 nginx 分工</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="76"><label>Sentinel 熔断/限流/降级规则与限流算法</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="77"><label>链路追踪原理（traceId 透传，你 Node 排查经验对照）</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="78"><label>Seata AT 模式原理（undo log 自动补偿）</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="79"><label>微服务拆分与踩坑（超时放大/配置散落/排查难）</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="80"><label>【关键】"有无微服务框架使用经验"完整回答（转译话术）</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="81"><label>Node 经验 → SpringCloud 词汇翻译（配置中心/K8s DNS/Redis锁）</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="82"><label>软素质故事：勤奋/迎难而上/客户第一（各 30 秒）</label></label>
+    <div class="group-title">⚡ 性能优化实战（第二硬门槛 · 手册 18，真实案例脱稿）</div>
+    <label class="quiz-item"><input type="checkbox" data-q="83"><label>性能优化通用方法论（四类问题+排查顺序）</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="84"><label>讲 OOM 调优案例（rrmcompute 5Gi→5.5Gi，requests/limits）</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="85"><label>讲 Kafka 消费积压排查案例（lag→批量→分区）</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="86"><label>讲 MongoDB 慢查询/索引优化案例（explain+复合索引）</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="87"><label>讲缓存一致性/防击穿案例（Cache Aside）</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="88"><label>讲日志降级优化案例（流程事件 ERROR→info/warn）</label></label>
+    <label class="quiz-item"><input type="checkbox" data-q="89"><label>Java 线上性能定位命令链（arthas/jstat/jmap）</label></label>
+  </div>
+</div>
+
+<!-- ========== 四、四周复习日历 ========== -->
+<div class="sec">
+  <h2><span class="no">4</span>四周复习日历</h2>
+  <div class="desc">每天 1-2 小时。周末加倍。算法每天 20 分钟 LeetCode 高频题（两数之和/反转链表/手写快排/二叉树遍历/LRU）。</div>
+  <div class="cal">
+    <div class="d">
+      <div class="w">📅 Week 1（9/1-9/7）</div>
+      <ul>
+        <li>D1-D2：计算机网络全过（TCP/UDP/HTTP/HTTPS）</li>
+        <li>D3-D5：MySQL（索引/B+树/事务/MVCC/日志）</li>
+        <li>D6-D7：Redis（快原因/持久化/三大缓存问题/分布式锁）</li>
+      </ul>
+      <div class="focus">🎯 目标：网络+MySQL+Redis 过完，可应对一面</div>
+    </div>
+    <div class="d">
+      <div class="w">📅 Week 2（9/8-9/14）</div>
+      <ul>
+        <li>D1-D2：C/C++ 基础（指针/内存/智能指针/STL，为投 D 梯队通信岗）</li>
+        <li>D3：C/C++ 系统网络（socket/epoll/IPC/编译链接）</li>
+        <li>D4-D6：Java 基础 + 并发与锁</li>
+        <li>D7：复盘 + 高频 TOP 25 题自测</li>
+      </ul>
+      <div class="focus">🎯 目标：C/C++(D梯队) + Java(Java岗) 双覆盖</div>
+    </div>
+    <div class="d">
+      <div class="w">📅 Week 3（9/15-9/21）</div>
+      <ul>
+        <li>D1-D2：JVM（内存区/GC/类加载/双亲委派）</li>
+        <li>D3：SSM/Spring 全家桶 + MyBatis</li>
+        <li>D4-D7：Node.js 专属 40 题 + 操作系统</li>
+      </ul>
+      <div class="focus">🎯 目标：全量 PDF 完成 + Node.js 补充过 60%</div>
+    </div>
+    <div class="d">
+      <div class="w">📅 Week 4（9/22-9/30）</div>
+      <ul>
+        <li>D1-D3：项目深挖（AI RRM 重构/双计算模式/WiFi7）</li>
+        <li>D4：自我介绍 1min + 离职原因 + 谈薪话术</li>
+        <li>D5-D7：模拟面试（找人互面）+ 错题回顾</li>
+      </ul>
+      <div class="focus">🎯 目标：项目故事讲圆，面试状态拉满</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 五、项目深挖要点 ========== -->
+<div class="sec">
+  <h2><span class="no">5</span>项目深挖要点（决胜盘）</h2>
+  <div class="desc">Node.js 岗 60% 时间问项目。把你的 4 个核心项目按 STAR 法则准备好，重点准备以下追问：</div>
+  <table>
+    <tr><th>项目</th><th>高频追问（提前准备答案）</th></tr>
+    <tr><td><b>AI RRM 重构</b>（首选项目）</td><td>为什么做设备侧+云端双计算？如何按组网类型动态分配计算节点？WebSocket+netconf 下发与 Kafka 上报的闭环怎么设计？数据一致性怎么保证？MongoDB 分库分表怎么做的？98% 适配率怎么算的？</td></tr>
+    <tr><td><b>RRM 支持 WiFi7</b></td><td>6GHz 新增对 4 个微服务链路的影响？node-ffi 调用 C 库的细节？Redis 分布式锁用在哪？每周 1+ 线上问题的处理流程（讲一个具体 case）？</td></tr>
+    <tr><td><b>WBC IoT 2.0 解耦</b></td><td>云简与物联网耦合在哪？为什么用虚拟机方案？VNC 远程管理通道安全性？内存紧张下资源怎么分配？</td></tr>
+    <tr><td><b>配置中心（二期）</b></td><td>配置项统一管理的模型？一键部署如何实现？自动校验规则怎么设计？回滚机制？</td></tr>
+    <tr><td><b>personalAgent（加分）</b></td><td>7 层架构是什么？DAG 工作流怎么编排 LLM 任务？对 LLM 应用开发的认知（投 AI 岗用）</td></tr>
+  </table>
+  <div class="warn">⚠️ <b>易踩坑提醒：</b>① 别只说"做了什么"，每句都带"为什么这么做 + 效果数据"；② 被问"线上出过什么问题"，准备 1 个故障复盘（根因→定位→修复→预防）故事；③ 面试官可能让你手写"分布式锁/Kafka 消费/事件循环输出顺序"，Week 3-4 抽空敲一遍。</div>
+</div>
+
+<div class="footer">配套文档：《成都后端求职作战方案_李鑫.html》· 八股文 PDF 源文件已同步解析 · 勾选进度仅保存在本页面</div>
+
+</div>
+
+<script>
+  const boxes = document.querySelectorAll('#quiz input[type=checkbox]');
+  const fill = document.getElementById('pfill');
+  const num = document.getElementById('pnum');
+  function upd(){
+    const total = boxes.length;
+    const done = document.querySelectorAll('#quiz input[type=checkbox]:checked').length;
+    const pct = Math.round(done/total*100);
+    fill.style.width = pct + '%';
+    num.textContent = done + ' / ' + total;
+    boxes.forEach(b => {
+      b.closest('.quiz-item').classList.toggle('done', b.checked);
+    });
+    try { localStorage.setItem('lix_bagu_progress', JSON.stringify([...boxes].map(b=>b.checked))); } catch(e){}
+  }
+  try {
+    const saved = JSON.parse(localStorage.getItem('lix_bagu_progress'));
+    if (saved && saved.length === boxes.length) {
+      boxes.forEach((b,i) => b.checked = saved[i]);
+    }
+  } catch(e){}
+  boxes.forEach(b => b.addEventListener('change', upd));
+  upd();
+
+  // 跨设备：导出 / 导入勾选进度
+  function expProgress(){
+    const box = document.getElementById('syncBox');
+    const msg = document.getElementById('syncMsg');
+    let raw = '';
+    try { raw = localStorage.getItem('lix_bagu_progress') || ''; } catch(e){}
+    box.value = raw;
+    box.select();
+    try { document.execCommand('copy'); } catch(e){}
+    msg.textContent = raw ? '✅ 已导出并复制，去另一台电脑粘贴导入' : '⚠️ 暂无进度可导出';
+  }
+  function impProgress(){
+    const box = document.getElementById('syncBox');
+    const msg = document.getElementById('syncMsg');
+    const raw = box.value.trim();
+    if (!raw) { msg.textContent = '⚠️ 请先粘贴进度代码'; return; }
+    try {
+      const arr = JSON.parse(raw);
+      if (!Array.isArray(arr) || arr.length > boxes.length) { msg.textContent = '⚠️ 代码无效或版本过旧'; return; }
+      // 兼容：题目数增加后（40→70），旧进度按位置对齐，缺失位视为未勾选
+      localStorage.setItem('lix_bagu_progress', JSON.stringify(arr));
+      boxes.forEach((b,i) => b.checked = arr[i] === true);
+      upd();
+      msg.textContent = '✅ 导入成功，进度已恢复';
+    } catch(e){
+      msg.textContent = '⚠️ 代码无效，请检查是否完整复制';
+    }
+  }
+</script>
+
+</body>
+</html>

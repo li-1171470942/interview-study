@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>李鑫 · 投递跟踪表（38家）</title>
+<style>
+  :root {
+    --bg:#f4f6fb; --card:#fff; --ink:#1f2430; --sub:#5b6478; --line:#e4e8f0;
+    --brand:#4f46e5; --brand-soft:#eef2ff;
+    --red:#dc2626; --green:#16a34a; --amber:#d97706; --blue:#2563eb; --gray:#64748b;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:var(--bg); color:var(--ink); line-height:1.6; padding-bottom:60px; }
+  .wrap { max-width:1200px; margin:0 auto; padding:0 16px; }
+
+  .hero { background:linear-gradient(135deg,#4f46e5,#7c3aed); color:#fff; padding:32px 0 26px; margin-bottom:18px; }
+  .hero h1 { font-size:24px; margin-bottom:8px; }
+  .hero .sub { font-size:13.5px; opacity:.9; }
+
+  .stats { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin-bottom:16px; }
+  .stat { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:12px 14px; text-align:center; }
+  .stat .num { font-size:22px; font-weight:800; }
+  .stat .lbl { font-size:12px; color:var(--sub); margin-top:2px; }
+  .s-todo .num{color:var(--gray);} .s-sent .num{color:var(--blue);} .s-int .num{color:var(--amber);} .s-off .num{color:var(--green);} .s-out .num{color:var(--red);}
+
+  .tabs { display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap; }
+  .tab { padding:6px 16px; border-radius:20px; border:1px solid var(--line); background:var(--card); font-size:13px; cursor:pointer; color:var(--sub); }
+  .tab.active { background:var(--brand); color:#fff; border-color:var(--brand); }
+
+  .tier-title { font-size:14px; font-weight:700; padding:9px 14px; border-radius:8px; margin:18px 0 8px; display:flex; align-items:center; gap:8px; }
+  .t-a{background:#fef2f2;border:1px solid #fecaca;color:#b91c1c;}
+  .t-b{background:#fffbeb;border:1px solid #fde68a;color:#b45309;}
+  .t-c{background:#eff6ff;border:1px solid #bfdbfe;color:#1d4ed8;}
+  .t-d{background:#f0fdfa;border:1px solid #99f6e4;color:#0f766e;}
+
+  table { width:100%; border-collapse:collapse; background:var(--card); border-radius:10px; overflow:hidden; font-size:13px; }
+  th { background:#f1f3fa; padding:8px 8px; text-align:left; font-size:12px; color:var(--sub); white-space:nowrap; }
+  td { padding:7px 8px; border-top:1px solid var(--line); vertical-align:middle; }
+  tr:hover td { background:#fafbff; }
+  .name { font-weight:700; }
+  .money { color:var(--red); font-weight:700; white-space:nowrap; }
+  .tag { display:inline-block; padding:1px 7px; border-radius:10px; font-size:11px; }
+  .t-js{background:#fef3c7;color:#92400e;} .t-go{background:#dbeafe;color:#1e40af;} .t-java{background:#fee2e2;color:#991b1b;} .t-cpp{background:#ede9fe;color:#5b21b6;}
+  .star{color:#d97706;}
+  select.status { border:1px solid var(--line); border-radius:6px; padding:3px 6px; font-size:12px; background:#fff; color:var(--ink); }
+  .st-todo{color:var(--gray);} .st-sent{color:var(--blue);} .st-int{color:var(--amber);} .st-off{color:var(--green);} .st-out{color:var(--red);}
+  input.note { border:none; border-bottom:1px dashed var(--line); background:transparent; width:100%; font-size:12px; padding:2px 0; color:var(--ink); outline:none; }
+  input.note:focus { border-bottom-color:var(--brand); }
+  .new-flag { background:var(--green); color:#fff; font-size:10.5px; padding:1px 7px; border-radius:10px; margin-left:6px; vertical-align:1px; }
+  .kw { color:var(--sub); font-size:11.5px; word-break:break-all; }
+  .footer { text-align:center; color:#9aa3b5; font-size:12px; margin-top:26px; }
+  .warn { background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:9px 14px; font-size:12.5px; color:#92400e; margin:10px 0; }
+  .sync-bar { display:flex; align-items:center; gap:10px; padding:10px 14px; font-size:13px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; flex-wrap:wrap; margin:10px 0; }
+  .sync-bar button { padding:5px 14px; border:none; border-radius:6px; background:var(--green); color:#fff; font-size:12.5px; cursor:pointer; }
+  .sync-bar button.imp { background:var(--brand); }
+  .sync-bar textarea { flex:1; min-width:200px; height:34px; border:1px dashed #86efac; border-radius:6px; font-size:11px; padding:6px 8px; color:#14532d; resize:vertical; background:#fff; }
+  .sync-bar .msg { font-size:12px; color:var(--green); font-weight:600; }
+  @media (max-width:900px){ .stats{grid-template-columns:repeat(3,1fr);} }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <h1>🎯 李鑫 · 投递跟踪表（40 家）</h1>
+    <div class="sub">状态下拉可选 · 备注可编辑 · 进度自动保存（本机）· 数据源：2026-08-31 岗位推荐 + 记忆科技（已核实）</div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<div class="stats">
+  <div class="stat s-todo"><div class="num" id="st_todo">0</div><div class="lbl">待投递</div></div>
+  <div class="stat s-sent"><div class="num" id="st_sent">0</div><div class="lbl">已投递</div></div>
+  <div class="stat s-int"><div class="num" id="st_int">0</div><div class="lbl">面试中</div></div>
+  <div class="stat s-off"><div class="num" id="st_off">0</div><div class="lbl">Offer</div></div>
+  <div class="stat s-out"><div class="num" id="st_out">0</div><div class="lbl">淘汰/其他</div></div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" data-f="all">全部 40</div>
+  <div class="tab" data-f="todo">待投递</div>
+  <div class="tab" data-f="sent">已投递</div>
+  <div class="tab" data-f="int">面试中</div>
+  <div class="tab" data-f="off">Offer</div>
+  <div class="tab" data-f="out">淘汰</div>
+</div>
+
+<div class="warn">⚠️ 必来屋 / 酷开科技：两个版本推荐文件 JD 信息冲突（Node.js vs Golang/Java），投递前到 BOSS 直聘核实；其余公司薪资为推荐文件标注，以实际谈薪为准。大厂优先找内推（脉脉/牛客）。</div>
+
+<div class="warn" style="background:#eff6ff;border-color:#bfdbfe;color:#1e40af;">📊 <b>强度/稳定标注（2026-09-03 加入，hover 看说明）</b>：强度 🔥极高 · ⚡高 · ⏱中 · 🍃低　｜　稳定 🟢高（正式/上市/央企/外企）· 🟡中 · 🔴风险（融资早期/小体量/待核实）<br>🧭 <b>新筛选原则</b>：收入底盘第一但不透支（🔥岗回报厚但面试必问节奏）；稳定性第二——🟡/🔴 公司投递前先核实合同性质与用工（申通/天软已标 ⚠️）；面试必问：加班强度 / 团队稳定性 / 业务是否核心 / 合同性质。</div>
+
+<div class="sync-bar">
+  <span>🔄 跨设备同步</span>
+  <button onclick="expTrack()">📤 导出进度</button>
+  <button class="imp" onclick="impTrack()">📥 导入进度</button>
+  <textarea id="syncBox" placeholder="点「导出进度」复制代码 → 另一台电脑粘贴到这里 → 点「导入进度」"></textarea>
+  <span class="msg" id="syncMsg"></span>
+</div>
+
+<!-- ===== A 梯队 ===== -->
+<div class="tier-title t-a">🚀 A 梯队 · 优先投递（年薪 30-75 万）</div>
+<table class="tbl">
+  <tr><th>公司</th><th>岗位/语言</th><th>年包</th><th>通勤</th><th>强度</th><th>稳定</th><th>状态</th><th>备注 / 搜索关键词</th></tr>
+  <tr data-c="字节跳动" data-s="待投递"><td class="name">1. 字节跳动</td><td>后端 <span class="tag t-go">Go</span> K8s</td><td class="money">52.5-75万</td><td>高新 30min</td><td style="text-align:center" title="强度:极高">🔥</td><td style="text-align:center" title="大厂正式岗·强度极高">🟢</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="内推人 / 日期 / 进展"><div class="kw">BOSS搜：字节跳动 成都 后端</div></td></tr>
+  <tr data-c="蚂蚁集团" data-s="待投递"><td class="name">2. 蚂蚁集团</td><td>后端 <span class="tag t-java">Java</span> AI</td><td class="money">48-72万</td><td>成都 40min</td><td style="text-align:center" title="强度:极高">🔥</td><td style="text-align:center" title="阿里系·需关注公司状态">🟡</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="内推人 / 日期 / 进展"><div class="kw">BOSS搜：蚂蚁 成都 后端</div></td></tr>
+  <tr data-c="京东科技" data-s="待投递"><td class="name">3. 京东科技</td><td>后端 <span class="tag t-java">Java</span> K8s</td><td class="money">45-72万</td><td>成华 50min</td><td style="text-align:center" title="强度:极高">🔥</td><td style="text-align:center" title="大厂正式岗">🟢</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="内推人 / 日期 / 进展"><div class="kw">18薪 · BOSS搜：京东科技 成都</div></td></tr>
+  <tr data-c="滴滴" data-s="待投递"><td class="name">4. 滴滴</td><td>后端 <span class="tag t-go">Go</span> K8s</td><td class="money">44.8-64万</td><td>成都 40min</td><td style="text-align:center" title="强度:极高">🔥</td><td style="text-align:center" title="大厂正式岗">🟢</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="内推人 / 日期 / 进展"><div class="kw">16薪 · BOSS搜：滴滴 成都 后端</div></td></tr>
+  <tr data-c="美团" data-s="待投递"><td class="name">5. 美团</td><td>后端 <span class="tag t-java">Java</span> K8s</td><td class="money">42-60万</td><td>武侯 40min</td><td style="text-align:center" title="强度:极高">🔥</td><td style="text-align:center" title="大厂正式岗">🟢</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="内推人 / 日期 / 进展"><div class="kw">15薪 · BOSS搜：美团 成都 后端</div></td></tr>
+  <tr data-c="腾讯云智" data-s="待投递"><td class="name">6. 腾讯云智研发</td><td>后端 <span class="tag t-go">Go</span> K8s</td><td class="money">40-64万</td><td>高新 30min</td><td style="text-align:center" title="强度:高">⚡</td><td style="text-align:center" title="腾讯编制·非外包">🟢</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="内推人 / 日期 / 进展"><div class="kw">16薪 · 腾讯编制非外包 · BOSS搜：腾讯云智</div></td></tr>
+  <tr data-c="网易" data-s="待投递"><td class="name">7. 网易</td><td>后端 <span class="tag t-java">Java</span> <span class="tag t-go">Go</span></td><td class="money">40-60.8万</td><td>高新 30min</td><td style="text-align:center" title="强度:高">⚡</td><td style="text-align:center" title="大厂·双休">🟢</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="内推人 / 日期 / 进展"><div class="kw">16薪 双休 · BOSS搜：网易 成都 后端</div></td></tr>
+  <tr data-c="百度" data-s="待投递"><td class="name">8. 百度</td><td>后端 <span class="tag t-go">Go</span> AI</td><td class="money">39.2-56万</td><td>高新 30min</td><td style="text-align:center" title="强度:极高">🔥</td><td style="text-align:center" title="大厂正式岗">🟢</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="内推人 / 日期 / 进展"><div class="kw">BOSS搜：百度 成都 后端</div></td></tr>
+  <tr data-c="小米" data-s="待投递"><td class="name">9. 小米</td><td>后端 <span class="tag t-go">Go</span> K8s</td><td class="money">35-49万</td><td>高新 30min</td><td style="text-align:center" title="强度:高">⚡</td><td style="text-align:center" title="大厂·双休">🟢</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="内推人 / 日期 / 进展"><div class="kw">14薪 双休 · BOSS搜：小米 成都 后端</div></td></tr>
+  <tr data-c="芯动科技" data-s="待投递"><td class="name">10. 芯动科技 <span class="star">★</span></td><td>后端 <span class="tag t-js">Node.js</span> Python</td><td class="money">35-56万</td><td>高新 30min</td><td style="text-align:center" title="强度:高">⚡</td><td style="text-align:center" title="A轮芯片创业·风口但早期">🟡</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="内推人 / 日期 / 进展"><div class="kw">Node.js完全匹配+芯片风口，最值得冲的民企</div></td></tr>
+  <tr data-c="必来屋" data-s="待投递"><td class="name">11. 必来屋 <span class="star">★</span></td><td>后端 <span class="tag t-js">Node.js</span></td><td class="money">26-39万</td><td>天府 45min</td><td style="text-align:center" title="强度:中">⏱</td><td style="text-align:center" title="两版本JD冲突·待核实">🔴</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="⚠️JD两版本冲突，先核实"><div class="kw">⚠️ 另一版标 Golang 30-45K×14</div></td></tr>
+  <tr data-c="OPPO" data-s="待投递"><td class="name">12. OPPO</td><td>后端 <span class="tag t-java">Java</span> K8s</td><td class="money">30-45万</td><td>高新 30min</td><td style="text-align:center" title="强度:高">⚡</td><td style="text-align:center" title="大厂·双休">🟢</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="内推人 / 日期 / 进展"><div class="kw">15薪 双休 · BOSS搜：OPPO 成都 后端</div></td></tr>
+  <tr data-c="vivo" data-s="待投递"><td class="name">13. vivo</td><td>后端 <span class="tag t-java">Java</span> K8s</td><td class="money">33-48万</td><td>天府 55min</td><td style="text-align:center" title="强度:高">⚡</td><td style="text-align:center" title="大厂·双休">🟢</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="内推人 / 日期 / 进展"><div class="kw">15薪 · 通勤接近红线</div></td></tr>
+</table>
+
+<!-- ===== B 梯队 ===== -->
+<div class="tier-title t-b">💎 B 梯队 · 同步投递（年薪 25-42 万）</div>
+<table class="tbl">
+  <tr><th>公司</th><th>岗位/语言</th><th>年包</th><th>通勤</th><th>强度</th><th>稳定</th><th>状态</th><th>备注 / 搜索关键词</th></tr>
+  <tr data-c="海康威视" data-s="待投递"><td class="name">14. 海康威视</td><td>后端 <span class="tag t-java">Java</span> K8s</td><td class="money">28-42万</td><td>高新 30min</td><td style="text-align:center" title="强度:中">⏱</td><td style="text-align:center" title="上市公司·安防龙头">🟢</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="内推人 / 日期 / 进展"><div class="kw">14薪 · 安防AI · BOSS搜：海康 成都</div></td></tr>
+  <tr data-c="新网银行" data-s="待投递"><td class="name">15. 新网银行</td><td>后端 <span class="tag t-java">Java</span> AI</td><td class="money">28-42万</td><td>高新 30min</td><td style="text-align:center" title="强度:中">⏱</td><td style="text-align:center" title="小米系·互联网银行">🟡</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="内推人 / 日期 / 进展"><div class="kw">14薪 · 小米系 · BOSS搜：新网银行</div></td></tr>
+  <tr data-c="中电科网络安全" data-s="待投递"><td class="name">16. 中电科网络安全</td><td>后端 <span class="tag t-cpp">C/C++</span></td><td class="money">26-39万</td><td>成都 40min</td><td style="text-align:center" title="强度:中">⏱</td><td style="text-align:center" title="央企·上市">🟢</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="内推人 / 日期 / 进展"><div class="kw">央企网安上市 · 官网/猎聘投</div></td></tr>
+  <tr data-c="顺丰科技" data-s="待投递"><td class="name">17. 顺丰科技</td><td>后端 <span class="tag t-java">Java</span> K8s</td><td class="money">25.2-39.2万</td><td>双流 45min</td><td style="text-align:center" title="强度:中">⏱</td><td style="text-align:center" title="上市公司旗下">🟢</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="内推人 / 日期 / 进展"><div class="kw">14薪 · BOSS搜：顺丰科技 成都</div></td></tr>
+  <tr data-c="兴业数金" data-s="待投递"><td class="name">18. 兴业数金</td><td>后端 <span class="tag t-java">Java</span> K8s</td><td class="money">25.2-39.2万</td><td>锦江 35min</td><td style="text-align:center" title="强度:中">⏱</td><td style="text-align:center" title="兴业银行旗下">🟢</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="内推人 / 日期 / 进展"><div class="kw">14薪 · 兴业银行旗下 · BOSS搜</div></td></tr>
+  <tr data-c="四川烟草" data-s="待投递"><td class="name">19. 四川烟草</td><td>后端 <span class="tag t-java">Java</span></td><td class="money">21.6-33.6万</td><td>高新 30min</td><td style="text-align:center" title="强度:中">⏱</td><td style="text-align:center" title="央企·极稳">🟢</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="国企招聘公告渠道"><div class="kw">央企 · 关注四川烟草招聘公告</div></td></tr>
+  <tr data-c="移动成研院" data-s="待投递"><td class="name">20. 中国移动成研院</td><td>后端 <span class="tag t-java">Java</span> K8s</td><td class="money">22.5-37.5万</td><td>高新 30min</td><td style="text-align:center" title="强度:中">⏱</td><td style="text-align:center" title="央企·15薪">🟢</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="内推人 / 日期 / 进展"><div class="kw">15薪 · 央企通信对口 · 官网投</div></td></tr>
+  <tr data-c="伍柒必乐" data-s="待投递"><td class="name">21. 伍柒必乐 <span class="star">★</span></td><td>后端 <span class="tag t-js">Node.js</span> TS</td><td class="money">19.5-39万</td><td>成都 40min</td><td style="text-align:center" title="强度:中">⏱</td><td style="text-align:center" title="未融资·小体量">🔴</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="内推人 / 日期 / 进展"><div class="kw">TS+GraphQL+微服务 · BOSS搜：伍柒必乐</div></td></tr>
+  <tr data-c="商云科汇" data-s="待投递"><td class="name">22. 商云科汇 <span class="star">★</span></td><td>后端 <span class="tag t-js">Node.js</span></td><td class="money">19.5-32.5万</td><td>成都 40min</td><td style="text-align:center" title="强度:中">⏱</td><td style="text-align:center" title="天使轮20-99人·风险最高">🔴</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="内推人 / 日期 / 进展"><div class="kw">13薪 · 网络协议要求命中 · BOSS搜</div></td></tr>
+  <tr data-c="中瓴智行" data-s="待投递"><td class="name">23. 中瓴智行</td><td>Linux系统 <span class="tag t-cpp">C/C++</span></td><td class="money">19.5-32.5万</td><td>高新 30min</td><td style="text-align:center" title="强度:中">⏱</td><td style="text-align:center" title="A轮·自动驾驶创业">🔴</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="内推人 / 日期 / 进展"><div class="kw">13薪 · 自动驾驶 · BOSS搜：中瓴智行</div></td></tr>
+  <tr data-c="马上消费" data-s="待投递"><td class="name">24. 马上消费金融 ⚠️</td><td>后端 <span class="tag t-java">Java</span> AI</td><td class="money">28-42万</td><td>重庆 90min</td><td style="text-align:center" title="强度:高">⚡</td><td style="text-align:center" title="持牌消金·重庆异地">🟡</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="异地，慎选"><div class="kw">14薪 · 异地重庆，仅作参考</div></td></tr>
+</table>
+
+<!-- ===== C 梯队 ===== -->
+<div class="tier-title t-c">🛡️ C 梯队 · 保底投递（Node.js 匹配 / 稳定，年薪 10-30 万）</div>
+<table class="tbl">
+  <tr><th>公司</th><th>岗位/语言</th><th>年包</th><th>通勤</th><th>强度</th><th>稳定</th><th>状态</th><th>备注 / 搜索关键词</th></tr>
+  <tr data-c="记忆科技" data-s="待投递"><td class="name">25. 记忆科技 <span class="new-flag">🆕</span></td><td>后端 <span class="tag t-js">Node.js</span></td><td>15-25K（估）</td><td>郫都 20-30min</td><td style="text-align:center" title="强度:低">🍃</td><td style="text-align:center" title="联想系·存储龙头">🟢</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="⚠️确认是否有社招后端岗"><div class="kw">存储龙头 · 联想系 · 六险一金双休 · 离家近</div></td></tr>
+  <tr data-c="成都长城开发" data-s="待投递"><td class="name">26. 成都长城开发 <span class="new-flag">🆕</span></td><td>后端 <span class="tag t-js">Node.js</span> IoT</td><td>10-14K×15（估）</td><td>郫都 20-30min</td><td style="text-align:center" title="强度:低">🍃</td><td style="text-align:center" title="央企子公司·北交所上市">🟢</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="⚠️确认软件开发岗 JD"><div class="kw">央企(深科技子公司)·AMI智慧能源IoT · 稳定保底 · BOSS搜：开发科技</div></td></tr>
+  <tr data-c="颂拓运动" data-s="待投递"><td class="name">27. 颂拓运动 <span class="new-flag">🆕</span></td><td>后端/App <span class="tag t-js">Node.js?</span></td><td>15-25K（估）</td><td>天府三街 40min</td><td style="text-align:center" title="强度:低">🍃</td><td style="text-align:center" title="外企全资·芬兰品牌">🟢</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="⚠️确认是否有后端岗"><div class="kw">Suunto芬兰品牌·外企风格福利好·官网 talent.suunto.cn</div></td></tr>
+  <tr data-c="申通快递" data-s="待投递"><td class="name">28. 申通快递 <span class="star">★</span></td><td>后端 <span class="tag t-js">Node.js</span></td><td>18-30万</td><td>龙泉 60min</td><td style="text-align:center" title="强度:中">⏱</td><td style="text-align:center" title="上市物流·⚠️核实用工性质">🟡</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="内推人 / 日期 / 进展"><div class="kw">Node.js匹配 · 通勤贴红线</div></td></tr>
+  <tr data-c="酷开科技" data-s="待投递"><td class="name">29. 酷开科技 <span class="star">★</span></td><td>后端 <span class="tag t-js">Node.js</span></td><td>18-26.4万</td><td>成华 40min</td><td style="text-align:center" title="强度:中">⏱</td><td style="text-align:center" title="创维旗下·上市系">🟢</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="⚠️JD两版本冲突，先核实"><div class="kw">⚠️ 另一版标 Java 16-20K · 创维旗下</div></td></tr>
+  <tr data-c="天予环境" data-s="待投递"><td class="name">30. 天予环境 <span class="star">★</span></td><td>后端 <span class="tag t-js">Node.js</span> Python</td><td>18-26.4万</td><td>金牛 40min</td><td style="text-align:center" title="强度:中">⏱</td><td style="text-align:center" title="小体量·待观察">🔴</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="内推人 / 日期 / 进展"><div class="kw">环保SaaS · BOSS搜：天予环境</div></td></tr>
+  <tr data-c="四川日报新媒体" data-s="待投递"><td class="name">31. 四川日报新媒体 <span class="star">★</span></td><td>后端 <span class="tag t-js">Node.js</span></td><td>14.4-24万</td><td>锦江 35min</td><td style="text-align:center" title="强度:中">⏱</td><td style="text-align:center" title="省级媒体国企">🟡</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="内推人 / 日期 / 进展"><div class="kw">省级媒体 · BOSS搜：川报 成都</div></td></tr>
+  <tr data-c="顶览科技" data-s="待投递"><td class="name">32. 顶览科技 <span class="star">★</span></td><td>后端 <span class="tag t-js">Node.js</span></td><td>13-19.5万</td><td>成都 40min</td><td style="text-align:center" title="强度:中">⏱</td><td style="text-align:center" title="20-99人未融资">🔴</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="内推人 / 日期 / 进展"><div class="kw">Docker/K8s/Kafka 强项全中</div></td></tr>
+  <tr data-c="成都天软" data-s="待投递"><td class="name">33. 成都天软信息 <span class="star">★</span></td><td>后端 <span class="tag t-js">Node.js</span> AWS</td><td>10.4-15.6万</td><td>成都 40min</td><td style="text-align:center" title="强度:中">⏱</td><td style="text-align:center" title="⚠️核实用工是否外包/驻场">🔴</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="内推人 / 日期 / 进展"><div class="kw">13薪 · 车联网 · BOSS搜：天软</div></td></tr>
+  <tr data-c="燃客物联网" data-s="待投递"><td class="name">34. 成都燃客物联网 <span class="star">★</span></td><td>后端 <span class="tag t-js">Node.js</span></td><td>13-19.5万</td><td>成都 40min</td><td style="text-align:center" title="强度:中">⏱</td><td style="text-align:center" title="未融资·规模小">🔴</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="内推人 / 日期 / 进展"><div class="kw">物联网+容器化 · BOSS搜：燃客</div></td></tr>
+</table>
+
+<!-- ===== D 梯队 ===== -->
+<div class="tier-title t-d">🔒 D 梯队 · 通信/军工对口（年薪 15-36 万，背景最对口）</div>
+<table class="tbl">
+  <tr><th>公司</th><th>岗位/语言</th><th>年包</th><th>通勤</th><th>强度</th><th>稳定</th><th>状态</th><th>备注 / 搜索关键词</th></tr>
+  <tr data-c="中兴通讯" data-s="待投递"><td class="name">35. 中兴通讯</td><td>开发 <span class="tag t-cpp">C/C++</span></td><td class="money">25.2-39.2万</td><td>高新 30min</td><td style="text-align:center" title="强度:中">⏱</td><td style="text-align:center" title="上市·通信大厂">🟢</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="内推人 / 日期 / 进展"><div class="kw">14薪 · 通信大厂 · BOSS搜：中兴 成都</div></td></tr>
+  <tr data-c="成飞611" data-s="待投递"><td class="name">36. 成飞 611 所</td><td>开发 <span class="tag t-cpp">C/C++</span></td><td class="money">21.6-36万</td><td>武侯 35min</td><td style="text-align:center" title="强度:低">🍃</td><td style="text-align:center" title="央企科研·极稳">🟢</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="军工科研，关注官网"><div class="kw">航空科研 · 稳定性极高</div></td></tr>
+  <tr data-c="锐捷网络" data-s="待投递"><td class="name">37. 锐捷网络</td><td>开发 <span class="tag t-cpp">C/C++</span></td><td class="money">21-35万</td><td>高新 30min</td><td style="text-align:center" title="强度:中">⏱</td><td style="text-align:center" title="上市·网络设备">🟢</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="内推人 / 日期 / 进展"><div class="kw">14薪 · 网络设备大厂 · BOSS搜：锐捷</div></td></tr>
+  <tr data-c="中电科10所" data-s="待投递"><td class="name">38. 中电科 10 所</td><td>开发 <span class="tag t-cpp">C/C++</span></td><td class="money">19.2-33.6万</td><td>高新 30min</td><td style="text-align:center" title="强度:低">🍃</td><td style="text-align:center" title="央企科研·极稳">🟢</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="军工科研，关注官网"><div class="kw">央企科研 · 电子对抗</div></td></tr>
+  <tr data-c="鼎桥通信" data-s="待投递"><td class="name">39. 鼎桥通信</td><td>平台软件 <span class="tag t-cpp">C/C++</span></td><td class="money">19.6-29.4万</td><td>高新 30min</td><td style="text-align:center" title="强度:中">⏱</td><td style="text-align:center" title="通信大厂·华为系背景">🟢</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="内推人 / 日期 / 进展"><div class="kw">14薪 · 5G通信 · BOSS搜：鼎桥</div></td></tr>
+  <tr data-c="烽火通信" data-s="待投递"><td class="name">40. 烽火通信</td><td>后端 <span class="tag t-java">Java</span></td><td class="money">18.2-28.6万</td><td>高新 30min</td><td style="text-align:center" title="强度:中">⏱</td><td style="text-align:center" title="央企·光通信">🟢</td></td><td><select class="status"><option>待投递</option><option>已投递</option><option>已约面</option><option>一面</option><option>二面</option><option>HR面</option><option>Offer</option><option>淘汰</option></select></td><td><input class="note" placeholder="内推人 / 日期 / 进展"><div class="kw">13薪 · 央企光通信 · BOSS搜：烽火</div></td></tr>
+</table>
+
+<div class="footer">提示：状态/备注自动保存在本机浏览器 · 数据源为 2026-08-31 岗位推荐快照，投递前以 BOSS 直聘实时 JD 为准</div>
+
+</div>
+
+<script>
+(function(){
+  const KEY = 'lix_track_v1';
+  const rows = Array.from(document.querySelectorAll('tr[data-c]'));
+  const saved = (function(){ try { return JSON.parse(localStorage.getItem(KEY)); } catch(e){ return null; } })() || {};
+
+  rows.forEach((tr, i) => {
+    const sel = tr.querySelector('select.status');
+    const note = tr.querySelector('input.note');
+    const key = tr.dataset.c;
+    if (saved[key]) {
+      sel.value = saved[key].s || '待投递';
+      if (saved[key].n) note.value = saved[key].n;
+    }
+    sel.addEventListener('change', () => save(key, sel, note));
+    note.addEventListener('input', () => save(key, sel, note));
+  });
+
+  function save(key, sel, note){
+    saved[key] = { s: sel.value, n: note.value };
+    try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch(e){}
+    refresh();
+  }
+
+  function cls(s){
+    if (s==='待投递') return 'todo';
+    if (['已投递','已约面'].includes(s)) return 'sent';
+    if (['一面','二面','HR面'].includes(s)) return 'int';
+    if (s==='Offer') return 'off';
+    return 'out';
+  }
+
+  function refresh(){
+    let n={todo:0,sent:0,int:0,off:0,out:0};
+    rows.forEach(tr=>{ const s=tr.querySelector('select.status').value; n[cls(s)]++; });
+    document.getElementById('st_todo').textContent=n.todo;
+    document.getElementById('st_sent').textContent=n.sent;
+    document.getElementById('st_int').textContent=n.int;
+    document.getElementById('st_off').textContent=n.off;
+    document.getElementById('st_out').textContent=n.out;
+  }
+
+  // 筛选
+  const tabs = document.querySelectorAll('.tab');
+  tabs.forEach(tab => tab.addEventListener('click', () => {
+    tabs.forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    const f = tab.dataset.f;
+    rows.forEach(tr => {
+      const s = tr.querySelector('select.status').value;
+      const c = cls(s);
+      let show = f==='all' || c===f;
+      tr.style.display = show ? '' : 'none';
+    });
+  }));
+
+  refresh();
+})();
+
+// 跨设备：导出 / 导入投递进度（挂到 window 供按钮调用）
+window.expTrack = function(){
+  const box = document.getElementById('syncBox');
+  const msg = document.getElementById('syncMsg');
+  let raw = '';
+  try { raw = localStorage.getItem('lix_track_v1') || ''; } catch(e){}
+  box.value = raw;
+  box.select();
+  try { document.execCommand('copy'); } catch(e){}
+  msg.textContent = raw ? '✅ 已导出并复制，去另一台电脑粘贴导入' : '⚠️ 暂无进度可导出';
+};
+window.impTrack = function(){
+  const box = document.getElementById('syncBox');
+  const msg = document.getElementById('syncMsg');
+  const raw = box.value.trim();
+  if (!raw) { msg.textContent = '⚠️ 请先粘贴进度代码'; return; }
+  try {
+    const data = JSON.parse(raw);
+    if (typeof data !== 'object') throw new Error('bad');
+    localStorage.setItem('lix_track_v1', JSON.stringify(data));
+    location.reload();
+  } catch(e){
+    msg.textContent = '⚠️ 代码无效，请检查是否完整复制';
+  }
+};
+</script>
+
+</body>
+</html>

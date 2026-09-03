@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>01 计算机网络 · 学习手册</title><style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:60px; }
+.topnav { position:sticky; top:0; z-index:9; background:#1f2937; color:#fff; padding:10px 0; }
+.topnav .inner { max-width:960px; margin:0 auto; padding:0 18px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; font-size:13px; }
+.topnav a { color:#c7d2fe; text-decoration:none; padding:3px 12px; border-radius:14px; background:rgba(255,255,255,.08); }
+.topnav a:hover { background:rgba(255,255,255,.2); color:#fff; }
+.topnav .sep { opacity:.4; }
+.wrap { max-width:960px; margin:0 auto; padding:0 18px; }
+.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px; margin-top:22px; box-shadow:0 1px 3px rgba(20,30,60,.05); }
+.article h1 { font-size:26px; color:#4f46e5; border-bottom:3px solid #4f46e5; padding-bottom:12px; margin-bottom:18px; }
+.article h2 { font-size:20px; margin:30px 0 12px; padding:10px 14px; background:#eef2ff; border-left:4px solid #4f46e5; border-radius:6px; color:#312e81; }
+.article h3 { font-size:14px; color:#475569; margin:14px 0 6px; }
+.article p { margin:8px 0; font-size:14.5px; color:#2b3245; }
+.article ul, .article ol { margin:8px 0 8px 24px; }
+.article li { font-size:14.5px; margin:4px 0; }
+.article strong { color:#111827; }
+.article code { background:#f1f3fa; padding:1px 6px; border-radius:4px; font-size:13px; color:#be185d; }
+.article pre { background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:8px; overflow-x:auto; margin:12px 0; font-size:13px; line-height:1.6; }
+.article pre code { background:none; color:inherit; padding:0; }
+.article table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13.5px; display:block; overflow-x:auto; }
+.article th { background:#f1f3fa; padding:8px 10px; text-align:left; color:#475569; font-size:12.5px; border:1px solid #e4e8f0; }
+.article td { padding:8px 10px; border:1px solid #e4e8f0; vertical-align:top; }
+.article blockquote { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; margin:12px 0; border-radius:6px; color:#166534; font-size:14px; }
+.article blockquote strong { color:#14532d; }
+.article hr { border:none; border-top:1px dashed #d1d5db; margin:26px 0; }
+.bottomnav { max-width:960px; margin:20px auto 0; padding:0 18px; display:flex; gap:10px; }
+.bottomnav a { flex:1; text-align:center; background:#4f46e5; color:#fff; text-decoration:none; padding:12px 10px; border-radius:10px; font-size:14px; }
+.bottomnav a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
+@media (max-width:760px){ .article{padding:22px 18px;} .article h1{font-size:21px;} }
+</style></head>
+<body>
+<div class="topnav"><div class="inner"><a href="学习中心.html">🏠 学习中心</a> <span class="sep">|</span> <a href="学习手册索引.md">📚 手册索引</a> <span class="sep">|</span> <a href="学习手册_02_MySQL核心.html">02 MySQL ▶</a></div></div>
+<div class="wrap"><article class="article"><h1>📘 学习手册 01 · 计算机网络</h1>
+<blockquote>
+<p>配套《面试八股复习计划》第 2 节网络部分 + PDF 第 51-55 页
+模板：<strong>一句话结论 → 详细解释 → 面试话术 → 例题/追问</strong>
+你的强项章节——不仅要会，要能讲得比面试官还清楚</p>
+</blockquote>
+<hr />
+<h2>1. TCP 和 UDP 的区别</h2>
+<p><strong>一句话结论</strong>：TCP 面向连接、可靠、字节流；UDP 无连接、不可靠、数据报，TCP 慢但稳，UDP 快但丢。</p>
+<p><strong>详细解释</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>TCP</th>
+<th>UDP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>连接</td>
+<td>面向连接（三次握手）</td>
+<td>无连接</td>
+</tr>
+<tr>
+<td>可靠性</td>
+<td>可靠：确认重传、排序、流量控制、拥塞控制</td>
+<td>不可靠：发出去就不管，不保证到达/顺序</td>
+</tr>
+<tr>
+<td>传输单位</td>
+<td>字节流（无边界）</td>
+<td>数据报（有边界）</td>
+</tr>
+<tr>
+<td>速度</td>
+<td>慢（握手+重传+拥塞控制开销）</td>
+<td>快</td>
+</tr>
+<tr>
+<td>场景</td>
+<td>文件传输 HTTP/FTP、网页</td>
+<td>视频通话、直播、DNS、游戏</td>
+</tr>
+</tbody>
+</table>
+<p><strong>面试话术</strong>：先说结论"TCP 可靠连接、UDP 尽力而为"，再补一句适用场景对比（HTTP 用 TCP 因为要准确，直播用 UDP 因为能容忍丢包但不能容忍延迟），面试官会觉得你有工程视角。</p>
+<p><strong>例题/追问</strong>：① 视频会议为什么用 UDP 不用 TCP？→ 丢一帧还能看，卡顿半秒没法忍，TCP 重传会导致延迟堆积。② 有没有用 TCP 的实时场景？→ WebRTC 的拥塞控制/QUIC 用类 TCP 方案，UDP 之上自建可靠性。</p>
+<hr />
+<h2>2. TCP 三次握手</h2>
+<p><strong>一句话结论</strong>：三次握手是客户端与服务端互相确认"双方收发能力都正常"的最小通信次数。</p>
+<p><strong>详细解释</strong>：
+1. 客户端 → 服务端：<strong>SYN=1, seq=x</strong>（"我想连你"）
+2. 服务端 → 客户端：<strong>SYN=1, ACK=1, seq=y, ack=x+1</strong>（"我收到你的，我也能发"）
+3. 客户端 → 服务端：<strong>ACK=1, ack=y+1</strong>（"我收到你的了，开始传数据"）</p>
+<p>为什么是三次不是两次：
+- 两次握手：客户端发出的 SYN 若在网络中滞留，超时重传后服务端会收到两个 SYN 建立两条连接，旧连接残留 → 浪费资源
+- 三次握手让<strong>双方都确认对方能收能发</strong>，并同步初始序列号（防伪造/防旧连接）</p>
+<p><strong>面试话术</strong>：背熟三次报文（SYN → SYN+ACK → ACK），重点落在"为什么两次不行"——防止滞留的旧连接请求导致服务端建立无效连接；以及"为什么要 seq 序列号"——保证有序和防篡改。</p>
+<p><strong>例题/追问</strong>：① 第二次握手的 seq 和 ack 分别是什么含义？② 半连接队列（SYN Queue）是什么？→ 服务端收到 SYN 未完成三次握手的队列，攻击可占满它 → SYN Flood 攻击的原理。</p>
+<hr />
+<h2>3. TCP 四次挥手</h2>
+<p><strong>一句话结论</strong>：四次挥手是因为 TCP 全双工，双方各自独立关闭一条方向，需要 4 个报文；主动关闭方要等 2MSL 才真正断开。</p>
+<p><strong>详细解释</strong>：
+1. 客户端 → 服务端：<strong>FIN=1</strong>（"我数据发完了，要关了"）
+2. 服务端 → 客户端：<strong>ACK=1</strong>（"收到，但我可能还有数据要发"）
+3. 服务端 → 客户端：<strong>FIN=1</strong>（服务端数据也发完了）
+4. 客户端 → 服务端：<strong>ACK=1</strong>（确认关闭）</p>
+<p>为什么四次：服务端的 ACK 和 FIN 不能合并——它收到 FIN 后还要继续发剩余数据，发完才发 FIN，所以中间隔了一次。</p>
+<p>TIME_WAIT（主动关闭方等 2MSL，约 60s）的原因：
+1. 保证最后一个 ACK 能到达（丢了可以重发）
+2. 让旧连接的数据包在网络中彻底消失，防止污染新连接</p>
+<p><strong>面试话术</strong>：强调"全双工 → 两个方向的关闭各自独立 → 四次"，再说 TIME_WAIT 两个原因。能引出"服务端大量 TIME_WAIT 怎么排查"（netstat 统计、调 keepalive、复用端口）这种实战问题。</p>
+<p><strong>例题/追问</strong>：① 为什么 TIME_WAIT 是 2MSL 不是 1MSL？→ 保证最坏情况下（ACK 丢失+重传）报文也能往返。② 大量 CLOSE_WAIT 是什么问题？→ 对方关闭后己方没调 close()，通常是代码没关 socket 导致连接泄漏。</p>
+<hr />
+<h2>4. HTTP 请求方式</h2>
+<p><strong>一句话结论</strong>：GET 取数据、POST 提交数据、PUT 整体更新、PATCH 局部更新、DELETE 删除、HEAD 只要响应头、OPTIONS 探询跨域。</p>
+<p><strong>详细解释</strong>：
+- GET：幂等、参数在 URL、有长度限制、可缓存
+- POST：非幂等、参数在 body、无长度限制
+- PUT：幂等（整体替换）；PATCH：非幂等（部分修改）
+- DELETE：幂等
+- HEAD：同 GET 但只返回响应头（常用于探测资源是否存在）
+- OPTIONS：CORS 预检请求会用它</p>
+<p><strong>面试话术</strong>：RESTful 语义 + 幂等性两个概念一起讲（幂等=重复执行结果一致），顺便说 GET 和 POST 的区别常被追问（GET 不能带 body？规范上可以但别用；缓存差异才是本质）。</p>
+<p><strong>例题/追问</strong>：① 为什么 GET 比 POST 容易被缓存？② OPTIONS 预检在什么时候触发？（非简单请求：自定义 header、JSON body 等）</p>
+<hr />
+<h2>5. HTTP 状态码</h2>
+<p><strong>一句话结论</strong>：1xx 信息、2xx 成功、3xx 重定向、4xx 客户端错误、5xx 服务端错误。</p>
+<p><strong>详细解释</strong>（面试高频）：
+- 200 成功、204 无内容（删除常用）、206 部分内容（断点续传/分片）
+- 301 永久重定向（换域名）、302 临时重定向、304 Not Modified（协商缓存，命中缓存）
+- 400 参数错误、401 未认证、403 无权限、404 不存在、405 方法不允许、429 限流
+- 500 服务器内部错误、502 网关错误（上游无响应）、503 服务不可用（过载/维护）、504 网关超时</p>
+<p><strong>面试话术</strong>：背 200/301/304/400/401/403/404/500/502/503 就够用。重点能区分 401（没登录）vs 403（登录了没权限）、502（上游挂了）vs 504（上游响应慢）。</p>
+<p><strong>例题/追问</strong>：① 前端缓存命中一般返回哪个码？304。② 502 和 504 的区别？（网关角度：502 连不上上游，504 上游没在时间内返回）</p>
+<hr />
+<h2>6. HTTPS 和 HTTP 的区别</h2>
+<p><strong>一句话结论</strong>：HTTPS = HTTP + TLS，用非对称加密协商密钥、对称加密传输数据，防窃听、防篡改、防冒充。</p>
+<p><strong>详细解释</strong>：
+1. <strong>加密</strong>：HTTP 明文，HTTPS 加密
+2. <strong>握手</strong>：HTTPS 多一次 TLS 握手（约 2 RTT），主要动作：
+   - 服务端发证书（含公钥）→ 客户端验证书（CA 签名链）→ 防中间人冒充
+   - 双方用<strong>非对称加密</strong>（RSA/ECDHE）协商出<strong>对称密钥</strong>
+   - 之后数据用<strong>对称加密</strong>（AES）传输（快）
+3. <strong>端口</strong>：80 vs 443
+4. 证书需 CA 签发，有有效期</p>
+<p><strong>面试话术</strong>：一句话"混合加密——非对称协商密钥，对称加密数据"，展开三步：证书验身份 → 协商密钥 → 加密传输。能讲清"为什么不用纯非对称？慢"就是高分答案。</p>
+<p><strong>例题/追问</strong>：① 中间人攻击怎么防？证书校验。② TLS1.3 比 1.2 快在哪？→ 握手从 2 RTT 降到 1 RTT。</p>
+<hr />
+<h2>7. Cookie 和 Session</h2>
+<p><strong>一句话结论</strong>：Session 存在服务器（记录登录态），Cookie 存在浏览器（携带身份标识），SessionId 通过 Cookie 传递。</p>
+<p><strong>详细解释</strong>：
+- 流程：登录成功 → 服务端创建 Session（内存/Redis）→ 把 sessionId 放进 Set-Cookie → 浏览器存 Cookie → 后续请求自动带 Cookie → 服务端查 Session 确认身份
+- Cookie 特点：有大小限制（约 4KB）、可设置过期时间、HttpOnly 防 JS 读取（防 XSS 偷）、SameSite 防 CSRF
+- Session 特点：服务端存储，可存任意大小，分布式下要放 Redis（共享）
+- 现代替代：<strong>JWT</strong>——把用户信息签名后放客户端，服务端无状态，适合分布式/多端</p>
+<p><strong>面试话术</strong>：讲清"Cookie 是载体，Session 是状态"这个本质，再补一句"分布式场景 Session 要放 Redis 或用 JWT 做无状态认证"，体现工程经验。</p>
+<p><strong>例题/追问</strong>：① JWT 和 Session 怎么选？② 为什么 JWT 无法主动注销？（token 在客户端，只能等过期或加黑名单）</p>
+<hr />
+<h2>8. OSI 七层模型 和 TCP/IP 五层模型</h2>
+<p><strong>一句话结论</strong>：OSI 七层（应用/表示/会话/传输/网络/数据链路/物理）是教科书标准，TCP/IP 五层（应用/传输/网络/数据链路/物理）是实际实现。</p>
+<p><strong>详细解释</strong>（五层对应典型协议）：</p>
+<table>
+<thead>
+<tr>
+<th>层</th>
+<th>典型协议/设备</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>应用层</td>
+<td>HTTP/HTTPS、DNS、FTP、WebSocket</td>
+</tr>
+<tr>
+<td>传输层</td>
+<td>TCP、UDP（端口、可靠传输）</td>
+</tr>
+<tr>
+<td>网络层</td>
+<td>IP、ICMP、路由（IP 地址寻址）</td>
+</tr>
+<tr>
+<td>数据链路层</td>
+<td>以太网、ARP、MAC 地址、交换机</td>
+</tr>
+<tr>
+<td>物理层</td>
+<td>网线、光纤、集线器</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>每层职责：上层用下层服务，下层对上屏蔽细节——封装/解封装（数据包逐层加头/去头）</li>
+<li>面试常见：DNS 用的什么？UDP 53（传输层）+ 端口；ARP 在哪层？数据链路层</li>
+</ul>
+<p><strong>面试话术</strong>：背熟五层+各层协议，能画出"HTTP → TCP → IP → 以太网"的封装过程。追问时能说"为什么 OSI 把表示层/会话层合并进应用层——实际实现里不需要分开"。</p>
+<p><strong>例题/追问</strong>：① 一次 HTTP 请求经过哪些层？（应用→传输→网络→链路→物理，逐层加头，接收方逐层去头）。② 交换机/路由器分别在几层？（2 层/3 层）</p>
+<hr />
+<h2>9. 各层常用协议</h2>
+<p><strong>一句话结论</strong>：应用层 HTTP/DNS/WebSocket，传输层 TCP/UDP，网络层 IP/ICMP，链路层 ARP/以太网。</p>
+<p><strong>详细解释</strong>：
+- <strong>HTTP</strong>：应用层，超文本传输
+- <strong>DNS</strong>：域名 → IP，UDP:53，层级查询（根 → 顶级 → 权威）
+- <strong>WebSocket</strong>：应用层，基于 TCP 的长连接全双工，HTTP 握手升级（101 Switching Protocols）
+- <strong>TCP/UDP</strong>：传输层
+- <strong>IP</strong>：网络层，寻址路由
+- <strong>ICMP</strong>：网络层，ping 用它（探测连通性）
+- <strong>ARP</strong>：链路层，IP → MAC</p>
+<p><strong>面试话术</strong>：结合你的业务讲——RRM 设备上报走 Kafka（应用层）、云端下发走 WebSocket（应用层）基于 TCP；讲协议时要能落到"我实际用过"。</p>
+<p><strong>例题/追问</strong>：DNS 用 TCP 还是 UDP？→ 正常 UDP:53（快），响应超大数据（DNSSEC）时切 TCP。</p>
+<hr />
+<h2>10. 为什么 TCP 要建立三次握手（深入）</h2>
+<p><strong>一句话结论</strong>：三次握手同步了序列号、确认了双向收发能力，并防止历史重复连接（滞留 SYN）误建立连接。</p>
+<p><strong>详细解释</strong>（升级版）：
+- <strong>同步序列号</strong>：双方 seq 不同，后续按序号排序去重
+- <strong>防滞留连接</strong>：客户端旧 SYN 比新 SYN 晚到，服务端回 SYN+ACK 后，客户端发现序号过期 → 发 RST 断开，新连接不受影响——这是"两次握手做不到的"
+- <strong>确认双向</strong>：第一次只证明客户端能发，第二次证明服务端能收能发，第三次证明客户端能收</p>
+<p><strong>面试话术</strong>：层次感递进："表面是确认能力，核心是同步序列号+防滞留连接"——这样答基本满分。</p>
+<p><strong>例题/追问</strong>：SYN Flood 攻击怎么防？→ SYN Cookie（不分配资源，用 cookie 校验）+ 限制半连接队列长度。</p>
+<hr />
+<h2>11. 对 HTTP 的理解（含 HTTP 版本演进）</h2>
+<p><strong>一句话结论</strong>：HTTP 是应用层无状态请求-响应协议；HTTP/1.1 引入持久连接与管线化，HTTP/2 多路复用，HTTP/3 基于 QUIC(UDP)。</p>
+<p><strong>详细解释</strong>：
+- <strong>无状态</strong>：服务端不记客户端状态 → 靠 Cookie/Session 补充
+- <strong>HTTP/1.0</strong>：短连接，一次请求一个连接
+- <strong>HTTP/1.1</strong>：keep-alive 持久连接；管线化（仍队头阻塞）；Host 头支持虚拟主机
+- <strong>HTTP/2</strong>：二进制分帧 + 多路复用（一个连接并发多个流，解决队头阻塞）；头部压缩 HPACK；服务端推送
+- <strong>HTTP/3</strong>：基于 UDP 的 QUIC，解决 TCP 队头阻塞（丢一个包不影响其他流），0-RTT 连接</p>
+<p><strong>面试话术</strong>：背版本演进表 + 每个版本解决什么问题（1.1 解决重复建连，2 解决队头阻塞，3 解决 TCP 层队头阻塞）。能说"2 的队头阻塞只是应用层没了，TCP 层丢包仍阻塞，所以 3 换 QUIC"是加分。</p>
+<p><strong>例题/追问</strong>：HTTP/2 还有队头阻塞吗？→ 应用层没有，但 TCP 层丢包仍会阻塞整个连接，所以才有 HTTP/3/QUIC。</p>
+<hr />
+<h2>📝 本章自测（闭卷）</h2>
+<ol>
+<li>画出 TCP 三次握手、四次挥手完整过程（含 seq/ack）</li>
+<li>讲清 TIME_WAIT 出现的原因和两个作用</li>
+<li>HTTPS 握手的三步，为什么混合加密</li>
+<li>401 vs 403、502 vs 504 的区别</li>
+<li>HTTP/1.1 / 2 / 3 各解决什么问题</li>
+<li>Cookie 和 Session 的关系，JWT 为什么适合分布式</li>
+</ol>
+<blockquote>
+<p>完成自测后回《面试八股复习计划》勾选网络相关题（第 2 节）</p>
+</blockquote></article></div>
+<div class="bottomnav"><a class="ghost" href="学习中心.html">🏠 回学习中心</a>
+<a class="ghost" href="面试八股复习计划_李鑫.html">📖 回复习计划勾选</a>
+<a href="学习手册_02_MySQL核心.html">下一本：02 MySQL ▶</a></div>
+</body></html>

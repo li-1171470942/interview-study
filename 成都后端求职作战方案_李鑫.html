@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>李鑫 · 成都后端求职作战方案</title>
+<style>
+  :root {
+    --bg:#f4f6fb; --card:#ffffff; --ink:#1f2430; --sub:#5b6478;
+    --line:#e4e8f0; --brand:#4f46e5; --brand-soft:#eef2ff;
+    --red:#dc2626; --green:#16a34a; --amber:#d97706;
+    --blue:#2563eb; --teal:#0d9488;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:var(--bg); color:var(--ink); line-height:1.75; padding-bottom:60px; }
+  .wrap { max-width:1080px; margin:0 auto; padding:0 20px; }
+
+  /* Header */
+  .hero { background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 60%,#9333ea 100%); color:#fff; padding:48px 0 40px; margin-bottom:28px; }
+  .hero h1 { font-size:30px; letter-spacing:1px; margin-bottom:10px; }
+  .hero .sub { font-size:15px; opacity:.9; }
+  .hero .meta { display:flex; flex-wrap:wrap; gap:10px; margin-top:18px; }
+  .hero .chip { background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.3); padding:5px 14px; border-radius:20px; font-size:13px; }
+
+  /* Section */
+  .sec { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:26px 28px; margin-bottom:22px; box-shadow:0 1px 3px rgba(20,30,60,.05); }
+  .sec h2 { font-size:20px; margin-bottom:6px; display:flex; align-items:center; gap:10px; }
+  .sec h2 .no { background:var(--brand); color:#fff; width:28px; height:28px; border-radius:8px; display:inline-flex; align-items:center; justify-content:center; font-size:15px; flex:none; }
+  .sec .desc { color:var(--sub); font-size:14px; margin-bottom:16px; }
+
+  /* Profile grid */
+  .grid4 { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+  .pcard { background:#fafbff; border:1px solid var(--line); border-radius:10px; padding:14px 16px; }
+  .pcard .k { font-size:12px; color:var(--sub); margin-bottom:4px; }
+  .pcard .v { font-size:15px; font-weight:600; }
+  .target-box { background:var(--brand-soft); border:1px solid #c7d2fe; border-radius:10px; padding:14px 18px; margin-top:14px; font-size:14px; }
+  .target-box b { color:var(--brand); }
+
+  /* Tables */
+  table { width:100%; border-collapse:collapse; font-size:13.5px; margin-top:6px; }
+  th { background:#f1f3fa; text-align:left; padding:9px 10px; font-size:12.5px; color:var(--sub); white-space:nowrap; }
+  td { padding:9px 10px; border-top:1px solid var(--line); vertical-align:top; }
+  tr:hover td { background:#fafbff; }
+  .money { color:var(--red); font-weight:700; white-space:nowrap; }
+  .tag { display:inline-block; padding:1px 8px; border-radius:12px; font-size:11.5px; margin:1px 2px 1px 0; }
+  .t-js { background:#fef3c7; color:#92400e; }
+  .t-go { background:#dbeafe; color:#1e40af; }
+  .t-java { background:#fee2e2; color:#991b1b; }
+  .t-cpp { background:#ede9fe; color:#5b21b6; }
+  .t-star { background:#dcfce7; color:#166534; }
+  .star { color:var(--amber); }
+  .flag { display:inline-block; font-size:11px; padding:1px 8px; border-radius:12px; background:#f1f5f9; color:#475569; margin-right:4px; }
+
+  .tier { font-size:15px; font-weight:700; padding:12px 14px; border-radius:10px; margin:18px 0 8px; display:flex; align-items:center; gap:8px; }
+  .tier-a { background:#fef2f2; border:1px solid #fecaca; color:#b91c1c; }
+  .tier-b { background:#fffbeb; border:1px solid #fde68a; color:#b45309; }
+  .tier-c { background:#eff6ff; border:1px solid #bfdbfe; color:#1d4ed8; }
+  .tier-d { background:#f0fdfa; border:1px solid #99f6e4; color:#0f766e; }
+
+  /* Strategy */
+  .stgy { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:6px; }
+  .stgy .box { border:1px solid var(--line); border-radius:10px; padding:16px 18px; background:#fafbff; }
+  .stgy h4 { font-size:14.5px; margin-bottom:10px; color:var(--brand); }
+  .stgy li { font-size:13.5px; margin:7px 0 7px 18px; color:#3a4256; }
+  .stgy .tip { background:#fff7ed; border:1px solid #fed7aa; border-radius:8px; padding:10px 14px; font-size:13px; color:#9a3412; margin-top:10px; }
+
+  /* Checklist */
+  .check li { list-style:none; padding:8px 0 8px 30px; position:relative; font-size:14px; border-bottom:1px dashed var(--line); }
+  .check li:last-child { border-bottom:none; }
+  .check li::before { content:"✓"; position:absolute; left:0; top:7px; width:20px; height:20px; background:var(--brand-soft); color:var(--brand); border-radius:50%; text-align:center; line-height:20px; font-size:12px; font-weight:700; }
+  .check li b { color:var(--ink); }
+  .check li .why { color:var(--sub); font-size:12.5px; }
+
+  /* Timeline */
+  .tl { position:relative; margin-left:8px; padding-left:28px; }
+  .tl::before { content:""; position:absolute; left:6px; top:8px; bottom:8px; width:2px; background:var(--line); }
+  .tl-item { position:relative; margin-bottom:16px; }
+  .tl-item::before { content:""; position:absolute; left:-27px; top:6px; width:12px; height:12px; border-radius:50%; background:var(--brand); border:2px solid #fff; box-shadow:0 0 0 2px var(--brand); }
+  .tl-item .wk { font-size:13px; font-weight:700; color:var(--brand); }
+  .tl-item .tasks { font-size:13.5px; color:#3a4256; margin-top:4px; }
+  .tl-item .tasks li { margin:3px 0 3px 18px; }
+
+  /* Note */
+  .warn { background:#fffbeb; border:1px solid #fde68a; border-radius:10px; padding:12px 16px; font-size:13px; color:#92400e; margin-top:12px; }
+  .footer { text-align:center; color:#9aa3b5; font-size:12.5px; margin-top:30px; }
+
+  @media (max-width:800px){ .grid4{grid-template-columns:repeat(2,1fr);} .stgy{grid-template-columns:1fr;} .hero h1{font-size:24px;} }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <h1>🎯 李鑫 · 成都后端求职作战方案</h1>
+    <div class="sub">基于 4 份岗位推荐（100家 / 按需求排序 / 详细版 / Node.js版）+ 简历画像制定 · 2026-09-01</div>
+    <div class="meta">
+      <span class="chip">重邮硕士 · 新华三 3年 Node.js 微服务</span>
+      <span class="chip">现年包 24.5 万 → 目标 30-35 万</span>
+      <span class="chip">薪资优先 · 不怕加班 · 语言不设限</span>
+      <span class="chip">住温江 · 高新南区 30-40 分钟可达</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ========== 一、现状与目标 ========== -->
+<div class="sec">
+  <h2><span class="no">1</span>现状画像与目标定位</h2>
+  <div class="desc">求职策略的锚点：先认清手里的牌，再决定打哪张。</div>
+  <div class="grid4">
+    <div class="pcard"><div class="k">学历背景</div><div class="v">重邮硕士（电子信息）</div></div>
+    <div class="pcard"><div class="k">当前岗位</div><div class="v">新华三 RRM 组 · Node.js 开发</div></div>
+    <div class="pcard"><div class="k">核心技术栈</div><div class="v">Node.js/TS · K8s · MongoDB · Kafka · Redis</div></div>
+    <div class="pcard"><div class="k">薪酬现状</div><div class="v">月薪约 2 万 / 年包 24.5 万</div></div>
+  </div>
+  <div class="target-box">
+    🏁 <b>目标定位：年包 30-35 万</b>（跳槽合理涨幅 20-40%），<b>薪资优先、不怕加班</b>，<b>语言不设限</b>（Node.js/Go/Java/C++ 哪个钱多投哪个）。
+    通勤红线：1 小时内（温江→高新南区/武侯/锦江 30-40 分钟最佳）。A/B/C/D 四梯队全部投，广撒网保证命中率。
+  </div>
+</div>
+
+<!-- ========== 二、目标岗位清单 ========== -->
+<div class="sec">
+  <h2><span class="no">2</span>目标岗位清单（按优先级排序）</h2>
+  <div class="desc">从 100 家中筛出的 30+ 家符合"30-35万 / 薪资优先 / 通勤1小时"目标。语言标签：<span class="tag t-js">Node.js</span><span class="tag t-go">Go</span><span class="tag t-java">Java</span><span class="tag t-cpp">C/C++</span>　<span class="star">★</span>= 技术栈直接匹配</div>
+
+  <div class="tier tier-a">🚀 A 梯队 · 优先投递（年薪 30-75 万，大厂/高薪民企）</div>
+  <table>
+    <tr><th>#</th><th>公司</th><th>岗位 / 语言</th><th>薪资（月薪×月数）</th><th>年包</th><th>通勤</th><th>匹配点 / 备注</th></tr>
+    <tr><td>1</td><td><b>字节跳动</b></td><td>后端 <span class="tag t-go">Go</span><span class="tag t-cpp">K8s</span></td><td>35-50K×15</td><td class="money">52.5-75万</td><td>高新区 30min</td><td>薪资天花板，K8s 加分，大厂背书</td></tr>
+    <tr><td>2</td><td><b>蚂蚁集团</b></td><td>后端 <span class="tag t-java">Java</span><span class="tag t-cpp">AI</span></td><td>30-45K×16</td><td class="money">48-72万</td><td>成都 40min</td><td>金融科技，薪资极高</td></tr>
+    <tr><td>3</td><td><b>京东科技</b></td><td>后端 <span class="tag t-java">Java</span><span class="tag t-cpp">K8s</span></td><td>25-40K×18</td><td class="money">45-72万</td><td>成华区 50min</td><td>18 薪，云原生匹配</td></tr>
+    <tr><td>4</td><td><b>滴滴</b></td><td>后端 <span class="tag t-go">Go</span><span class="tag t-cpp">K8s</span></td><td>28-40K×16</td><td class="money">44.8-64万</td><td>成都 40min</td><td>16 薪，K8s 完全匹配</td></tr>
+    <tr><td>5</td><td><b>美团</b></td><td>后端 <span class="tag t-java">Java</span><span class="tag t-cpp">K8s</span></td><td>28-40K×15</td><td class="money">42-60万</td><td>武侯区 40min</td><td>15 薪，K8s 匹配</td></tr>
+    <tr><td>6</td><td><b>腾讯云智研发</b></td><td>后端 <span class="tag t-go">Go</span><span class="tag t-cpp">K8s</span></td><td>25-40K×16</td><td class="money">40-64万</td><td>高新区 30min</td><td>腾讯编制非外包，16 薪，双休</td></tr>
+    <tr><td>7</td><td><b>网易</b></td><td>后端 <span class="tag t-java">Java</span><span class="tag t-go">Go</span></td><td>25-38K×16</td><td class="money">40-60.8万</td><td>高新区 30min</td><td>16 薪，双休，游戏+教育</td></tr>
+    <tr><td>8</td><td><b>百度</b></td><td>后端 <span class="tag t-go">Go</span><span class="tag t-cpp">AI</span></td><td>28-40K×14</td><td class="money">39.2-56万</td><td>高新区 30min</td><td>AI 深耕，Go 栈</td></tr>
+    <tr><td>9</td><td><b>小米</b></td><td>后端 <span class="tag t-go">Go</span><span class="tag t-cpp">K8s</span></td><td>25-35K×14</td><td class="money">35-49万</td><td>高新区 30min</td><td>IoT 生态，K8s 匹配，双休</td></tr>
+    <tr><td>10</td><td><b>芯动科技</b> <span class="star">★</span></td><td>后端 <span class="tag t-js">Node.js</span><span class="tag t-cpp">Python</span></td><td>25-40K×14</td><td class="money">35-56万</td><td>高新区 30min</td><td><b>Node.js+Python 完全匹配 + 芯片风口，本名单最值得冲的民企</b></td></tr>
+    <tr><td>11</td><td><b>必来屋</b> <span class="star">★</span></td><td>后端 <span class="tag t-js">Node.js</span></td><td>20-30K×13</td><td class="money">26-39万</td><td>天府新区 45min</td><td>Node.js 匹配，跨境电商；⚠️ 另一版本标 Golang 30-45K×14，<b>投递前核实 JD</b></td></tr>
+    <tr><td>12</td><td><b>OPPO</b></td><td>后端 <span class="tag t-java">Java</span><span class="tag t-cpp">K8s</span></td><td>20-30K×15</td><td class="money">30-45万</td><td>高新区 30min</td><td>15 薪，双休</td></tr>
+    <tr><td>13</td><td><b>vivo</b></td><td>后端 <span class="tag t-java">Java</span><span class="tag t-cpp">K8s</span></td><td>22-32K×15</td><td class="money">33-48万</td><td>天府新区 55min</td><td>15 薪，通勤接近红线</td></tr>
+  </table>
+
+  <div class="tier tier-b">💎 B 梯队 · 同步投递（年薪 25-42 万，Node.js 匹配 / 央企高薪 / 互联网银行）</div>
+  <table>
+    <tr><th>#</th><th>公司</th><th>岗位 / 语言</th><th>薪资（月薪×月数）</th><th>年包</th><th>通勤</th><th>匹配点 / 备注</th></tr>
+    <tr><td>14</td><td><b>海康威视</b></td><td>后端 <span class="tag t-java">Java</span><span class="tag t-cpp">K8s</span></td><td>20-30K×14</td><td class="money">28-42万</td><td>高新区 30min</td><td>安防 AI 上市公司</td></tr>
+    <tr><td>15</td><td><b>新网银行</b></td><td>后端 <span class="tag t-java">Java</span><span class="tag t-cpp">AI</span></td><td>20-30K×14</td><td class="money">28-42万</td><td>高新区 30min</td><td>小米系互联网银行，AI 金融</td></tr>
+    <tr><td>16</td><td><b>中电科网络安全</b></td><td>后端 <span class="tag t-cpp">C/C++</span></td><td>20-30K</td><td class="money">26-39万</td><td>成都 40min</td><td>央企网安上市，C++ 可转，稳定性强</td></tr>
+    <tr><td>17</td><td><b>顺丰科技</b></td><td>后端 <span class="tag t-java">Java</span><span class="tag t-cpp">K8s</span></td><td>18-28K×14</td><td class="money">25.2-39.2万</td><td>双流 45min</td><td>物流数字化，云原生匹配</td></tr>
+    <tr><td>18</td><td><b>兴业数金</b></td><td>后端 <span class="tag t-java">Java</span><span class="tag t-cpp">K8s</span></td><td>18-28K×14</td><td class="money">25.2-39.2万</td><td>锦江区 35min</td><td>兴业银行旗下，14 薪</td></tr>
+    <tr><td>19</td><td><b>四川烟草</b></td><td>后端 <span class="tag t-java">Java</span></td><td>18-28K×12</td><td class="money">21.6-33.6万</td><td>高新区 30min</td><td>央企烟草，薪资高又稳定（性价比之王）</td></tr>
+    <tr><td>20</td><td><b>中国移动成研院</b></td><td>后端 <span class="tag t-java">Java</span><span class="tag t-cpp">K8s</span></td><td>15-25K×15</td><td class="money">22.5-37.5万</td><td>高新区 30min</td><td>央企 15 薪，通信方向与 H3C 背景对口</td></tr>
+    <tr><td>21</td><td><b>伍柒必乐</b> <span class="star">★</span></td><td>后端 <span class="tag t-js">Node.js</span><span class="tag t-cpp">TS</span></td><td>15-30K</td><td class="money">19.5-39万</td><td>成都 40min</td><td><b>TS+GraphQL+微服务完美匹配</b>，弹性工作</td></tr>
+    <tr><td>22</td><td><b>商云科汇</b> <span class="star">★</span></td><td>后端 <span class="tag t-js">Node.js</span></td><td>15-25K×13</td><td class="money">19.5-32.5万</td><td>成都 40min</td><td>要求"熟悉 HTTP/TCP/UDP"，你的网络背景完全命中</td></tr>
+    <tr><td>23</td><td><b>中瓴智行</b></td><td>Linux 系统开发 <span class="tag t-cpp">C/C++</span></td><td>15-25K×13</td><td class="money">19.5-32.5万</td><td>高新区 30min</td><td>自动驾驶，Linux 系统开发</td></tr>
+    <tr><td>24</td><td><b>马上消费金融</b></td><td>后端 <span class="tag t-java">Java</span><span class="tag t-cpp">AI</span></td><td>20-30K×14</td><td class="money">28-42万</td><td>重庆 90min ⚠️</td><td>持牌消金 14 薪，但需异地，仅作参考</td></tr>
+  </table>
+
+  <div class="tier tier-c">🛡️ C 梯队 · 保底投递（Node.js 直接匹配，薪资 14-30 万）</div>
+  <table>
+    <tr><th>#</th><th>公司</th><th>岗位 / 语言</th><th>薪资</th><th>年包</th><th>通勤</th><th>备注</th></tr>
+    <tr><td>25</td><td><b>申通快递</b> <span class="star">★</span></td><td>后端 <span class="tag t-js">Node.js</span></td><td>15-25K×12</td><td>18-30万</td><td>龙泉驿 60min</td><td>Node.js 匹配，通勤贴红线</td></tr>
+    <tr><td>26</td><td><b>酷开科技</b> <span class="star">★</span></td><td>后端 <span class="tag t-js">Node.js</span></td><td>15-22K×12</td><td>18-26.4万</td><td>成华区 40min</td><td>创维旗下 OTT；⚠️ 另一版本标 Java 16-20K，核实 JD</td></tr>
+    <tr><td>27</td><td><b>天予环境</b> <span class="star">★</span></td><td>后端 <span class="tag t-js">Node.js</span><span class="tag t-cpp">Python</span></td><td>15-22K</td><td>18-26.4万</td><td>金牛区 40min</td><td>环保 SaaS，Node.js+Python 匹配</td></tr>
+    <tr><td>28</td><td><b>四川日报新媒体</b> <span class="star">★</span></td><td>后端 <span class="tag t-js">Node.js</span></td><td>12-20K×12</td><td>14.4-24万</td><td>锦江区 35min</td><td>省级媒体，Node.js 匹配</td></tr>
+    <tr><td>29</td><td><b>顶览科技</b> <span class="star">★</span></td><td>后端 <span class="tag t-js">Node.js</span></td><td>10-15K</td><td>13-19.5万</td><td>成都 40min</td><td>明确要求 Docker/K8s/Kafka，你的强项全中</td></tr>
+    <tr><td>30</td><td><b>成都天软信息</b> <span class="star">★</span></td><td>后端 <span class="tag t-js">Node.js</span><span class="tag t-cpp">AWS</span></td><td>8-12K×13</td><td>10.4-15.6万</td><td>成都 40min</td><td>车联网 AWS Serverless</td></tr>
+    <tr><td>31</td><td><b>成都燃客物联网</b> <span class="star">★</span></td><td>后端 <span class="tag t-js">Node.js</span></td><td>10-15K</td><td>13-19.5万</td><td>成都 40min</td><td>物联网+容器化部署</td></tr>
+  </table>
+
+  <div class="tier tier-d">🔒 D 梯队 · 通信/军工对口（C/C++ 向，年薪 15-36 万，背景最对口）</div>
+  <table>
+    <tr><th>#</th><th>公司</th><th>岗位 / 语言</th><th>薪资</th><th>年包</th><th>通勤</th><th>备注</th></tr>
+    <tr><td>32</td><td><b>中兴通讯</b></td><td>软件开发 <span class="tag t-cpp">C/C++</span></td><td>18-28K×14</td><td>25.2-39.2万</td><td>高新区 30min</td><td>通信大厂，TCP/IP 匹配</td></tr>
+    <tr><td>33</td><td><b>成飞 611 所</b></td><td>软件开发 <span class="tag t-cpp">C/C++</span></td><td>18-30K×12</td><td>21.6-36万</td><td>武侯区 35min</td><td>航空科研，稳定性极高</td></tr>
+    <tr><td>34</td><td><b>锐捷网络</b></td><td>软件开发 <span class="tag t-cpp">C/C++</span></td><td>15-25K×14</td><td>21-35万</td><td>高新区 30min</td><td>网络设备大厂，14 薪</td></tr>
+    <tr><td>35</td><td><b>中电科 10 所</b></td><td>软件开发 <span class="tag t-cpp">C/C++</span></td><td>16-28K×12</td><td>19.2-33.6万</td><td>高新区 30min</td><td>军工科研，电子对抗</td></tr>
+    <tr><td>36</td><td><b>鼎桥通信</b></td><td>平台软件 <span class="tag t-cpp">C/C++</span></td><td>14-21K×14</td><td>19.6-29.4万</td><td>高新区 30min</td><td>通信设备，5G</td></tr>
+    <tr><td>37</td><td><b>烽火通信</b></td><td>后端 <span class="tag t-java">Java</span></td><td>14-22K×13</td><td>18.2-28.6万</td><td>高新区 30min</td><td>央企光通信</td></tr>
+  </table>
+
+  <div class="warn">⚠️ <b>信息冲突提示：</b>必来屋（Node.js 20-30K×13 vs Golang 30-45K×14）、酷开科技（Node.js 15-22K vs Java 16-20K）在不同版本推荐文件中信息不一致，投递前务必到 BOSS 直聘核实最新 JD。薪资均为推荐文件标注，以企业实际谈薪为准。</div>
+</div>
+
+<!-- ========== 三、投递策略 ========== -->
+<div class="sec">
+  <h2><span class="no">3</span>投递策略</h2>
+  <div class="desc">广撒网 + 分层推进，确保 4 周内拿到 5+ 个面试。</div>
+  <div class="stgy">
+    <div class="box">
+      <h4>📮 渠道组合</h4>
+      <ul>
+        <li><b>BOSS 直聘</b>（主战场）：40 家全部上架，按阶段分批打招呼（第 2 周 C/D → 第 3 周 B → 第 4 周 A）</li>
+        <li><b>猎聘 / 拉勾</b>：补充投递国企、通信厂商岗位</li>
+        <li><b>脉脉 / 牛客内推</b>：大厂（字节/腾讯云智/美团）找内推，简历直达率高 50%+</li>
+        <li><b>高校渠道</b>：重邮校友群、重庆智能空地协同实验室导师人脉</li>
+        <li>国企央企：关注「四川国资」「成都发布」招聘公告 + 官网校招/社招入口</li>
+      </ul>
+      <div class="tip">💡 打招呼话术模板：<i>"您好，重邮硕士，新华三 3 年 Node.js 微服务开发，主导过 AI RRM 系统重构（K8s 部署、Kafka 消息、Redis 分布式锁），熟悉 TCP/IP 网络协议，看机会，期望 30-35 万。"</i></div>
+    </div>
+    <div class="box">
+      <h4>⏱️ 推进节奏（先学后投 · 保底练手 → 主战场 → 决胜）</h4>
+      <ul>
+        <li><b>第 1 周（学习周）</b>：八股全量 + Node.js 40 题 + 项目深挖；BOSS 账号资料完善（<b>不投递</b>）</li>
+        <li><b>第 2 周（练手周）</b>：先投 C/D 梯队（记忆科技/长城开发/颂拓/通信军工）练面试手感，积累实战经验</li>
+        <li><b>第 3 周（主战场）</b>：投 B 梯队 11 家，复盘前面积累调整话术，冲刺核心目标</li>
+        <li><b>第 4 周（决胜周）</b>：集中投 A 梯队 13 家，此时面试状态最佳，拿 offer 后谈薪 PK</li>
+      </ul>
+      <div class="tip">💡 为什么 A 最后投：面试是练出来的，前几场必然紧张。用 C/D 练手 → B 验证 → A 决胜，成功率最高；C/D 的 offer 还是你谈 A 梯队薪资的筹码。大厂流程 2-4 周，A 梯队第 4 周启动，10 月收割正好。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 四、简历优化 ========== -->
+<div class="sec">
+  <h2><span class="no">4</span>简历优化清单（基于现有 Node.js 简历）</h2>
+  <div class="desc">你已有「李鑫-Node.js高级工程师-社招简历.html」，底子很好，以下 7 项是拿分关键。</div>
+  <ul class="check">
+    <li><b>补 TypeScript</b> <span class="why">—— 现有简历技术栈完全没提 TS，而伍柒必乐/商云科汇/芯动科技都硬性要求。务必在技术栈和项目里写明 "Node.js + TypeScript 全栈"。<b>最优先</b></span></li>
+    <li><b>突出 K8s/Docker 运维实战</b> <span class="why">—— 大厂岗位 80% 提到 K8s，你是加分项却写在最后。提到技术栈第 2 行："Kubernetes 容器编排 · CI/CD · Docker 镜像构建"</span></li>
+    <li><b>项目成果数字化</b> <span class="why">—— "适配 98% AC+fitap 组网"、"每周处理 1+ 起线上问题"、"从 2 频段扩展到 3 频段"这些数字保留并加粗，HR 5 秒扫简历只看数字</span></li>
+    <li><b>弱化 C 语言细节，强化系统设计</b> <span class="why">—— node-ffi 调用 .so 保留（证明底层能力），但重点描述"微服务拆分、双计算模式架构设计"，这是高级岗的差异化</span></li>
+    <li><b>求职意向写明薪资与语言弹性</b> <span class="why">—— "期望薪资 30-35 万，可接受 Go/Java 转语言"，避免 HR 因语言过滤你（你说看钱不看语言）</span></li>
+    <li><b>加分：LLM/DAG 项目</b> <span class="why">—— 你的 personalAgent（7 层架构 AI Agent OS）是亮点，投 AI 岗（蚂蚁/百度/新网银行）时补一段"熟悉 LLM 应用开发、DAG 工作流编排"，命中 AI 关键词</span></li>
+    <li><b>每家公司微调</b> <span class="why">—— 投通信厂（中兴/烽火/鼎桥）突出 TCP/IP/Netconf；投互联网突出微服务/高并发；投银行突出稳定性和数据一致性经验。一版简历打天下命中率低 30%</span></li>
+  </ul>
+</div>
+
+<!-- ========== 五、30 天行动时间线 ========== -->
+<div class="sec">
+  <h2><span class="no">5</span>30 天行动时间线</h2>
+  <div class="desc">找工作与面试准备双线并行，每天 1-2 小时复习八股（详见《面试八股复习计划》）。</div>
+  <div class="tl">
+    <div class="tl-item">
+      <div class="wk">📅 第 1 周（9/1 - 9/7）· 学习周（先不投）</div>
+      <ul class="tasks">
+        <li>八股全量：网络+MySQL+Redis → Java基础+JVM → 并发锁（见复习计划 Week 1）</li>
+        <li>Node.js 专属 40 题过一遍（事件循环/Stream/K8s/Kafka）</li>
+        <li>项目深挖：AI RRM 重构 STAR 稿 + 故障复盘故事 + 自我介绍 1 分钟</li>
+        <li>BOSS 账号资料完善：在线简历、求职意向、期望薪资填好（<b>不投递</b>）</li>
+      </ul>
+    </div>
+    <div class="tl-item">
+      <div class="wk">📅 第 2 周（9/8 - 9/14）· 练手周（先投 C/D）</div>
+      <ul class="tasks">
+        <li>投 C 梯队保底：记忆科技/成都长城开发/颂拓/申通/顶览等 10 家</li>
+        <li>投 D 梯队对口：中兴/锐捷/鼎桥/10 所等 6 家</li>
+        <li>每场面试后复盘：追问哪些没答好 → 当晚补课</li>
+        <li>复习推进：SSM/MyBatis + 算法高频题（排序/链表/二叉树）</li>
+      </ul>
+    </div>
+    <div class="tl-item">
+      <div class="wk">📅 第 3 周（9/15 - 9/21）· 主战场（投 B 梯队）</div>
+      <ul class="tasks">
+        <li>投 B 梯队 11 家：伍柒必乐/商云科汇/芯动/海康/新网银行/四川烟草/移动成研院等</li>
+        <li>用前两周的面试经验优化话术与项目表述</li>
+        <li>复习推进：错题回顾 + Node.js 专属二刷 + 模拟面试</li>
+      </ul>
+    </div>
+    <div class="tl-item">
+      <div class="wk">📅 第 4 周（9/22 - 9/30）· 决胜周（投 A 梯队）</div>
+      <ul class="tasks">
+        <li>集中投 A 梯队 13 家：字节/腾讯云智/美团/蚂蚁/京东/滴滴/网易/小米/百度/芯动等</li>
+        <li>大厂笔试/面试全面启动（流程 2-4 周，10 月收割）</li>
+        <li>谈薪 PK：以 C/D 的 offer 为底牌，锚点现年包 24.5 万 → 期望 30-35 万</li>
+        <li>决策维度：年包 ≥ 通勤 ≥ 平台背书 ≥ 稳定性（你的排序）</li>
+      </ul>
+    </div>
+  </div>
+  <div class="warn">📌 <b>离职注意：</b>你现在在职，面试尽量约晚上/周末或请假集中安排；拿到 offer 后再提离职，避免裸辞。新华三劳动合同如有竞业条款，确认是否影响目标公司（尤其通信设备厂 D 梯队）。</div>
+</div>
+
+<!-- ========== 六、城市抉择与求职铁律 ========== -->
+<div class="sec">
+  <h2><span class="no">6</span>城市抉择与求职铁律（人生底盘决策）</h2>
+  <div class="desc">求职不只是选公司——是选城市、选强度、守财务底线。以下原则覆盖你全部求职动作。</div>
+
+  <div class="target-box">
+    💰 <b>财务铁律（不可动摇）</b>：离职 N+1 补偿 = 个人安全垫，<b>任何人不得动用</b>。父母建房/修路/还债一律<b>不兜底、不担保、不出钱</b>；赡养只给基础养老，不为面子工程负债买单。<b>真正的防线是账户，不是距离。</b>
+  </div>
+
+  <div class="stgy">
+    <div class="box">
+      <h4>📌 岗位筛选升级（收入底盘第一，但不透支）</h4>
+      <ul>
+        <li><b>总包优先</b>：高薪快速增厚安全垫 = 对抗家庭压力最重要的底牌</li>
+        <li><b>强度红线</b>：拒绝"钱多一点点但长期 996 到精神崩溃"的岗——心力垮了守不住边界</li>
+        <li><b>稳定性第二</b>：优先正式编制/大厂正式岗/成熟业务线；避开高裁员风险的外包与短期项目（输不起失业二次暴击）</li>
+        <li><b>面试时必问</b>：加班强度、团队稳定性、业务是否核心、合同性质（正式/外包）</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h4>🗺️ 城市双线策略（成都 + 外地同时投）</h4>
+      <ul>
+        <li><b>成都线</b>：本表 40 家照常推进（人脉/房产/生活圈在此，offer 后不急着否定）</li>
+        <li><b>外地线</b>：同步投长三角/珠三角高薪池（同能力总包高 30-50%），渠道：BOSS 切城市 / 猎聘 / 大厂官网社招</li>
+        <li><b>决策时点</b>：拿到 2-3 个有效 offer 后二选一，<b>绝不裸奔</b>（无 offer 离蓉 = 快速烧光补偿款）</li>
+        <li>感情因素：若对这段关系仍有期待，离蓉≈现实判死刑——心里要有数再做决定</li>
+      </ul>
+    </div>
+  </div>
+
+  <table>
+    <tr><th>维度</th><th>留成都</th><th>去外地（长三角/珠三角）</th></tr>
+    <tr><td><b>总包</b></td><td>30-35 万封顶机会为主</td><td>同能力普遍高 30-50%</td></tr>
+    <tr><td><b>家庭压力</b></td><td>近距高频（但可精神+经济隔离：少回家、电话冷处理）</td><td>当面纠缠消失，<b>远程道德绑架仍在</b>（解决不了根问题）</td></tr>
+    <tr><td><b>感情/生活</b></td><td>保留转机 + 房产 + 生活圈</td><td>与前女友基本画句号；生活成本上升</td></tr>
+    <tr><td><b>财务底线</b></td><td colspan="2"><b>两地相同</b>：补偿款个人专用，父母借款不兜底，赡养只给基础——防线在账户不在距离</td></tr>
+  </table>
+
+  <div class="warn">🧭 <b>决策模型（拿 offer 后套用）</b>：① 成都能给到不错总包且扛得住近距拉扯 → 留；② 外地总包高一截 + 已接受感情结局 → 走。核心判断：<b>钱 + 心力 + 感情</b>三要素，任何单一因素都别急着做决定。家庭沟通执行冷处理——少深度争辩，守住钱包。</div>
+</div>
+
+<div class="footer">数据来源：BOSS直聘 / 智联招聘 / 猎聘 / 牛客网（2026-08-31 抓取）· 薪资以企业实际为准 · 配套文档《面试八股复习计划》《求职复习进度中枢》</div>
+
+</div>
+</body>
+</html>

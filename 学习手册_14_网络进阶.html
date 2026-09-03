@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>14 网络进阶 · 学习手册</title><style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:60px; }
+.topnav { position:sticky; top:0; z-index:9; background:#1f2937; color:#fff; padding:10px 0; }
+.topnav .inner { max-width:960px; margin:0 auto; padding:0 18px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; font-size:13px; }
+.topnav a { color:#c7d2fe; text-decoration:none; padding:3px 12px; border-radius:14px; background:rgba(255,255,255,.08); }
+.topnav a:hover { background:rgba(255,255,255,.2); color:#fff; }
+.topnav .sep { opacity:.4; }
+.wrap { max-width:960px; margin:0 auto; padding:0 18px; }
+.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px; margin-top:22px; box-shadow:0 1px 3px rgba(20,30,60,.05); }
+.article h1 { font-size:26px; color:#4f46e5; border-bottom:3px solid #4f46e5; padding-bottom:12px; margin-bottom:18px; }
+.article h2 { font-size:20px; margin:30px 0 12px; padding:10px 14px; background:#eef2ff; border-left:4px solid #4f46e5; border-radius:6px; color:#312e81; }
+.article h3 { font-size:14px; color:#475569; margin:14px 0 6px; }
+.article p { margin:8px 0; font-size:14.5px; color:#2b3245; }
+.article ul, .article ol { margin:8px 0 8px 24px; }
+.article li { font-size:14.5px; margin:4px 0; }
+.article strong { color:#111827; }
+.article code { background:#f1f3fa; padding:1px 6px; border-radius:4px; font-size:13px; color:#be185d; }
+.article pre { background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:8px; overflow-x:auto; margin:12px 0; font-size:13px; line-height:1.6; }
+.article pre code { background:none; color:inherit; padding:0; }
+.article table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13.5px; display:block; overflow-x:auto; }
+.article th { background:#f1f3fa; padding:8px 10px; text-align:left; color:#475569; font-size:12.5px; border:1px solid #e4e8f0; }
+.article td { padding:8px 10px; border:1px solid #e4e8f0; vertical-align:top; }
+.article blockquote { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; margin:12px 0; border-radius:6px; color:#166534; font-size:14px; }
+.article blockquote strong { color:#14532d; }
+.article hr { border:none; border-top:1px dashed #d1d5db; margin:26px 0; }
+.bottomnav { max-width:960px; margin:20px auto 0; padding:0 18px; display:flex; gap:10px; }
+.bottomnav a { flex:1; text-align:center; background:#4f46e5; color:#fff; text-decoration:none; padding:12px 10px; border-radius:10px; font-size:14px; }
+.bottomnav a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
+@media (max-width:760px){ .article{padding:22px 18px;} .article h1{font-size:21px;} }
+</style></head>
+<body>
+<div class="topnav"><div class="inner"><a href="学习中心.html">🏠 学习中心</a> <span class="sep">|</span> <a href="学习手册索引.md">📚 手册索引</a> <span class="sep">|</span> <a href="学习手册_13_容器化.html">◀ 13 容器化</a> <span class="sep">|</span> <a href="学习手册_15_无线网络.html">15 无线网络 ▶</a></div></div>
+<div class="wrap"><article class="article"><h1>📘 学习手册 14 · 网络进阶（路由与传输深入）</h1>
+<blockquote>
+<p>补充：计算机网络手册（01）只到传输层握手，本册补齐<strong>网络层/链路层/传输层深入/应用层实战</strong>
+通信厂（中兴/锐捷/鼎桥/华为/长虹）+ 大厂网络岗必考
+模板：<strong>一句话结论 → 详细解释 → 面试话术/例题</strong></p>
+</blockquote>
+<hr />
+<h2>一、网络层（IP 与路由）</h2>
+<h3>1. IP 地址与子网划分（CIDR）</h3>
+<p><strong>一句话结论</strong>：IP = 网络位 + 主机位，子网掩码决定分界；CIDR（如 /24）用前缀长度表示。
+<strong>详细解释</strong>：
+- IPv4 32 位，点分十进制；分类：A(0.0.0.0-127)/B(128-191)/C(192-223)/D 组播/E 保留
+- 子网掩码：255.255.255.0 = /24，网络位 24、主机位 8 → 可用主机 2^8-2=254（减网络地址和广播地址）
+- CIDR：192.168.1.0/24 即掩码 255.255.255.0；/30 只有 2 个可用（点对点链路）
+- 计算题模板：给 IP+掩码 → 求网络地址（IP AND 掩码）、广播地址、可用主机范围
+<strong>话术/例题</strong>：面试可能考"192.168.1.5/26 的网络地址和可用主机数"——/26=64 个地址，网络地址 192.168.1.0，可用 62。会算就过关。</p>
+<h3>2. 公网/私网 IP 与 NAT</h3>
+<p><strong>一句话结论</strong>：私网 IP（10/172.16-31/192.168）不能公网路由，NAT 把内网地址映射成公网地址上网。
+<strong>详细解释</strong>：
+- 私网段：10.0.0.0/8、172.16.0.0/12、192.168.0.0/16（RFC1918）
+- NAT 类型：静态 NAT（一对一）、动态 NAT、<strong>PAT/NAPT</strong>（端口多路复用，一个公网 IP 供多内网主机上网，家用路由器就是）
+- 数据流：内网主机 → 路由器 NAT 表（内网IP:端口 → 公网IP:端口）→ 回包反向转换
+- 局限：NAT 破坏了端到端透明性（外部无法主动连入内网）→ IPv6 或内网穿透
+<strong>话术/例题</strong>："私网三段 + PAT 端口复用"一句。追问：为什么需要 NAT？→ IPv4 地址枯竭 + 内网安全隔离。</p>
+<h3>3. 路由原理：路由表与选路</h3>
+<p><strong>一句话结论</strong>：路由器查路由表（目的网段 → 下一跳 + 出接口），最长前缀匹配选路，查不到丢包（回 ICMP）。
+<strong>详细解释</strong>：
+- 路由表条目：目的网段/掩码 + 下一跳 + 出接口 + 度量值
+- 选路规则：<strong>最长前缀匹配</strong>优先（/24 优先于 /16）；同前缀比度量（管理距离）
+- 直连路由（接口配置的网段自动入表）、静态路由（手动）、动态路由（协议学习）
+- 默认路由：0.0.0.0/0 兜底（出口路由器配）
+- 你的场景：容器/K8s 网络里 Service IP 路由、云上 VPC 路由表
+<strong>话术/例题</strong>：一句"查表 + 最长匹配"。追问：为什么最长前缀匹配？→ 更精确的路径优先（去 192.168.1.0/24 而不是 /16）。</p>
+<h3>4. 动态路由协议：OSPF vs BGP</h3>
+<p><strong>一句话结论</strong>：OSPF 是域内链路状态协议（企业网/数据中心），BGP 是域间路径矢量协议（互联网/跨运营商）。
+<strong>详细解释</strong>：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>OSPF</th>
+<th>BGP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>类型</td>
+<td>链路状态（SPF 算法）</td>
+<td>路径矢量（AS 路径）</td>
+</tr>
+<tr>
+<td>范围</td>
+<td>域内（IGP）</td>
+<td>域间（EGP）</td>
+</tr>
+<tr>
+<td>收敛</td>
+<td>快（秒级）</td>
+<td>慢（策略多）</td>
+</tr>
+<tr>
+<td>场景</td>
+<td>企业内网/数据中心</td>
+<td>运营商互联/CDN 路由</td>
+</tr>
+<tr>
+<td>核心</td>
+<td>LSA 泛洪 + 全网拓扑一致</td>
+<td>路由策略（选路/过滤/社区属性）</td>
+</tr>
+<tr>
+<td>- OSPF 区域（area 0 骨干）、DR/BDR 选举；BGP 有 iBGP/eBGP、AS 号</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>话术/例题</strong>："OSPF 内部算最短路径，BGP 外部按策略选路"一句。追问：数据中心用哪个？→ 内部 OSPF/BGP（大型 DC 用 BGP+EVPN）。</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>5. IPv6 基础</h3>
+<p><strong>一句话结论</strong>：128 位地址（8 组 16 进制），解决地址枯竭，自带安全性（IPsec）与 SLAAC 自动配置。
+<strong>详细解释</strong>：
+- 格式：2001:db8::1（:: 压缩连续 0）；前缀 /64 标准子网
+- 地址类型：单播（全球/链路本地 fe80::/10）、组播、任播
+- 自动配置 SLAAC（无状态，靠 RA 消息）/ DHCPv6（有状态）
+- 过渡：双栈（同时跑 v4/v6）、隧道（6to4）、NAT64
+- 优势：地址空间大、无 NAT（端到端）、IPsec 内建、移动性更好
+<strong>话术/例题</strong>："128 位 + 双栈过渡 + 免 NAT"三点。追问：为什么互联网迁移 IPv6 慢？→ 存量 v4 设备/网络改造成本高。</p>
+<h3>6. ARP 协议</h3>
+<p><strong>一句话结论</strong>：同一广播域内 IP → MAC 的解析协议（广播请求 + 单播应答），有缓存、可被欺骗。
+<strong>详细解释</strong>：
+- 流程：发 ARP 广播"谁是 192.168.1.1？" → 目标回单播"我是，MAC 是 XX" → 双方记入 ARP 缓存（TTL 内复用）
+- 跨网段：先查网关 MAC，发给网关由它路由
+- 安全问题：<strong>ARP 欺骗</strong>（伪造应答改缓存 → 中间人），防御：静态 ARP、DAI（动态 ARP 检测）
+- 你 RF/无线场景：AP 与网关、设备 MAC 解析
+<strong>话术/例题</strong>："广播问 IP、单播答 MAC、缓存复用"一句。追问：ARP 欺骗怎么防？→ 交换机 DAI + 静态绑定。</p>
+<h3>7. DNS 解析全流程</h3>
+<p><strong>一句话结论</strong>：浏览器 → 本地缓存 → 递归服务器 → 逐级迭代（根→顶级→权威）拿到 IP，全程带缓存和 TTL。
+<strong>详细解释</strong>：
+1. 浏览器/系统缓存查（TTL 内）
+2. 本地 DNS（运营商/公司，递归查询）
+3. 递归服务器迭代：根服务器（.）→ 顶级域服务器（.com）→ 权威服务器（example.com 的 NS）→ 返回 A/AAAA 记录
+4. 各级缓存结果（TTL 控制过期）
+- 记录类型：A（IPv4）/AAAA（IPv6）/CNAME（别名）/MX（邮件）/NS（域名服务器）/TXT
+- 高可用：多 DNS、HTTPDNS（绕过运营商污染）、CDN 智能解析
+- 你场景：Oasis 域名解析、国际云 DNS
+<strong>话术/例题</strong>："递归查 + 迭代查"两个词 + 记录类型表。追问：DNS 污染/劫持怎么防？→ HTTPS + DoH（加密 DNS）+ HTTPDNS。</p>
+<hr />
+<h2>二、传输层深入（TCP 核心）</h2>
+<h3>8. TCP 流量控制（滑动窗口）</h3>
+<p><strong>一句话结论</strong>：接收方通告窗口（rwnd），发送方窗口不能超过 rwnd，防止发送太快把接收方缓存打爆。
+<strong>详细解释</strong>：
+- 滑动窗口：发送方窗口 = min(接收方通告窗口, 拥塞窗口)
+- 接收方每次 ACK 里带窗口大小（rwnd），可动态调整（缓存压力大就缩小）
+- <strong>窗口关闭问题</strong>：接收方窗口为 0 时发送方停发，靠窗口探测（零窗口探测报文）防死锁；<strong>糊涂窗口综合症</strong>（小窗口小包浪费）用延迟 ACK/Nagle 抑制
+<strong>话术/例题</strong>："rwnd 控接收、cwnd 控网络"区分。追问：滑动窗口和拥塞窗口区别？→ 流量控制防"接收方处理不过来"，拥塞控制防"网络中间路由器撑不住"。</p>
+<h3>9. TCP 拥塞控制（慢启动/拥塞避免/快重传/快恢复）</h3>
+<p><strong>一句话结论</strong>：发送方维护拥塞窗口 cwnd，慢启动指数涨 → 阈值后线性涨 → 丢包时减半/归 1（快重传快恢复），四阶段防网络崩溃。
+<strong>详细解释</strong>：
+1. <strong>慢启动</strong>：cwnd 从 1 开始，每 RTT 翻倍（指数），到 ssthresh 阈值转拥塞避免
+2. <strong>拥塞避免</strong>：每 RTT +1（线性），探测网络容量
+3. <strong>快重传</strong>：收到 3 个重复 ACK 立即重传（不等超时）
+4. <strong>快恢复</strong>：快重传后 cwnd 减半而非归 1，继续线性增长（Reno）；CUBIC 是现代默认（Linux）
+5. 超时重传（RTO）：长时间没 ACK → cwnd 归 1 重新慢启动
+<strong>话术/例题</strong>："指数慢启动 + 线性避免 + 3ACK 快重传 + 减半恢复"是标准背诵。追问：为什么有快恢复不直接归 1？→ 3 个重复 ACK 说明网络没断（只是丢一个包），没必要回到最保守。</p>
+<h3>10. TCP 重传机制与 SACK</h3>
+<p><strong>一句话结论</strong>：超时重传（RTO 到期）兜底 + 快速重传（3 重复 ACK）提速；SACK 告知哪些丢了只重传缺失段，提高效率。
+<strong>详细解释</strong>：
+- RTO 动态计算（基于 RTT 采样，指数退避）
+- 快速重传：收到 3 个相同 ACK 不等超时直接重传
+- <strong>SACK</strong>（选择性确认）：TCP 选项，接收方告知"收到哪些连续段之外的部分"，发送方只重传真正丢的 → 网络利用率大幅提升
+- 你的场景：无线链路丢包率高 → SACK 意义大（可结合讲无线 TCP 优化）
+<strong>话术/例题</strong>："RTO 兜底 + 3ACK 提速 + SACK 精准"一句。追问：高丢包链路上 TCP 表现？→ 吞吐骤降，所以无线/卫星场景常用 TCP 加速或换 QUIC。</p>
+<h3>11. TCP 状态机（11 态）</h3>
+<p><strong>一句话结论</strong>：连接从 CLOSED 经三次握手到 ESTABLISHED，断开经 FIN_WAIT/TIME_WAIT/CLOSE_WAIT 回 CLOSED；两端各一个状态机。
+<strong>详细解释</strong>（服务端视角高频）：
+- 建立：LISTEN → SYN_RCVD → ESTABLISHED
+- 主动关闭：FIN_WAIT_1 → FIN_WAIT_2 → TIME_WAIT → CLOSED
+- 被动关闭：CLOSE_WAIT → LAST_ACK → CLOSED
+- <strong>TIME_WAIT（2MSL，约 60s）</strong>：主动关闭方停留，防最后一个 ACK 丢失 + 防旧连接报文污染
+- <strong>CLOSE_WAIT 堆积</strong>：被动关闭方收到 FIN 后没调 close()（代码没关 socket）→ 连接泄漏，排查重点（netstat 统计）
+- 你场景：微服务大量短连接 → 服务端 TIME_WAIT 多、连接池管理
+<strong>话术/例题</strong>："ESTABLISHED 最熟、TIME_WAIT 为什么等、CLOSE_WAIT 是 bug"三点。追问：服务端 TIME_WAIT 太多怎么办？→ 连接复用（keepalive）、调 MSL、权衡后减少 TIME_WAIT 等待（不推荐直接关）。</p>
+<h3>12. UDP 深入与 QUIC</h3>
+<p><strong>一句话结论</strong>：UDP 无连接不可靠，靠上层协议补可靠；QUIC 是基于 UDP 的下一代传输协议（HTTP/3 底层）。
+<strong>详细解释</strong>：
+- UDP 应用：DNS（快）、音视频（容忍丢）、游戏（实时）、<strong>QUIC</strong>
+- <strong>QUIC</strong>（Google 提出，RFC9000）：
+  - 基于 UDP + 自实现可靠传输（重传/拥塞控制在用户态）
+  - <strong>解决 TCP 队头阻塞</strong>：多流独立，一个流丢包不影响其他流
+  - 0-RTT/1-RTT 握手（免 TCP+TSL 两次握手）
+  - 连接迁移（IP 变化不断连，移动端友好）
+- 对比：TCP+HTTP/2 丢包会阻塞整个连接；QUIC 各流独立
+<strong>话术/例题</strong>："QUIC = UDP + 可靠传输 + 多流 + 0-RTT"是加分题。追问：为什么 QUIC 不用 TCP？→ TCP 内核实现改不动（部署周期长），UDP 用户态自研灵活。</p>
+<hr />
+<h2>三、应用层深入（HTTP 实战）</h2>
+<h3>13. HTTP 缓存机制（强缓存/协商缓存）</h3>
+<p><strong>一句话结论</strong>：强缓存（Expires/Cache-Control）命中不发请求直接用本地，协商缓存（ETag/Last-Modified）发条件请求由服务器决定 304。
+<strong>详细解释</strong>：
+- <strong>强缓存</strong>：<code>Cache-Control: max-age=3600</code>（相对时间，推荐）/ <code>Expires</code>（绝对时间）；命中返回 200(from cache)
+- <strong>协商缓存</strong>：请求带 <code>If-None-Match: &lt;etag&gt;</code> / <code>If-Modified-Since: &lt;date&gt;</code> → 服务器比对：没变回 <strong>304</strong>（用缓存），变了回 200 新资源
+- 优先级：Cache-Control &gt; Expires；ETag 比 Last-Modified 准（秒级以下变化）
+- 应用：静态资源（JS/CSS）长缓存 + 文件名带 hash（内容变 hash 变）；API 不缓存或短缓存
+<strong>话术/例题</strong>："强缓存 200 不请求，协商缓存 304 问一下"两句。追问：为什么静态资源文件名带 hash？→ 内容变了 URL 变 → 强缓存自然失效，实现"永久缓存+即时更新"。</p>
+<h3>14. CDN 原理</h3>
+<p><strong>一句话结论</strong>：内容分发到边缘节点，用户就近访问（DNS 智能解析到最近节点），源站只承载回源流量。
+<strong>详细解释</strong>：
+1. 用户请求 → DNS 解析（CDN 智能调度，返回最近边缘节点 IP）
+2. 边缘节点命中缓存直接返回；未命中回源站拉取并缓存
+3. 优势：降低延迟（就近）、抗突发流量（边缘扛）、源站减压
+- 关键：缓存策略（TTL）、回源（源站变更要及时刷新/Purge）
+- 你场景：Oasis 静态资源/固件分发走 CDN 可对比讲
+<strong>话术/例题</strong>："DNS 就近调度 + 边缘缓存 + 回源"三步。追问：源站内容更新了 CDN 还是旧的怎么办？→ 主动刷新缓存/Purge + 短 TTL + 版本化 URL。</p>
+<h3>15. HTTPS 双向认证与证书链</h3>
+<p><strong>一句话结论</strong>：单向认证（默认，客户端验证服务端证书）够用；双向认证服务端也验证客户端证书（金融/设备接入）；证书链 = 根 CA → 中间 CA → 叶子证书。
+<strong>详细解释</strong>：
+- 单向：客户端拿服务端证书 → 验证 CA 签名链 → 协商密钥
+- 双向：服务端要求客户端出示证书 → 服务端验客户端 CA 签名 → 通过才建立（设备证书认证，IoT 常用）
+- 证书链验证：浏览器内置根证书 → 逐级验证签名 → 叶子证书域名匹配 + 未过期
+- 吊销：CRL/OCSP；自签名证书要手动信任
+- 你场景：云 AP 设备接入云平台的双向 TLS（设备证书）就是典型
+<strong>话术/例题</strong>："单向验服务端、双向验双方、链式信任"。追问：设备接入平台为什么用双向认证？→ 防伪造设备接入（结合 IoT/云 AP 场景）。</p>
+<h3>16. 交换机与 VLAN</h3>
+<p><strong>一句话结论</strong>：交换机按 MAC 表二层转发（学习+转发+广播），VLAN 隔离广播域（同一交换机逻辑分隔），跨 VLAN 要三层路由。
+<strong>详细解释</strong>：
+- MAC 表学习：源 MAC 入表，目的 MAC 查表转发/广播未知单播
+- VLAN：802.1Q 标签（12 位 VLAN ID），Access 口（接终端）/Trunk 口（接上行，带标签）
+- 跨 VLAN：路由器/三层交换机（VLANIF 接口）
+- 环路问题：STP 生成树阻塞冗余链路防广播风暴
+<strong>话术/例题</strong>："MAC 表二层转发 + VLAN 隔离 + STP 防环"三点。追问：为什么需要 VLAN？→ 广播域隔离（广播不跨 VLAN）+ 安全 + 管理方便。</p>
+<h3>17. 负载均衡（四层 vs 七层）</h3>
+<p><strong>一句话结论</strong>：四层 LB（LVS/DPVS）按 IP+端口分发（快），七层 LB（Nginx/HAProxy）按 URL/Header 分发（灵活）；会话保持靠源 IP hash/Cookie。
+<strong>详细解释</strong>：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>四层（LVS）</th>
+<th>七层（Nginx）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>层级</td>
+<td>传输层（IP+端口）</td>
+<td>应用层（HTTP 内容）</td>
+</tr>
+<tr>
+<td>性能</td>
+<td>极高（内核态转发）</td>
+<td>高（用户态）</td>
+</tr>
+<tr>
+<td>能力</td>
+<td>只能按地址分发</td>
+<td>URL 路由/Header/SSL 卸载/压缩</td>
+</tr>
+<tr>
+<td>场景</td>
+<td>高吞吐入口</td>
+<td>微服务网关/静态资源</td>
+</tr>
+<tr>
+<td>- 算法：轮询/加权/最小连接/源 IP hash（会话保持）</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- K8s 里：Service=四层（kube-proxy IPVS）、Ingress=七层（nginx-ingress）</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>话术/例题</strong>："四层快、七层活"一句 + 你 K8s 里 Service/Ingress 对应关系。追问：会话保持怎么做？→ 四层源 IP hash、七层 Cookie 粘滞。</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>18. 抓包与网络排查</h3>
+<p><strong>一句话结论</strong>：tcpdump 抓包（wireshark 分析）+ ping/traceroute/curl 分层定位 + netstat/ss 查连接，网络排查三板斧。
+<strong>详细解释</strong>：
+- <strong>tcpdump</strong>：<code>tcpdump -i eth0 host 1.2.3.4 and tcp port 443 -w a.pcap</code>（-i 网卡/-w 存包/-nn 不解析）
+- wireshark：看三次握手/重传/丢包（TCP 分析 Expert Info）
+- 排查顺序：ping（通不通）→ traceroute（哪一跳丢）→ curl -v（HTTP 层）→ tcpdump（细节）
+- 连接检查：<code>netstat -anp | grep 8080</code>、<code>ss -s</code>（统计）、<code>ss -tn state time-wait</code>（TIME_WAIT 数）
+- 你场景：RRM 设备上报异常排查（先 ping 网关 → 抓 Kafka 端口包 → 查重传）
+<strong>话术/例题</strong>："分层定位：链路 ping → 路由 traceroute → 应用 curl → 细节 tcpdump"。追问：怎么确认是丢包还是延迟？→ wireshark 看重传次数 + RTT 统计。</p>
+<hr />
+<h2>📝 本章自测（闭卷）</h2>
+<ol>
+<li>192.168.1.66/26 的网络地址、广播地址、可用主机数</li>
+<li>NAT 为什么需要？PAT 是什么</li>
+<li>最长前缀匹配是什么，为什么</li>
+<li>OSPF vs BGP 一句话 + 各自场景</li>
+<li>TCP 拥塞控制四阶段流程</li>
+<li>SACK 解决什么问题</li>
+<li>TIME_WAIT 两个作用 + CLOSE_WAIT 堆积说明什么</li>
+<li>QUIC 为什么比 TCP+HTTP/2 好（三点）</li>
+<li>强缓存/协商缓存区别，304 是哪类</li>
+<li>CDN 工作三步</li>
+<li>四层/七层 LB 区别 + K8s 里分别对应谁</li>
+<li>网络排查命令顺序</li>
+</ol>
+<blockquote>
+<p>完成自测后可回《面试八股复习计划》勾选网络相关题</p>
+</blockquote></article></div>
+<div class="bottomnav"><a href="学习手册_13_容器化.html">◀ 上一本：13 容器化</a>
+<a class="ghost" href="面试八股复习计划_李鑫.html">📖 回复习计划勾选</a>
+<a href="学习手册_15_无线网络.html">下一本：15 无线网络 ▶</a></div>
+</body></html>
