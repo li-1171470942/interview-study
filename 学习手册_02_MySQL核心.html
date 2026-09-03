@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>02 MySQL · 学习手册</title><style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:60px; }
+.topnav { position:sticky; top:0; z-index:9; background:#1f2937; color:#fff; padding:10px 0; }
+.topnav .inner { max-width:960px; margin:0 auto; padding:0 18px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; font-size:13px; }
+.topnav a { color:#c7d2fe; text-decoration:none; padding:3px 12px; border-radius:14px; background:rgba(255,255,255,.08); }
+.topnav a:hover { background:rgba(255,255,255,.2); color:#fff; }
+.topnav .sep { opacity:.4; }
+.wrap { max-width:960px; margin:0 auto; padding:0 18px; }
+.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px; margin-top:22px; box-shadow:0 1px 3px rgba(20,30,60,.05); }
+.article h1 { font-size:26px; color:#4f46e5; border-bottom:3px solid #4f46e5; padding-bottom:12px; margin-bottom:18px; }
+.article h2 { font-size:20px; margin:30px 0 12px; padding:10px 14px; background:#eef2ff; border-left:4px solid #4f46e5; border-radius:6px; color:#312e81; }
+.article h3 { font-size:14px; color:#475569; margin:14px 0 6px; }
+.article p { margin:8px 0; font-size:14.5px; color:#2b3245; }
+.article ul, .article ol { margin:8px 0 8px 24px; }
+.article li { font-size:14.5px; margin:4px 0; }
+.article strong { color:#111827; }
+.article code { background:#f1f3fa; padding:1px 6px; border-radius:4px; font-size:13px; color:#be185d; }
+.article pre { background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:8px; overflow-x:auto; margin:12px 0; font-size:13px; line-height:1.6; }
+.article pre code { background:none; color:inherit; padding:0; }
+.article table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13.5px; display:block; overflow-x:auto; }
+.article th { background:#f1f3fa; padding:8px 10px; text-align:left; color:#475569; font-size:12.5px; border:1px solid #e4e8f0; }
+.article td { padding:8px 10px; border:1px solid #e4e8f0; vertical-align:top; }
+.article blockquote { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; margin:12px 0; border-radius:6px; color:#166534; font-size:14px; }
+.article blockquote strong { color:#14532d; }
+.article hr { border:none; border-top:1px dashed #d1d5db; margin:26px 0; }
+.bottomnav { max-width:960px; margin:20px auto 0; padding:0 18px; display:flex; gap:10px; }
+.bottomnav a { flex:1; text-align:center; background:#4f46e5; color:#fff; text-decoration:none; padding:12px 10px; border-radius:10px; font-size:14px; }
+.bottomnav a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
+@media (max-width:760px){ .article{padding:22px 18px;} .article h1{font-size:21px;} }
+</style></head>
+<body>
+<div class="topnav"><div class="inner"><a href="学习中心.html">🏠 学习中心</a> <span class="sep">|</span> <a href="学习手册索引.md">📚 手册索引</a> <span class="sep">|</span> <a href="学习手册_03_Redis.html">03 Redis ▶</a></div></div>
+<div class="wrap"><article class="article"><h1>📘 学习手册 02 · MySQL 核心</h1>
+<blockquote>
+<p>配套《面试八股复习计划》第 2 节 MySQL 部分 + PDF 第 36-48 页
+模板：<strong>一句话结论 → 详细解释 → 面试话术 → 例题/追问</strong>
+必考章节：索引 / 事务 / MVCC / 日志，四块是命门</p>
+</blockquote>
+<hr />
+<h2>1. 什么情况索引会失效</h2>
+<p><strong>一句话结论</strong>：违背"最左前缀、类型一致、不破坏索引结构"原则的查询都会让索引失效。</p>
+<p><strong>详细解释</strong>（高频场景）：
+1. <strong>违反最左前缀</strong>：联合索引 (a,b,c)，只查 b 或 c 不查 a → 失效
+2. <strong>对索引列做计算/函数</strong>：<code>WHERE YEAR(create_time)=2026</code>、<code>WHERE a+1=5</code> → 失效
+3. <strong>隐式类型转换</strong>：<code>WHERE phone=13800138000</code>（phone 是 varchar）→ 失效
+4. <strong>前导模糊查询</strong>：<code>LIKE '%abc'</code> 失效；<code>LIKE 'abc%'</code> 可以用
+5. <strong>OR 连接非索引列</strong>：<code>a=1 OR b=2</code>（b 无索引）→ 全表扫
+6. <strong>NOT IN / != / IS NOT NULL</strong> 可能失效（优化器决定）
+7. 索引列参与运算、排序不一致（ASC/DESC 混用）等</p>
+<p><strong>面试话术</strong>：按"结构/类型/写法"三类归纳（最左前缀、类型转换、函数/模糊/OR），比零散背场景更能让面试官觉得你系统化。</p>
+<p><strong>例题/追问</strong>：<code>LIKE '%abc'</code> 为什么失效？→ B+ 树按前缀有序，前导通配无法定位起始位置只能全扫。如何优化？→ 全文索引/倒排索引。</p>
+<hr />
+<h2>2. 为什么 MySQL 用 B+ 树做索引</h2>
+<p><strong>一句话结论</strong>：B+ 树矮胖、非叶子节点只存键、叶子节点链表有序，一次 IO 读更多数据、范围查询高效。</p>
+<p><strong>详细解释</strong>（对比 B 树 / 红黑树 / 哈希）：
+- <strong>磁盘 IO 次数</strong>：树高决定 IO 次数。B+ 树非叶子节点只存键（不存数据），一页 16KB 能存上千个键 → 千万级数据树高只有 3-4 层 → 3-4 次 IO
+- <strong>B 树 vs B+ 树</strong>：B 树非叶子也存数据，单节点存键少 → 树更高；且 B+ 树叶间有链表，<strong>范围查询</strong>（<code>BETWEEN</code>、<code>ORDER BY</code>）直接走链表不用回父节点
+- <strong>红黑树</strong>：内存结构（二叉树高几十层），不适合磁盘（IO 次数爆炸）
+- <strong>哈希索引</strong>：等值查询 O(1) 极快，但<strong>不支持范围查询/排序</strong>（哈希无序）</p>
+<p><strong>面试话术</strong>："磁盘 IO 视角 + 三层对比"：为什么不用红黑树（太高）、为什么不用哈希（不能范围查）、为什么比 B 树好（节点小+叶子链表）。</p>
+<p><strong>例题/追问</strong>：B+ 树为什么范围查询快？→ 叶子节点双向链表 + 有序。为什么不存数据到非叶子？→ 减少单页占用、增加扇出、降低树高。</p>
+<hr />
+<h2>3. InnoDB 和 MyISAM 的区别</h2>
+<p><strong>一句话结论</strong>：InnoDB 支持事务/行级锁/崩溃恢复（默认引擎），MyISAM 只支持表级锁、无事务（已被淘汰）。</p>
+<p><strong>详细解释</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>InnoDB</th>
+<th>MyISAM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>事务</td>
+<td>✅ ACID</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>锁粒度</td>
+<td>行级锁（并发高）</td>
+<td>表级锁（写阻塞）</td>
+</tr>
+<tr>
+<td>外键</td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>崩溃恢复</td>
+<td>✅ redo log 恢复</td>
+<td>❌ 易损坏</td>
+</tr>
+<tr>
+<td>索引结构</td>
+<td>聚簇索引（数据和索引一体）</td>
+<td>非聚簇（数据文件独立）</td>
+</tr>
+<tr>
+<td>count(*)</td>
+<td>慢（要扫）</td>
+<td>快（有元数据）</td>
+</tr>
+<tr>
+<td>存储</td>
+<td>.ibd</td>
+<td>.frm/.MYD/.MYI</td>
+</tr>
+</tbody>
+</table>
+<p><strong>面试话术</strong>：结论"InnoDB 完胜，只有读多写少+不要事务的极简场景才可能用 MyISAM"；补充"MySQL 5.5 后默认 InnoDB，现在几乎不用 MyISAM"。</p>
+<p><strong>例题/追问</strong>：MyISAM 的 count(*) 为什么快？→ 单独存了行数元数据；InnoDB 有 MVCC 各事务可见行数不同，不能缓存。</p>
+<hr />
+<h2>4. 聚集索引 和 非聚集索引</h2>
+<p><strong>一句话结论</strong>：聚集索引（主键索引）叶子节点直接存整行数据；非聚集索引（二级索引）叶子存主键值，查数据要回表。</p>
+<p><strong>详细解释</strong>：
+- <strong>聚簇索引</strong>：InnoDB 主键即聚簇索引，数据行就存在索引的叶子节点上 → 按主键查一次 IO 就拿到整行
+- <strong>二级索引</strong>：叶子节点存"索引列 + 主键值" → 查非主键列 = 先查二级索引拿到主键 → 再回聚簇索引查整行（<strong>回表</strong>）
+- <strong>为什么主键建议自增</strong>：聚簇索引按主键有序排列，自增主键插入永远追加在尾部（避免页分裂）；随机主键（UUID）会导致大量页分裂、随机 IO</p>
+<p><strong>面试话术</strong>：一句话"主键索引=书的正文章节，二级索引=书末尾的索引目录（查到页码再翻正文）"，比喻说完立刻讲回表。</p>
+<p><strong>例题/追问</strong>：什么情况下查二级索引不用回表？→ <strong>覆盖索引</strong>（查询的列都包含在索引里，如 <code>SELECT a,b FROM t WHERE a=1</code> 且 (a,b) 是联合索引）。</p>
+<hr />
+<h2>5. 事务四大特性（ACID）及实现原理</h2>
+<p><strong>一句话结论</strong>：原子性靠 undo log、一致性靠约束+其他三特性、隔离性靠锁+MVCC、持久性靠 redo log。</p>
+<p><strong>详细解释</strong>：
+- <strong>原子性 Atomicity</strong>：要么全成功要么全回滚 → <strong>undo log</strong>（记录修改前的值，回滚时逆操作）
+- <strong>一致性 Consistency</strong>：事务前后数据完整性不被破坏 → 应用层约束 + 其他三特性配合保证
+- <strong>隔离性 Isolation</strong>：并发事务互不干扰 → <strong>MVCC + 锁</strong>
+- <strong>持久性 Durability</strong>：提交后不丢失 → <strong>redo log</strong>（记录修改后值，崩溃重放）</p>
+<p><strong>面试话术</strong>："每个特性对应哪个机制"直接背：原子性-undo、持久性-redo、隔离性-锁/MVCC、一致性-兜底。面试官常考这个映射关系。</p>
+<p><strong>例题/追问</strong>：为什么需要 undo 和 redo 两份日志？→ undo 回滚、redo 前滚，崩溃恢复 = 用 redo 重放已提交 + 用 undo 回滚未提交。</p>
+<hr />
+<h2>6. 事务隔离级别</h2>
+<p><strong>一句话结论</strong>：读未提交 → 读已提交 → 可重复读 → 串行化；级别越高隔离越好性能越差，MySQL 默认<strong>可重复读</strong>。</p>
+<p><strong>详细解释</strong>（并发三大问题）：</p>
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>表现</th>
+<th>被哪个级别解决</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>脏读</td>
+<td>读到别的事务未提交的数据</td>
+<td>读已提交解决</td>
+</tr>
+<tr>
+<td>不可重复读</td>
+<td>同一事务两次读同一条记录值不同（被改）</td>
+<td>可重复读解决</td>
+</tr>
+<tr>
+<td>幻读</td>
+<td>同一事务两次查询结果行数不同（被插入）</td>
+<td>串行化解决（MySQL 用 MVCC+间隙锁在 RR 也基本解决）</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>读未提交：最松，读别人没提交的</li>
+<li>读已提交：只能读已提交（Oracle 默认）</li>
+<li>可重复读：快照读保证事务内读一致（MySQL 默认）</li>
+<li>串行化：全串行，读写都加锁</li>
+</ul>
+<p><strong>面试话术</strong>：背"三个问题 × 解决级别"表 + "MySQL 默认 RR 且用 MVCC+间隙锁把幻读也基本干掉（相比标准 RR 更强）"。</p>
+<p><strong>例题/追问</strong>：可重复读怎么实现？→ MVCC 快照。MySQL 的 RR 下还会幻读吗？→ 快照读不会；当前读（<code>SELECT ... FOR UPDATE</code>）靠<strong>间隙锁/临键锁</strong>防插入。</p>
+<hr />
+<h2>7. MVCC 原理（多版本并发控制）</h2>
+<p><strong>一句话结论</strong>：MVCC 让读不加锁，通过 undo log 链 + 隐藏字段（trx_id、roll_pointer）+ ReadView 实现多版本快照读。</p>
+<p><strong>详细解释</strong>：
+- <strong>隐藏字段</strong>：每行有 <code>trx_id</code>（最后修改它的事务 id）和 <code>roll_pointer</code>（指向 undo log 中的旧版本）
+- <strong>undo log 版本链</strong>：每次修改生成一个新版本，通过 roll_pointer 串成链，旧版本存 undo log
+- <strong>ReadView（读视图）</strong>：事务开始（或首次读）时生成，记录活跃事务列表：
+  - 比 ReadView 里最小 trx_id 还小 → 已提交，可见
+  - 在活跃列表里 → 不可见，沿版本链找上一个版本
+  - 大于最大 trx_id → 未来事务，不可见
+- 效果：每个事务看到自己"开始时刻"的一致快照 → 可重复读</p>
+<p><strong>面试话术</strong>：讲清"版本链 + ReadView 判断可见性"两步，这是 MySQL 最值钱的一道题，能完整讲出来就是区分度。</p>
+<p><strong>例题/追问</strong>：快照读 vs 当前读？→ 快照读（普通 SELECT）读快照不加锁；当前读（FOR UPDATE/LOCK IN SHARE MODE/UPDATE/DELETE）读最新并加锁。</p>
+<hr />
+<h2>8. MySQL 三大日志：binlog / redo log / undo log</h2>
+<p><strong>一句话结论</strong>：redo log 保证崩溃恢复（InnoDB 层），undo log 支持回滚与 MVCC（InnoDB 层），binlog 用于主从复制与数据恢复（Server 层）。</p>
+<p><strong>详细解释</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>日志</th>
+<th>层级</th>
+<th>内容</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>redo log</strong></td>
+<td>InnoDB</td>
+<td>物理修改（页的变化）</td>
+<td>崩溃恢复，保证持久性；WAL 先写日志后写数据</td>
+</tr>
+<tr>
+<td><strong>undo log</strong></td>
+<td>InnoDB</td>
+<td>逻辑回滚（旧版本）</td>
+<td>事务回滚 + MVCC 版本链</td>
+</tr>
+<tr>
+<td><strong>binlog</strong></td>
+<td>Server</td>
+<td>逻辑 SQL/行变更</td>
+<td>主从复制、数据恢复、canal 订阅</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>redo vs binlog</strong>：redo 是物理页、InnoDB 层、循环写；binlog 是逻辑语句、Server 层、追加写。两者配合才有<strong>两阶段提交</strong>（保证崩溃时两份日志一致）</li>
+<li><strong>WAL（Write-Ahead Logging）</strong>：先写 redo log 再刷数据页 → 崩溃后按 redo 重放</li>
+</ul>
+<p><strong>面试话术</strong>："三层/两用途"记忆法：redo 前滚、undo 回滚、binlog 复制。再补两阶段提交一句话（"binlog 和 redo 用两阶段提交保证一致，这是崩溃恢复安全的关键"）。</p>
+<p><strong>例题/追问</strong>：主从复制用哪个日志？binlog。<code>canal</code> 中间件原理？→ 模拟 slave 拉取 binlog 解析成事件。</p>
+<hr />
+<h2>9. 主从复制原理</h2>
+<p><strong>一句话结论</strong>：主库写 binlog → 从库 IO 线程拉取写中继日志 → SQL 线程重放，异步复制有延迟。</p>
+<p><strong>详细解释</strong>：
+1. 主库更新数据 → 写 binlog
+2. 从库 <strong>IO 线程</strong> 连主库，拉取 binlog 写入本地 <strong>relay log（中继日志）</strong>
+3. 从库 <strong>SQL 线程</strong> 重放 relay log，应用到从库数据
+- 复制模式：异步（默认，有延迟可能丢数据）/ 半同步（主库等至少一个从库确认）/ 同步（全确认，性能差）
+- 一致性保障：GTID（全局事务 id）避免重复执行；主从延迟用并行复制缓解
+- 用途：读写分离、灾备、报表库</p>
+<p><strong>面试话术</strong>："两个线程一条日志"（IO 线程 + SQL 线程 + relay log）讲流程，再讲三种同步模式和延迟问题。</p>
+<p><strong>例题/追问</strong>：主从延迟怎么解决？→ 半同步、并行复制、读写分离的业务降级（读主库）、缓存。</p>
+<hr />
+<h2>10. 分库分表</h2>
+<p><strong>一句话结论</strong>：数据量大时，分库扛并发、分表扛数据量；核心是分片键选择与路由，难点是跨库事务与查询。</p>
+<p><strong>详细解释</strong>：
+- <strong>垂直拆分</strong>：按业务分库（订单库/用户库）；按字段分表（大字段拆出去）
+- <strong>水平分表</strong>：按分片键取模/范围/哈希（如 user_id % 16 → 16 张表）
+- <strong>分片键选择</strong>：选查询最频繁且均匀的字段；按分片键查快，非分片键查要广播（all 路由）
+- <strong>全局主键</strong>：雪花算法（时间戳+机器+序列）、号段模式
+- <strong>中间件</strong>：ShardingSphere / MyCat
+- <strong>难点</strong>：跨库 join（冗余/应用层组装）、分布式事务（TCC/Saga）、扩容（一致性哈希迁移）</p>
+<p><strong>面试话术</strong>：先说拆分动机（数据量 → 分表；连接数/吞吐 → 分库），再说分片键路由，最后老实说跨库 join 的三种解法（冗余/汇总表/应用层）。</p>
+<p><strong>例题/追问</strong>：分片后怎么分页排序？→ 各分片查 TopN 再归并。你项目里 MongoDB 分库分表怎么做的？→ 按 taskId/AP 维度分片，索引 {taskId, apSN, RI}（结合 RRM 实战）。</p>
+<hr />
+<h2>11. count(*)、count(1)、count(col) 的区别</h2>
+<p><strong>一句话结论</strong>：count(*) 统计所有行数最快，count(1) 等价，count(col) 只统计该列非 NULL 的行。</p>
+<p><strong>详细解释</strong>：
+- <code>count(*)</code>：优化器直接遍历索引统计，不取值 → 最快（InnoDB 下和 count(1) 基本一样）
+- <code>count(1)</code>：每行固定值 1 计数，等价 count(<em>)
+- <code>count(col)</code>：跳过 col 为 NULL 的行
+- 所以 <code>count(*)</code> vs <code>count(col)</code> 的差异在于</em><em>是否统计 NULL</em>*</p>
+<p><strong>面试话术</strong>：纠正常见误解"count(1) 比 count(<em>) 快"——实际上 count(</em>) 经过优化最快；差别在 count(col) 不计 NULL。</p>
+<p><strong>例题/追问</strong>：<code>count(*)</code> 在 InnoDB 为什么比 MyISAM 慢？→ 见上面 MyISAM 元数据。</p>
+<hr />
+<h2>12. SQL 优化思路</h2>
+<p><strong>一句话结论</strong>：先看执行计划 EXPLAIN，再按"索引 → 写法 → 表结构 → 缓存"顺序优化。</p>
+<p><strong>详细解释</strong>（EXPLAIN 关键列）：
+- <strong>type</strong>：system &gt; const &gt; eq_ref &gt; ref &gt; range &gt; index &gt; ALL（最好到 ref/range，避免 ALL 全扫）
+- <strong>key / possible_keys</strong>：实际用没用索引
+- <strong>rows</strong>：预估扫描行数（越小越好）
+- <strong>Extra</strong>：Using filesort（文件排序，要优化）、Using temporary（临时表）、Using index（覆盖索引，好）
+- 优化手段：加联合索引覆盖高频查询、避免 select *、分页深翻页优化（<code>WHERE id &gt; 上次最大id LIMIT 20</code> 代替 <code>LIMIT 200000,20</code>）、大字段拆表、读写分离</p>
+<p><strong>面试话术</strong>："EXPLAIN 是入口"——面试官最想听到你会看执行计划，讲 type 和 rows 两个字段就够显专业。</p>
+<p><strong>例题/追问</strong>：深分页为什么慢？→ offset 200000 要先扫 20 万行再丢弃。怎么优化？→ 游标分页（where id &gt; last_id）。</p>
+<hr />
+<h2>13. 索引的分类</h2>
+<p><strong>一句话结论</strong>：按结构分 B+树/哈希/全文，按用途分主键/唯一/普通/联合，按存储分聚簇/非聚簇。</p>
+<p><strong>详细解释</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>分类维度</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>结构</td>
+<td>B+ 树 / 哈希 / 全文</td>
+<td>哈希只支持等值，全文用于 like 文本检索</td>
+</tr>
+<tr>
+<td>用途</td>
+<td>主键索引</td>
+<td>聚簇，唯一非空</td>
+</tr>
+<tr>
+<td></td>
+<td>唯一索引</td>
+<td>唯一允许 NULL</td>
+</tr>
+<tr>
+<td></td>
+<td>普通索引</td>
+<td>仅加速</td>
+</tr>
+<tr>
+<td></td>
+<td>联合索引（复合）</td>
+<td>多列，最左前缀</td>
+</tr>
+<tr>
+<td></td>
+<td>前缀索引</td>
+<td>字符串前 N 位建索引</td>
+</tr>
+<tr>
+<td>存储</td>
+<td>聚簇 / 非聚簇</td>
+<td>数据是否和索引一起</td>
+</tr>
+</tbody>
+</table>
+<p><strong>面试话术</strong>：按"用途"分类背最常用（主键/唯一/普通/联合），再补"联合索引最左前缀"和"什么时候不建索引"（数据量小、区分度低、频繁更新、查询列）。</p>
+<p><strong>例题/追问</strong>：为什么不建议在性别字段建索引？→ 区分度低（就两个值），索引选择性差，优化器可能仍全扫。</p>
+<hr />
+<h2>14. 快照读 和 当前读</h2>
+<p><strong>一句话结论</strong>：快照读读的是历史版本（不加锁，靠 MVCC），当前读读最新并加锁（靠锁机制）。</p>
+<p><strong>详细解释</strong>：
+- <strong>快照读</strong>：普通 <code>SELECT</code>——读 ReadView 里可见的版本，不加锁、不阻塞
+- <strong>当前读</strong>：<code>SELECT ... FOR UPDATE</code>、<code>LOCK IN SHARE MODE</code>、<code>UPDATE</code>、<code>DELETE</code>、<code>INSERT</code>——读最新已提交版本并加锁（行锁/间隙锁/临键锁）
+- 幻读为什么当前读也防住：当前读走<strong>临键锁（记录锁+间隙锁）</strong>，锁住范围禁止插入 → 防幻读</p>
+<p><strong>面试话术</strong>：这个和 MVCC、隔离级别三题联动——"MVCC 管快照读，锁管当前读"。</p>
+<p><strong>例题/追问</strong>：可重复读级别下 FOR UPDATE 两次查，另一个事务插入新行会怎样？→ 被间隙锁阻塞直到事务结束（防幻读）。</p>
+<hr />
+<h2>15. drop / delete / truncate 的区别</h2>
+<p><strong>一句话结论</strong>：delete 逐行删可回滚（走事务，保留表结构）、truncate 清空表不可回滚（保留结构）、drop 连表结构一起删。</p>
+<p><strong>详细解释</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>删除内容</th>
+<th>可回滚</th>
+<th>速度</th>
+<th>触发触发器</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DELETE</td>
+<td>行数据</td>
+<td>✅（DML 走事务 undo）</td>
+<td>慢（逐行）</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>TRUNCATE</td>
+<td>全表数据（保留表结构）</td>
+<td>❌（DDL）</td>
+<td>快</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>DROP</td>
+<td>表结构+数据+索引全删</td>
+<td>❌</td>
+<td>最快</td>
+<td>❌</td>
+</tr>
+</tbody>
+</table>
+<p><strong>面试话术</strong>：三行表直接背，关键词：DML vs DDL、可回滚 vs 不可回滚。</p>
+<p><strong>例题/追问</strong>：清空大表用 truncate 还是 delete？→ truncate（快、不产生大量 binlog），但注意不可回滚。</p>
+<hr />
+<h2>📝 本章自测（闭卷）</h2>
+<ol>
+<li>说出 5 种索引失效场景，并解释"前导模糊查询"为什么失效</li>
+<li>手画 B+ 树 vs B 树结构差异，讲清为什么 B+ 树适合磁盘索引</li>
+<li>ACID 四个特性分别靠什么实现？</li>
+<li>从脏读讲到幻读，标注每个问题被哪个隔离级别解决</li>
+<li>画出 MVCC 版本链 + ReadView 判断流程</li>
+<li>三大日志各管什么？redo 和 binlog 为什么需要两阶段提交？</li>
+<li>EXPLAIN 里 type 的级别排序，Using filesort 表示什么</li>
+<li>快照读和当前读的区别，间隙锁怎么防幻读</li>
+</ol>
+<blockquote>
+<p>完成自测后回《面试八股复习计划》勾选 MySQL 相关题（第 2 节）</p>
+</blockquote></article></div>
+<div class="bottomnav"><a href="学习手册_01_计算机网络.html">◀ 上一本：01 计算机网络</a>
+<a class="ghost" href="面试八股复习计划_李鑫.html">📖 回复习计划勾选</a>
+<a href="学习手册_03_Redis.html">下一本：03 Redis ▶</a></div>
+</body></html>

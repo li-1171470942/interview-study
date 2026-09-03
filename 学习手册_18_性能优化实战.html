@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>18 性能优化实战 · 学习手册</title><style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:60px; }
+.topnav { position:sticky; top:0; z-index:9; background:#1f2937; color:#fff; padding:10px 0; }
+.topnav .inner { max-width:960px; margin:0 auto; padding:0 18px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; font-size:13px; }
+.topnav a { color:#c7d2fe; text-decoration:none; padding:3px 12px; border-radius:14px; background:rgba(255,255,255,.08); }
+.topnav a:hover { background:rgba(255,255,255,.2); color:#fff; }
+.topnav .sep { opacity:.4; }
+.wrap { max-width:960px; margin:0 auto; padding:0 18px; }
+.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px; margin-top:22px; box-shadow:0 1px 3px rgba(20,30,60,.05); }
+.article h1 { font-size:26px; color:#4f46e5; border-bottom:3px solid #4f46e5; padding-bottom:12px; margin-bottom:18px; }
+.article h2 { font-size:20px; margin:30px 0 12px; padding:10px 14px; background:#eef2ff; border-left:4px solid #4f46e5; border-radius:6px; color:#312e81; }
+.article h3 { font-size:14px; color:#475569; margin:14px 0 6px; }
+.article p { margin:8px 0; font-size:14.5px; color:#2b3245; }
+.article ul, .article ol { margin:8px 0 8px 24px; }
+.article li { font-size:14.5px; margin:4px 0; }
+.article strong { color:#111827; }
+.article code { background:#f1f3fa; padding:1px 6px; border-radius:4px; font-size:13px; color:#be185d; }
+.article table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13.5px; display:block; overflow-x:auto; }
+.article th { background:#f1f3fa; padding:8px 10px; text-align:left; color:#475569; font-size:12.5px; border:1px solid #e4e8f0; }
+.article td { padding:8px 10px; border:1px solid #e4e8f0; vertical-align:top; }
+.article blockquote { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; margin:12px 0; border-radius:6px; color:#166534; font-size:14px; }
+.article blockquote strong { color:#14532d; }
+.article hr { border:none; border-top:1px dashed #d1d5db; margin:26px 0; }
+.bottomnav { max-width:960px; margin:20px auto 0; padding:0 18px; display:flex; gap:10px; }
+.bottomnav a { flex:1; text-align:center; background:#4f46e5; color:#fff; text-decoration:none; padding:12px 10px; border-radius:10px; font-size:14px; }
+.bottomnav a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
+@media (max-width:760px){ .article{padding:22px 18px;} .article h1{font-size:21px;} }
+</style></head>
+<body>
+<div class="topnav"><div class="inner"><a href="学习中心.html">🏠 学习中心</a> <span class="sep">|</span> <a href="学习手册索引.md">📚 手册索引</a> <span class="sep">|</span> <a href="学习手册_17_SpringCloud微服务.html">◀ 17 SpringCloud</a></div></div>
+<div class="wrap"><article class="article"><h1>📘 学习手册 18 · 性能优化实战（把经验变成面试弹药）</h1>
+<blockquote>
+<p>来源：同事 Java 面试侧重点——"<strong>性能优化必须有实践经验</strong>"
+⚠️ 你有真实案例（RRM 生产环境）但没组织成"可讲的案例"。本册把你的经验 + Java 面试高频性能题结合
+案例讲法模板（背熟）：<strong>背景 → 现象 → 定位方法 → 方案 → 量化效果 → 可迁移</strong>
+每个案例 2 分钟内讲完，面试官要的是"你真的排查过"的细节</p>
+</blockquote>
+<hr />
+<h2>0. 性能优化通用方法论（Java 面试高频题）</h2>
+<p><strong>一句话结论</strong>：性能问题四大类（慢查询/高延迟、内存/GC、吞吐/并发、资源泄漏），排查顺序：先指标定位（CPU/内存/IO/GC）→ 再代码定位 → 最后针对性优化。
+<strong>详细解释</strong>（面试常问"项目怎么优化的"，分层答）：</p>
+<table>
+<thead>
+<tr>
+<th>层</th>
+<th>手段</th>
+<th>你已有的实战</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>数据库层</td>
+<td>索引/慢 SQL/分库分表/连接池</td>
+<td>MongoDB 索引与分表、MySQL 八股</td>
+</tr>
+<tr>
+<td>缓存层</td>
+<td>Redis 缓存、分布式锁、防击穿</td>
+<td>RRM 配置缓存、Redis 锁</td>
+</tr>
+<tr>
+<td>消息层</td>
+<td>批量/异步/削峰/消费优化</td>
+<td>Kafka 上报链路</td>
+</tr>
+<tr>
+<td>内存/GC</td>
+<td>堆调优、对象复用、泄漏排查</td>
+<td>rrmcompute OOM 调优</td>
+</tr>
+<tr>
+<td>代码层</td>
+<td>批量代替循环、连接复用、池化、异步化</td>
+<td>node-ffi Buffer 复用</td>
+</tr>
+<tr>
+<td>系统层</td>
+<td>线程池参数、连接池、日志降级</td>
+<td>日志级别优化</td>
+</tr>
+</tbody>
+</table>
+<p><strong>话术/例题</strong>："我优化过的点分四类：DB（索引/分表）、内存（OOM 调堆）、消息（积压）、日志（降级）"——先给分类框架再展开一个案例。</p>
+<h2>案例① rrmcompute OOM 内存调优（你的招牌案例）</h2>
+<p><strong>一句话结论</strong>：高量调优任务并发导致内存超限 OOM 重启，通过"分析内存构成 → 调 requests/limits + 限流任务"解决。
+<strong>完整讲法</strong>：
+- <strong>背景</strong>：RRM 云端计算微服务 rrmcompute，高量任务（大 AP 场所调优）时频繁 OOM 重启
+- <strong>现象</strong>：Pod OOMKilled，K8s 重启，任务中断用户投诉
+- <strong>定位</strong>：看 K8s events（OOMKilled）→ 内存监控曲线（峰值超 limits）→ 分析是单个大任务（大批 AP 数据一次载入）还是并发累积
+- <strong>方案</strong>：① 内存配额 5Gi→5.5Gi（requests 保持 3Gi，limits 上调留余量）② 大任务分批处理/限制单任务内存 ③ 消息消费限流（防突发堆积全进内存）
+- <strong>效果</strong>：OOM 重启消失，服务稳定
+- <strong>可迁移（Java）</strong>：Java 对应 -Xmx 调优 + 大对象/集合无界增长排查 + 线程池队列限制
+<strong>追问应对</strong>："为什么 requests 和 limits 都要配？"→ requests 决定调度（Node 内存够才调度），limits 是上限（超了 OOM kill）；只配 limits 会高估导致 Node 超卖。</p>
+<h2>案例② Kafka 消费积压排查</h2>
+<p><strong>一句话结论</strong>：消费速度跟不上生产速度 → 积压，先看积压量定位是"生产暴涨"还是"消费卡住"，再对症处理。
+<strong>完整讲法</strong>：
+- <strong>背景</strong>：设备调优结果上报量大，消费处理慢，页面数据延迟
+- <strong>定位</strong>：查消费者组 lag（Kafka lag 监控）→ 确认积压持续增长 → 看消费端日志：是 DB 写入慢还是处理逻辑慢
+- <strong>方案</strong>：① 批量消费（攒一批一次入库，减少 DB 往返）② 加分区/消费者并行度 ③ 消费端慢 SQL 优化（加索引）
+- <strong>效果</strong>：lag 回落，数据实时
+- <strong>可迁移（Java）</strong>：Spring Kafka 消费者并发（concurrency）、批量 Listener、手动提交 offset
+<strong>追问应对</strong>："消息会不会丢？"→ 生产 acks=all + 消费先处理再提交 offset + 幂等去重（你手册 04 全套）。</p>
+<h2>案例③ MongoDB 慢查询与索引优化</h2>
+<p><strong>一句话结论</strong>：上报数据量大查询慢 → explain 看是否走索引 → 建复合索引 + 分片，查询从秒级到毫秒。
+<strong>完整讲法</strong>：
+- <strong>背景</strong>：按 taskId+AP 查调优历史慢（数据千万级）
+- <strong>定位</strong>：explain() 看 COLLSCAN（全集合扫）→ 无合适索引
+- <strong>方案</strong>：建复合索引 {taskId, apSN, RI} 命中查询 + 按任务维度分库分表分散热点 + 限制返回字段（projection）
+- <strong>效果</strong>：查询毫秒级
+- <strong>可迁移（Java/MySQL）</strong>：EXPLAIN 看 type（ref/range vs ALL）、联合索引最左前缀、覆盖索引
+<strong>追问应对</strong>："复合索引顺序怎么定？"→ 等值字段在前（taskId）、范围字段在后（时间/RI），最左前缀匹配。</p>
+<h2>案例④ Redis 缓存与配置中心优化</h2>
+<p><strong>一句话结论</strong>：高频读取走缓存 + 缓存一致性（先写库再删缓存）+ 防击穿，把 DB 压力降到 1/10。
+<strong>完整讲法</strong>：
+- <strong>背景</strong>：配置/基础数据每次请求都查 Mongo，高峰 DB 压力大
+- <strong>方案</strong>：① 热点配置缓存到 Redis（TTL 兜底）② 变更时先写库再删缓存（Cache Aside）③ 分布式锁防并发重建
+- <strong>效果</strong>：DB QPS 大幅下降，接口延迟降低
+- <strong>可迁移（Java）</strong>：Spring Cache/Redisson、缓存穿透/击穿/雪崩方案（手册 03 全链路）
+<strong>追问应对</strong>："缓存和 DB 不一致怎么办？"→ 删缓存 + 延迟双删/Canal 兜底 + TTL（手册 03 第 5/9 题）。</p>
+<h2>案例⑤ 日志降级优化（非关键日志）</h2>
+<p><strong>一句话结论</strong>：把无业务价值的 error 级日志降为 info/warn，减少磁盘与 IO 开销、降低告警噪音。
+<strong>完整讲法</strong>：
+- <strong>背景</strong>：rrmcontrol 大量流程性日志用 ERROR 打印（如 'empty autoOptDoc' 每 60s 一次），日志量大、告警噪音
+- <strong>方案</strong>：分析日志分类（错误 vs 流程事件）→ 流程事件降级 console.info/warn，仅保留真错误为 ERROR
+- <strong>效果</strong>：日志量下降、告警准确率提升、IO 开销降低
+- <strong>可迁移（Java）</strong>：log4j2/logback 级别配置、按类调整级别、日志异步化
+<strong>追问应对</strong>："为什么流程事件也用 ERROR 是问题？"→ 掩盖真错误（告警疲劳）+ 额外 IO；日志策略：ERROR=需要人处理，INFO/WARN=可观测即可。</p>
+<h2>案例⑥ 性能优化高阶题（Java 面试通用）</h2>
+<p><strong>一句话结论</strong>：线程池参数、连接池、批量 IO、异步化、GC 调优——五类高频考点，每类备一句实践理解。
+<strong>详细解释</strong>：
+1. <strong>线程池</strong>：核心/最大/队列怎么定？→ CPU 密集 = 核数+1，IO 密集可大；队列有界防 OOM（手册 06 第 13 题联动）
+2. <strong>连接池</strong>：DB/Redis/HTTP 连接都池化（避免频繁建连）；池大小 = 峰值并发 × 单连接耗时/预期响应
+3. <strong>批量 IO</strong>：批量入库/批量查询替代 N+1（一次循环查一次库是反模式）
+4. <strong>异步化</strong>：非核心逻辑异步（MQ/线程池），削峰填谷
+5. <strong>GC 调优</strong>：目标是少 Full GC；大对象/缓存无界增长是元凶（手册 07）
+<strong>话术/例题</strong>：挑 2-3 类结合真实场景讲（批量入库 + 异步上报你都在 RRM 做过）。追问：如何定位 Java 线上性能问题？→ top/arthas（dashboard/thread/ognl）+ jstat 看 GC + jmap 堆转储（手册 07 第 8 题命令）。</p>
+<h2>📝 本章自测（闭卷）</h2>
+<ol>
+<li>用"背景-现象-定位-方案-效果"完整讲 rrmcompute OOM 案例（2 分钟脱稿）</li>
+<li>Kafka 积压排查三步 + 防丢三件套</li>
+<li>Mongo 慢查询定位（explain 看什么）+ 复合索引顺序原则</li>
+<li>缓存一致性方案一句话 + 防击穿</li>
+<li>日志降级的价值（为什么流程事件不该用 ERROR）</li>
+<li>线程池参数怎么定（CPU/IO 密集）</li>
+<li>Java 线上性能定位命令链（arthas/jstat/jmap）</li>
+</ol>
+<blockquote>
+<p>完成自测后回《学习手册_10》把 4 个案例补进你的"高频追问应对"，面试时按需调取</p>
+</blockquote></article></div>
+<div class="bottomnav"><a href="学习手册_17_SpringCloud微服务.html">◀ 上一本：17 SpringCloud</a>
+<a class="ghost" href="面试八股复习计划_李鑫.html">📖 回复习计划勾选</a></div>
+</body></html>

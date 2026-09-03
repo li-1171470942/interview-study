@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>05 C/C++ · 学习手册</title><style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:60px; }
+.topnav { position:sticky; top:0; z-index:9; background:#1f2937; color:#fff; padding:10px 0; }
+.topnav .inner { max-width:960px; margin:0 auto; padding:0 18px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; font-size:13px; }
+.topnav a { color:#c7d2fe; text-decoration:none; padding:3px 12px; border-radius:14px; background:rgba(255,255,255,.08); }
+.topnav a:hover { background:rgba(255,255,255,.2); color:#fff; }
+.topnav .sep { opacity:.4; }
+.wrap { max-width:960px; margin:0 auto; padding:0 18px; }
+.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px; margin-top:22px; box-shadow:0 1px 3px rgba(20,30,60,.05); }
+.article h1 { font-size:26px; color:#4f46e5; border-bottom:3px solid #4f46e5; padding-bottom:12px; margin-bottom:18px; }
+.article h2 { font-size:20px; margin:30px 0 12px; padding:10px 14px; background:#eef2ff; border-left:4px solid #4f46e5; border-radius:6px; color:#312e81; }
+.article h3 { font-size:14px; color:#475569; margin:14px 0 6px; }
+.article p { margin:8px 0; font-size:14.5px; color:#2b3245; }
+.article ul, .article ol { margin:8px 0 8px 24px; }
+.article li { font-size:14.5px; margin:4px 0; }
+.article strong { color:#111827; }
+.article code { background:#f1f3fa; padding:1px 6px; border-radius:4px; font-size:13px; color:#be185d; }
+.article pre { background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:8px; overflow-x:auto; margin:12px 0; font-size:13px; line-height:1.6; }
+.article pre code { background:none; color:inherit; padding:0; }
+.article table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13.5px; display:block; overflow-x:auto; }
+.article th { background:#f1f3fa; padding:8px 10px; text-align:left; color:#475569; font-size:12.5px; border:1px solid #e4e8f0; }
+.article td { padding:8px 10px; border:1px solid #e4e8f0; vertical-align:top; }
+.article blockquote { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; margin:12px 0; border-radius:6px; color:#166534; font-size:14px; }
+.article blockquote strong { color:#14532d; }
+.article hr { border:none; border-top:1px dashed #d1d5db; margin:26px 0; }
+.bottomnav { max-width:960px; margin:20px auto 0; padding:0 18px; display:flex; gap:10px; }
+.bottomnav a { flex:1; text-align:center; background:#4f46e5; color:#fff; text-decoration:none; padding:12px 10px; border-radius:10px; font-size:14px; }
+.bottomnav a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
+@media (max-width:760px){ .article{padding:22px 18px;} .article h1{font-size:21px;} }
+</style></head>
+<body>
+<div class="topnav"><div class="inner"><a href="学习中心.html">🏠 学习中心</a> <span class="sep">|</span> <a href="学习手册索引.md">📚 手册索引</a> <span class="sep">|</span> <a href="学习手册_04_Node.js专属.html">◀ 04 Node.js</a> <span class="sep">|</span> <a href="学习手册_06_Java基础.html">06 Java ▶</a></div></div>
+<div class="wrap"><article class="article"><h1>📘 学习手册 05 · C/C++ 基础</h1>
+<blockquote>
+<p>配套《面试八股复习计划》第 3 节 41-70 题
+目标：D 梯队通信军工岗（中兴/锐捷/鼎桥/10所/611所）+ 中电科网安 + 中瓴智行
+你有蓝桥杯 C++ 底子和 node-ffi 实战，重点是把"会用"变成"能讲清原理"
+模板：<strong>一句话结论 → 详细解释 → 面试话术/例题</strong></p>
+</blockquote>
+<hr />
+<h2>🔩 基础与内存（41-51 题）</h2>
+<h3>41. 指针与引用的区别？const 修饰指针的情况</h3>
+<p><strong>一句话结论</strong>：指针是存地址的变量（可空、可改指向），引用是变量的别名（必须初始化、不可改）；const 放 * 前修饰指向的内容，放 * 后修饰指针本身。
+<strong>详细解释</strong>：
+- 指针：<code>int *p = &amp;a;</code> 可指向别处、可空；<code>sizeof(指针)</code>=8（64 位）
+- 引用：<code>int &amp;r = a;</code> 是别名，必须初始化、不能改绑、不能空；传参用引用避免拷贝
+- const 组合：
+  - <code>const int *p</code> / <code>int const *p</code>：指针指向的内容不可改（指向 const int）
+  - <code>int *const p</code>：指针本身不可改（const 指针）
+  - <code>const int *const p</code>：两者都不可改
+- 记忆口诀：<strong>const 修饰离它最近的类型/变量</strong>——<code>*</code> 前是内容，<code>*</code> 后是指针
+<strong>话术/例题</strong>：先说引用=别名（底层也是指针实现），再说 const 口诀。追问：为什么传参优先用 const 引用？→ 避免拷贝 + 防止误改。</p>
+<h3>42. static 关键字的作用</h3>
+<p><strong>一句话结论</strong>：static 让对象生命周期延长 / 作用域受限：修饰局部变量（生命周期全局）、全局变量（仅本文件）、成员变量/函数（属于类不属于对象）、类内变量（所有实例共享）。
+<strong>详细解释</strong>：
+- 静态局部变量：只初始化一次，函数退出不销毁，下次进入沿用（计数器常用）
+- 静态全局/函数：限制在本翻译单元（类似文件私有），避免多文件重名
+- 静态成员变量：所有对象共享一份，类外定义；静态成员函数：不依赖对象，不能访问非静态成员（没有 this）
+- C 里 static 是"文件级私有"，C++ 里多了"类级共享"语义
+<strong>话术/例题</strong>：分层答"存储/作用域/类语义"。追问：static 局部变量存在哪？→ 全局区（静态存储区）。</p>
+<h3>43. new/delete 与 malloc/free 的区别</h3>
+<p><strong>一句话结论</strong>：new 是运算符（分配内存+调构造函数），malloc 是函数（只分配）；new/delete 配 C++ 对象，malloc/free 配 C。
+<strong>详细解释</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>new</th>
+<th>malloc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>运算符</td>
+<td>库函数</td>
+</tr>
+<tr>
+<td>分配+<strong>调用构造函数</strong></td>
+<td>只分配原始内存</td>
+</tr>
+<tr>
+<td>返回类型安全（自动类型）</td>
+<td>返回 void* 需强转</td>
+</tr>
+<tr>
+<td>delete 触发析构函数</td>
+<td>free 只释放</td>
+</tr>
+<tr>
+<td>可重载</td>
+<td>不可重载</td>
+</tr>
+<tr>
+<td>失败抛异常（bad_alloc）</td>
+<td>失败返回 NULL</td>
+</tr>
+<tr>
+<td>- 注意：new[] 用 delete[] 配对，malloc/free、new/delete 不能混用</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>话术/例题</strong>：核心差异是"构造函数/析构函数"。追问：new[] 和 delete[] 怎么知道要析构几个？→ 数组头部记录元素个数。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>44. 内存分区（栈/堆/全局/常量/代码区）</h3>
+<p><strong>一句话结论</strong>：栈（局部变量，自动管理）、堆（动态分配，手动管理）、全局/静态区（全局变量）、常量区（字符串字面量，只读）、代码区（指令）。
+<strong>详细解释</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>区域</th>
+<th>内容</th>
+<th>管理</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>栈</td>
+<td>局部变量、函数参数</td>
+<td>编译器自动</td>
+<td>小（默认几 MB）、快、向下生长</td>
+</tr>
+<tr>
+<td>堆</td>
+<td>new/malloc 分配</td>
+<td>程序员手动</td>
+<td>大（GB 级）、慢、向上生长</td>
+</tr>
+<tr>
+<td>全局/静态区</td>
+<td>全局变量、static 变量</td>
+<td>程序周期</td>
+<td>程序启动分配到结束</td>
+</tr>
+<tr>
+<td>常量区</td>
+<td>字符串字面量</td>
+<td>只读</td>
+<td>修改会崩溃</td>
+</tr>
+<tr>
+<td>代码区</td>
+<td>编译后的机器指令</td>
+<td>只读</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>话术/例题</strong>：能画出内存布局图就是基础题满分。追问：栈溢出怎么发生？→ 无限递归/大数组栈上分配。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>45. 野指针/悬空指针/内存泄漏</h3>
+<p><strong>一句话结论</strong>：野指针=未初始化/指向已释放内存的指针；悬空指针=指向已 delete 的内存；内存泄漏=分配了没释放（堆内存越占越多）。
+<strong>详细解释</strong>：
+- 野指针：声明未初始化（随机地址）、free 后没置 NULL、指针超出作用域——访问会段错误/脏数据
+- 悬空指针：delete p 后 p 仍指向已释放内存（用 p 前要置 NULL，C++11 后用智能指针）
+- 内存泄漏：new 了没 delete、容器里指针没清、异常路径没释放——长期运行内存涨、OOM
+- 排查：Valgrind（内存检测）、ASan（AddressSanitizer，编译期插桩）、泄漏检测工具
+<strong>话术/例题</strong>：回答"指针三大坑" + 治本方案"RAII/智能指针"（栈对象析构自动释放）。追问：你的 node-ffi 场景怎么防泄漏？→ 调 C 库分配的内存必须调对应释放函数，Buffer 生命周期管理。</p>
+<h3>46. 智能指针 unique_ptr / shared_ptr / weak_ptr</h3>
+<p><strong>一句话结论</strong>：RAII 思想——栈上智能指针对象管理堆内存，析构自动释放；unique 独占、shared 共享计数、weak 观察不计数。
+<strong>详细解释</strong>：
+- <strong>unique_ptr</strong>：独占所有权，不可拷贝可移动（move），析构自动 delete；<code>make_unique&lt;T&gt;()</code>
+- <strong>shared_ptr</strong>：引用计数，最后一个销毁时释放；<code>make_shared&lt;T&gt;()</code>；线程安全计数（对象本身不保证）
+- <strong>weak_ptr</strong>：不增加计数（解决循环引用），lock() 提升为 shared_ptr 判断对象是否存活
+- <strong>循环引用问题</strong>：A 持 B 的 shared_ptr、B 持 A 的 shared_ptr → 计数永远不为 0 → 泄漏；解法：一边用 weak_ptr
+- 底层：shared_ptr 内部两个指针（对象 + 控制块含计数）；make_shared 一次分配效率高
+<strong>话术/例题</strong>：必考题，讲清三兄弟职责 + 循环引用场景。追问：weak_ptr 怎么判断对象还活着？→ lock() 返回空则已释放。</p>
+<h3>47. 深拷贝 vs 浅拷贝？何时手写拷贝构造</h3>
+<p><strong>一句话结论</strong>：浅拷贝只复制指针（两个对象指向同一块内存，析构两次崩溃）；深拷贝复制内容（各自独立内存）；类里有裸指针/堆资源时必须手写。
+<strong>详细解释</strong>：
+- 默认拷贝构造 = 浅拷贝（逐成员复制）：含指针时两个对象共享堆内存 → 双重释放/悬空
+- 深拷贝：new 新内存 + 复制内容
+- 需要手写的场景：类持有堆资源（指针/文件句柄/锁）；遵循<strong>三/五法则</strong>（析构+拷贝构造+赋值运算符，C++11 加移动构造/移动赋值）
+- 现代做法：用 std::string/vector/智能指针代替裸指针 → 默认拷贝就是深拷贝，不用手写
+<strong>话术/例题</strong>："裸指针才需要手写，容器/智能指针自动深拷贝"。追问：三法则是什么？→ 定义了析构/拷贝构造/赋值中任一个，通常三个都要。</p>
+<h3>48. 虚函数/纯虚函数/虚函数表(vtable)？多态如何实现</h3>
+<p><strong>一句话结论</strong>：虚函数实现运行时多态；每个含虚函数的类有一张虚函数表（vtable），对象头存 vptr 指针，调用时查表跳转——动态绑定。
+<strong>详细解释</strong>：
+- 声明：基类 <code>virtual void func()</code>；子类 override 重写
+- 纯虚函数：<code>virtual void func() = 0;</code> → 类变抽象类，不能实例化，子类必须实现
+- 原理：编译期每个类生成 vtable（函数指针数组）；对象内存开头放 vptr → 运行时根据<strong>实际对象类型</strong>查自己的 vtable 调对应实现
+- 多态条件：继承 + 虚函数重写 + 基类指针/引用调用
+- 开销：一次间接跳转 + vptr 内存；构造函数不能是虚函数（vptr 还没建好）
+<strong>话术/例题</strong>：能讲出"vptr + vtable + 动态绑定"三步就是高级。追问：析构函数为什么必须是虚的？→ 基类指针 delete 子类对象时，非虚析构只调基类析构 → 子类资源泄漏（见下题）。</p>
+<h3>49. 构造函数/析构函数能否是虚函数？析构为什么 virtual</h3>
+<p><strong>一句话结论</strong>：构造函数不能是虚函数（对象还没建好没有 vptr），析构函数<strong>应该</strong>是虚函数（基类指针删子类对象时保证子类析构被调用）。
+<strong>详细解释</strong>：
+- 构造不能虚：虚调用依赖 vptr，而 vptr 在构造函数里才初始化；构造时对象类型未定型
+- 析构必须虚：<code>Base *p = new Derived; delete p;</code>——若析构非虚，只会调用 Base 析构，Derived 的资源（成员对象/动态内存）不释放 → 泄漏
+- 注意：即使基类没有资源，只要被继承且可能用基类指针 delete，基类析构就该 virtual（成本：多一个 vtable 条目）
+- 纯虚析构：可以，但要给定义（子类析构最终会调用它）
+<strong>话术/例题</strong>："构造时类型没定、析构要照顾子类"两句话。追问：为什么基类析构虚了子类析构才被调？→ 虚函数机制：delete 时按实际类型查 vtable 调 Derived 析构，再自动调 Base 析构。</p>
+<h3>50. 重载/重写/隐藏的区别？C++ 与 C 的区别</h3>
+<p><strong>一句话结论</strong>：重载=同名不同参（同作用域），重写=子类覆写虚函数（override），隐藏=子类同名函数遮蔽基类（不管参数）；C++ 相对 C 多了类/继承/多态/模板/异常/重载等。
+<strong>详细解释</strong>：
+- 重载 overload：同一作用域，函数名同参数不同（类型/个数/const）→ 编译期决议
+- 重写 override：子类重写基类虚函数，参数签名一致 + virtual + （最好加 override 关键字）
+- 隐藏 hiding：子类定义了和基类同名函数（不管参数是否相同）→ 遮蔽基类版本（加 <code>using Base::f</code> 暴露）
+- C vs C++：C 面向过程、无类/继承/多态、无重载/模板/异常/引用、malloc/free、结构体无方法；C++ 兼容 C + 面向对象 + 泛型（模板）+ STL + RAII
+<strong>话术/例题</strong>：三个"重"字区别背熟（重载/重写/隐藏），是 C++ 入门必考。追问：重载和重写哪个是编译期哪个是运行期？→ 重载编译期（静态绑定），重写运行期（动态绑定，虚函数）。</p>
+<h3>51. 结构体内存对齐</h3>
+<p><strong>一句话结论</strong>：成员按自身对齐数对齐，结构体总大小是最大对齐数的整数倍；对齐为了 CPU 一次性读全（空间换时间）。
+<strong>详细解释</strong>：
+- 对齐规则：每个成员偏移 = min(自身大小, 默认对齐数=8) 的整数倍；总大小 = 最大成员对齐数的整数倍
+- 示例：
+  <code>cpp
+  struct A { char c; int i; };  // c 偏移0，i 偏移4，总大小8（不是5）
+  struct B { char c1; char c2; int i; };  // 总大小8</code>
+- 调整：#pragma pack(1) 紧凑（省空间损性能，网络协议/文件格式用）
+- 为什么：CPU 按字（4/8 字节）访问内存，不对齐要读两次再拼
+<strong>话术/例题</strong>：背规则 + 算一个例子。追问：网络传输结构体要注意什么？→ pack(1) 去掉对齐 + 注意大小端（协议设计）。</p>
+<hr />
+<h2>🔩 STL 与数据结构（52-56 题）</h2>
+<h3>52. vector 底层与扩容？map vs unordered_map</h3>
+<p><strong>一句话结论</strong>：vector 是动态数组，扩容按约 2 倍（搬迁+拷贝，迭代器失效）；map 红黑树有序 O(log n)，unordered_map 哈希表无序 O(1)。
+<strong>详细解释</strong>：
+- vector：连续内存，尾插 O(1)，中间插 O(n)；size 到 capacity 时扩容：新空间 2 倍 → 拷贝/移动旧元素 → 释放旧内存（迭代器/指针失效）
+- 优化：reserve() 预分配；shrink_to_fit() 收缩
+- map：红黑树，key 有序，支持范围查找；内存占用高
+- unordered_map：哈希表，平均 O(1)，无序；哈希冲突用链地址法，rehash 时全量重排（可能卡顿）
+- 选择：需要有序/范围遍历用 map，只查 key 用 unordered_map
+<strong>话术/例题</strong>：vector 扩容讲"2 倍 + 迭代器失效"是考点。追问：unordered_map 为什么默认不用？→ 无序 + 哈希函数开销 + rehash 抖动。</p>
+<h3>53. 红黑树 vs 哈希表，适用场景</h3>
+<p><strong>一句话结论</strong>：红黑树=自平衡二叉搜索树（有序、O(log n)、范围查询），哈希表=数组+哈希函数（O(1) 等值、无序）。
+<strong>详细解释</strong>：
+- 红黑树：节点红/黑染色保证最长路径≤2 倍最短路径（近似平衡）；插入删除 O(log n) 旋转调整；支持顺序遍历、范围、前驱后继
+- 哈希表：key → 哈希函数 → 槽位；冲突链地址/开放寻址；rehash 扩容
+- 场景：需要排序/范围（排名、区间）用红黑树；只需等值查找（id 查对象）用哈希表
+- 工程：STL map/set 红黑树；unordered_map 哈希；MongoDB/Redis 各有使用
+<strong>话术/例题</strong>：一句"有序+范围用树，等值+快用哈希"。追问：为什么 HashMap 当负载因子 0.75 扩容？→ 空间与冲突率平衡。</p>
+<h3>54. sort 底层实现（快排+插排+堆排）</h3>
+<p><strong>一句话结论</strong>：STL sort 是<strong>混合排序</strong>：快排为主，元素少用插入排序，递归过深退化时用堆排序兜底。
+<strong>详细解释</strong>：
+- 数据量大：<strong>快速排序</strong>（三数取中选枢轴）
+- 递归到小区间（如 ≤16）：<strong>插入排序</strong>（小数组开销小、cache 友好）
+- 快排递归深度过深（最坏 O(n²) 风险）：转<strong>堆排序</strong>（保证 O(n log n)）
+- stable_sort：归并排序（保持相等元素相对顺序）
+- 算法复杂度：平均 O(n log n)，快排最坏 O(n²) 但混合后几乎不会发生
+<strong>话术/例题</strong>：讲"三种算法分工"（快排主 + 插排小 + 堆排兜底）就是懂源码。追问：为什么不用纯快排？→ 最坏 O(n²) 和递归栈溢出。</p>
+<h3>55. deque / set / multiset 底层与特性</h3>
+<p><strong>一句话结论</strong>：deque 双端队列（分段连续，头尾 O(1)），set 有序唯一集合（红黑树），multiset 有序可重复（红黑树）。
+<strong>详细解释</strong>：
+- deque：多段连续缓冲区 + 中控器（map 指针数组），头尾插入删除 O(1)，随机访问 O(1)（比 vector 慢）；中间插 O(n)
+- set：红黑树，元素唯一且有序；insert 返回 pair（迭代器+是否成功）；底层就是 key 节点的红黑树
+- multiset：允许重复，count() 返回重复个数；erase 会删所有相等的
+- 衍生：map=key-value 红黑树；priority_queue=堆（默认大顶堆）
+<strong>话术/例题</strong>：区分"set 去重有序 / unordered_set 去重无序"。追问：deque 和 vector 选哪个？→ 频繁头尾操作用 deque，追求随机访问 cache 局部性用 vector。</p>
+<h3>56. 哈希冲突的解决方式</h3>
+<p><strong>一句话结论</strong>：链地址法（每个槽挂链表，STL 默认）和开放寻址法（线性/二次探测找空位）；负载因子高时扩容。
+<strong>详细解释</strong>：
+- <strong>链地址法</strong>：冲突的元素挂链表/红黑树（JVM 8 后链表→红黑树）；实现简单、删除方便；哈希表+链表
+- <strong>开放寻址法</strong>：冲突后按探测序列找下一个空槽：线性探测（+1，有聚集问题）/二次探测（+i²）/双重哈希；删除要标记
+- 负载因子：元素数/桶数，过高冲突多 → 扩容 rehash（一般 0.75）
+- 退化：哈希函数设计差（如全相同的 key）→ 全挂链表 → O(n)
+<strong>话术/例题</strong>：两个方案各说一句 + "负载因子 0.75 扩容"。追问：为什么 HashMap 桶里转红黑树的阈值是 8？→ 泊松分布下概率极低，兼顾空间。</p>
+<hr />
+<h2>🔩 并发与系统（57-63 题，通信岗重点）</h2>
+<h3>57. 线程与进程区别？mutex/condition_variable/atomic</h3>
+<p><strong>一句话结论</strong>：进程是资源分配单位（独立内存），线程是调度单位（共享进程内存）；mutex 互斥锁、condition_variable 条件变量、atomic 原子变量。
+<strong>详细解释</strong>：
+- 进程：独立地址空间、切换开销大、通信靠 IPC；线程：共享地址空间、切换快、天然共享数据但需同步
+- <strong>mutex</strong>：<code>lock()/unlock()</code> 或 lock_guard（RAII 自动解锁）；保护临界区
+- <strong>condition_variable</strong>：wait 释放锁并阻塞，notify_one/all 唤醒；解决"轮询等待"问题（生产者消费者）
+- <strong>atomic</strong>：原子操作（lock-free），int 计数用 atomic 比 mutex 高效；memory_order 控制可见性
+- 死锁例子：两个线程各持一把锁等另一把
+<strong>话术/例题</strong>：进程/线程 + 三种同步手段一句话各一个。追问：condition_variable 为什么需要锁配合？→ wait 前必须持锁，内部原子地"释放锁+阻塞"，防止通知丢失。</p>
+<h3>58. 死锁的四个必要条件？如何避免</h3>
+<p><strong>一句话结论</strong>：互斥 + 持有并等待 + 不可剥夺 + 循环等待，四者同时满足才死锁；破坏任何一个即可避免。
+<strong>详细解释</strong>：
+1. 互斥：资源一次只能被一个线程占用
+2. 持有并等待：持有一个资源等待另一个
+3. 不可剥夺：资源不能被强行抢走
+4. 循环等待：A 等 B、B 等 A 形成环
+- 避免：<strong>按固定顺序加锁</strong>（破坏循环等待，最常用）、一次申请所有锁（破坏持有等待）、加锁超时（可剥夺）、锁粒度最小化
+- 排查：gdb 看线程栈、pstack；<code>ps -T</code> + 栈分析
+<strong>话术/例题</strong>：背四条件 + "按序加锁"解法。追问：你项目里见过死锁吗？（可讲 Kafka 消费者 + DB 锁的顺序问题，或锁顺序约定）。</p>
+<h3>59. 线程池如何实现？任务队列+工作线程</h3>
+<p><strong>一句话结论</strong>：线程池 = 一组常驻工作线程 + 一个任务队列 + 提交/调度逻辑；任务来了放队列，空闲线程取任务执行。
+<strong>详细解释</strong>：
+- 组成：任务队列（mutex + condition_variable）、N 个工作线程（启动时创建，循环取任务）、线程安全提交接口
+- 流程：提交任务 → 加锁入队 → notify 一个线程；线程阻塞在条件变量 → 被唤醒取任务 → 执行
+- 好处：避免频繁创建/销毁线程（开销大）；控制并发数（防资源耗尽）；复用
+- 参数：核心线程数、最大线程数、队列容量、拒绝策略（类似 Java 线程池）
+- 线程数选择：CPU 密集 ≈ 核数+1；I/O 密集可更多（等待 I/O 时不占 CPU）
+<strong>话术/例题</strong>：讲"队列+工作线程+条件变量"结构。追问：任务队列用什么数据结构？→ std::queue + mutex 保护，或用无锁队列。</p>
+<h3>60. 进程间通信 IPC 方式</h3>
+<p><strong>一句话结论</strong>：管道、消息队列、共享内存、信号量、信号、Socket——共享内存最快（要同步），Socket 最通用（可跨机）。
+<strong>详细解释</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>方式</th>
+<th>特点</th>
+<th>场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>管道（pipe/fifo）</td>
+<td>单向字节流、简单</td>
+<td>父子进程/命令行</td>
+</tr>
+<tr>
+<td>消息队列</td>
+<td>内核消息、有界</td>
+<td>少量结构化消息</td>
+</tr>
+<tr>
+<td><strong>共享内存</strong></td>
+<td>最快（直接读写同一块内存）</td>
+<td>大数据量高频</td>
+</tr>
+<tr>
+<td>信号量</td>
+<td>同步原语（配合共享内存）</td>
+<td>互斥/计数</td>
+</tr>
+<tr>
+<td>信号</td>
+<td>异步通知（SIGINT 等）</td>
+<td>简单通知</td>
+</tr>
+<tr>
+<td><strong>Socket</strong></td>
+<td>全双工、可跨主机</td>
+<td>网络通信（你 RRM 场景）</td>
+</tr>
+<tr>
+<td>对比线程：线程共享内存天然"通信"但需同步</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>话术/例题</strong>：能说"共享内存最快但要信号量配合"就到位。追问：为什么共享内存需要同步？→ 多进程并发读写同一块内存会有数据竞争。</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>61. socket 编程 TCP 服务端完整流程</h3>
+<p><strong>一句话结论</strong>：socket → bind → listen → accept（循环）→ recv/send → close；客户端 socket → connect → send/recv → close。
+<strong>详细解释</strong>：
+- 服务端：<code>socket(AF_INET, SOCK_STREAM, 0)</code> → <code>bind(端口)</code> → <code>listen(backlog)</code> → <code>accept()</code> 返回新 fd（每次连接）→ 收发 → <code>close()</code>
+- 客户端：<code>socket()</code> → <code>connect(ip:port)</code>（触发三次握手）→ 收发 → <code>close()</code>
+- 多连接处理：fork/多线程/select/epoll 模型
+- 关键点：accept 返回的 fd 和监听 fd 分开；backlog 是未完成握手队列长度；非阻塞 + epoll 才是高并发
+<strong>话术/例题</strong>：把流程背熟 + 画三次握手对应位置（connect 对应 SYN）。追问：服务端怎么支持上万连接？→ 单线程 + epoll + 非阻塞。</p>
+<h3>62. select / poll / epoll 的区别（通信厂必问）</h3>
+<p><strong>一句话结论</strong>：select 有 1024 fd 上限且全量遍历，poll 无上限但仍全量遍历，epoll 事件驱动只返回就绪 fd（Linux 高并发首选）。
+<strong>详细解释</strong>：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>select</th>
+<th>poll</th>
+<th>epoll</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fd 上限</td>
+<td>1024（FD_SETSIZE）</td>
+<td>无（链表）</td>
+<td>无</td>
+</tr>
+<tr>
+<td>通知方式</td>
+<td>全量遍历 O(n)</td>
+<td>全量遍历 O(n)</td>
+<td>就绪回调 O(1)</td>
+</tr>
+<tr>
+<td>复制</td>
+<td>每次拷贝 fd 集到内核</td>
+<td>同左</td>
+<td>mmap 共享，免拷贝</td>
+</tr>
+<tr>
+<td>触发</td>
+<td>水平触发</td>
+<td>水平触发</td>
+<td>LT + ET</td>
+</tr>
+<tr>
+<td>跨平台</td>
+<td>Win/Linux</td>
+<td>Linux</td>
+<td>Linux</td>
+</tr>
+<tr>
+<td>- epoll 结构：epoll_create → epoll_ctl（注册 fd）→ epoll_wait（等待就绪）；就绪列表直接返回</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- LT（水平）：有数据就反复通知；ET（边沿）：状态变化通知一次，要一次读完（配合非阻塞）</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>话术/例题</strong>：通信/网络岗<strong>必考</strong>，对比表背熟 + 结论"高并发用 epoll"。追问：ET 模式为什么必须非阻塞读？→ 一次读不完要循环读，阻塞会卡住。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>63. 阻塞/非阻塞、同步/异步？I/O 多路复用</h3>
+<p><strong>一句话结论</strong>：阻塞=等数据才返回，非阻塞=立即返回轮询；同步=自己等结果，异步=完成通知我；I/O 多路复用=一个线程管多路 IO（见手册 03 第 2 题，同源知识）。
+<strong>详细解释</strong>：
+- 四个组合（经典）：
+  - 阻塞同步：read 挂起等数据
+  - 非阻塞同步：read 立即返回 EAGAIN，轮询
+  - I/O 多路复用：select/epoll 通知哪个 fd 就绪（阻塞在 wait，但能等很多路）
+  - 异步（AIO/io_uring）：内核复制完数据再通知回调，应用不参与等待
+- 网络编程推荐：非阻塞 + epoll（事件驱动）
+<strong>话术/例题</strong>：能区分"阻塞/非阻塞"（等的方式）和"同步/异步"（谁通知结果）两个维度就是概念清晰。追问：Node.js 用的是哪种？→ 非阻塞 I/O + 事件循环（I/O 多路复用模型）。</p>
+<hr />
+<h2>🔩 编译链接与新特性（64-70 题）</h2>
+<h3>64. 编译过程四阶段</h3>
+<p><strong>一句话结论</strong>：预处理 → 编译 → 汇编 → 链接，gcc -E / -S / -c 分别对应前三步。
+<strong>详细解释</strong>：
+1. <strong>预处理</strong>：展开 #include/#define 宏、条件编译 #ifdef，产出 .i
+2. <strong>编译</strong>：C++ 源码 → 汇编（词法/语法/语义分析 + 优化），产出 .s
+3. <strong>汇编</strong>：汇编 → 目标文件（机器码 + 符号表），产出 .o/.obj
+4. <strong>链接</strong>：合并多个 .o + 库，解析符号引用（找 main/外部函数），产出可执行文件
+- 链接错误类型：未定义符号（undefined reference）、重复定义
+<strong>话术/例题</strong>：背四阶段 + 常见报错对应哪步（undefined reference = 链接期）。追问：头文件里定义全局变量会怎样？→ 多个 .cpp 包含后链接期重复定义（应放 .cpp，头文件只声明 extern）。</p>
+<h3>65. 静态库 vs 动态库</h3>
+<p><strong>一句话结论</strong>：静态库（.a/.lib）编译期打包进可执行文件（大、独立、更新要重编）；动态库（.so/.dll）运行期加载（小、共享、可热更新）。
+<strong>详细解释</strong>：
+- 静态库：<code>ar</code> 打包 .o；链接时拷贝到程序 → 程序大、部署简单、不依赖环境；更新库要重新编译链接
+- 动态库：编译期只记录符号，运行期 dlopen/ld.so 加载 → 程序小、多进程共享内存、可独立更新（替换 .so）；缺点：依赖环境（缺 .so 跑不起来，"libxxx.so: cannot open shared object"）
+- 链接顺序：动态库有 PLT/GOT 延迟绑定
+- 你 node-ffi 加载的就是动态库（.so），dlopen 原理一致
+<strong>话术/例题</strong>：对比"打包 vs 加载"一句话。追问：动态库依赖找不到怎么排查？→ ldd 命令查看依赖。</p>
+<h3>66. extern "C" 的作用</h3>
+<p><strong>一句话结论</strong>：告诉 C++ 编译器按 C 的方式链接（不做名字修饰），让 C++ 代码能调用 C 写的库函数。
+<strong>详细解释</strong>：
+- 原因：C++ 支持重载，编译时会对函数名做<strong>名字修饰（name mangling）</strong>（如 <code>_Z3fooi</code>）；C 不做 → 链接时找不到 C 库的符号
+- 用法：<code>extern "C" { #include "c_lib.h" }</code> 或在 C 头文件里 <code>#ifdef __cplusplus extern "C" { #endif</code>
+- 你 node-ffi 调 C 库（.so）时，头文件的函数必须 extern "C" 才能被正确链接——<strong>这就是你的实战连接点</strong>
+<strong>话术/例题</strong>："C++ 名字修饰 vs C 不修饰"一句本质。追问：C 和 C++ 可以互相调用吗？→ 可以，用 extern "C" 约定接口。</p>
+<h3>67. 头文件守卫 #pragma once vs #ifndef</h3>
+<p><strong>一句话结论</strong>：两者都防头文件重复包含；#ifndef 是标准宏守卫（兼容所有编译器），#pragma once 是编译器指令（更快，但非标准）。
+<strong>详细解释</strong>：
+- <code>#ifndef XXX_H</code> + <code>#define XXX_H</code> + <code>#endif</code>：靠宏判断，标准做法，任何编译器支持
+- <code>#pragma once</code>：编译器记住该文件只包含一次，更快（不用维护宏名），主流编译器（GCC/Clang/MSVC）都支持
+- 区别：宏守卫需要宏名唯一（重名会失效）；pragma once 对"同一文件不同路径"的判断依赖编译器
+- 实践：现代代码两者任选，团队统一；推荐 #pragma once（简洁）
+<strong>话术/例题</strong>：一句"都能防重复包含，标准 vs 便捷"。追问：宏守卫宏名重复了会怎样？→ 第二个文件被跳过，类型未定义报错。</p>
+<h3>68. C++11/14/17 新特性？右值引用/移动语义/move</h3>
+<p><strong>一句话结论</strong>：C++11 引入 auto/lambda/智能指针/右值引用/移动语义/nullptr/范围 for；move 把左值转右值触发移动构造，避免深拷贝。
+<strong>详细解释</strong>：
+- auto：类型推导；lambda：匿名函数对象 <code>[捕获](参数){...}</code>
+- <strong>右值引用 &amp;&amp;</strong>：绑定临时值；<strong>移动语义</strong>：<code>vector v2 = std::move(v1)</code> 转移资源（偷指针）而非深拷贝 → 性能关键
+- move 本质：<code>std::move</code> 是 static_cast<T&&>（只是类型转换，不搬任何东西）；真正搬移在移动构造函数里
+- 移动构造 vs 拷贝构造：移动把对方资源"偷"过来，对方置空（源对象不再使用）
+- nullptr 替代 NULL；智能指针；std::thread；14 泛型 lambda/auto 返回；17 optional/variant/结构化绑定
+<strong>话术/例题</strong>：重点讲 move 语义（"move 只是转换，移动构造才搬移"）。追问：什么时候必须自己写移动构造？→ 类持有裸指针/堆资源时。</p>
+<h3>69. lambda 表达式？auto 类型推导</h3>
+<p><strong>一句话结论</strong>：lambda 是匿名函数对象（语法 <code>[捕获](参数) -&gt; 返回 { 函数体 }</code>），编译期展开成类 + operator()；auto 由编译器推导类型。
+<strong>详细解释</strong>：
+- 捕获：<code>[ ]</code> 不捕获 / <code>[=]</code> 值捕获 / <code>[&amp;]</code> 引用捕获 / <code>[this]</code> / 指定变量；值捕获在定义时拷贝
+- 用途：STL 算法谓词（sort 自定义比较）、回调、线程函数
+- 本质：编译器生成一个匿名类，重载 operator()，捕获的变量是成员
+- auto：编译期推导（不能用于函数参数，C++20 才可）；与 decltype 区别（auto 按值推，decltype 保留引用/const 属性）
+<strong>话术/例题</strong>：lambda 本质"函数对象"一句话。追问：值捕获和引用捕获区别？→ 值捕获拷贝快照（修改不影响外部），引用捕获共享外部变量（注意生命周期）。</p>
+<h3>70. 大端小端字节序</h3>
+<p><strong>一句话结论</strong>：大端=高字节存低地址（网络字节序），小端=低字节存低地址（x86/ARM 默认）；网络传输要统一转网络序。
+<strong>详细解释</strong>：
+- 例：0x12345678，地址 0x100
+  - 大端：0x100=12 0x101=34 0x102=56 0x103=78（人类阅读顺序）
+  - 小端：0x100=78 0x101=56 0x102=34 0x103=12
+- 判断：union 里放 int 看 char 首字节；或取地址强转 char
+- 转换：htons/htonl（主机→网络）、ntohs/ntohl（网络→主机）
+- 场景：网络协议字段、文件格式、跨端数据交换（你 netconf 报文就涉及）
+<strong>话术/例题</strong>：一句"网络序=大端，发送前转网络序"。追问：为什么网络用大端？→ 历史原因（早期协议如 TCP/IP 约定）。</p>
+<hr />
+<h2>📝 本章自测（闭卷）</h2>
+<ol>
+<li>const 四种组合分别修饰什么？引用和指针三个区别</li>
+<li>new 和 malloc 的根本差异是什么</li>
+<li>画出内存五区布局，栈/堆各放什么</li>
+<li>智能指针三兄弟 + 循环引用怎么破</li>
+<li>虚函数表原理？为什么析构要 virtual</li>
+<li>重载/重写/隐藏区别 + 各自绑定时机</li>
+<li>vector 扩容过程？map 和 unordered_map 怎么选</li>
+<li>死锁四条件 + 最常用避免手段</li>
+<li>手写线程池核心逻辑（队列+条件变量）</li>
+<li>select/poll/epoll 对比 + ET 为什么配非阻塞</li>
+<li>extern "C" 解决什么问题（联系 node-ffi）</li>
+<li>move 到底做了什么？移动构造 vs 拷贝构造</li>
+</ol>
+<blockquote>
+<p>完成自测后回《面试八股复习计划》勾选 C/C++ 30 题</p>
+</blockquote></article></div>
+<div class="bottomnav"><a href="学习手册_04_Node.js专属.html">◀ 上一本：04 Node.js</a>
+<a class="ghost" href="面试八股复习计划_李鑫.html">📖 回复习计划勾选</a>
+<a href="学习手册_06_Java基础.html">下一本：06 Java ▶</a></div>
+</body></html>

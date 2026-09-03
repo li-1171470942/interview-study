@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>12 MySQL/PG · 学习手册</title><style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:60px; }
+.topnav { position:sticky; top:0; z-index:9; background:#1f2937; color:#fff; padding:10px 0; }
+.topnav .inner { max-width:960px; margin:0 auto; padding:0 18px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; font-size:13px; }
+.topnav a { color:#c7d2fe; text-decoration:none; padding:3px 12px; border-radius:14px; background:rgba(255,255,255,.08); }
+.topnav a:hover { background:rgba(255,255,255,.2); color:#fff; }
+.topnav .sep { opacity:.4; }
+.wrap { max-width:960px; margin:0 auto; padding:0 18px; }
+.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px; margin-top:22px; box-shadow:0 1px 3px rgba(20,30,60,.05); }
+.article h1 { font-size:26px; color:#4f46e5; border-bottom:3px solid #4f46e5; padding-bottom:12px; margin-bottom:18px; }
+.article h2 { font-size:20px; margin:30px 0 12px; padding:10px 14px; background:#eef2ff; border-left:4px solid #4f46e5; border-radius:6px; color:#312e81; }
+.article h3 { font-size:14px; color:#475569; margin:14px 0 6px; }
+.article p { margin:8px 0; font-size:14.5px; color:#2b3245; }
+.article ul, .article ol { margin:8px 0 8px 24px; }
+.article li { font-size:14.5px; margin:4px 0; }
+.article strong { color:#111827; }
+.article code { background:#f1f3fa; padding:1px 6px; border-radius:4px; font-size:13px; color:#be185d; }
+.article pre { background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:8px; overflow-x:auto; margin:12px 0; font-size:13px; line-height:1.6; }
+.article pre code { background:none; color:inherit; padding:0; }
+.article table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13.5px; display:block; overflow-x:auto; }
+.article th { background:#f1f3fa; padding:8px 10px; text-align:left; color:#475569; font-size:12.5px; border:1px solid #e4e8f0; }
+.article td { padding:8px 10px; border:1px solid #e4e8f0; vertical-align:top; }
+.article blockquote { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; margin:12px 0; border-radius:6px; color:#166534; font-size:14px; }
+.article blockquote strong { color:#14532d; }
+.article hr { border:none; border-top:1px dashed #d1d5db; margin:26px 0; }
+.bottomnav { max-width:960px; margin:20px auto 0; padding:0 18px; display:flex; gap:10px; }
+.bottomnav a { flex:1; text-align:center; background:#4f46e5; color:#fff; text-decoration:none; padding:12px 10px; border-radius:10px; font-size:14px; }
+.bottomnav a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
+@media (max-width:760px){ .article{padding:22px 18px;} .article h1{font-size:21px;} }
+</style></head>
+<body>
+<div class="topnav"><div class="inner"><a href="学习中心.html">🏠 学习中心</a> <span class="sep">|</span> <a href="学习手册索引.md">📚 手册索引</a> <span class="sep">|</span> <a href="学习手册_11_设计模式.html">◀ 11 设计模式</a> <span class="sep">|</span> <a href="学习手册_13_容器化.html">13 容器化 ▶</a></div></div>
+<div class="wrap"><article class="article"><h1>📘 学习手册 12 · MySQL 与 PostgreSQL 兼容</h1>
+<blockquote>
+<p>补充：MySQL 手册之外的数据库对比专题
+背景：你日常用 PostgreSQL 16.8（代码质量扫描），投的岗位多是 MySQL 生态——面试官问"MySQL 和 PG 区别"正是你差异化机会
+模板：<strong>一句话结论 → 详细解释 → 面试话术/例题</strong></p>
+</blockquote>
+<hr />
+<h2>1. MySQL 和 PostgreSQL 选型</h2>
+<p><strong>一句话结论</strong>：MySQL 简单生态大（互联网标配），PG 功能强合规全（JSON/数组/窗口函数/分区完善）；读多写少互联网场景 MySQL，复杂查询/数据分析/合规要求 PG。
+<strong>详细解释</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>MySQL</th>
+<th>PostgreSQL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>定位</td>
+<td>简单易用、生态最大</td>
+<td>功能最全的开源数据库</td>
+</tr>
+<tr>
+<td>存储引擎</td>
+<td>InnoDB/MyISAM 可切换</td>
+<td>统一（无引擎概念）</td>
+</tr>
+<tr>
+<td>事务</td>
+<td>ACID（InnoDB）</td>
+<td>ACID</td>
+</tr>
+<tr>
+<td>复杂查询</td>
+<td>一般</td>
+<td>强（窗口函数/CTE/递归/部分索引）</td>
+</tr>
+<tr>
+<td>JSON</td>
+<td>JSON 文本</td>
+<td><strong>JSONB（二进制，可索引）</strong></td>
+</tr>
+<tr>
+<td>扩展性</td>
+<td>插件少</td>
+<td>插件丰富（PostGIS 地理、Timescale 时序）</td>
+</tr>
+<tr>
+<td>社区/生态</td>
+<td>极大（阿里/腾讯云原生支持）</td>
+<td>大（德哥等中文社区活跃）</td>
+</tr>
+<tr>
+<td>商业应用</td>
+<td>互联网电商社交</td>
+<td>金融/地理/数据分析/开源替代 Oracle</td>
+</tr>
+<tr>
+<td><strong>话术/例题</strong>："MySQL 简单快生态大，PG 功能全数据强"——你两边都熟（PG 用在工作流、MySQL 在岗位要求），这是独特卖点。</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>2. 架构差异：存储引擎与数据组织</h2>
+<p><strong>一句话结论</strong>：MySQL 分层引擎（InnoDB 表空间+聚簇索引），PG 每张表一堆文件（堆表组织，MVCC 靠元组版本）。
+<strong>详细解释</strong>：
+- MySQL InnoDB：<strong>聚簇索引</strong>（主键即数据），数据和索引一体；引擎可选
+- PG：<strong>堆表</strong>（heap），索引是独立结构指向行（类似 MyISAM 的非聚簇）；无引擎概念，统一存储管理器
+- 含义：MySQL 主键查找极快（一次定位），PG 二级索引查询可能回表；PG 顺序扫描+bitmap 扫描优化更强
+- MySQL 一行即一条记录；PG 更新产生新版本元组（旧版本留 undo/vacuum 清理）
+<strong>话术/例题</strong>："MySQL 聚簇索引管数据，PG 堆表+独立索引"一句话。追问：PG 为什么更新慢？→ 新版本元组 + vacuum 负担（见第 6 题）。</p>
+<h2>3. 自增 vs 序列（AUTO_INCREMENT / SERIAL）</h2>
+<p><strong>一句话结论</strong>：MySQL 用 AUTO_INCREMENT，PG 用序列（SERIAL / IDENTITY），本质都是"取号器"但 PG 更灵活。
+<strong>详细解释</strong>：
+- MySQL：<code>id INT AUTO_INCREMENT PRIMARY KEY</code>，表级计数器；重启后按 max+1 续（有历史跳过问题）
+- PG：<code>id SERIAL PRIMARY KEY</code>（内部建序列）；<code>id BIGINT GENERATED ALWAYS AS IDENTITY</code>（现代推荐）
+- 序列特点：独立对象，可多个表共享/批量取 nextval；不随事务回滚（有空洞正常）
+- 迁移注意：MySQL 自增迁移到 PG 要建序列并 setval 到当前最大值
+<strong>话术/例题</strong>：一句"都是自增取号，PG 是独立序列对象"。追问：序列会重复吗？→ 回滚不回收，保证不重复但可能有空洞。</p>
+<h2>4. SQL 语法兼容差异（高频对比）</h2>
+<p><strong>一句话结论</strong>：LIMIT/ON CONFLICT/COALESCE/类型转换/字符串拼接/日期函数 6 处最常见差异，迁移必踩。
+<strong>详细解释</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>MySQL</th>
+<th>PostgreSQL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>分页</td>
+<td>LIMIT 10 OFFSET 20</td>
+<td>LIMIT 10 OFFSET 20（兼容）</td>
+</tr>
+<tr>
+<td>插入冲突</td>
+<td>INSERT IGNORE / ON DUPLICATE KEY UPDATE</td>
+<td><strong>ON CONFLICT (col) DO UPDATE SET / DO NOTHING</strong>（更强大，可指定冲突列）</td>
+</tr>
+<tr>
+<td>空值函数</td>
+<td>IFNULL(a,b)</td>
+<td>COALESCE(a,b)（标准）</td>
+</tr>
+<tr>
+<td>类型转换</td>
+<td>CAST(a AS ...) / CONVERT</td>
+<td>CAST / a::type</td>
+</tr>
+<tr>
+<td>字符串拼接</td>
+<td>CONCAT(a,b) / a</td>
+<td></td>
+</tr>
+<tr>
+<td>大小写</td>
+<td>表名/列名 Windows 下不敏感</td>
+<td>未加引号会折叠成小写（标识符大小写敏感要加双引号）</td>
+</tr>
+<tr>
+<td>日期函数</td>
+<td>NOW()/DATE_FORMAT</td>
+<td>NOW()/CURRENT_DATE/TO_CHAR</td>
+</tr>
+<tr>
+<td>布尔</td>
+<td>0/1</td>
+<td>TRUE/FALSE（也有兼容）</td>
+</tr>
+<tr>
+<td><strong>话术/例题</strong>：背"ON CONFLICT vs ON DUPLICATE、IFNULL vs COALESCE、</td>
+<td></td>
+<td>拼接、标识符大小写"4 个高频差异。追问：迁移时 SQL 兼容性怎么查？→ 方言检测工具/explain 计划对照 + 回归测试。</td>
+</tr>
+</tbody>
+</table>
+<h2>5. 数据类型差异</h2>
+<p><strong>一句话结论</strong>：PG 类型更丰富（数组/JSONB/枚举/几何/网络类型），MySQL 简单；JSON 是最大差异点。
+<strong>详细解释</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>MySQL</th>
+<th>PostgreSQL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JSON</td>
+<td>JSON（文本校验）</td>
+<td>JSON（文本）+ <strong>JSONB</strong>（二进制、去重、可索引、GIN）</td>
+</tr>
+<tr>
+<td>数组</td>
+<td>无原生</td>
+<td><strong>text[]/int[]</strong>（原生数组）</td>
+</tr>
+<tr>
+<td>UUID</td>
+<td>8.0+ 支持（存二进制）</td>
+<td>UUID 原生</td>
+</tr>
+<tr>
+<td>自增</td>
+<td>AUTO_INCREMENT</td>
+<td>SERIAL/IDENTITY</td>
+</tr>
+<tr>
+<td>文本</td>
+<td>VARCHAR/TEXT</td>
+<td>VARCHAR/TEXT（无长度差异，PG TEXT 无上限）</td>
+</tr>
+<tr>
+<td>数值</td>
+<td>DECIMAL</td>
+<td>NUMERIC（更标准）</td>
+</tr>
+<tr>
+<td>枚举</td>
+<td>ENUM（改值麻烦）</td>
+<td>CREATE TYPE 自定义枚举</td>
+</tr>
+<tr>
+<td>网络</td>
+<td>无</td>
+<td>inet/cidr/macaddr</td>
+</tr>
+<tr>
+<td><strong>话术/例题</strong>："PG 类型武器库丰富（数组/JSONB/网络类型），JSON 用 JSONB"是核心卖点。追问：JSONB 比 JSON 好在哪？→ 二进制解析快、自动去重、可建 GIN 索引加速查询。</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>6. MVCC 与并发控制差异</h2>
+<p><strong>一句话结论</strong>：两者都用 MVCC 实现读不阻塞写，但机制不同：MySQL 靠 undo log 版本链，PG 靠元组新旧版本 + vacuum 清理。
+<strong>详细解释</strong>：
+- MySQL：更新时旧版本进 <strong>undo log</strong> 版本链，新版本原地写（InnoDB）；隔离级别默认<strong>可重复读（RR）</strong>
+- PG：更新生成<strong>新版本元组</strong>（堆里新增一行），旧版本保留，靠 <strong>vacuum</strong> 清理过期元组；隔离级别默认<strong>读已提交（RC）</strong>；PG 的 RR 用 SSI（可串行化快照隔离）更强
+- PG 特点：DDL 可以事务化（建表改表可回滚）、锁更细（行锁+谓词锁）
+- MySQL 的 RR 靠 MVCC+间隙锁基本防幻读；PG 的 RR 防幻读靠 SSI 或序列化
+<strong>话术/例题</strong>："MySQL undo 版本链 vs PG 新版本元组"是深度题。追问：PG 为什么有 vacuum？→ 旧版本元组不清理表会膨胀，autovacuum 自动处理。</p>
+<h2>7. 索引差异</h2>
+<p><strong>一句话结论</strong>：MySQL 主打 B+树（+哈希/全文），PG 有 B-tree/GIN/GiST/BRIN/部分索引/表达式索引，类型丰富得多。
+<strong>详细解释</strong>：
+- MySQL：B+树（默认）、Hash（MEMORY 引擎）、全文（InnoDB 5.6+）
+- PG：<strong>B-tree</strong>（默认）、<strong>GIN</strong>（倒排，JSONB/全文搜索）、<strong>GiST</strong>（地理/范围）、BRIN（大数据量顺序）、<strong>部分索引</strong>（WHERE 条件索引）、<strong>表达式索引</strong>（函数索引）
+- 实战：JSONB 字段查用 GIN 索引；地理查询 PostGIS 用 GiST；大数据量日志按时间用 BRIN
+<strong>话术/例题</strong>："MySQL 一种打天下，PG 索引武器库"——你能讲 GIN/部分索引就是懂 PG。追问：什么时候用部分索引？→ 只查活跃状态的数据，索引只含 WHERE 子句匹配的行，小且快。</p>
+<h2>8. 复制与高可用</h2>
+<p><strong>一句话结论</strong>：MySQL 用 binlog 逻辑复制（半同步可配），PG 用 WAL 物理流复制（同步/异步），PG 高可用生态更严谨。
+<strong>详细解释</strong>：
+- MySQL：binlog 复制（GTID 增强），读写分离常见；半同步需插件；MGR 组复制
+- PG：<strong>WAL 流复制</strong>（物理复制，从库只读）+ 逻辑复制（表级，跨版本）；同步复制可配置同步级别（remote_apply）；主从切换用 Patroni/repmgr
+- PG 优势：复制延迟低（流式）、支持同步复制保证不丢（类似半同步加强版）
+- 监控：MySQL 主从延迟 SHOW SLAVE STATUS；PG pg_stat_replication
+<strong>话术/例题</strong>："MySQL 逻辑复制 vs PG 物理流复制"一句话。追问：为什么 PG 同步复制能保证不丢？→ 主库等从库 WAL 落盘才提交（synchronous_commit）。</p>
+<h2>9. MySQL → PG 迁移注意点</h2>
+<p><strong>一句话结论</strong>：语法（ON DUPLICATE→ON CONFLICT）、类型（自增→序列、JSON→JSONB）、大小写、驱动/ORM 方言，四类改造点。
+<strong>详细解释</strong>：
+1. <strong>SQL 方言</strong>：IFNULL→COALESCE、ON DUPLICATE→ON CONFLICT、DATE_FORMAT→TO_CHAR、<code>||</code> 拼接
+2. <strong>类型</strong>：AUTO_INCREMENT→SERIAL/IDENTITY（setval 续号）、JSON→JSONB、ENUM→自定义类型
+3. <strong>大小写</strong>：MySQL 表名不敏感 vs PG 折叠小写——统一小写命名
+4. <strong>ORM/驱动</strong>：MySQL 驱动 mysql2/MySQLDialect vs PG pg/pg-promise/Dialect 切换；SQL 里反引号 → 双引号/标准
+5. <strong>工具</strong>：pgloader 自动迁移（MySQL→PG 开源工具）、AWS DMS
+6. <strong>行为差异</strong>：PG 事务中 DDL 可回滚、GROUP BY 更严格（要列全）、默认 RC 隔离
+<strong>话术/例题</strong>：你能讲"迁移 4 类改造点"就是真做过跨库。追问：为什么有的公司从 MySQL 迁 PG？→ 需要 PG 的高级特性（JSONB/地理/合规）或替代 Oracle。</p>
+<h2>10. PostgreSQL 运维要点（加分）</h2>
+<p><strong>一句话结论</strong>：vacuum 防膨胀、checkpoint 控落盘、WAL 归档做备份、参数调优（shared_buffers/work_mem）——PG 运维三板斧。
+<strong>详细解释</strong>：
+- <strong>vacuum/autovacuum</strong>：清理死元组防表膨胀（膨胀影响查询性能）；<code>VACUUM ANALYZE</code> 更新统计信息
+- <strong>checkpoint</strong>：WAL 落盘时机，checkpoint 间隔影响恢复时间（-XX: checkpoint_completion_target）
+- <strong>备份</strong>：pg_basebackup（物理）/ pg_dump（逻辑）+ WAL 归档（PITR 时间点恢复）
+- <strong>参数</strong>：shared_buffers（建议内存 25%）、work_mem（排序/哈希内存）、maintenance_work_mem（vacuum/索引）
+- <strong>监控</strong>：pg_stat_activity（活动会话/慢查询）、pg_stat_statements（SQL 统计）
+<strong>话术/例题</strong>：能说出"autovacuum 防膨胀 + pg_stat_statements 看慢 SQL"就是有生产经验。追问：表膨胀了怎么处理？→ 手动 VACUUM FULL（重建表，锁表，低峰做）。</p>
+<h2>📝 本章自测（闭卷）</h2>
+<ol>
+<li>MySQL vs PG 选型一句话 + 三个核心差异</li>
+<li>AUTO_INCREMENT 和 SERIAL 迁移怎么做</li>
+<li>ON DUPLICATE KEY UPDATE → PG 对应什么</li>
+<li>JSONB 比 JSON 强在哪，怎么建索引</li>
+<li>两者 MVCC 机制区别（undo 链 vs 新元组+vacuum）</li>
+<li>PG 迁移四大改造点</li>
+<li>PG 表膨胀原因和解决</li>
+</ol>
+<blockquote>
+<p>完成自测后可回《面试八股复习计划》勾选 MySQL 相关题</p>
+</blockquote></article></div>
+<div class="bottomnav"><a href="学习手册_11_设计模式.html">◀ 上一本：11 设计模式</a>
+<a class="ghost" href="面试八股复习计划_李鑫.html">📖 回复习计划勾选</a>
+<a href="学习手册_13_容器化.html">下一本：13 容器化 ▶</a></div>
+</body></html>

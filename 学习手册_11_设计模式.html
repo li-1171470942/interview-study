@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>11 设计模式 · 学习手册</title><style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:60px; }
+.topnav { position:sticky; top:0; z-index:9; background:#1f2937; color:#fff; padding:10px 0; }
+.topnav .inner { max-width:960px; margin:0 auto; padding:0 18px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; font-size:13px; }
+.topnav a { color:#c7d2fe; text-decoration:none; padding:3px 12px; border-radius:14px; background:rgba(255,255,255,.08); }
+.topnav a:hover { background:rgba(255,255,255,.2); color:#fff; }
+.topnav .sep { opacity:.4; }
+.wrap { max-width:960px; margin:0 auto; padding:0 18px; }
+.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px; margin-top:22px; box-shadow:0 1px 3px rgba(20,30,60,.05); }
+.article h1 { font-size:26px; color:#4f46e5; border-bottom:3px solid #4f46e5; padding-bottom:12px; margin-bottom:18px; }
+.article h2 { font-size:20px; margin:30px 0 12px; padding:10px 14px; background:#eef2ff; border-left:4px solid #4f46e5; border-radius:6px; color:#312e81; }
+.article h3 { font-size:14px; color:#475569; margin:14px 0 6px; }
+.article p { margin:8px 0; font-size:14.5px; color:#2b3245; }
+.article ul, .article ol { margin:8px 0 8px 24px; }
+.article li { font-size:14.5px; margin:4px 0; }
+.article strong { color:#111827; }
+.article code { background:#f1f3fa; padding:1px 6px; border-radius:4px; font-size:13px; color:#be185d; }
+.article pre { background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:8px; overflow-x:auto; margin:12px 0; font-size:13px; line-height:1.6; }
+.article pre code { background:none; color:inherit; padding:0; }
+.article table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13.5px; display:block; overflow-x:auto; }
+.article th { background:#f1f3fa; padding:8px 10px; text-align:left; color:#475569; font-size:12.5px; border:1px solid #e4e8f0; }
+.article td { padding:8px 10px; border:1px solid #e4e8f0; vertical-align:top; }
+.article blockquote { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; margin:12px 0; border-radius:6px; color:#166534; font-size:14px; }
+.article blockquote strong { color:#14532d; }
+.article hr { border:none; border-top:1px dashed #d1d5db; margin:26px 0; }
+.bottomnav { max-width:960px; margin:20px auto 0; padding:0 18px; display:flex; gap:10px; }
+.bottomnav a { flex:1; text-align:center; background:#4f46e5; color:#fff; text-decoration:none; padding:12px 10px; border-radius:10px; font-size:14px; }
+.bottomnav a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
+@media (max-width:760px){ .article{padding:22px 18px;} .article h1{font-size:21px;} }
+</style></head>
+<body>
+<div class="topnav"><div class="inner"><a href="学习中心.html">🏠 学习中心</a> <span class="sep">|</span> <a href="学习手册索引.md">📚 手册索引</a> <span class="sep">|</span> <a href="学习手册_10_算法与项目.html">◀ 10 算法项目</a> <span class="sep">|</span> <a href="学习手册_12_MySQL与PG兼容.html">12 MySQL/PG ▶</a></div></div>
+<div class="wrap"><article class="article"><h1>📘 学习手册 11 · 设计模式</h1>
+<blockquote>
+<p>配套《面试八股复习计划》PDF 第 34-35 页（java设计模式、单例、抽象工厂）
+模板：<strong>一句话结论 → 详细解释 → 面试话术/例题</strong>
+大厂 + Java 岗必考；Node.js/TS 同样适用（很多模式你在 NestJS/日常里已经用过，把名字对上即可）
+重点：单例、工厂、代理、策略、观察者、模板方法——6 个高频</p>
+</blockquote>
+<hr />
+<h2>1. 设计模式六大原则（SOLID 等）</h2>
+<p><strong>一句话结论</strong>：开闭、里氏替换、依赖倒置、单一职责、接口隔离、迪米特——核心是"开闭原则"（对扩展开放，对修改关闭）。
+<strong>详细解释</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>原则</th>
+<th>一句话</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>单一职责 SRP</td>
+<td>一个类只干一件事</td>
+</tr>
+<tr>
+<td>开闭 OCP</td>
+<td>扩展开放、修改关闭（加功能不改旧代码）</td>
+</tr>
+<tr>
+<td>里氏替换 LSP</td>
+<td>子类可替换父类且行为不变</td>
+</tr>
+<tr>
+<td>依赖倒置 DIP</td>
+<td>依赖抽象不依赖具体（面向接口）</td>
+</tr>
+<tr>
+<td>接口隔离 ISP</td>
+<td>接口要小要专（别搞上帝接口）</td>
+</tr>
+<tr>
+<td>迪米特 LoD</td>
+<td>最少知道原则（减少耦合）</td>
+</tr>
+<tr>
+<td><strong>话术/例题</strong>：背 6 个英文缩写 + 一句解释，重点讲开闭。追问：怎么实现开闭？→ 多态 + 策略/模板方法/装饰器等模式。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>2. 设计模式分类总览</h2>
+<p><strong>一句话结论</strong>：创建型（怎么建对象）5 种 + 结构型（怎么组合类）7 种 + 行为型（怎么交互）11 种，共 23 种（GoF）。
+<strong>详细解释</strong>：
+- <strong>创建型</strong>：单例、工厂方法、抽象工厂、建造者、原型——重点单例/工厂
+- <strong>结构型</strong>：代理、装饰器、适配器、组合、门面、享元、桥接——重点代理/装饰器
+- <strong>行为型</strong>：策略、观察者、模板方法、责任链、状态、迭代器、命令、中介者、备忘录、解释器、访问者——重点策略/观察者/模板
+- 面试答法：说出"3 类 + 各举 2 个例子"即可，别背全
+<strong>话术/例题</strong>："创建型管 new、结构型管组合、行为型管协作"。追问：你项目里用过哪些？→ Node.js 里：单例（Mongo 连接池）、观察者（EventEmitter）、策略（调优算法按场景选择）、模板（中间件骨架）——把日常经验对号入座。</p>
+<h2>3. 单例模式（懒汉/饿汉/DCL/静态内部类/枚举）</h2>
+<p><strong>一句话结论</strong>：保证一个类只有一个实例；饿汉（类加载就建，天然线程安全）、懒汉（用时才建，要处理并发）、DCL、静态内部类、枚举（最推荐）。
+<strong>详细解释</strong>：
+- <strong>饿汉式</strong>：<code>private static final INSTANCE = new Singleton()</code>——类加载即创建，天然安全；缺点：可能浪费（不用也建）
+- <strong>懒汉式</strong>（synchronized 方法）：<code>getInstance()</code> 同步——安全但性能差
+- <strong>DCL 双重检查</strong>：</p>
+<pre><code class="language-java">private static volatile Singleton INSTANCE;
+static Singleton get() {
+    if (INSTANCE == null) {            // 第一次检查（不加锁）
+        synchronized (Singleton.class) {
+            if (INSTANCE == null) INSTANCE = new Singleton(); // 第二次检查
+        }
+    }
+    return INSTANCE;
+}
+</code></pre>
+<ul>
+<li>为什么 <strong>volatile</strong>：new 三步（分配-初始化-赋值）可能重排，别的线程读到半初始化对象</li>
+<li><strong>静态内部类</strong>：<code>Holder</code> 类持有实例，类加载时才初始化（懒加载 + 线程安全 + 无锁）——推荐</li>
+<li><strong>枚举</strong>：<code>enum Singleton { INSTANCE }</code>——最简洁，且防反射/防序列化破坏，Effective Java 推荐
+<strong>话术/例题</strong>：背"饿汉、懒汉、DCL+volatile、静态内部类、枚举"五件套，讲 DCL 为什么 volatile。追问：枚举为什么防反射？→ 反射 newInstance 对枚举直接抛异常。</li>
+</ul>
+<h2>4. 工厂模式三兄弟（简单工厂/工厂方法/抽象工厂）</h2>
+<p><strong>一句话结论</strong>：简单工厂（一个工厂类 switch 创建）、工厂方法（每个产品一个工厂，扩展加类不改旧码）、抽象工厂（创建一族相关产品）。
+<strong>详细解释</strong>：
+- <strong>简单工厂</strong>：<code>Factory.create(type)</code> 里 if/switch 返回不同对象——不是 GoF 正式模式；违反开闭（加产品改工厂）
+- <strong>工厂方法</strong>：定义抽象工厂接口 + 每个产品一个具体工厂——加产品 = 加新工厂类，不改旧代码（符合开闭）
+- <strong>抽象工厂</strong>：一个工厂创建"一族"产品（如数据库连接+语句+结果集），保证产品族配套；扩展产品族难
+- 类比 TS：工厂方法 ≈ 接口 + 依赖注入，NestJS 的 provider 工厂（useFactory）就是
+<strong>话术/例题</strong>：三者的核心区别——简单工厂一个类、工厂方法一个产品一个厂、抽象工厂一个厂一族产品。追问：什么时候用工厂？→ 创建逻辑复杂/需要统一管理/解耦创建与使用（new 替换）。</p>
+<h2>5. 抽象工厂 vs 工厂模式（PDF 原题）</h2>
+<p><strong>一句话结论</strong>：工厂方法处理"一个产品类型的多实现"（加产品加工厂），抽象工厂处理"多产品类型的组合"（产品族）。
+<strong>详细解释</strong>：
+- 工厂方法：单一产品维度抽象（Shape → CircleFactory/SquareFactory）
+- 抽象工厂：多个产品维度（如 GUI 控件：按钮+输入框+窗口），一个具体工厂（WindowsFactory/MacFactory）生产整套
+- 对比表：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>工厂方法</th>
+<th>抽象工厂</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>产品</td>
+<td>一种</td>
+<td>一族（多种）</td>
+</tr>
+<tr>
+<td>新增产品</td>
+<td>加一个工厂类</td>
+<td>改所有工厂（难）</td>
+</tr>
+<tr>
+<td>新增产品族</td>
+<td>改工厂</td>
+<td>加一个工厂类</td>
+</tr>
+<tr>
+<td>- 抽象工厂可以包含多个工厂方法</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>话术/例题</strong>：一句"方法管一类，抽象管一族"。追问：你项目中哪里用了工厂？→ 可讲 RRM 按组网类型创建不同计算策略（工厂方法/策略结合）。</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>6. 建造者模式（Builder）</h2>
+<p><strong>一句话结论</strong>：把复杂对象的构建步骤拆出来，链式调用分步构建（Lombok @Builder / TS 的 options 模式）。
+<strong>详细解释</strong>：
+- 场景：对象字段多、参数组合多（如 HttpClient 配置、查询条件）
+- 结构：Builder 类持各字段 setter 返回 this → build() 生成对象
+- 好处：可读性好（方法名即文档）、参数校验集中在 build、不可变对象
+- 类比：Java StringBuilder、Lombok @Builder、TS 构造 options 对象传参（你 NestJS/接口传参常用）
+<strong>话术/例题</strong>："链式构建复杂对象"。追问：和构造器直接传参区别？→ 参数多了可读性差、易传错顺序，Builder 语义化 + 可校验。</p>
+<h2>7. 代理模式（静态/动态代理）</h2>
+<p><strong>一句话结论</strong>：代理对象控制对真实对象的访问，调用前后插入逻辑；动态代理（JDK 接口 / CGLIB 子类）是 AOP 的基础。
+<strong>详细解释</strong>：
+- <strong>静态代理</strong>：手写代理类实现同接口，持有真实对象——一个接口一个代理类，代码重复
+- <strong>JDK 动态代理</strong>：<code>Proxy.newProxyInstance(接口, InvocationHandler)</code>——要求目标实现接口，运行时生成代理类
+- <strong>CGLIB</strong>：字节码生成目标类的子类——目标没接口也能代理；Spring 优先 JDK，无接口用 CGLIB
+- 应用：Spring AOP（事务/日志）、MyBatis Mapper 接口代理、RPC 远程调用代理
+- 场景：日志代理、权限代理、缓存代理、延迟加载（图片懒加载）
+<strong>话术/例题</strong>：讲"代理 = 拦截 + 增强"，JDK vs CGLIB 区别必背。追问：Spring 里 Bean 什么时候被代理？→ 有 @Transactional/@Aspect 时 BeanPostProcessor 生成代理对象。</p>
+<h2>8. 装饰器模式 vs 代理模式</h2>
+<p><strong>一句话结论</strong>：装饰器<strong>增强功能</strong>（同一接口层层包装，客户端无感），代理<strong>控制访问</strong>（替身，访问受控）；两者结构像但意图不同。
+<strong>详细解释</strong>：
+- 装饰器：<code>new BufferedInputStream(new FileInputStream(...))</code>——层层加功能（缓冲/加密/压缩），客户端用同一接口
+- 代理：代理和目标同一接口，但代理决定"要不要调目标"（权限/延迟/远程）
+- 区别一句话：装饰器=功能叠加（is-a 关系延续），代理=访问控制（保护/增强目标）
+- 类比：Express 中间件链 ≈ 装饰器/责任链混合；TS 装饰器（NestJS @Injectable）≈ Python/Java 注解
+<strong>话术/例题</strong>："装饰器加功能、代理管访问"是最常见对比题。追问：Java IO 为什么层层包装？→ 组合小功能（缓冲+编码+压缩）任意搭配，避免类爆炸。</p>
+<h2>9. 适配器模式</h2>
+<p><strong>一句话结论</strong>：把不兼容的接口转换成客户端期望的接口（转换器），解决"两边接口对不上"。
+<strong>详细解释</strong>：
+- 场景：老接口 vs 新调用方、第三方库接口不匹配、不同系统对接
+- 类适配器（继承）/ 对象适配器（组合，推荐）
+- 对比门面：适配器=改接口适配单个类，门面=为子系统提供统一简化入口
+- 对比代理：适配器改接口，代理不改接口
+<strong>话术/例题</strong>："适配器=接口翻译器"。追问：你项目里对接过不同协议的设备吗？→ 可讲 RRM 对接不同 AP 厂商协议时做的适配层（把厂商报文翻译成统一内部格式）——真实案例。</p>
+<h2>10. 策略模式（消除 if-else）</h2>
+<p><strong>一句话结论</strong>：把算法封装成策略接口 + 多个实现，运行时选择——替代大段 if-else。
+<strong>详细解释</strong>：</p>
+<pre><code class="language-java">// 支付策略
+interface PayStrategy { void pay(double amt); }
+class Alipay implements PayStrategy { ... }
+class WechatPay implements PayStrategy { ... }
+// 客户端注入策略，不再 switch(type)
+</code></pre>
+<ul>
+<li>结构：策略接口 + 具体策略 + 上下文（持有策略引用）</li>
+<li>好处：开闭原则（加策略不改客户端）、消除 if-else 大魔王</li>
+<li>结合工厂：工厂负责"按 type 创建策略"，策略负责"执行算法"——完美组合</li>
+<li>类比 Node.js：你 RRM 按组网类型/频段选择不同调优算法就是策略模式
+<strong>话术/例题</strong>："策略 = 算法接口 + 运行时切换"，能举项目例子（不同组网不同计算策略）是加分。追问：策略多了怎么管理？→ 工厂 + 注册表（Map<type, bean>）。</li>
+</ul>
+<h2>11. 观察者模式</h2>
+<p><strong>一句话结论</strong>：一对多依赖——主题状态变化时自动通知所有观察者（发布订阅），解耦生产者与消费者。
+<strong>详细解释</strong>：
+- 结构：Subject（维护观察者列表，notify 遍历调用）+ Observer（update 方法）
+- 类比：Java Observable/Listener、Node.js <strong>EventEmitter</strong>（你天天用：<code>emitter.on('event', handler)</code> + <code>emit</code>）、Kafka 消息也是"生产-订阅"思想的扩展
+- 与消息队列区别：观察者进程内直接调用，MQ 跨进程解耦
+- 应用：事件系统、GUI 监听、缓存失效通知（改配置通知所有服务刷新）
+<strong>话术/例题</strong>：拿 EventEmitter 举例最有说服力（Node 开发者天天用）。追问：观察者和发布订阅的区别？→ 观察者主题直接引用观察者；发布订阅通过中间层（broker）彻底解耦。</p>
+<h2>12. 模板方法模式</h2>
+<p><strong>一句话结论</strong>：父类定义算法骨架（步骤顺序），子类实现可变步骤（钩子方法）——"父类定流程，子类填细节"。
+<strong>详细解释</strong>：</p>
+<pre><code class="language-java">abstract class AbstractProcessor {
+    final void process() {       // 骨架（final 不允许改）
+        load();                   // 子类实现
+        validate();               // 子类实现
+        save();                   // 子类实现
+    }
+}
+</code></pre>
+<ul>
+<li>结构：模板方法（final 固定流程）+ 抽象方法（子类实现）+ 钩子方法（默认空，可选重写）</li>
+<li>应用：JdbcTemplate（连接-执行-释放）、Spring 的 AbstractTemplate 系列、算法框架</li>
+<li>对比策略：模板方法用继承定骨架，策略用组合选算法
+<strong>话术/例题</strong>："父类流程 + 子类细节"。追问：模板方法 vs 策略区别？→ 模板靠继承固定步骤，策略靠组合替换整个算法。</li>
+</ul>
+<h2>13. 责任链模式</h2>
+<p><strong>一句话结论</strong>：多个处理器串联成链，请求依次传递直到被处理——解耦"谁处理"和"怎么处理"。
+<strong>详细解释</strong>：
+- 结构：Handler 接口（handleRequest + setNext）+ 具体处理器链
+- 应用：过滤链（SpringMVC Filter）、拦截器链、审批流（请假逐级审批）、异常兜底
+- 类比：<strong>Express/Koa 中间件链就是责任链的变体</strong>（next() 传下一个）——你非常熟
+- 变体：可以"第一个能处理的就处理"（传统）或"全部过一遍"（过滤器）
+<strong>话术/例题</strong>：拿 Express 中间件讲责任链（鉴权中间件 → 日志中间件 → 路由）极有说服力。追问：和装饰器区别？→ 责任链是"传下去"，装饰器是"包起来"。</p>
+<h2>14. 状态模式</h2>
+<p><strong>一句话结论</strong>：把状态机里的每个状态封装成类，状态切换 = 切换对象——替代大量 if-else 判断状态。
+<strong>详细解释</strong>：
+- 场景：订单状态（待支付→已支付→已发货→已完成）、任务状态机（你 RRM 调优任务：待下发→计算中→已生效→失败）
+- 结构：State 接口 + 各状态实现类 + Context（持有当前状态）
+- 好处：状态逻辑内聚、加状态不影响其他状态
+- 对比策略：状态模式切换是自动的（状态内部决定下一个），策略是外部指定的
+<strong>话术/例题</strong>：能讲"订单状态机用状态模式"就够。追问：和策略模式区别？→ 状态自己决定跳转，策略由客户端指定。</p>
+<h2>15. 享元模式（Flyweight）</h2>
+<p><strong>一句话结论</strong>：共享不变的对象减少内存（对象池思想）——String 常量池、Integer 缓存、线程池、连接池。
+<strong>详细解释</strong>：
+- 内部状态（可共享）：如字符内容
+- 外部状态（不共享）：如位置颜色，使用时传入
+- 应用：String 常量池（相同字符串共享一个对象）、Integer -128~127 缓存、连接池/线程池复用
+- 类比 Node.js：数据库连接池、K8s Pod 复用
+<strong>话术/例题</strong>："共享复用省内存"。追问：Integer 为什么缓存 -128~127？→ 高频小整数复用，省对象创建。</p>
+<h2>16. 门面模式（Facade）</h2>
+<p><strong>一句话结论</strong>：给复杂子系统提供一个统一简化的入口（门面），客户端不用了解内部细节。
+<strong>详细解释</strong>：
+- 场景：下单要调库存+支付+物流，门面 OrderService 封装三步
+- 好处：降低客户端与子系统耦合、简化使用
+- 类比：你 RRM 的 rrmserver 对外提供统一查询接口，内部聚合多个服务/表——就是门面
+- 对比适配器：适配器改接口，门面提供简化接口
+<strong>话术/例题</strong>："复杂系统一个门面入口"。追问：门面和代理区别？→ 门面管"简化调用"，代理管"访问控制"。</p>
+<h2>17. 组合模式（Composite）</h2>
+<p><strong>一句话结论</strong>：树形结构统一处理（叶子+容器同一接口）——递归操作整体和部分。
+<strong>详细解释</strong>：
+- 结构：Component 接口（叶子 Leaf + 容器 Composite 都实现）
+- 应用：文件系统（文件夹含文件/子文件夹）、菜单树、组织架构
+- 好处：调用方无差别对待单个和组合（统一 add/remove 接口）
+<strong>话术/例题</strong>："树形结构叶子容器统一接口"。追问：你项目里有树形结构吗？→ 配置项树/菜单权限树。</p>
+<h2>18. 原型模式（Prototype）</h2>
+<p><strong>一句话结论</strong>：通过克隆已有对象创建新对象（避免重复初始化成本），Java 的 clone()/深拷贝。
+<strong>详细解释</strong>：
+- 场景：对象创建成本高（大对象、频繁创建）
+- Java：实现 Cloneable + 重写 clone()；注意<strong>浅拷贝 vs 深拷贝</strong>（引用字段要手动深拷贝，可序列化方式）
+- 类比：TS 里 <code>{...obj}</code> 浅拷贝 / structuredClone 深拷贝
+- 结合手册 05 的深浅拷贝知识（同一话题 C++/Java 都考）
+<strong>话术/例题</strong>："克隆代替 new"。追问：浅拷贝和深拷贝区别？→ 引用字段是否复制内容（见 C++ 手册 47 题同源）。</p>
+<h2>19. 设计模式在 Spring/Node 中的体现（综合题）</h2>
+<p><strong>一句话结论</strong>：框架是设计模式的最佳实践集——Spring：单例（Bean 默认）+ 工厂（BeanFactory）+ 代理（AOP）+ 模板（JdbcTemplate）+ 观察者（事件）；Node：单例（连接池）+ 观察者（EventEmitter）+ 责任链（中间件）+ 工厂（DI provider）。
+<strong>详细解释</strong>（面试高频"Spring 用了哪些设计模式"）：</p>
+<table>
+<thead>
+<tr>
+<th>Spring 组件</th>
+<th>模式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bean（默认单例）</td>
+<td>单例</td>
+</tr>
+<tr>
+<td>BeanFactory/ApplicationContext</td>
+<td>工厂</td>
+</tr>
+<tr>
+<td>AOP</td>
+<td>代理（JDK/CGLIB）</td>
+</tr>
+<tr>
+<td>JdbcTemplate</td>
+<td>模板方法</td>
+</tr>
+<tr>
+<td>ApplicationEvent</td>
+<td>观察者</td>
+</tr>
+<tr>
+<td>HandlerInterceptor</td>
+<td>责任链</td>
+</tr>
+<tr>
+<td>BeanPostProcessor</td>
+<td>模板/装饰</td>
+</tr>
+<tr>
+<td>策略（HandlerMapping 等）</td>
+<td>策略</td>
+</tr>
+<tr>
+<td><strong>话术/例题</strong>：这张表背下来，"Spring 用到哪些设计模式"就是送分题。Node 侧能说出 EventEmitter=观察者、Express 中间件=责任链、NestJS DI=工厂，证明你跨栈理解。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>20. 你项目里的设计模式（实战加分）</h2>
+<p><strong>一句话结论</strong>：面试官最想听的是"你真正用过的模式"，准备 3 个真实案例。
+<strong>详细解释</strong>（结合 RRM 准备）：
+- <strong>策略 + 工厂</strong>：RRM 按组网类型（AC+fitap 设备侧计算 / 云 AP 云端计算）选择不同计算策略——工厂创建策略对象，策略执行算法
+- <strong>观察者</strong>：配置中心变更 → 通知所有微服务刷新配置（发布订阅）
+- <strong>责任链</strong>：设备上报消息的处理管道（校验 → 去重 → 业务处理 → 入库），可类比中间件
+- <strong>门面</strong>：rrmserver 统一查询入口
+- <strong>单例</strong>：Mongo/Kafka 客户端连接复用
+<strong>话术/例题</strong>：每个案例说"用了什么模式 → 解决什么问题 → 好处"三件套，这是高级岗的差异化答案。</p>
+<hr />
+<h2>📝 本章自测（闭卷）</h2>
+<ol>
+<li>六大原则英文缩写 + 核心原则是什么</li>
+<li>单例五件套，DCL 为什么 volatile</li>
+<li>工厂三兄弟区别 + 各适合什么场景</li>
+<li>JDK 动态代理 vs CGLIB 区别</li>
+<li>装饰器 vs 代理 vs 适配器 vs 门面 一句话区分</li>
+<li>策略模式如何消除 if-else（画类图）</li>
+<li>Spring 用了哪些设计模式（至少 5 个）</li>
+<li>说出你项目里 3 个真实用到的模式</li>
+</ol>
+<blockquote>
+<p>完成自测后回《面试八股复习计划》PDF 第 34-35 页核对原题</p>
+</blockquote></article></div>
+<div class="bottomnav"><a href="学习手册_10_算法与项目.html">◀ 上一本：10 算法项目</a>
+<a class="ghost" href="面试八股复习计划_李鑫.html">📖 回复习计划勾选</a>
+<a href="学习手册_12_MySQL与PG兼容.html">下一本：12 MySQL/PG ▶</a></div>
+</body></html>

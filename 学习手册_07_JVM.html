@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>07 JVM · 学习手册</title><style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:60px; }
+.topnav { position:sticky; top:0; z-index:9; background:#1f2937; color:#fff; padding:10px 0; }
+.topnav .inner { max-width:960px; margin:0 auto; padding:0 18px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; font-size:13px; }
+.topnav a { color:#c7d2fe; text-decoration:none; padding:3px 12px; border-radius:14px; background:rgba(255,255,255,.08); }
+.topnav a:hover { background:rgba(255,255,255,.2); color:#fff; }
+.topnav .sep { opacity:.4; }
+.wrap { max-width:960px; margin:0 auto; padding:0 18px; }
+.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px; margin-top:22px; box-shadow:0 1px 3px rgba(20,30,60,.05); }
+.article h1 { font-size:26px; color:#4f46e5; border-bottom:3px solid #4f46e5; padding-bottom:12px; margin-bottom:18px; }
+.article h2 { font-size:20px; margin:30px 0 12px; padding:10px 14px; background:#eef2ff; border-left:4px solid #4f46e5; border-radius:6px; color:#312e81; }
+.article h3 { font-size:14px; color:#475569; margin:14px 0 6px; }
+.article p { margin:8px 0; font-size:14.5px; color:#2b3245; }
+.article ul, .article ol { margin:8px 0 8px 24px; }
+.article li { font-size:14.5px; margin:4px 0; }
+.article strong { color:#111827; }
+.article code { background:#f1f3fa; padding:1px 6px; border-radius:4px; font-size:13px; color:#be185d; }
+.article pre { background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:8px; overflow-x:auto; margin:12px 0; font-size:13px; line-height:1.6; }
+.article pre code { background:none; color:inherit; padding:0; }
+.article table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13.5px; display:block; overflow-x:auto; }
+.article th { background:#f1f3fa; padding:8px 10px; text-align:left; color:#475569; font-size:12.5px; border:1px solid #e4e8f0; }
+.article td { padding:8px 10px; border:1px solid #e4e8f0; vertical-align:top; }
+.article blockquote { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; margin:12px 0; border-radius:6px; color:#166534; font-size:14px; }
+.article blockquote strong { color:#14532d; }
+.article hr { border:none; border-top:1px dashed #d1d5db; margin:26px 0; }
+.bottomnav { max-width:960px; margin:20px auto 0; padding:0 18px; display:flex; gap:10px; }
+.bottomnav a { flex:1; text-align:center; background:#4f46e5; color:#fff; text-decoration:none; padding:12px 10px; border-radius:10px; font-size:14px; }
+.bottomnav a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
+@media (max-width:760px){ .article{padding:22px 18px;} .article h1{font-size:21px;} }
+</style></head>
+<body>
+<div class="topnav"><div class="inner"><a href="学习中心.html">🏠 学习中心</a> <span class="sep">|</span> <a href="学习手册索引.md">📚 手册索引</a> <span class="sep">|</span> <a href="学习手册_06_Java基础.html">◀ 06 Java</a> <span class="sep">|</span> <a href="学习手册_08_并发与锁.html">08 并发锁 ▶</a></div></div>
+<div class="wrap"><article class="article"><h1>📘 学习手册 07 · JVM</h1>
+<blockquote>
+<p>配套《面试八股复习计划》第 2 节 JVM + PDF 第 56-60 页
+模板：<strong>一句话结论 → 详细解释 → 面试话术/例题</strong>
+Java 岗（酷开/工行/银行系）必考；Node.js 岗问到概率低但你会了是加分</p>
+</blockquote>
+<hr />
+<h2>1. JVM 内存区域划分（运行时数据区）</h2>
+<p><strong>一句话结论</strong>：线程私有（程序计数器、虚拟机栈、本地方法栈）+ 线程共享（堆、方法区/元空间）；堆管对象、栈管方法调用。
+<strong>详细解释</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>区域</th>
+<th>线程</th>
+<th>内容</th>
+<th>异常</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>程序计数器</td>
+<td>私有</td>
+<td>当前执行字节码行号</td>
+<td>无</td>
+</tr>
+<tr>
+<td>虚拟机栈</td>
+<td>私有</td>
+<td>栈帧：局部变量表/操作数栈/方法返回</td>
+<td>StackOverflowError</td>
+</tr>
+<tr>
+<td>本地方法栈</td>
+<td>私有</td>
+<td>native 方法（类比 node-ffi 调 C）</td>
+<td>StackOverflowError</td>
+</tr>
+<tr>
+<td><strong>堆</strong></td>
+<td>共享</td>
+<td>对象实例（新生代 Eden/S0/S1 + 老年代）</td>
+<td>OutOfMemoryError</td>
+</tr>
+<tr>
+<td><strong>方法区/元空间</strong></td>
+<td>共享</td>
+<td>类信息/常量/静态变量（JDK8+ 元空间用本地内存）</td>
+<td>OOM</td>
+</tr>
+<tr>
+<td>直接内存</td>
+<td>—</td>
+<td>NIO DirectBuffer 堆外</td>
+<td>OOM</td>
+</tr>
+</tbody>
+</table>
+<p><strong>话术/例题</strong>：画图 + "栈管方法、堆管对象、元空间存类"。追问：JDK8 为什么用元空间替代永久代？→ 永久代大小固定易 OOM，元空间用本地内存天然不受 JVM 堆限制。</p>
+<h2>2. 类加载机制（加载-验证-准备-解析-初始化）</h2>
+<p><strong>一句话结论</strong>：加载→验证→准备→解析→初始化，五个阶段；准备阶段给静态变量赋默认值，初始化阶段执行静态代码块。
+<strong>详细解释</strong>：
+1. <strong>加载</strong>：读 .class 字节码 → 生成 Class 对象
+2. <strong>验证</strong>：校验字节码合法性（安全）
+3. <strong>准备</strong>：为静态变量分配内存并赋<strong>默认值</strong>（0/null），final 常量直接赋值
+4. <strong>解析</strong>：符号引用 → 直接引用（常量池解析）
+5. <strong>初始化</strong>：执行 <code>&lt;clinit&gt;</code>（静态代码块、静态变量赋值）
+- 触发初始化时机：new/getstatic/反射/主类；被动引用（子类引用父类静态、数组、常量）不触发
+<strong>话术/例题</strong>：背五阶段 + "准备=默认值，初始化=真正赋值"。追问：什么时候类不会初始化？→ 静态常量（编译期常量池）、数组定义、通过子类引用父类静态字段。</p>
+<h2>3. 类加载器与双亲委派</h2>
+<p><strong>一句话结论</strong>：Bootstrap → Extension/Platform → Application 三层，子先委派父，父加载不了才自己加载——防核心类被篡改、保证类唯一。
+<strong>详细解释</strong>：
+- Bootstrap：加载 JDK 核心（rt.jar），C++ 实现，没有父
+- Extension/Platform：JDK9+ 改名，加载扩展库
+- Application：加载 classpath 应用类
+- <strong>双亲委派流程</strong>：加载请求 → 逐级向上委托 → 父能加载就用父的 → 全失败才自己 loadClass
+- 好处：安全（自定义 java.lang.String 不会覆盖）、避免重复加载（类唯一性）
+- 破坏：SPI 场景（JDBC DriverManager）用线程上下文加载器反向加载
+<strong>话术/例题</strong>：背"委派链 + 两个好处"。追问：Tomcat 为什么打破双亲委派？→ 多个 WebApp 要隔离自己的类库，用子优先加载。</p>
+<h2>4. 对象在内存中的布局</h2>
+<p><strong>一句话结论</strong>：对象 = 对象头（Mark Word + 类型指针）+ 实例数据 + 对齐填充；Mark Word 存锁状态/GC 年龄/hash。
+<strong>详细解释</strong>：
+- <strong>Mark Word</strong>：64 位，存 hashCode、GC 分代年龄（4bit）、锁标志位（无锁/偏向/轻量/重量）、偏向线程 id——这就是 synchronized 锁升级的载体
+- 类型指针：指向方法区的 Class（开启压缩指针时省略优化）
+- 实例数据：字段值（按对齐规则排列）
+- 对齐填充：对象大小是 8 字节整数倍
+<strong>话术/例题</strong>：重点说"Mark Word 里存锁状态"——串起 synchronized。追问：对象头大小？→ 64 位 JVM 压缩指针下 12 字节（Mark Word 8 + 类型指针 4）。</p>
+<h2>5. 垃圾回收：判断 + 算法</h2>
+<p><strong>一句话结论</strong>：可达性分析（GC Roots）判垃圾；回收算法：标记清除（碎片）、复制（新生代）、标记整理（老年代）。
+<strong>详细解释</strong>：
+- <strong>可达性分析</strong>：从 GC Roots（栈帧局部变量、静态变量、常量引用、native 引用）出发，不可达即垃圾；引用计数有循环引用缺陷不用
+- 四种引用：强（不回收）/软（内存不足回收，缓存）/弱（下次 GC 就回收）/虚（跟踪回收）
+- 算法：
+  - 标记-清除：标记垃圾后清除 → 碎片多
+  - 复制：把存活对象复制到另一块 → 无碎片、浪费一半空间（新生代 Eden:S0:S1=8:1:1 就是）
+  - 标记-整理：存活对象移到一端 → 无碎片、慢（老年代）
+- 分代：新生代（复制，Minor GC 频繁）+ 老年代（标记整理，Major/Full GC）
+<strong>话术/例题</strong>：答"可达性 + 三种算法对应两个分代"。追问：为什么新生代用复制？→ 存活率低，复制成本低；老年代存活率高，用标记整理。</p>
+<h2>6. 垃圾回收器：G1 与 CMS</h2>
+<p><strong>一句话结论</strong>：CMS 并发标记清除（低停顿但碎片多），G1 是 JDK9+ 默认（Region 化、可预测停顿、无碎片）。
+<strong>详细解释</strong>：
+- <strong>CMS</strong>：初始标记（快）→ 并发标记（与业务并发）→ 重新标记 → 并发清除；优点低停顿，缺点：标记清除碎片、并发阶段占 CPU、并发失败退化为 Full GC
+- <strong>G1</strong>：堆划分为多个 Region（新生代/老年代逻辑分区），跟踪每个 Region 垃圾占比，<strong>优先回收垃圾最多的</strong>（Garbage First）；可设置停顿目标 -XX:MaxGCPauseMillis；无碎片（复制整理）；JDK9 默认
+- 对比：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>CMS</th>
+<th>G1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>停顿</td>
+<td>低但不稳定</td>
+<td>可预测（目标控制）</td>
+</tr>
+<tr>
+<td>碎片</td>
+<td>有</td>
+<td>无</td>
+</tr>
+<tr>
+<td>内存布局</td>
+<td>连续分代</td>
+<td>Region 化</td>
+</tr>
+<tr>
+<td>大对象</td>
+<td>直接进老年代</td>
+<td>Humongous Region</td>
+</tr>
+<tr>
+<td><strong>话术/例题</strong>：结论"默认 G1，低延迟场景"，对比表背住。追问：G1 怎么实现可预测停顿？→ 基于回收成本模型（每个 Region 预估回收收益，选性价比最高的集合）。</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>7. JMM（Java 内存模型）与可见性</h2>
+<p><strong>一句话结论</strong>：JMM 定义线程间共享变量的可见性规则：主内存 + 线程工作内存，靠 volatile/synchronized/final 保证。
+<strong>详细解释</strong>：
+- 模型：所有变量存主内存，线程操作在自己的工作内存（副本）→ 线程间不直接共享，靠主内存同步
+- 问题：可见性（改了别线程看不见）、原子性、有序性
+- <strong>volatile</strong>：保证可见性（写立即刷主存，读从主存取）+ 禁止指令重排（内存屏障）——不保证原子性
+- <strong>synchronized</strong>：可见性 + 原子性（进入清空工作内存，退出刷回）
+- <strong>happens-before 规则</strong>：程序顺序、锁（解锁 happens-before 加锁）、volatile（写 happens-before 读）、线程启动/终止、传递性
+<strong>话术/例题</strong>："volatile 可见性不原子，synchronized 全都要"是核心。追问：volatile 能替代 synchronized 吗？→ 只能保证单读写的可见性，复合操作（i++）不行。</p>
+<h2>8. JVM 常见命令与调优</h2>
+<p><strong>一句话结论</strong>：jps 找进程、jstat 看 GC、jmap 出堆转储、jstack 看线程栈、jinfo 看参数；调优核心是减少 Full GC、控制堆与停顿。
+<strong>详细解释</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>jps</td>
+<td>列出 JVM 进程</td>
+</tr>
+<tr>
+<td>jstat -gcutil pid</td>
+<td>GC 统计（频繁/停顿）</td>
+</tr>
+<tr>
+<td>jmap -heap pid</td>
+<td>堆详情</td>
+</tr>
+<tr>
+<td>jmap -dump:format=b,file=x.hprof</td>
+<td>堆转储（OOM 分析）</td>
+</tr>
+<tr>
+<td>jstack pid</td>
+<td>线程栈（死锁/阻塞定位）</td>
+</tr>
+<tr>
+<td>jinfo</td>
+<td>查看/修改运行参数</td>
+</tr>
+<tr>
+<td>jvisualvm / MAT</td>
+<td>可视化 + 内存分析</td>
+</tr>
+<tr>
+<td>- 常用参数：-Xms/-Xmx（堆大小）、-XX:MaxMetaspaceSize、-XX:+HeapDumpOnOutOfMemoryError（OOM 自动转储）、-XX:MaxGCPauseMillis</td>
+<td></td>
+</tr>
+<tr>
+<td>- 调优思路：先看 GC 日志 → 堆是否合理 → 停顿是否可接受 → 对象分配是否异常</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>话术/例题</strong>：背命令表 + "OOM 先开 HeapDumpOnOutOfMemoryError"。追问：线上 CPU 100% 怎么查？→ top 找进程 → top -Hp 找线程 → jstack 对照线程 id（nid 转十六进制）看栈。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>9. 逃逸分析与栈上分配</h2>
+<p><strong>一句话结论</strong>：JIT 逃逸分析发现对象不逃逸出方法 → 栈上分配/标量替换，减少 GC 压力。
+<strong>详细解释</strong>：
+- 逃逸：对象被方法外引用（返回/赋值给静态/全局）即逃逸
+- 优化：
+  - 栈上分配：不逃逸对象直接栈上分配（随方法结束销毁，免 GC）
+  - 标量替换：对象字段拆成局部变量
+  - 锁消除：无竞争锁直接去掉
+- 触发：-XX:+DoEscapeAnalysis（默认开）
+<strong>话术/例题</strong>：一句"逃逸分析让局部对象不进堆"。追问：为什么字符串拼接优化也用它？→ StringBuilder 逃逸分析后消除。</p>
+<h2>10. 大对象与 GC 调优实践</h2>
+<p><strong>一句话结论</strong>：大对象（如超长字符串/数组）直接进老年代（避免新生代反复复制），频繁创建大对象是 Full GC 元凶。
+<strong>详细解释</strong>：
+- 大对象直接分配老年代（-XX:PretenureSizeThreshold 阈值）
+- 对象晋升：Minor GC 后存活且年龄达 -XX:MaxTenuringThreshold（默认 15）→ 老年代；大对象/动态年龄判断
+- 常见 OOM：堆太小（Xmx）、内存泄漏（集合无限增长）、大对象过多、元空间满
+- 实践：类比你的 rrmcompute OOM 排查——调堆大小/限制任务并发/检查缓存无界增长
+<strong>话术/例题</strong>：结合你实际的 OOM 经验讲最有说服力（rrmcompute 内存 5Gi→5.5Gi 调整案例、大场所并发任务内存暴涨）。追问：Full GC 频繁怎么查？→ jstat 看 FGC 次数 + jmap 转储分析谁占内存。</p>
+<h2>📝 本章自测（闭卷）</h2>
+<ol>
+<li>画 JVM 内存区域图，哪些线程共享、各自存什么</li>
+<li>类加载五阶段，准备 vs 初始化区别</li>
+<li>双亲委派机制 + 两个作用 + 什么时候被破坏</li>
+<li>对象头里有什么？怎么关联锁升级</li>
+<li>可达性分析 GC Roots 有哪些？三种回收算法各用于哪个分代</li>
+<li>G1 vs CMS 差异</li>
+<li>volatile 保证什么不保证什么</li>
+<li>线上 OOM 排查完整流程（命令顺序）</li>
+</ol>
+<blockquote>
+<p>完成自测后回《面试八股复习计划》勾选 JVM 相关题</p>
+</blockquote></article></div>
+<div class="bottomnav"><a href="学习手册_06_Java基础.html">◀ 上一本：06 Java</a>
+<a class="ghost" href="面试八股复习计划_李鑫.html">📖 回复习计划勾选</a>
+<a href="学习手册_08_并发与锁.html">下一本：08 并发锁 ▶</a></div>
+</body></html>
