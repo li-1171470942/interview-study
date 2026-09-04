@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>22 RRM 讲述卡</title><style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:60px; }
+.topnav { position:sticky; top:0; z-index:9; background:#1f2937; color:#fff; padding:10px 0; }
+.topnav .inner { max-width:960px; margin:0 auto; padding:0 18px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; font-size:13px; }
+.topnav a { color:#c7d2fe; text-decoration:none; padding:3px 12px; border-radius:14px; background:rgba(255,255,255,.08); }
+.topnav a:hover { background:rgba(255,255,255,.2); color:#fff; }
+.wrap { max-width:960px; margin:0 auto; padding:0 18px; }
+.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px; margin-top:22px; }
+.article h1 { font-size:26px; color:#4f46e5; border-bottom:3px solid #4f46e5; padding-bottom:12px; margin-bottom:18px; }
+.article h2 { font-size:20px; margin:30px 0 12px; padding:10px 14px; background:#eef2ff; border-left:4px solid #4f46e5; border-radius:6px; color:#312e81; }
+.article h3 { font-size:16px; margin:14px 0 6px; color:#4338ca; }
+.article p { margin:8px 0; font-size:14.5px; color:#2b3245; }
+.article pre { background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:8px; overflow-x:auto; margin:12px 0; font-size:13px; line-height:1.6; }
+.article blockquote { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; margin:12px 0; border-radius:6px; color:#166534; font-size:14px; }
+.article strong { color:#111827; }
+.article code { background:#f1f3fa; padding:1px 6px; border-radius:4px; font-size:13px; color:#be185d; }
+</style></head>
+<body>
+<div class="topnav"><div class="inner">
+  <a href="学习中心.html">🏠 学习中心</a> |
+  <a href="学习手册索引.md">📚 手册索引</a>
+</div></div>
+<div class="wrap"><article class="article">
+<h1>学习手册_22_RRM无线资源管理_讲述卡.md</h1>
+<br>
+<blockquote>**来源**：D:\l32524\projects\rrmProject\ 源码 + 文档</blockquote>
+<blockquote>**炼化日期**：2026-09-04</blockquote>
+<blockquote>**对标**：学习手册_20_项目讲述方法论（但只含RRM项目）</blockquote>
+<br>
+<br>
+<h2>一、60秒电梯陈述</h2>
+<br>
+<blockquote>"我做过3年的无线资源管理系统RRM，这是企业级WiFi网络的核心组件，负责信道的自动分配、功率调整、负载均衡。说白了就是让企业的无线网络'自己管自己'，网管不用天天盯着。</blockquote>
+<blockquote></blockquote>
+<blockquote>**技术亮点**：我主导了AI RRM的重构，核心解决一个问题——原来所有计算都在云端，海量数据传输压力大。后来改成'设备侧计算+云端管控'的架构，适配现网98%的组网类型，计算压力分流到AC设备上，云端只负责下发配置和收集结果。</blockquote>
+<blockquote></blockquote>
+<blockquote>**架构细节**：4个Node.js微服务（rrmcontrol/rrmserver/rrmcompute/aioptimize），用Kafka做数据上报，Redis做分布式锁，MongoDB分表存储。</blockquote>
+<blockquote></blockquote>
+<blockquote>**战场声明**：我熟悉微服务间的异步通信、分布式锁、消息可靠性这些面试高频考点，下面的场景都是我在代码里真实解决过的。"</blockquote>
+<br>
+<br>
+<h2>二、简历钩子版</h2>
+<br>
+<p>以下bullet可直接写进简历，每条附带面试官会追问什么：</p>
+<br>
+<h3>1. "主导AI RRM系统重构，实现设备侧+云端双计算模式"</h3>
+<br>
+<p><strong>会引来的追问</strong>：为什么要设备侧计算？云端计算有什么问题？</p>
+<blockquote>"原系统所有AP数据先上传云端→云端计算→下发配置，但现网98%是AC+fitap组网，AC本身就能算，何必绕一圈？改成设备侧计算后，云端只下发开关配置，AC本地执行调优，云端压力降了90%以上。"</blockquote>
+<br>
+<p><strong>弹药位置</strong>：学习手册_21_RRM场景模式库_模式三</p>
+<br>
+<br>
+<h3>2. "维护4个Node.js微服务，月均处理2000+调优任务，0生产事故"</h3>
+<br>
+<p><strong>会引来的追问</strong>：微服务之间怎么通信的？挂了怎么办？</p>
+<blockquote>"服务间走RabbitMQ异步通信，数据走Kafka上报。4个服务各有职责：rrmcontrol入口、rrmserver业务、rrmcompute计算、aioptimize AI调优。任一服务挂了只影响对应功能，不影响整体，我们有K8s健康检查和自动重启。"</blockquote>
+<br>
+<p><strong>弹药位置</strong>：学习手册_21_RRM场景模式库_模式一</p>
+<br>
+<br>
+<h3>3. "开发分布式RRM开关同步工具，解决跨服务配置冲突问题"</h3>
+<br>
+<p><strong>会引来的追问</strong>：两个服务维护同一份配置？怎么同步的？</p>
+<blockquote>"AI RRM和xmlconfmgr各维护一份开关配置，数据不一致。我的方案是直连下游MongoDB扫全量，按配置状态更新到我们这边。实现时绕过了HTTP网关权限限制，加了幂等性保证。"</blockquote>
+<br>
+<p><strong>弹药位置</strong>：学习手册_21_RRM场景模式库_模式三</p>
+<br>
+<br>
+<h3>4. "优化Kafka消费可靠性，引入死信队列+手动offset提交机制"</h3>
+<br>
+<p><strong>会引来的追问</strong>：Kafka消费失败怎么办？重复消费呢？</p>
+<blockquote>"消费失败不commit会自动重投，重投3次进死信队列。同时在MongoDB加唯一索引防重复消费。"</blockquote>
+<br>
+<p><strong>弹药位置</strong>：学习手册_21_RRM场景模式库_模式一</p>
+<br>
+<br>
+<h3>5. "实现Redis分布式锁控制定时任务并发，解决K8s多副本竞态问题"</h3>
+<br>
+<p><strong>会引来的追问</strong>：分布式锁怎么实现？锁过期了业务没执行完呢？</p>
+<blockquote>"用set NX EX原子性获取锁，设300秒过期防止死锁。但锁住到执行之间还有竞态窗口，所以在锁内加了二次检查judgeAutoSwitch。"</blockquote>
+<br>
+<p><strong>弹药位置</strong>：学习手册_21_RRM场景模式库_模式二</p>
+<br>
+<br>
+<h3>6. "适配WiFi7设备，新增6GHz频段全链路支持（采集→扫描→计算→调优）"</h3>
+<br>
+<p><strong>会引来的追问</strong>：6GHz和5G有什么区别？改动有多大？</p>
+<blockquote>"原来只支持2.4G/5G，WiFi7新增6GHz频段。需要4个微服务全链路改造：rrmcontrol新增接口适配、rrmserver扩展扫描、rrmcompute改算法、aioptimize适配调优，涉及代码量比较大。"</blockquote>
+<br>
+<p><strong>弹药位置</strong>：学习手册_19_并发场景模式库_综合</p>
+<br>
+<br>
+<h2>三、数字锚点表</h2>
+<br>
+<p><code>| 数字 | 故事 |</code></p>
+<p><code>|------|------|</code></p>
+<p><code>| **60秒** | newApUpScheduler每60秒扫描新AP触发调优 |</code></p>
+<p><code>| **500** | 云AP并发下发上限，控制单批次请求量 |</code></p>
+<p><code>| **20秒** | 云AP下发总超时，熔断保护 |</code></p>
+<p><code>| **3频段** | 2.4G/5G/6G，WiFi7新增6GHz |</code></p>
+<p><code>| **4微服务** | rrmcontrol/rrmserver/rrmcompute/aioptimize |</code></p>
+<p><code>| **289个** | AT环境扫描到的云AP autoSwitch记录 |</code></p>
+<p><code>| **239/25** | 开启/关闭实时调优的AP数量比 |</code></p>
+<p><code>| **98%** | 现网AC+fitap组网占比（决定架构选型） |</code></p>
+<p><code>| **300秒** | 分布式锁过期时间（业务执行上限） |</code></p>
+<br>
+<br>
+<h2>四、三类必死题预演</h2>
+<br>
+<h3>必死题1：消息队列可靠性</h3>
+<p><strong>问题</strong>：Kafka消息消费失败了怎么处理？</p>
+<p><strong>标准回答骨架</strong>：</p>
+
+<code>1. 失败不commit → 自动重投（At-Least-Once）</code>
+<code>2. 重试次数用完 → 进死信队列(DLQ)人工处理</code>
+<code>3. 业务层加幂等 → 唯一索引防止重复处理</code>
+<code>4. 关键数据不丢失 → 落库后再commit</code>
+
+<br>
+<br>
+<h3>必死题2：分布式锁原理</h3>
+<p><strong>问题</strong>：Redis分布式锁怎么实现？有什么坑？</p>
+<p><strong>标准回答骨架</strong>：</p>
+
+<code>1. 实现方式：SET key value NX EX 300（原子性）</code>
+<code>2. 过期问题：设长一点 or 看门狗续期</code>
+<code>3. 主从切换：可能丢锁，接受 or 用Redlock</code>
+<code>4. 业务层兜底：检查-执行竞态，锁内二次验证</code>
+
+<br>
+<br>
+<h3>必死题3：架构质疑</h3>
+<p><strong>问题</strong>：为什么要拆成4个微服务？不是一个服务不行吗？</p>
+<p><strong>标准回答骨架</strong>：</p>
+
+<code>1. 拆分原因：计算密集(rrmcompute) vs IO密集(rrmcontrol) vs 独立演进(aioptimize)</code>
+<code>2. 扩展性：各服务独立扩缩容</code>
+<code>3. 故障隔离：一个挂了不影响其他</code>
+<code>4. 代价：运维复杂度↑、事务一致性难、网络开销</code>
+
+<br>
+<br>
+<h2>五、技术债清单（项目重来会改什么）</h2>
+<br>
+<h3>债1：分布式锁无看门狗续期</h3>
+<p><strong>位置</strong>：<code>newApUpService.js</code> 的分布式锁</p>
+<p><strong>改法</strong>：接入Redisson，它有看门狗自动续期机制，或者把锁粒度从shop级别细化到更小的维度</p>
+<br>
+<h3>债2：下游DB连接信息硬编码</h3>
+<p><strong>位置</strong>：<code>syncDistributedRrm.js</code></p>
+<p><strong>改法</strong>：依赖wlanpub统一配置中心，避免环境差异导致的连接失败</p>
+<br>
+<h3>债3：四分支同步靠人工</h3>
+<p><strong>位置</strong>：acceptance/develop/release/international</p>
+<p><strong>改法</strong>：CI流水线自动检测分支差异，触发cherry-pick或通知维护者</p>
+<br>
+<br>
+<h2>六、印象最深的Bug（四段式）</h2>
+<br>
+<h3>Bug：设备上报"write after end"错误（fd4ed739）</h3>
+<br>
+<p><strong>现象</strong>：</p>
+<blockquote>国际环境Kafka消费日志出现大量错误，部分调优结果状态不对</blockquote>
+<br>
+<p><strong>定位</strong>：</p>
+<blockquote>查日志发现是rrmcompute OOM后重启，Kafka消费位点丢失，设备重复上报导致状态冲突</blockquote>
+<br>
+<p><strong>修复</strong>：</p>
+<blockquote>1. 增加内存限制（5Gi→5.5Gi）</blockquote>
+<blockquote>2. 消费端加幂等处理</blockquote>
+<blockquote>3. 硬编码功率上限绕过设备bug（临时方案）</blockquote>
+<br>
+<p><strong>反思</strong>：</p>
+<blockquote>"这个bug教会我两件事：一是消息消费要有幂等设计，不能假设消息只来一次；二是OOM不能只靠加内存，要分析是谁在用，为什么爆了——后来定位是rrmcompute的算法缓存没清理。"</blockquote>
+<br>
+<br>
+<h2>七、相关手册</h2>
+<br>
+<p><code>| 手册 | 关系 |</code></p>
+<p><code>|------|------|</code></p>
+<p><code>| 学习手册_19_并发场景模式库 | 通用并发/异步/锁模式，可与本项目串联 |</code></p>
+<p><code>| 学习手册_20_项目讲述方法论 | 通用讲述方法论，本卡为RRM专项版本 |</code></p>
+<p><code>| 学习手册_01_计算机网络 | WiFi/无线网络基础，本项目领域知识 |</code></p>
+<p><code>| 学习手册_15_无线网络 | 更系统的无线网络知识 |</code></p>
+<br>
+<br>
+<p>*本卡基于 D:\l32524\projects\rrmProject\ 文档炼化，可直接用于面试准备*</p>
+<br>
+</article></div>
+</body>
+</html>
