@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>19 并发场景模式 · 学习手册</title><style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:60px; }
+.topnav { position:sticky; top:0; z-index:9; background:#1f2937; color:#fff; padding:10px 0; }
+.topnav .inner { max-width:960px; margin:0 auto; padding:0 18px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; font-size:13px; }
+.topnav a { color:#c7d2fe; text-decoration:none; padding:3px 12px; border-radius:14px; background:rgba(255,255,255,.08); }
+.topnav a:hover { background:rgba(255,255,255,.2); color:#fff; }
+.topnav .sep { opacity:.4; }
+.wrap { max-width:960px; margin:0 auto; padding:0 18px; }
+.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px; margin-top:22px; box-shadow:0 1px 3px rgba(20,30,60,.05); }
+.article h1 { font-size:26px; color:#4f46e5; border-bottom:3px solid #4f46e5; padding-bottom:12px; margin-bottom:18px; }
+.article h2 { font-size:20px; margin:30px 0 12px; padding:10px 14px; background:#eef2ff; border-left:4px solid #4f46e5; border-radius:6px; color:#312e81; }
+.article h3 { font-size:14px; color:#475569; margin:14px 0 6px; }
+.article p { margin:8px 0; font-size:14.5px; color:#2b3245; }
+.article ul, .article ol { margin:8px 0 8px 24px; }
+.article li { font-size:14.5px; margin:4px 0; }
+.article strong { color:#111827; }
+.article code { background:#f1f3fa; padding:1px 6px; border-radius:4px; font-size:13px; color:#be185d; }
+.article pre { background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:8px; overflow-x:auto; margin:12px 0; font-size:13px; line-height:1.6; }
+.article pre code { background:none; color:inherit; padding:0; }
+.article table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13.5px; display:block; overflow-x:auto; }
+.article th { background:#f1f3fa; padding:8px 10px; text-align:left; color:#475569; font-size:12.5px; border:1px solid #e4e8f0; }
+.article td { padding:8px 10px; border:1px solid #e4e8f0; vertical-align:top; }
+.article blockquote { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; margin:12px 0; border-radius:6px; color:#166534; font-size:14px; }
+.article blockquote strong { color:#14532d; }
+.article hr { border:none; border-top:1px dashed #d1d5db; margin:26px 0; }
+.bottomnav { max-width:960px; margin:20px auto 0; padding:0 18px; display:flex; gap:10px; }
+.bottomnav a { flex:1; text-align:center; background:#4f46e5; color:#fff; text-decoration:none; padding:12px 10px; border-radius:10px; font-size:14px; }
+.bottomnav a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
+@media (max-width:760px){ .article{padding:22px 18px;} .article h1{font-size:21px;} }
+</style></head>
+<body>
+<div class="topnav"><div class="inner"><a href="学习中心.html">🏠 学习中心</a> <span class="sep">|</span> <a href="学习手册索引.md">📚 手册索引</a> <span class="sep">|</span> <a href="学习手册_18_性能优化实战.html">◀ 18 性能优化</a> <span class="sep">|</span> <a href="学习手册_20_项目讲述方法论.html">20 项目讲述 ▶</a></div></div>
+<div class="wrap"><article class="article"><h1>📘 学习手册 19 · Java 并发与中间件：六大项目场景模式库</h1>
+<blockquote>
+<p><strong>来源</strong>：WA6666.zip 项目八股（罗振耘 2026-09-04），已去重炼化自 AC集群 / AP邻居 / ISSU 三份同事材料。
+<strong>本手册价值</strong>：纯八股你已有手册 06/08/11/03/04 覆盖；这一本补的是<strong>"代码场景 → 知识点 → 面试话术"的三层映射</strong>——面试官要的不是你背得出线程池 7 参数，而是"你项目里哪里用了、为什么、坑在哪"。
+⚠️ <strong>红线提醒</strong>：场景模式、思考框架、话术可 1:1 迁移到你的 RRM 项目；但<strong>同事项目的具体业务细节（acpool/ap邻居/issu 升级）绝不能冒充成你的经历</strong>。每节末尾的 🎯 是把模式移植到你自己项目的落点。
+模板：场景一句话 → 为什么需要 → 代码形态 → 知识点串 → 面试话术 → 高频追问 → 🎯 我的 RRM 怎么讲。
+原始细节可查 <code>项目八股_原材料/</code> 对应文件。</p>
+</blockquote>
+<hr />
+<h2>模式 0：面试开场公式（先背这个，后面全靠它）</h2>
+<p>所有"讲项目"题的万能骨架：</p>
+<blockquote>
+<p><strong>30 秒业务</strong>（这系统解决什么问题）→ <strong>一句话架构</strong>（事件驱动/串行/异步 等核心特征）→ <strong>四件事收尾</strong>（并发正确性 / 幂等 / 失败兜底 / 保护下游）。</p>
+</blockquote>
+<p><strong>反例</strong>："我做了一个 XX 管理系统，用了 Spring Boot + Kafka……"（只有名词，没有业务因果，等于没讲）。
+<strong>正例</strong>："RRM 无线资源管理，解决 Wi-Fi 调优'算完推给谁、怎么不推错'的问题——核心难点不在吞吐，在<strong>并发正确性</strong>：调度任务重复触发一次、消息漏处理一次，设备射频参数就乱了。所以我在防抖、幂等、兜底上花的心思比在并发量上多。"（把战场引到你准备过的地方）</p>
+<blockquote>
+<p>🎯 你的 RRM 版本开场见《手册 20》第 2 节电梯陈述模板。</p>
+</blockquote>
+<hr />
+<h2>模式 1：接口"同步返回 + 异步下发"（读旧写新）</h2>
+<p><strong>一句话</strong>：查询接口同步返回历史/缓存数据，写操作扔线程池后台执行——用"可接受的新鲜度"换毫秒级响应。</p>
+<p><strong>为什么需要</strong>：设备操作（下发扫描/调优指令）耗时秒级~分钟级，如果接口同步等结果，要么用户卡死、要么把 HTTP 线程池占满。查询慢的是"更新"，不是"读"。</p>
+<p><strong>代码形态（Java）</strong>：</p>
+<pre><code class="language-java">// 查询接口：同步返回，毫秒级
+public List&lt;NbrVo&gt; query(shopId, apSN) {
+    return mongoDao.findByShopIdAndApSN(shopId, apSN);   // 读旧数据
+    // 顺手触发异步刷新：executor.submit(() -&gt; sendScanCmd(shopId, apSN));
+}
+// 下发线程池：固定线程 + 有界队列（IO 密集）
+ExecutorService pool = new ThreadPoolExecutor(5, 10, 60, SECONDS,
+    new LinkedBlockingQueue&lt;&gt;(1000), namedFactory(&quot;scan-&quot;), new CallerRunsPolicy());
+</code></pre>
+<p><strong>知识点串</strong>：线程池 7 参数与执行顺序（核心满→<strong>先入队</strong>→再扩非核心→拒绝）；IO 密集 ≈ 2N 起步、压测调优；四种拒绝策略（CallerRuns=反压但不丢）；submit 吞异常（不 get 永远不知道错）→ 必须 try-catch 带上下文 log。</p>
+<p><strong>面试话术</strong>："查询返回的是上一轮结果，下发异步跑，用户下次查询就是新的——这是有意识用<strong>最终一致</strong>换体验。当时先确认了业务容忍度（分钟级新鲜即可）才这么选，如果要求强一致就得同步等结果，体验崩。"（体现先问需求再选架构）</p>
+<p><strong>高频追问</strong>：强一致怎么办？→ 反问"业务真的需要吗"+ 给版本号可验证新鲜度方案。服务重启丢任务怎么办？→ 任务幂等可重放 + 定时对账兜底（见模式 6）。</p>
+<blockquote>
+<p>🎯 <strong>你的 RRM</strong>：rrmcontrol 查询 AP 调优结果/状态同步返回 MongoDB 数据；新 AP 调优由 <code>newApUpScheduler</code> 每 60s 定时扫"待调优 AP"异步执行——查询链和调度链天然是"同步读 + 异步算"。面试讲："云端查配置秒回，调优计算走独立调度器异步收敛，靠状态字段区分'待调优/调优中/完成'，不阻塞查询。" 这个比你想象中值钱——它就是教科书"读旧写新"。</p>
+</blockquote>
+<hr />
+<h2>模式 2：延迟任务防抖（ScheduledExecutorService + ConcurrentHashMap 取消重排）</h2>
+<p><strong>一句话</strong>：用"标识→定时器句柄"的 map + cancel 语义，把 N 次高频触发折叠成 1 次延迟执行——倒计时永远以最后一次为准（和前端 input 500ms 防抖同构）。</p>
+<p><strong>为什么需要</strong>：事件风暴（设备反复上下线、接口被连点）下，如果每次触发都起新定时器，同一对象会挂一堆定时器、兜底逻辑重复执行。</p>
+<p><strong>代码形态（Java）</strong>：</p>
+<pre><code class="language-java">// 触发路径（原版，有竞态）：
+ScheduledFuture&lt;?&gt; old = timers.get(shopId);
+if (old != null) old.cancel(false);          // 取消旧的（false=只取消没开始的）
+timers.put(shopId, scheduler.schedule(() -&gt; checkTimeout(shopId), 20, MINUTES));
+
+// ✅ 修复版：get→cancel→put 是 check-then-act，改 compute（桶级锁内原子执行）
+timers.compute(shopId, (k, old) -&gt; {
+    if (old != null) old.cancel(false);
+    return scheduler.schedule(() -&gt; checkTimeout(k), 20, MINUTES);
+});
+</code></pre>
+<p><strong>知识点串</strong>：ScheduledThreadPoolExecutor vs Timer（Timer 单线程+异常即死）；DelayedWorkQueue=按到期时间排序的堆，leader-follower 精确挂起不轮询；<code>cancel(false)</code> vs <code>cancel(true)</code>（false=只取消等待中的，执行中的让它跑完，防中断一半制造脏状态）；ConcurrentHashMap 的"安全只覆盖单次操作，不覆盖操作序列"——复合操作要用 compute/computeIfAbsent/putIfAbsent 收进桶级锁。</p>
+<p><strong>面试话术</strong>（区分度最高的一分钟）：</p>
+<blockquote>
+<p>"防抖逻辑我用 ConcurrentHashMap 记句柄、新触发先 cancel 再重排。<strong>我复盘时发现 get→cancel→put 不是原子的</strong>：两个线程同时进来都拿到 null，各自排了定时器，后写的覆盖先写的，旧的成了孤儿没被 cancel，20 分钟后检测跑两次。改法是 <code>compute()</code>——同 key 的读改写锁在同一把桶锁里。这个坑让我记住：并发容器的线程安全只覆盖单次 API，不覆盖你拼出来的操作序列。"</p>
+</blockquote>
+<p><strong>高频追问</strong>：compute 锁在哪？→ JDK8 锁单桶头节点（synchronized），只锁这一桶，其他桶照常并发。定时器是内存的会丢吗？→ 会，所以有每小时定时对账兜底（"丢了也能自动恢复才是敢用内存调度的前提"）。</p>
+<blockquote>
+<p>🎯 <strong>你的 RRM</strong>：新 AP 调优调度 + 定时调优的 scheduler，若同一 AP 短时间内多次触发（上线事件风暴），重复调度会造成重复调优/资源浪费。可讲："调度器每 60s 扫一次，任务入口用状态字段 + 唯一键判重，重复触发直接跳过——用状态机做天然防抖。" 若想进阶可讲你实际用的"Redis/Mongo 状态标记做去重"与"内存句柄防抖"的取舍。</p>
+</blockquote>
+<hr />
+<h2>模式 3：CompletableFuture 分批限速下发（thenCompose 串间隔）</h2>
+<p><strong>一句话</strong>：把"每批发送 + 批次间隔"用 CF 链式编排成异步流水线，批与批串行、批内并行——本质是<strong>保护下游的背压</strong>。</p>
+<p><strong>为什么需要</strong>：一次给几千台设备下发会打爆设备 CPU/超 MTU，必须分批 + 间隔；但分批逻辑不能同步 for 循环 sleep（占线程），要用调度器模拟等待。</p>
+<p><strong>代码形态（Java）</strong>：</p>
+<pre><code class="language-java">CompletableFuture&lt;Void&gt; chain = CompletableFuture.completedFuture(null);
+for (List&lt;Dev&gt; batch : partition(devices, 2000)) {
+    chain = chain.thenCompose(v -&gt; {
+        sendBatch(batch);                          // 发本批
+        CompletableFuture&lt;Void&gt; delay = new CompletableFuture&lt;&gt;();
+        scheduler.schedule(() -&gt; delay.complete(null), 60, SECONDS); // 手动点亮=等60s
+        return delay;                              // 返回 Future 必须 thenCompose
+    });
+}
+chain.thenRun(() -&gt; afterAllDone())               // 统一收尾
+     .exceptionally(e -&gt; { log.error(&quot;...&quot;, e); afterAllDone(); return null; }); // 失败也收尾
+</code></pre>
+<p><strong>知识点串</strong>：thenApply=map vs thenCompose=flatMap（<strong>lambda 返回 Future 必须 thenCompose</strong>）；回调线程语义（前步已完成→注册线程执行；未完成→完成线程执行；<code>*Async</code> 不传参→ ForkJoinPool.commonPool()，并行度=核数-1、全 JVM 共享、daemon——<strong>阻塞任务放进去=反模式</strong>）；exceptionally=catch / handle=可替换结果 / whenComplete=旁路不吞异常；手动 complete=把 Future 当一次性门闩（JDK9 可用 delayedExecutor / orTimeout 更简洁）。</p>
+<p><strong>面试话术</strong>："批间间隔我不用 sleep——那会占死线程。用 thenCompose 把'发送+等 60 秒'串起来，链条推进靠调度器到点 complete 那个 delayFuture，线程在间隔期是还回池子的。所有回调都显式传业务线程池，绝不放 commonPool，因为回调里是秒级阻塞 RPC，放 commonPool 会殃及全 JVM。"</p>
+<p><strong>高频追问</strong>：100 台全并行行不行？→ 业务约束不允许（有依赖/保护下游），<strong>能讲清"哪里并行、哪里串行、为什么"是满分</strong>。</p>
+<blockquote>
+<p>🎯 <strong>你的 RRM</strong>：设备侧调优参数下发（WebSocket/netconf 到 AC）、cloudApUpClb 新 AP 优化批量处理——存在"多设备并发 + 单设备有序"约束，与"组间并行、组内串行"同构（同事 AC 项目也是按 devSN 分组）。Node.js 侧对等：<code>Promise.all</code> + 分批 + 手动控制的延迟，或用 p-limit/p-queue 限并发。面试讲 Node 版："批量下发按组切分，组内串行保顺序、组间并发提吞吐，失败入队补偿。"（这是你 WBC/RRM 下发的真实形态）</p>
+</blockquote>
+<hr />
+<h2>模式 4：MQ 异步转同步 RPC（correlationId + 信箱 + 超时兜底）</h2>
+<p><strong>一句话</strong>：在"只能异步收发的 MQ"上模拟出同步调用——发消息带唯一 ID 和私有回复队列，本地放一个"信箱"，回包按 ID 唤醒发送方。</p>
+<p><strong>为什么需要</strong>：架构强制走 MQ（服务间解耦/网关约束），但业务要实时知道设备执行结果（下发成功没），不能"发完就不管"。</p>
+<p><strong>代码形态（Java）</strong>：</p>
+<pre><code class="language-java">// 发送方（业务线程）：
+String msgId = UUID.randomUUID().toString();
+ArrayBlockingQueue&lt;JSONObject&gt; mailbox = new ArrayBlockingQueue&lt;&gt;(1);
+mailboxes.put(msgId, mailbox);                    // 注册信箱
+mq.send(EX, KEY, payload(msgId, replyTo=私有回复队列));  // replyTo 带本机 IP → 实例亲和
+JSONObject resp = mailbox.poll(50, SECONDS);      // 阻塞等，超时返回 null
+mailboxes.remove(msgId);                          // 超时/成功都要清理防泄漏
+
+// 回包监听线程：
+JSONObject reply = ...;
+ArrayBlockingQueue&lt;JSONObject&gt; mb = mailboxes.get(msgId);
+if (mb == null) { log.warn(&quot;迟到回复 {}&quot;, msgId); return; }  // 幂等丢弃孤儿回复
+mb.add(reply);                                     // 唤醒发送线程
+</code></pre>
+<p><strong>知识点串</strong>：本质=生产者-消费者 + correlation identifier（关联 ID 把异步消息域折叠回同步调用域）；等价于 JDK 的 Future/<code>CompletableFuture.complete</code>；阻塞队列选型（ABQ 容量 1=让"回复串号"第一时间暴露；无界队列绝对不行）；poll 超时 vs take（take 会永久挂死）；map 必须 ConcurrentHashMap + 超时后 remove（防泄漏）；实例亲和=回复队列名带实例标识，回复只回发出请求的实例；<strong>迟到回复必须幂等丢弃</strong>——业务上超时已被当失败处理，迟到的成功最多造成短暂不一致，下轮对账纠正（最终一致）。</p>
+<p><strong>面试话术</strong>："这是自研的微型 Future：messageId 当 correlation id、容量 1 的阻塞队列当信箱、poll 50 秒给超时。50 秒按设备 P99 响应时间留余量定的——<strong>本质是用超时换故障下的线程可用性</strong>，宁可误杀走失败重试，不能无限等。迟到回复只打 warn 丢弃，绝不让一条旧消息打死监听线程。"</p>
+<p><strong>高频追问</strong>：直接用 RabbitTemplate.convertSendAndReceive 不行吗？→ 需要私有回复队列做实例亲和 + 自定义超时，框架内部也是同一套机制（手写过再看源码秒懂）。map 用 HashMap 行吗？→ 行但有隐患，改 ConcurrentHashMap 一行事——<strong>主动承认自己复盘发现的坑最加分</strong>。</p>
+<blockquote>
+<p>🎯 <strong>你的 RRM</strong>：Kafka 消息流是纯异步（optType 25 AP上线、调优结果上报），但存在"下发指令 → 等设备回执"的需求（netconf/WebSocket 下发后要确认生效）。Node 侧对等实现：Kafka 发送带 <code>requestId</code> + 本地 pending Map + <code>Promise.race([超时, 回包])</code>。面试可讲你真实做的："下发结果通过 Kafka 回传 topic 异步上报，我用 requestId 关联下发与回执，超时未回执进补偿队列重发，回执幂等去重。"（rrmcontrol 处理调优结果上报就是你已具备的真实素材）</p>
+</blockquote>
+<hr />
+<h2>模式 5：事件驱动状态机 + 递归调度轮询（消息为主、对账为辅）</h2>
+<p><strong>一句话</strong>：长流程没有"主线程"——正常推进靠 MQ 消息/同步返回驱动状态流转，轮询只出现在"设备没提供消息机制"和"超时兜底"两处；轮询用<strong>递归 schedule</strong> 而非 while+sleep。</p>
+<p><strong>为什么需要</strong>：一个跨分钟/小时的流程（设备重启、分批升级、迁移回迁）如果用一个线程从头睡到尾等结果，几百个流程就是几百个常年挂睡的线程（每线程 ~1MB 栈）；且重启后内存态全丢。</p>
+<p><strong>代码形态（Java）</strong>：</p>
+<pre><code class="language-java">// ❌ 反面：while + sleep 独占线程
+new Thread(() -&gt; {
+    while (!finished(acSN) &amp;&amp; count++ &lt; 60) { Thread.sleep(5000); }
+    doNext(acSN);
+}).start();
+
+// ✅ 递归调度：每次任务毫秒级，做完还回池子，&quot;等 N 秒&quot;交给延迟队列
+schedulePoll(acSN);
+void schedulePoll(String acSN) {
+    scheduler.schedule(() -&gt; {
+        if (isCancelled(acSN)) return;            // 协作式取消：入口查 Redis/Mongo 标志
+        if (checkDone(acSN)) { doNext(acSN); return; }
+        schedulePoll(acSN);                       // 自己调度自己（新任务，非真递归）
+    }, 5, SECONDS);
+}
+</code></pre>
+<p><strong>知识点串</strong>：ScheduledThreadPoolExecutor 底层=DelayedWorkQueue（小顶堆按到期时间）+ leader-follower（队头线程限时 park，避免无效唤醒）；fixedRate 的坑（<strong>任务抛异常后后续调度静默取消</strong>——一次 netconf 超时轮询就断了无感知）；递归 schedule 不会栈溢出（每次是新任务，调用栈已弹出，状态靠参数捕获）；协作式取消（interrupt 只能打断 sleep/park，打断不了同步 IO——停机语义靠"超时 + 状态外置可恢复"）；<strong>"用调度器模拟等待，而不是用线程挂起模拟等待"</strong>。</p>
+<p><strong>面试话术</strong>："流程是事件驱动状态机：MQ 消息走正常路径推进，轮询只在两处——设备没有消息机制的动作、以及超时兜底。线程开销极小，重启后靠 Redis/Mongo 里的状态恢复。代价是控制流打散在回调里，所以我的日志全部带 taskId+设备ID 贯穿。准确的自我定位是'事件驱动为主、轮询对账为辅'。"</p>
+<p><strong>高频追问</strong>：状态机防重入？→ check-then-act 有窗口，严谨做法是条件更新 <code>update set status=WAITING where status=WAITING</code> 看影响行数（CAS 思想）；终态不可逆防什么？→ 定时器判失败和成功消息到达的竞态。为什么不用现成工作流引擎？→ 规模没到收益点 + 需要可追溯历史 + 自研轻量（能讲清差距即可）。</p>
+<blockquote>
+<p>🎯 <strong>你的 RRM</strong>：这就是你项目的"本体"！rrmcontrol 的调优流程 = <strong>Kafka 消息驱动（optType 上报推进）+ 调度器兜底（newApUpScheduler 每 60s 扫待办）</strong>。你现在是"60s 固定周期全扫"，同事们的经验是"递归调度 + 事件即时推进"——面试被问"你的调度器 60s 扫一次有什么问题"时，可以答："周期扫描简单可靠但实时性差、空转浪费，演进方向是消息驱动即时触发 + 递归调度做兜底，两段式。当时选 60s 是权衡了实现复杂度，这是我认可的债。"——<strong>主动讲短板+改进方向，是高级候选人标志</strong>。</p>
+</blockquote>
+<hr />
+<h2>模式 6：消费治理与分层兜底（幂等 + 重试 + 对账，可靠性三层防线）</h2>
+<p><strong>一句话</strong>：消息系统只保证"至少一次"，正确性靠消费端设计——<strong>幂等收敛 + 指数退避重试 + 定时对账兜底 + 数据老化</strong>，每层失败都有下一层接住。</p>
+<p><strong>代码形态（要点）</strong>：</p>
+<pre><code class="language-java">// 手动提交：先处理完再提交 offset → at-least-once（不丢，但可能重复）
+@KafkaListener(containerFactory = &quot;kafkaManualAckFactory&quot;, topics = &quot;...&quot;)
+public void onMsg(ConsumerRecord r, Acknowledgment ack) {
+    try {
+        handle(r);      // 处理逻辑设计成可重放（覆盖写/set 语义/状态机幂等）
+        ack.acknowledge();
+    } catch (Exception e) {
+        retryTemplate.execute(ctx -&gt; { handle(r); ack.acknowledge(); }); // 3次指数退避1s→2s→4s
+        // 修不好：进死信/失败集合，绝不能堵死分区
+    }
+}
+// 幂等手段：① 业务天然幂等（覆盖写/set）② 唯一键约束 ③ 状态机（只允许合法流转）④ 去重表占位
+</code></pre>
+<p><strong>知识点串</strong>：Kafka 高吞吐四板斧（顺序写/零拷贝 sendfile/批量压缩/分区并行）；不丢三段（acks=all + min.insync.replicas / 消费端先处理后提交）；rebalance 危害（STW 停消费、已处理未提交被重消费→再次证明必须幂等）；消费并发度对齐分区数；延迟任务"丢了也能恢复"才敢用内存态。</p>
+<p><strong>分层兜底（答"链路怎么保证不漏"的满分结构）</strong>：
+1. 正常路径：处理完立即推进（消息驱动）；
+2. 兜底路径：定时对账轮询（内存任务丢了、消息丢了，最迟一个周期发现）；
+3. 数据路径：老化清理（28 天）防异常数据无限滞留；</p>
+<blockquote>
+<p>金句："<strong>内存态任务 + 持久态定时对账</strong>的组合——内存快但不可靠，定时慢但可靠，两者叠加覆盖所有故障模式。"</p>
+</blockquote>
+<p><strong>高频追问</strong>：顺序怎么保证？→ 需要有序的消息按业务 key 进同一分区/队列；消息层不保证跨分区顺序，业务层用"合并/收敛"容忍弱顺序（延迟窗口取最终态）。</p>
+<blockquote>
+<p>🎯 <strong>你的 RRM</strong>：你的 Kafka 消费（optType 消息）+ MongoDB 落库天然可重放，这就是幂等基础。面试讲点：① rrmcontrol 消费调优结果"覆盖写 + 状态机终态"，重复消息收敛无害；② 配置中心变更下发失败进补偿；③ <strong>rrmcompute OOM 重启后靠消息积压重放 + 状态恢复</strong>（5Gi→5.5Gi 的调优故事就是"分层兜底"的现实案例）。可迁移金句直接引用上面那句。</p>
+</blockquote>
+<hr />
+<h2>附 A：Redis 当并发协调器——三结构三用法（可迁移性极高）</h2>
+<table>
+<thead>
+<tr>
+<th>结构</th>
+<th>用途</th>
+<th>语义</th>
+<th>你的对等场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>List</td>
+<td>待处理队列</td>
+<td><strong>管顺序</strong>：有序、可恢复的工作队列，空=做完</td>
+<td>待调优 AP 队列/调优任务队列</td>
+</tr>
+<tr>
+<td>Set</td>
+<td>名册/对账</td>
+<td><strong>管对账</strong>：消息到了 remove 划掉，超时看剩余判失败；乱序到达+划两次无害（天然幂等）</td>
+<td>待回执设备集合/重试集合</td>
+</tr>
+<tr>
+<td>Hash/String</td>
+<td>进度/状态</td>
+<td><strong>管快照</strong>：写线程更新、读接口读</td>
+<td>调优进度/AP 状态快照（你 MongoDB 更常用，Redis 可做热态）</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>金句："<strong>List 管顺序、Set 管对账、Hash 管快照——把分布式并发问题转化为 Redis 单线程命令的原子性。</strong>"</p>
+</blockquote>
+<h2>附 B：分布式锁的完整认知（深度题，含"看门狗也救不了你"）</h2>
+<p>演进四步必背：V1 <code>setnx+expire</code> 非原子 → V2 <code>set NX EX</code> 原子 → V3 value 存唯一 token + <strong>Lua 原子比较删除</strong>（防误删别人的锁）→ 看门狗续期（Redisson 每 10s 续 30s）。</p>
+<p><strong>深度认知（本项目核心故事）</strong>：</p>
+<blockquote>
+<p>"看门狗续的是锁的命，不是业务的命——FullGC/线程卡死时续期线程可能照常续，业务其实已死；反过来业务真长尾，锁到期别的线程也能进来。<strong>分布式锁只保证互斥，不保证任务按预期生命周期执行</strong>，正确性靠业务层兜底：状态机幂等 + 失败补偿。主从切换锁会丢（异步复制），RedLock 有争议（时钟跳变/GC 停顿破坏假设），生产多数是单实例 Redisson + 业务兜底。"</p>
+<p>🎯 <strong>你的 RRM</strong>：你的调度器多实例部署时同样面临"重复执行"问题（现网/国际云多副本）。Node 侧：ioredis <code>set(key, token, 'EX', ttl, 'NX')</code> + Lua 释放 你已经具备（Redis 10.11.2.65）。面试讲你真实做过的：多实例 scheduler 用 Redis 锁抢执行权，锁带唯一令牌，释放走 Lua，锁过期时间 &gt; 调度周期 60s。"锁只保证互斥"这个认知答出来就是区分度。</p>
+</blockquote>
+<hr />
+<h2>附 C：设计模式在"你自己的代码"里怎么认（对照表）</h2>
+<p>同事材料把设计模式全部锚定到代码——这是最重要的示范。你不需要背模式定义（手册 11 有），你需要<strong>能在自己项目里指出"这里是什么模式"</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>你 RRM/Node 代码里的真实落点（示例，讲前自己确认）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>策略 + 降级</td>
+<td>双计算模式：设备侧计算 vs 云端计算按组网类型路由（AC+fitap → 设备侧；云 AP → 云端）=能力探测驱动的双路径降级</td>
+</tr>
+<tr>
+<td>观察者</td>
+<td>Kafka 消息订阅驱动下游动作；配置中心变更 → 各微服务监听刷新</td>
+</tr>
+<tr>
+<td>状态机</td>
+<td>AP 调优状态流转（待调优→调优中→完成/失败），终态不可逆</td>
+</tr>
+<tr>
+<td>模板方法</td>
+<td>不同 optType 消息处理骨架一致、细节不同（可抽象 base handler）</td>
+</tr>
+<tr>
+<td>命令对象</td>
+<td>调优任务对象化入队（含重试语义），与"请求对象化→获得重试/日志能力"同构</td>
+</tr>
+<tr>
+<td>工厂矩阵</td>
+<td>按消息类型注册 handler（Map<optType, handler>）——你的消息分发天然是策略+工厂</td>
+</tr>
+<tr>
+<td>外观</td>
+<td>你的 Redis/Mongo 封装层（统一 key/集合规范）</td>
+</tr>
+<tr>
+<td>防抖思想</td>
+<td>调度去重/频控：同一 AP 短时间只调优一次</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>讲法模板（面试官问"你用过哪些设计模式"）：
+"我不是背模式，是重构时认出来的。比如双计算我按组网类型抽了策略分发，新增组网只加一个策略类；消息处理按 optType 注册 handler 是工厂+策略的组合；配置中心变更走监听是观察者。模式是给代码演进留的口子，不是一开始套上去的。"——<strong>从重构反推模式，比罗列模式名单可信十倍</strong>。</p>
+</blockquote>
+<hr />
+<h2>自测清单（答不出=没过关）</h2>
+<ul>
+<li>[ ] 30 秒讲清你的 RRM 项目 + 一句话架构 + 四件事收尾</li>
+<li>[ ] 线程池执行顺序（先入队后扩容）+ 为什么禁 Executors + submit 吞异常</li>
+<li>[ ] 防抖的 get→cancel→put 竞态 → compute 修复（能画出两个线程的时序）</li>
+<li>[ ] thenCompose vs thenApply / commonPool 三宗罪 / exceptionally vs whenComplete</li>
+<li>[ ] MQ RPC 完整流程：msgId→信箱→poll 超时→remove 防泄漏→迟到回复幂等丢弃</li>
+<li>[ ] 递归调度 vs while+sleep / fixedRate 异常静默取消 / 协作式取消为什么不用 interrupt</li>
+<li>[ ] 消费三层防线：幂等收敛 + 指数退避 + 定时对账（金句背熟）</li>
+<li>[ ] Redis 三结构语义 + 分布式锁演进四步 + "锁只保证互斥"深度认知</li>
+<li>[ ] 在你自己代码里指出 ≥4 个设计模式落点</li>
+</ul></article></div>
+<div class="bottomnav"><a href="学习手册_18_性能优化实战.html">◀ 上一本：18 性能优化</a>
+<a class="ghost" href="面试八股复习计划_李鑫.html">📖 回复习计划勾选</a>
+<a href="学习手册_20_项目讲述方法论.html">下一本：20 项目讲述 ▶</a></div>
+</body></html>

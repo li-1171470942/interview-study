@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>20 项目讲述方法论 · 学习手册</title><style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:60px; }
+.topnav { position:sticky; top:0; z-index:9; background:#1f2937; color:#fff; padding:10px 0; }
+.topnav .inner { max-width:960px; margin:0 auto; padding:0 18px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; font-size:13px; }
+.topnav a { color:#c7d2fe; text-decoration:none; padding:3px 12px; border-radius:14px; background:rgba(255,255,255,.08); }
+.topnav a:hover { background:rgba(255,255,255,.2); color:#fff; }
+.topnav .sep { opacity:.4; }
+.wrap { max-width:960px; margin:0 auto; padding:0 18px; }
+.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px; margin-top:22px; box-shadow:0 1px 3px rgba(20,30,60,.05); }
+.article h1 { font-size:26px; color:#4f46e5; border-bottom:3px solid #4f46e5; padding-bottom:12px; margin-bottom:18px; }
+.article h2 { font-size:20px; margin:30px 0 12px; padding:10px 14px; background:#eef2ff; border-left:4px solid #4f46e5; border-radius:6px; color:#312e81; }
+.article h3 { font-size:14px; color:#475569; margin:14px 0 6px; }
+.article p { margin:8px 0; font-size:14.5px; color:#2b3245; }
+.article ul, .article ol { margin:8px 0 8px 24px; }
+.article li { font-size:14.5px; margin:4px 0; }
+.article strong { color:#111827; }
+.article code { background:#f1f3fa; padding:1px 6px; border-radius:4px; font-size:13px; color:#be185d; }
+.article pre { background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:8px; overflow-x:auto; margin:12px 0; font-size:13px; line-height:1.6; }
+.article pre code { background:none; color:inherit; padding:0; }
+.article table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13.5px; display:block; overflow-x:auto; }
+.article th { background:#f1f3fa; padding:8px 10px; text-align:left; color:#475569; font-size:12.5px; border:1px solid #e4e8f0; }
+.article td { padding:8px 10px; border:1px solid #e4e8f0; vertical-align:top; }
+.article blockquote { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; margin:12px 0; border-radius:6px; color:#166534; font-size:14px; }
+.article blockquote strong { color:#14532d; }
+.article hr { border:none; border-top:1px dashed #d1d5db; margin:26px 0; }
+.bottomnav { max-width:960px; margin:20px auto 0; padding:0 18px; display:flex; gap:10px; }
+.bottomnav a { flex:1; text-align:center; background:#4f46e5; color:#fff; text-decoration:none; padding:12px 10px; border-radius:10px; font-size:14px; }
+.bottomnav a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
+@media (max-width:760px){ .article{padding:22px 18px;} .article h1{font-size:21px;} }
+</style></head>
+<body>
+<div class="topnav"><div class="inner"><a href="学习中心.html">🏠 学习中心</a> <span class="sep">|</span> <a href="学习手册索引.md">📚 手册索引</a> <span class="sep">|</span> <a href="学习手册_19_并发场景模式库.html">◀ 19 场景模式</a></div></div>
+<div class="wrap"><article class="article"><h1>📘 学习手册 20 · 项目讲述方法论（把 RRM 讲成"面试官想听的样子"）</h1>
+<blockquote>
+<p><strong>来源</strong>：WA6666.zip 项目八股（罗振耘 2026-09-04），提炼自同事材料的"方法论层"——不含任何同事项目业务细节，全部是<strong>可迁移的面试技术</strong>。
+<strong>一句话</strong>：面试的胜负手不是"知道多少八股"，是<strong>能不能把简历每个字都变成你准备好的问题的钩子</strong>。本手册教你三件事：① 简历怎么埋钩子 ② 项目怎么讲（电梯陈述/开场/收尾）③ 追问怎么接（连环追问模式 + 必死题预演）。
+使用方式：每节留了 RRM 专属的"填空位"，请用你真实的项目数据填满并背熟——<strong>只有你自己的数字和故事才站得住</strong>。</p>
+</blockquote>
+<hr />
+<h2>一、核心心法：简历 = 给面试官的提问提纲</h2>
+<p>面试官不读你的项目文档，他读的是简历。<strong>简历每条 bullet 都会引来一个问题</strong>——所以写简历的最高境界是：面试官问的每个问题，都是你准备过的。</p>
+<h3>1.1 简历写作五原则（从同事材料提炼）</h3>
+<ol>
+<li><strong>动词开头，业务动作 + 技术手段双层结构</strong>："设计/实现/主导 + 业务干了什么 + 用了什么技术"。
+   - ❌ "使用了 CompletableFuture"（只有名词没有场景）
+   - ✅ "设计调优任务异步编排：按 AP 分组串行下发 + 失败补偿，避免指令风暴冲击设备"</li>
+<li><strong>数字必须能张口报出</strong>：60s 调度周期、98%+ 组网适配、5Gi→5.5Gi、Kafka 消费组并发度、单批下发阈值……数字是可信度锚点。<strong>但说不出处的数字比不写更糟</strong>——每个数字背后要有故事。</li>
+<li><strong>每条都是主动埋的钩子</strong>：写"新 AP 定时调优"就准备好被问"60s 周期怎么定、重复触发怎么办"；写"分布式锁"就准备好被问"锁过期怎么办"。<strong>钩子=你最有把握的战场</strong>。</li>
+<li><strong>不写撑不住的词</strong>："高并发/海量数据"引来的是你答不了的领域。你真实亮点是"异步架构下的并发正确性 + 无线领域深度"——量不大，但多线程交互多、错的代价高。用词边界见下节。</li>
+<li><strong>角色与内容匹配</strong>：写"负责人/主导"就要能答所有选型题（为什么这样设计）；答不上选型的部分，要么降级成"核心开发"，要么提前想好"这块是 XX 定的但我理解为什么这么选"。</li>
+</ol>
+<h3>1.2 用词边界表（诚实是最大安全边际）</h3>
+<table>
+<thead>
+<tr>
+<th>不用的词</th>
+<th>为什么</th>
+<th>替换</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>海量/高并发</td>
+<td>追问题（QPS？压测？分片键？）接不住会连环崩</td>
+<td>事件驱动 + 异步化 + 并发正确性</td>
+</tr>
+<tr>
+<td>大厂/微服务最佳实践</td>
+<td>空泛无锚点</td>
+<td>具体到"4 个微服务 + Kafka 消息解耦 + 状态外置"</td>
+</tr>
+<tr>
+<td>主导重构（若实际是参与）</td>
+<td>深度追问暴露分工</td>
+<td>精确分工：核心链路设计+开发</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>正确的自信来自<strong>把能力主张只落在真实存在的东西上</strong>——你的 AI RRM 双计算、配置中心、OOM 调优都是真的，够用。</p>
+</blockquote>
+<h3>1.3 把你的 4 个项目写成"钩子版"（作业：逐条预判问题）</h3>
+<p>用现有简历 4 项目（① AI RRM 重构与规模化落地 ② RRM WiFi7 ③ WBC IoT 2.0）+ Node.js 微服务日常，按表格填：</p>
+<table>
+<thead>
+<tr>
+<th>简历 bullet（示例）</th>
+<th>会引来的追问</th>
+<th>你的主场地</th>
+<th>备好弹药</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"双计算架构：AC+fitap 设备侧计算 / 云 AP 云端计算"</td>
+<td>为什么分流？边界怎么定？一致性怎么保？</td>
+<td>架构取舍 + MongoDB 数据一致性</td>
+<td>手册 10 项目深挖稿</td>
+</tr>
+<tr>
+<td>"配置中心：一键部署 + 自动校验 + 异常回滚"</td>
+<td>回滚粒度？校验哪些？多实例一致？</td>
+<td>配置管理 + 发布系统设计</td>
+<td>手册 18 性能/案例</td>
+</tr>
+<tr>
+<td>"rrmcompute OOM 调优 5Gi→5.5Gi + requests/limits"</td>
+<td>怎么定位 OOM？K8s 资源模型？</td>
+<td>K8s + 性能排查</td>
+<td>手册 13 容器化 + 18 案例①</td>
+</tr>
+<tr>
+<td>"Kafka 消息驱动：optType 上报 → 调优结果收敛"</td>
+<td>消息丢了？重复呢？顺序？</td>
+<td>消费治理 + 幂等</td>
+<td>手册 19 模式 6</td>
+</tr>
+<tr>
+<td>"国际环境 MQ bug：'write after end' 修复"</td>
+<td>根因？为什么导致 pod 重启？</td>
+<td>排障闭环（现象→定位→修复）</td>
+<td>手册 18 + 下方软性题</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>二、电梯陈述（30-60 秒，背熟这段）</h2>
+<blockquote>
+<p>结构：<strong>业务是什么 → 解决什么问题 → 我的角色 → 两个技术亮点 → 我的战场声明</strong>。</p>
+</blockquote>
+<p><strong>RRM 版模板（请用你的话填实）</strong>：</p>
+<blockquote>
+<p>"我做的是新华三 Oasis 云平台的无线资源管理（RRM），解决 Wi-Fi 调优"谁来算、算完怎么推给设备、推错了怎么收敛"的问题。云平台上有 4 个微服务（rrmcontrol/rrmserver/rrmcompute/aioptimize），Kafka + MongoDB + K8s 这套底座。
+技术亮点两个：一是 <strong>AI RRM 重构</strong>，把"云端收集-云端计算-下发生效"改成"AC+fitap 设备侧计算、云 AP 云端计算"的双计算分流——适配了 98%+ 组网，把云端运维压力和单点风险降下来；二是<strong>调优任务从触发到设备生效的可靠性链路</strong>——调度器触发、消息驱动结果上报、失败补偿、状态收敛，配合配置中心一键部署和回滚。
+我的战场是<strong>异步链路的正确性和工程化落地</strong>——消息不丢不重、任务不重复执行、发版能回滚，这些在真实无线环境里错的代价很高。"</p>
+</blockquote>
+<p>讲完这段，面试官的问题基本落在：双计算架构怎么分 / 一致性怎么保 / 消息可靠性 / 配置中心回滚 / K8s——<strong>全部是你有代码级答案的主场</strong>。</p>
+<hr />
+<h2>三、数字锚点表（可信度全靠它，背到条件反射）</h2>
+<blockquote>
+<p>面试时提到某个设计，顺手报出它的数字参数——这是"我真的做过"的最强信号。以下是你已知的真实数字，缺的补上你的真实值：</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>领域</th>
+<th>数字</th>
+<th>背后的故事（一句话）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>调度</td>
+<td><strong>60s</strong> newApUpScheduler 周期</td>
+<td>新 AP 上线到触发调优的延迟上界</td>
+</tr>
+<tr>
+<td>架构</td>
+<td><strong>98%+</strong> AC+fitap 组网适配率</td>
+<td>双计算分流覆盖的主流组网</td>
+</tr>
+<tr>
+<td>排障</td>
+<td><strong>5Gi → 5.5Gi</strong>（requests=3Gi）</td>
+<td>rrmcompute 高量任务 OOM 重启 → 调内存</td>
+</tr>
+<tr>
+<td>消息</td>
+<td>optType <strong>25/43</strong> 等消息类型</td>
+<td>AP 上线/上报驱动的状态推进</td>
+</tr>
+<tr>
+<td>存储</td>
+<td>MongoDB 复合索引 {taskId, apSN, RI}</td>
+<td>慢查询 → explain → 建索引</td>
+</tr>
+<tr>
+<td>发版</td>
+<td>多分支同步：acceptance/international/release/develop</td>
+<td>一套改动四环境生效</td>
+</tr>
+<tr>
+<td>规模</td>
+<td>4 个微服务 / 腾讯云 + 国际云双环境</td>
+<td>平台架构事实</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>用法：不背数字表本身，而是<strong>每个数字藏在一个可讲的案例里</strong>。被追问"你怎么定位线上问题"，用"OOM 案例：现象 pod 反复重启 → 看内存监控 → 定位高量任务 → 调 5Gi→5.5Gi → 观察稳定"——数字自然带出。</p>
+</blockquote>
+<hr />
+<h2>四、面试官连环追问模式（每个主题都这么被问）</h2>
+<p>资深面试官的问题路径几乎固定：<strong>表层 → 原理 → 边界/陷阱 → 开放</strong>。你可以提前按这四层给自己出题：</p>
+<table>
+<thead>
+<tr>
+<th>层级</th>
+<th>问题形态</th>
+<th>应对</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>表层</td>
+<td>"这个功能怎么做的？"</td>
+<td>30 秒业务 + 设计，报数字</td>
+</tr>
+<tr>
+<td>原理</td>
+<td>"底层为什么是这样？"</td>
+<td>背原理要能画图/写伪码（如线程池执行流程）</td>
+</tr>
+<tr>
+<td>陷阱</td>
+<td>"你这个有竞态吧？两个线程同时来怎么办？"</td>
+<td><strong>主动认 + 分析后果 + 给改进</strong>（最拉分）</td>
+</tr>
+<tr>
+<td>开放</td>
+<td>"重来一次你会改什么？"</td>
+<td>3 条具体债 + 每条报代码位置/改法</td>
+</tr>
+</tbody>
+</table>
+<p><strong>陷阱层的黄金公式</strong>（同事材料的核心示范）：</p>
+<blockquote>
+<p>"对，严格讲有窗口。三层缓解：① 触发源频率低、概率小；② 重复执行设备侧幂等（结果收敛）；③ 真要严谨应该改成 XXX（给出正确做法），当时权衡了实现成本，这是我认可的债。"</p>
+<p>🎯 练习：给你自己项目出 3 道"陷阱题"并预演。参考方向：① newApUpScheduler 每 60s 扫 + 状态标记去重——两个副本同时扫怎么办（Redis 锁/DB 唯一键）？② Kafka 消费"先处理后提交"——提交前宕机重复消费怎么办（幂等收敛）？③ 配置中心发布中有人改配置——版本冲突怎么办（校验+回滚）？</p>
+</blockquote>
+<hr />
+<h2>五、软性题与"必死题"预演</h2>
+<h3>5.1 项目里印象最深的 bug / 难点？（选有完整闭环的）</h3>
+<blockquote>
+<p>首选标准：<strong>现象 → 定位 → 修复 → 反思</strong>四段式，真实发生过。</p>
+</blockquote>
+<p><strong>你的弹药库</strong>（从真实经历选一）：
+- <strong>国际环境 MQ bug</strong>：现象=pod 因 'write after end' 反复重启 → 定位=硬编码功率上限场景下连接生命周期管理缺陷 → 修复=commit fd4ed739 → 反思="对异步写连接的关闭时机要有统一收口，不能散落各处"。
+- <strong>rrmcompute OOM</strong>：现象=高量任务下 pod OOMKilled 重启 → 定位=内存监控 + 任务量分析 → 修复=5Gi→5.5Gi + requests/limits 明确 → 反思="K8s 里内存问题先看 limits/requests 配置和实际画像，再谈代码优化"。
+- <strong>WBC 解耦</strong>（如适配）：现象/定位/修复/反思自己填。</p>
+<h3>5.2 项目重来一次你会改什么？（答 3 条，别贪多）</h3>
+<blockquote>
+<p>每条都要"指得出位置 + 讲得清为什么 + 给得出改法"——反思的具体度=可信度。</p>
+</blockquote>
+<p>模板：
+1. （设计债）"调度器 60s 全量轮询 → 会改成事件驱动即时触发 + 递归调度兜底，减少空转和实时性损失"；
+2. （工程债）"日志和监控体系 → 关键链路加 traceId 贯穿 + 指标上报，现在排查靠日志 grep，可观测性是我接下来想补的方向"；
+3. （技术债）"当时 XXX 用了简单方案（如硬编码超时）→ 会改成配置中心可调"。</p>
+<h3>5.3 三个必死题预演（RRM 版，先自己填答案再背）</h3>
+<table>
+<thead>
+<tr>
+<th>死亡问题</th>
+<th>标准预演骨架</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"你的 60s 调度重复触发怎么办？"</td>
+<td>认窗口 → 缓解（状态机防重入/唯一键）→ 严谨做法（条件更新 CAS/Redis 锁）→ "这是我认可的债"</td>
+</tr>
+<tr>
+<td>"消息丢了/重复了怎么办？"</td>
+<td>丢：定时对账兜底；重复：消费幂等（覆盖写收敛）→ 三层防线讲法</td>
+</tr>
+<tr>
+<td>"你这是轮询，不是事件驱动"</td>
+<td>准确自我定位：消息驱动为主（optType 上报推进状态）+ 轮询只做兜底与补偿</td>
+</tr>
+</tbody>
+</table>
+<h3>5.4 反问环节（体现你关心可靠性延续性）</h3>
+<ul>
+<li>"团队核心链路上，对消息可靠性/任务正确性这类问题，有测试规范还是靠 code review？"</li>
+<li>"这个岗位接手的系统，线上告警和值班机制是怎样的？"</li>
+<li>不问薪资福利加班（留给 HR）。</li>
+</ul>
+<hr />
+<h2>六、讲项目时的节奏控制（答题节奏）</h2>
+<ol>
+<li><strong>八股题</strong>：先背标准答案，再补一句"项目里我们当时是这么处理的"——<strong>一句就够</strong>，别展开成业务汇报。</li>
+<li><strong>场景题</strong>：先给方案梯度（单机 → 分布式 → 高级组件），再说选型理由和取舍——别一上来就上最强方案。</li>
+<li><strong>被问倒时</strong>："这个没深入研究过，我的理解是 XX，对吗？"——把天聊下去比硬撑强。绝不编。</li>
+<li><strong>主动暴露</strong>：陷阱题主动讲"我复盘时发现这里有个竞态/隐患"，比等面试官戳破强十倍——<strong>会自我怀疑的工程师才可信</strong>。</li>
+</ol>
+<hr />
+<h2>七、掌握热力图（面试前自测，答不出 3 秒内开口的模块要补）</h2>
+<table>
+<thead>
+<tr>
+<th>模块</th>
+<th>你必须能答</th>
+<th>弹药在哪</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>项目开场</td>
+<td>30 秒 RRM + 一句话架构 + 战场声明</td>
+<td>本手册第 2 节</td>
+</tr>
+<tr>
+<td>架构与选型</td>
+<td>双计算为什么/怎么分/一致性</td>
+<td>手册 10 项目深挖稿</td>
+</tr>
+<tr>
+<td>消息与并发</td>
+<td>模式 1-6 全套（手册 19）</td>
+<td>手册 19</td>
+</tr>
+<tr>
+<td>中间件原理</td>
+<td>Kafka/Mongo/Redis 深挖</td>
+<td>手册 03/04/13</td>
+</tr>
+<tr>
+<td>Java 转岗题</td>
+<td>SpringCloud 转译话术 + 微服务经验模板</td>
+<td>手册 17</td>
+</tr>
+<tr>
+<td>性能优化</td>
+<td>OOM/积压/索引 3 案例脱稿</td>
+<td>手册 18</td>
+</tr>
+<tr>
+<td>软性题</td>
+<td>最深 bug + 三条技术债 + 反问</td>
+<td>本手册第 5 节</td>
+</tr>
+<tr>
+<td>无线深度</td>
+<td>漫游 802.11r/k/v + RRM 闭环</td>
+<td>手册 15（你的王牌）</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>核心策略</strong>：你不需要全知全能——把简历每条 bullet 都变成钩子，面试官问到的每个问题都是你主场，就赢了。</p>
+</blockquote></article></div>
+<div class="bottomnav"><a href="学习手册_19_并发场景模式库.html">◀ 上一本：19 场景模式</a>
+<a class="ghost" href="面试八股复习计划_李鑫.html">📖 回复习计划勾选</a></div>
+</body></html>
