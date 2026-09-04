@@ -14,3 +14,4 @@ node_modules/
 # 本地压缩备份包（不入库）
 *.rar
 *.zip.bak
+.idea/
