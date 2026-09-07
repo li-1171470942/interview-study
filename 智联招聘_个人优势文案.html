@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>📝 智联招聘 · 个人优势文案（3 版）</title>
+<title>📝 在线简历文案库（智联 + BOSS）</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:60px; }
@@ -38,7 +38,7 @@
 <div class="wrap">
 
   <div class="card">
-    <h2>📝 智联招聘 · 个人优势 <span class="use">点按钮一键复制</span></h2>
+    <h2>📝 在线简历文案库 · 智联 + BOSS <span class="use">点按钮一键复制</span></h2>
     <p class="meta">三个版本按投递方向选用；每个都带数字锚点 + 差异化壁垒，拒绝学生腔。生成日期 2026-09-07。</p>
   </div>
 
@@ -61,6 +61,65 @@ Java 体系（集合/JVM/并发/Spring）已系统学习，微服务治理理念
     <div class="copybox" id="boxC">3 年无线网络产品研发（新华三 RRM），双重底子：C/C++ 功底（蓝桥杯获奖 + node-ffi 生产级调用 C 库）+ 完整无线协议栈认知（802.11 全系/WiFi7 6GHz 适配、CAPWAP、netconf、漫游 802.11r/k/v）。
 参与设备侧与云端协同的系统设计（双计算架构），理解资源受限设备的工程约束，做过固件下发链路与设备消息可靠性保障。
 求职方向：网络设备/通信软件研发，愿以无线域深度 + 后端工程能力快速补齐嵌入式工程化经验。<button class="copybtn" onclick="copyBox('boxC',this)">📋 复制</button></div>
+  </div>
+
+
+  <div class="card">
+    <h2>BOSS 直聘 · 工作内容 <span class="use">职责向 · 限 3000 字</span></h2>
+    <div class="copybox" id="boxBossWork">负责新华三 Oasis 云平台 RRM（无线资源管理）平台四个微服务（rrmcontrol/rrmserver/rrmcompute/aioptimize）的开发与维护，覆盖云 AP 与 AC+fitap 组网的无线调优全链路。
+
+主要职责：
+1. 主导 AI RRM 系统重构与二期规模化落地：设计"设备侧+云端"双计算架构，基于 WebSocket+netconf 打通云端到 AC 设备的指令下发链路，形成"下发-计算-上报-展示"完整闭环；
+2. 独立设计配置中心：配置统一管理、一键部署、自动校验、异常回滚；
+3. 消息与数据链路建设：Kafka 消息可靠性（校验/重试/幂等）、MongoDB 分库分表、Redis 分布式锁与缓存策略；
+4. 6GHz/WiFi7 全链路适配，node-ffi 跨语言调用 C 核心算法库；WBC 物联网模块虚拟化解耦与双镜像构建；
+5. 技术栈：Node.js/TypeScript、K8s/Docker、Kafka、MongoDB、Redis、netconf；支持腾讯云与新加坡国际云双环境、多分支并行发版。<button class="copybtn" onclick="copyBox('boxBossWork',this)">📋 复制</button></div>
+    <p class="meta">配套设置：职位名称=后端开发工程师（不要写"Java"）· 亮点关键词开关=开 · 所属部门=云研发部（选填）</p>
+  </div>
+
+  <div class="card">
+    <h2>BOSS 直聘 · 工作业绩 <span class="use">成果向 · 限 1000 字</span></h2>
+    <div class="copybox" id="boxBossPerf">1. 主导 AI RRM 系统重构：设计"设备侧+云端"双计算架构，适配现网 98%+ 组网，推动功能从白名单小范围开放到规模化落地，AI 调优实时性、精度、泛化能力全面提升；
+2. 独立设计配置中心：统一配置管理、一键部署、自动校验、异常回滚，显著降低运维失误率；
+3. 可靠性建设：Kafka 消息可靠性链路 + Redis 分布式锁 + 防抖/幂等/分层兜底设计，线上问题周均闭环 1+；
+4. 性能治理：rrmcompute OOM 调优（内存 5Gi→5.5Gi，K8s requests/limits 调优）、MongoDB 慢查询索引优化；
+5. 完成 6GHz 频段扩展支持 WiFi7 商用（2.4G/5G/6G 三频统一调度）；WBC 物联网模块解耦实现独立发版，版本交付周期显著缩短。<button class="copybtn" onclick="copyBox('boxBossPerf',this)">📋 复制</button></div>
+    <p class="meta">拥有技能标签：后端开发/微服务架构/Socket技术/网络协议/消息队列 + 自定义加 Node.js、Java、TypeScript、Kubernetes、Docker、Kafka、MongoDB、Redis、Linux</p>
+  </div>
+
+  <div class="card">
+    <h2>BOSS 直聘 · 个人优势 <span class="use">约 260 字 · 限 500</span></h2>
+    <div class="copybox" id="boxBossAdv">3 年无线网管平台后端开发（新华三，重邮硕士），深耕 RRM 无线资源管理：主导 AI RRM 系统重构（"设备侧+云端"双计算架构，适配 98%+ 组网，已规模化落地），独立负责配置中心，具备需求→架构→开发→上线全流程交付能力。
+技术栈：Node.js/TypeScript 主力，微服务 + K8s + Kafka + MongoDB + Redis 生产实战；擅长消息可靠性、分布式锁、高并发下的正确性保障（防抖/幂等/分层兜底），有 OOM 调优、Kafka 积压治理等一线排障经验。
+熟悉 802.11/WiFi7 协议与无线运维，懂业务深度的复合型后端；可快速上手 Java/Go，线上问题周均闭环 1+，抗压且擅长复盘。<button class="copybtn" onclick="copyBox('boxBossAdv',this)">📋 复制</button></div>
+    <p class="meta">期望职位设 3 个：① Java 开发 ② Node.js ③ 嵌入式软件开发/通信研发；期望城市：成都 + 杭州/深圳</p>
+  </div>
+
+  <div class="card">
+    <h2>项目经历 ① AI RRM 重构与规模化落地 <span class="use">智联/BOSS 通用 · 2024.08-至今</span></h2>
+    <div class="copybox" id="boxP1">原 RRM 采用"云端收集-云端计算-下发生效"模式，云端运维压力大，功能仅在白名单小范围开放。本项目将架构重构为"AC+fitap 组网设备侧计算、云 AP 组网云端计算"的分流架构；二期进一步优化模型推理效率与泛化能力，完善数据闭环，实现规模化落地。
+
+本人主导 RRM 微服务重构：梳理业务逻辑，优化服务间调用链路，设计"分流计算+双链路通信"架构，实现按组网类型动态分配计算节点、双计算模式无感切换；基于 WebSocket+netconf 打通云端到 AC 设备的指令下发链路（调优参数与生效指令），对接 Kafka 实现设备侧调优结果实时上报、数据校验与异常重试，形成"下发-计算-上报-展示"完整闭环，保障全链路消息不丢失；设计 MongoDB 分库分表，解决设备侧与云端的数据一致性与热点问题。二期主导配置中心开发（配置统一管理、一键部署、自动校验、异常回滚），优化 Kafka 上报机制与 Redis 缓存策略，完善"数据采集-预处理-回灌"数据闭环，并通过模型轻量化与边缘推理降低设备侧计算耗时。
+
+项目成果：适配现网 98%+ AC+fitap 组网需求，RRM 计算压力有效分流至设备侧，大幅降低云端运维成本；二期 AI 调优实时性、精度、泛化能力全面提升并实现规模化落地，配置中心显著降低配置失误率、简化运维操作。<button class="copybtn" onclick="copyBox('boxP1',this)">📋 复制</button></div>
+  </div>
+
+  <div class="card">
+    <h2>项目经历 ② RRM 支持 WiFi7（6GHz） <span class="use">2024.01-2024.12</span></h2>
+    <div class="copybox" id="boxP2">原 RRM 仅支持 2.4G/5G 双频段。本项目新增 6GHz 频段支持，完成 WiFi7 商用适配，同时修复大量历史遗留问题。
+
+本人梳理 rrmcontrol/rrmserver/rrmcompute/aioptimize 四大微服务调用链路，主导 6GHz 全链路改造：覆盖 6GHz 频段 HTTP 接口开发、AP 信息采集适配、信道扫描数据采集上报，实现采集、扫描、计算、调优、页面、部署的端到端适配；使用 node-ffi 实现 Node.js 调用 C 语言 .so 核心算法库，突破跨语言性能瓶颈；并维护 Redis 分布式锁、Kafka/RabbitMQ 消息队列与 K8s 容器化部署，保障任一环节异常都不影响现网。接手无完善文档的遗留系统，1 个月内理清全部调用链路。
+
+项目成果：频段从 2 个扩展到 3 个（2.4G/5G/6G），完整支持 WiFi7 商用；实现三频段统一 RRM 调度，保障现网稳定运行；独立接手复杂遗留系统，平均每周处理 1+ 起线上问题。<button class="copybtn" onclick="copyBox('boxP2',this)">📋 复制</button></div>
+  </div>
+
+  <div class="card">
+    <h2>项目经历 ③ WBC IoT 2.0 模块解耦 <span class="use">2023.07-2024.06</span></h2>
+    <div class="copybox" id="boxP3">WBC 设备集无线运维与控制于一体，云简与物联网 1.0 模块高度耦合，存在出版本困难、内存紧张两大痛点。本项目通过虚拟化方案实现模块解耦。
+
+本人主导 WBC 编译打包流程重构，支持"一体机+虚拟机"双镜像模式；在内存紧张的约束下合理分配虚拟机资源，保障核心服务稳定；建立宿主机与虚拟机之间稳定、安全的 VNC 通信通道，开发 WBC 监控平台 VNC 远程管理功能，使运维人员无需切换工具即可管理物联网虚拟机；参与云简侧物联网数据剥离与迁移，精确定位并重构耦合接口，确保剥离后功能完整独立。
+
+项目成果：实现云简与物联网进程级隔离，支持独立版本生命周期管理；两者可并行开发、独立发布，版本交付周期显著缩短；为 WBC 平台后续扩展其他服务提供了可复制的虚拟化技术范式。<button class="copybtn" onclick="copyBox('boxP3',this)">📋 复制</button></div>
   </div>
 
   <div class="tips">
