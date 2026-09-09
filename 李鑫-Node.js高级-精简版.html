@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>李鑫 - Node.js高级工程师（社招·精简版）</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: "Microsoft YaHei", "PingFang SC", sans-serif; max-width: 880px; margin: 0 auto; padding: 26px 22px; line-height: 1.5; color: #333; background: #fff; font-size: 13px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        .header { text-align: center; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1.5px solid #1a1a1a; }
+        .header h1 { font-size: 22px; letter-spacing: 2px; margin-bottom: 6px; }
+        .header .info { font-size: 12px; color: #666; }
+        .header .info span { margin: 0 8px; }
+        .objective { background: #f5f7fa; border-left: 3px solid #1a1a1a; padding: 6px 10px; margin-bottom: 8px; font-size: 12.5px; line-height: 1.55; }
+        .objective b { color: #1a1a1a; }
+        .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin: 8px 0 12px; }
+        .stat { background: #f5f7fa; border: 1px solid #e3e8ef; border-radius: 4px; padding: 6px 4px; text-align: center; }
+        .stat .n { font-size: 16px; font-weight: 800; color: #1a73e8; display: block; line-height: 1.2; }
+        .stat .l { font-size: 10.5px; color: #777; }
+        h2 { font-size: 14px; color: #fff; background: #1a1a1a; padding: 5px 12px; margin: 16px 0 8px; border-radius: 2px; }
+        .section { margin-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; margin: 6px 0; font-size: 12px; }
+        th, td { border: 1px solid #ddd; padding: 4px 8px; text-align: left; }
+        th { background: #f5f5f5; font-weight: 600; }
+        tr th:nth-child(1), tr td:nth-child(1) { width: 26%; }
+        .job { font-size: 13px; margin: 4px 0 8px; }
+        .job b { color: #1a1a1a; }
+        .project { background: #fafafa; padding: 8px 12px; margin: 8px 0; border-radius: 4px; border: 1px solid #eee; font-size: 12.5px; }
+        .project-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
+        .project-title { font-weight: bold; color: #1a1a1a; font-size: 13px; }
+        .project-period { font-size: 11px; color: #888; }
+        .tech-line { color: #555; font-size: 11.5px; margin: 2px 0 4px; }
+        .project ul { padding-left: 18px; margin: 2px 0; }
+        .project li { margin: 2px 0; color: #444; }
+        .result-line { background: #e8f5e9; border-left: 3px solid #4caf50; padding: 3px 8px; margin: 4px 0 0; font-size: 12px; color: #2e7d32; }
+        .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 6px 0; }
+        .skill-item { background: #fafafa; padding: 5px 8px; border-radius: 3px; font-size: 11.5px; line-height: 1.4; }
+        .skill-item b { color: #1a1a1a; }
+        .migrate { background: #eef2ff; border: 1px dashed #6366f1; border-radius: 4px; padding: 4px 8px; font-size: 11.5px; color: #4338ca; margin-top: 6px; }
+        .footer { text-align: center; color: #999; margin-top: 14px; padding-top: 8px; border-top: 1px solid #eee; font-size: 11.5px; }
+        .num { font-weight: 700; color: #2e7d32; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>李 鑫</h1>
+    <div class="info">
+        <span>📱 18040309928</span>
+        <span>📧 lxx18040309928@163.com</span>
+        <span>重庆邮电大学·电子信息硕士</span>
+    </div>
+</div>
+
+<div class="objective">
+    <b>求职意向</b>：Node.js 高级后端工程师（3 年无线网管平台微服务 + K8s/Kafka/MongoDB 生产实战）｜期望薪资 30-35 万｜成都
+</div>
+
+<div class="stats">
+    <div class="stat"><span class="n">19.6万+</span><span class="l">纳管无线设备</span></div>
+    <div class="stat"><span class="n">259万+</span><span class="l">现网 AP 数据</span></div>
+    <div class="stat"><span class="n">2700万+</span><span class="l">累计调优明细</span></div>
+    <div class="stat"><span class="n">14.7万</span><span class="l">单月调优峰值</span></div>
+</div>
+
+<h2>工 作 经 历</h2>
+<div class="job">
+    <b>新华三技术有限公司（H3C）｜2023.07 - 至今（约 3 年）</b>　部门：云简网络·RRM 无线资源管理组　岗位：Node.js 后端开发工程师
+</div>
+
+<h2>核 心 项 目</h2>
+
+<div class="project">
+    <div class="project-head">
+        <span class="project-title">① AI RRM 智能无线资源管理系统——重构与规模化落地（主导）</span>
+        <span class="project-period">2024.08 - 至今</span>
+    </div>
+    <div class="tech-line">Node.js/TS · 4 微服务 · Kafka · Redis · MongoDB 分库分表 · K8s · WebSocket+Netconf · node-ffi</div>
+    <ul>
+        <li>主导"设备侧+云端"双计算架构重构：按组网类型动态分配计算节点，双计算无感切换，覆盖 98%+ 组网形态</li>
+        <li>Kafka 消息可靠链路（optType=45 结果上报、消费幂等、异常重试）；Redis 分布式锁防重复触发；MongoDB dayNo 维度分库分表 + 跨库同步</li>
+        <li>主导配置中心：配置统一管理、一键部署（ConfigMap）、自动校验、异常回滚</li>
+    </ul>
+    <div class="result-line">成果：功能从白名单试点到规模化落地，现网 AP 数据 <span class="num">259万+</span>、单月调优峰值 <span class="num">14.7万</span> 次，主导 P0/P1 故障复盘与 SLA 闭环</div>
+</div>
+
+<div class="project">
+    <div class="project-head">
+        <span class="project-title">② RRM 支持 WiFi7（6GHz 频段扩展，全链路改造）</span>
+        <span class="project-period">2024.01 - 2024.12</span>
+    </div>
+    <div class="tech-line">微服务 · Kafka/RabbitMQ · Redis · K8s · node-ffi 调 C 算法库</div>
+    <ul>
+        <li>梳理 4 大微服务调用链路，主导 6GHz 采集/扫描/计算/调优/部署全链路适配；node-ffi 调用 C .so 核心算法库突破跨语言性能瓶颈</li>
+        <li>独立接手无完善文档的遗留系统，1 个月理清全部调用链路</li>
+    </ul>
+    <div class="result-line">成果：2.4G/5G/6G 三频统一 RRM 调度、完整支持 WiFi7 商用，周均闭环 1+ 起线上问题</div>
+</div>
+
+<div class="project">
+    <div class="project-head">
+        <span class="project-title">③ WBC 支持 IoT 2.0——云简与物联网模块解耦（架构级改造）</span>
+        <span class="project-period">2023.07 - 2024.06</span>
+    </div>
+    <div class="tech-line">MongoDB · K8s · VNC · Shell</div>
+    <ul>
+        <li>主导编译打包流程重构，支持"一体机+虚拟机"双镜像模式；开发监控平台 VNC 远程管理</li>
+    </ul>
+    <div class="result-line">成果：进程级隔离、独立发版，版本交付周期显著缩短</div>
+</div>
+
+<h2>技 术 栈</h2>
+<div class="skills-grid">
+    <div class="skill-item"><b>语言</b>：Node.js/TypeScript（主力 3 年）· 可快速上手 Go/Java。</div>
+    <div class="skill-item"><b>分布式</b>：微服务拆分与重构 · Redis 分布式锁 · 消息可靠与幂等 · 配置中心 · 双计算架构。</div>
+    <div class="skill-item"><b>消息与存储</b>：Kafka（消费组/分区/offset/不丢不重）· RabbitMQ · MongoDB · Redis · MySQL。</div>
+    <div class="skill-item"><b>容器与 DevOps</b>：Kubernetes · Docker · CI/CD · 滚动更新/探针/HPA · SonarQube。</div>
+    <div class="skill-item"><b>设备通信</b>：WebSocket · Netconf · 802.11 无线协议 · node-ffi 调 C 库 · Linux。</div>
+    <div class="skill-item"><b>AI 工具实践</b>：日常深度使用 LLM 提效 30%+；主导过 AI 调优算法工程化落地（增量训练/边缘推理）。</div>
+</div>
+
+<h2>竞 赛 与 获 奖</h2>
+<table>
+    <tr><th>时间</th><th>级别</th><th>奖项 / 荣誉</th></tr>
+    <tr><td>2019.09</td><td>国家级</td><td>第13届"西门子杯"中国智能制造挑战赛全国总决赛 <strong>特等奖</strong></td></tr>
+    <tr><td>2021.07</td><td>国家级</td><td>第13届"电工杯"中国大学生数学建模竞赛 <strong>二等奖</strong></td></tr>
+    <tr><td>2021.05</td><td>省部级</td><td>第13届"蓝桥杯"C/C++ 程序设计研究生组 <strong>二等奖</strong></td></tr>
+    <tr><td>2021.09</td><td>校级</td><td>研究生一等奖学金（TOP 2%）</td></tr>
+</table>
+
+<h2>自 我 评 价</h2>
+<div class="section" style="font-size: 12.5px; line-height: 1.7;">
+    · <b>架构与规模</b>：主导 AI RRM 双计算架构重构（设备侧+云端分流），纳管 19.6万+ 设备、覆盖 259万+ AP 数据<br>
+    · <b>异步与可靠性</b>：3 年 Node.js 微服务，擅长消息不丢不重、分布式锁、并发正确性（防抖/幂等/兜底）<br>
+    · <b>全链路攻坚</b>：独立接手遗留系统、定位消息可靠性/并发竞态等深水区问题（周均 1+ 线上闭环）<br>
+    · <b>AI 时代效率</b>：深度使用 LLM 提效 30%+，具备 AI 产品工程化落地经验（增量训练/边缘推理）
+</div>
+
+<div class="footer">感谢您的阅读</div>
+
+</body>
+</html>
