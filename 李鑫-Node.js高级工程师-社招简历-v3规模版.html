@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>李鑫 - Node.js高级开发工程师（v3 规模版）</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: "Microsoft YaHei", "PingFang SC", sans-serif; max-width: 920px; margin: 0 auto; padding: 40px 30px; line-height: 1.7; color: #333; background: #fff; }
+        
+        .header { text-align: center; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 2px solid #1a1a1a; }
+        .header h1 { font-size: 26px; letter-spacing: 3px; margin-bottom: 8px; }
+        .header .info { font-size: 13px; color: #666; }
+        .header .info span { margin: 0 10px; }
+
+        .objective { background: #1a1a1a; color: #fff; padding: 12px 18px; margin-bottom: 8px; font-size: 13.5px; border-radius: 4px; }
+        .objective b { color: #ffd54f; }
+
+        /* 数字亮点条 */
+        .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 14px 0 20px; }
+        .stat { background: #f5f7fa; border: 1px solid #e3e8ef; border-radius: 6px; padding: 10px 8px; text-align: center; }
+        .stat .n { font-size: 18px; font-weight: 800; color: #1a73e8; display: block; }
+        .stat .l { font-size: 11px; color: #777; }
+
+        h2 { font-size: 15.5px; color: #fff; background: #1a1a1a; padding: 7px 15px; margin: 24px 0 12px 0; border-radius: 3px; letter-spacing: 1px; }
+        h3 { font-size: 14.5px; color: #333; margin: 18px 0 8px 0; border-left: 4px solid #1a73e8; padding-left: 10px; }
+        h4 { font-size: 13px; color: #555; margin: 12px 0 6px 0; }
+        
+        table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 12.5px; }
+        th, td { border: 1px solid #ddd; padding: 8px 10px; text-align: left; }
+        th { background: #f5f5f5; font-weight: 600; }
+        
+        .project { background: #fafbfc; padding: 16px 18px; margin: 12px 0; border-radius: 6px; border: 1px solid #eee; }
+        .project-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .project-title { font-size: 14.5px; font-weight: bold; color: #1a1a1a; }
+        .project-period { font-size: 11.5px; color: #888; white-space: nowrap; }
+        
+        .tech-stack { display: flex; flex-wrap: wrap; gap: 5px; margin: 8px 0; }
+        .tech-tag { background: #e8f0fe; color: #174ea6; padding: 2px 9px; border-radius: 3px; font-size: 11px; font-weight: 500; }
+        
+        .duty { margin: 6px 0; padding-left: 20px; }
+        .duty li { margin: 5px 0; color: #444; font-size: 13px; }
+        
+        .result { background: #e8f5e9; border-left: 4px solid #2e7d32; padding: 10px 14px; margin: 10px 0; border-radius: 0 4px 4px 0; }
+        .result h4 { color: #1b5e20; margin-bottom: 6px; }
+        .result li { margin: 4px 0; font-size: 13px; color: #2e7d32; }
+        .num { font-weight: 700; color: #1a73e8; }
+
+        .honor-table td:first-child { white-space: nowrap; font-weight: 600; }
+        .footer { text-align: center; color: #999; margin-top: 36px; padding-top: 16px; border-top: 1px solid #eee; font-size: 12px; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>李 鑫</h1>
+    <div class="info">
+        <span>📱 18040309928</span>
+        <span>📧 lxx18040309928@163.com</span>
+        <span>🎓 硕士 · 电子信息（无线通信方向）</span>
+        <span>📍 成都</span>
+    </div>
+</div>
+
+<div class="objective">
+    <b>求职意向</b>：Node.js / 后端高级工程师（3 年企业级微服务实战，主导架构重构）｜期望 30-35 万｜
+    <b>无线网络设备通信 / K8s / 高并发中间件实战突出</b>｜可快速切换 Go / Java
+</div>
+
+<!-- 核心数字亮点条：用真实后台数据，回答"规模/吞吐" -->
+<div class="stats">
+    <div class="stat"><span class="n">19.6万+</span><span class="l">现网 RRM 纳管设备</span></div>
+    <div class="stat"><span class="n">259万+</span><span class="l">现网 AP 数据规模</span></div>
+    <div class="stat"><span class="n">2700万+</span><span class="l">累计调优结果明细</span></div>
+    <div class="stat"><span class="n">14.7万</span><span class="l">单月调优任务(2026-08)</span></div>
+</div>
+
+<h2>个 人 亮 点</h2>
+<div class="section">
+    <ul style="padding-left: 22px; font-size: 13.5px; line-height: 2;">
+        <li><strong>架构主导者</strong>：主导 AI RRM 系统重构，设计"AC+fitap 设备侧计算 / 云 AP 云端计算"分流架构，覆盖现网 <span class="num">98%+</span> 组网形态，解决云端运维压力大、功能无法规模化的核心痛点</li>
+        <li><strong>规模级实战</strong>：系统纳管 <span class="num">19.6万+</span> 无线设备、现网 AP 数据 <span class="num">259万+</span>，累计调优明细 <span class="num">2700万+</span> 条，单月调优峰值 <span class="num">14.7万</span> 次</li>
+        <li><strong>全链路技术纵深</strong>：Node.js 微服务 + Kafka/RabbitMQ + Redis 分布式锁 + MongoDB 分库分表 + <b>WebSocket+Netconf 设备通信</b> + node-ffi 跨语言调用 C 算法库 + K8s 容器编排</li>
+        <li><strong>AI 工具实践</strong>：日常深度使用 LLM（WorkBuddy/大模型编程）辅助需求分析、代码生成与排查，需求理解与交付效率提升 <span class="num">30%+</span>；主导过 AI RRM 调优算法工程化落地（增量训练/边缘推理）</li>
+        <li><strong>稳定交付</strong>：入职以来季度绩效稳定、无重大生产事故，持续处理现网问题（平均每周 1+ 起线上定位修复）</li>
+    </ul>
+</div>
+
+<h2>教 育 背 景</h2>
+<table>
+<tr><th style="width:34%">学校</th><th>专业</th><th style="width:12%">学历</th><th style="width:20%">时间</th></tr>
+<tr><td>重庆邮电大学（重庆市智能空地协同重点实验室）</td><td>电子信息</td><td>硕士</td><td>2020.09 - 2023.06</td></tr>
+<tr><td>成都理工大学（双一流）</td><td>电气工程及其自动化</td><td>学士</td><td>2016.09 - 2020.06</td></tr>
+</table>
+
+<h2>竞 赛 与 荣 誉</h2>
+<table class="honor-table">
+<tr><th style="width:18%">时间</th><th style="width:20%">级别</th><th>奖项 / 荣誉</th></tr>
+<tr><td>2021.09</td><td>校级 TOP 2%</td><td>研究生一等奖学金</td></tr>
+<tr><td>2019.09</td><td>国家级</td><td>第 13 届"西门子杯"中国智能制造挑战赛全国总决赛 <strong>特等奖</strong></td></tr>
+<tr><td>2021.07</td><td>国家级</td><td>第 13 届"电工杯"中国大学生数学建模竞赛 <strong>二等奖</strong></td></tr>
+<tr><td>2021.05</td><td>省部级</td><td>第 13 届"蓝桥杯"C/C++ 程序设计研究生组 <strong>二等奖</strong></td></tr>
+<tr><td>2023-2026</td><td>工作期间</td><td>主导 AI RRM 创新特性（设备侧+云端双计算，覆盖 98%+ 组网）；持续季度稳定交付、现网 0 重大事故</td></tr>
+</table>
+
+<h2>工 作 经 历</h2>
+<div class="section">
+    <h3>新华三技术有限公司（H3C） | 2023.07 - 至今</h3>
+    <p style="color: #666; font-size: 13px;">部门：云简网络团队 · RRM 无线资源管理组 · 岗位：Node.js 高级开发工程师</p>
+    <p style="color: #555; font-size: 12.5px; margin-top: 4px;">主导 RRM 微服务（rrmcontrol / rrmserver / rrmcompute / aioptimize）的架构重构、功能开发与运维，负责 <b>WiFi7(6GHz)、AI 调优、云 AP/AC 双组网适配</b> 等核心特性，覆盖 <b>K8s 容器编排、Kafka/RabbitMQ 消息、Redis 分布式锁、MongoDB 分库分表、WebSocket+Netconf 设备通信</b> 全链路</p>
+</div>
+
+<h2>核 心 项 目</h2>
+
+<!-- 项目1: AI RRM（主打） -->
+<div class="project">
+    <div class="project-header">
+        <span class="project-title">① AI RRM 智能无线资源管理系统 —— 重构与规模化落地（主导）</span>
+        <span class="project-period">2024.08 - 至今</span>
+    </div>
+    <div class="tech-stack">
+        <span class="tech-tag">Node.js/TypeScript</span><span class="tech-tag">微服务重构</span>
+        <span class="tech-tag">WebSocket</span><span class="tech-tag">Netconf协议</span>
+        <span class="tech-tag">Kafka</span><span class="tech-tag">MongoDB分库分表</span>
+        <span class="tech-tag">Redis</span><span class="tech-tag">K8s</span>
+        <span class="tech-tag">增量训练</span><span class="tech-tag">配置中心</span>
+    </div>
+    <h4>项目规模（现网生产实测）</h4>
+    <ul class="duty" style="color:#1a73e8;">
+        <li>纳管无线设备 <span class="num">19.6万+</span>，现网 AP 数据 <span class="num">259万+</span>（腾讯云现网 readonly 实测）；场所/组级调优配置 <span class="num">7000+</span></li>
+        <li>累计调优结果明细 <span class="num">2700万+</span> 条、调优任务 <span class="num">46万+</span>；2026-08 单月 <span class="num">14.7万</span> 次</li>
+    </ul>
+    <h4>背景与方案</h4>
+    <p style="font-size: 13px; color: #555;">原 RRM"云端收集-云端计算-下发生效"模式：海量数据上行 + 云端计算，运维压力大，功能仅白名单小范围可用。重构后实现 <b>"AC+fitap 组网设备侧计算、云 AP 组网云端计算"</b> 的分流架构（适配现网 98%+ 组网），并完成二期工程化：模型轻量化、增量训练、配置中心，实现规模化落地。</p>
+    <h4>本人分工</h4>
+    <ul class="duty">
+        <li><strong>架构设计</strong>：主导 4 微服务重构，基于组网类型动态分配计算节点（设备侧/云端），双计算模式无感切换</li>
+        <li><strong>设备通信</strong>：基于 WebSocket + netconf 实现云端→AC/云 AP 的调优指令下发（开关/功率/信道），打通"下发-计算-上报-展示"闭环</li>
+        <li><strong>消息链路</strong>：Kafka 子链接对接设备侧调优结果实时上报（optType=45），处理数据校验、异常重试、消费幂等</li>
+        <li><strong>数据层</strong>：MongoDB 分库分表设计（dayNo 维度）、跨库同步工具开发，保证设备侧与云端数据一致性</li>
+        <li><strong>工程化</strong>：主导配置中心开发（统一管理/一键部署/自动校验/异常回滚）；优化 Kafka 上报与 Redis 缓存策略，完善数据闭环</li>
+    </ul>
+    <div class="result">
+        <h4>✅ 核心成果（可量化）</h4>
+        <ul>
+            <li>AI RRM 调优能力从白名单试用 → <span class="num">规模化商用</span>：纳管设备 19.6 万+、单月调优 14.7 万次稳定运行</li>
+            <li>计算压力分流设备侧，云端运维成本大幅下降；调优效果可视化 + 二次确认机制，解决用户"不敢用"痛点</li>
+            <li>主导开发分布式 RRM 开关同步工具：跨 3 个微服务数据库直连同步 1000+ 场所配置，解决多服务配置冲突</li>
+            <li>二期：模型轻量化+边缘推理降低设备侧耗时，配置中心显著降低运维配置失误率</li>
+        </ul>
+    </div>
+</div>
+
+<!-- 项目2: RRM WiFi7 -->
+<div class="project">
+    <div class="project-header">
+        <span class="project-title">② RRM 支持 WiFi7（6GHz 频段扩展，全链路改造）</span>
+        <span class="project-period">2024.01 - 2024.12</span>
+    </div>
+    <div class="tech-stack">
+        <span class="tech-tag">Node.js/TypeScript</span><span class="tech-tag">4微服务</span>
+        <span class="tech-tag">MongoDB</span><span class="tech-tag">Redis</span><span class="tech-tag">Kafka</span>
+        <span class="tech-tag">RabbitMQ</span><span class="tech-tag">K8s</span>
+        <span class="tech-tag">node-ffi调用C库</span><span class="tech-tag">6GHz(WiFi7)</span>
+    </div>
+    <h4>背景</h4>
+    <p style="font-size: 13px; color: #555;">RRM（无线资源管理）原仅支持 2.4G/5G 双频段；WiFi7 商用需新增 6GHz 频段全链路支持，同时需修复大量历史遗留问题、保障现网稳定。</p>
+    <h4>本人分工</h4>
+    <ul class="duty">
+        <li>梳理 4 大微服务（rrmcontrol/rrmserver/rrmcompute/aioptimize）调用链路，主导 <strong>6GHz 全链路改造</strong>：接口、采集、扫描、计算、调优、页面、部署</li>
+        <li>使用 <strong>node-ffi</strong> 实现 Node.js 调用 C 语言 .so 核心算法库，完成信道/功率/带宽计算</li>
+        <li>维护 Redis 分布式锁、Kafka/RabbitMQ 消息可靠性（丢包/重复消费治理）、K8s 容器管理与 CI/CD</li>
+        <li>平均每周处理 <span class="num">1+</span> 起线上问题定位与修复</li>
+    </ul>
+    <div class="result">
+        <h4>✅ 核心成果</h4>
+        <ul>
+            <li>从 2 频段扩展至 3 频段（2.4G/5G/6G）统一 RRM 调度，支撑 WiFi7 商用落地</li>
+            <li>独立接手复杂遗留系统（无完善文档），1 个月理清全部链路并持续保障现网稳定</li>
+            <li>云 AP 适配经验：不依赖 AC 的 ChannelCfg/PowerCfg 表，改为 GlobalCfg 位掩码每 AP 单独下发，单次并发 500、总超时熔断</li>
+        </ul>
+    </div>
+</div>
+
+<!-- 项目3: WBC IoT 2.0 -->
+<div class="project">
+    <div class="project-header">
+        <span class="project-title">③ WBC 支持 IoT 2.0 —— 云简与物联网模块解耦（架构级改造）</span>
+        <span class="project-period">2023.07 - 2024.06</span>
+    </div>
+    <div class="tech-stack">
+        <span class="tech-tag">Node.js</span><span class="tech-tag">Express</span><span class="tech-tag">MongoDB</span>
+        <span class="tech-tag">K8s</span><span class="tech-tag">VNC远程管理</span><span class="tech-tag">Shell</span>
+    </div>
+    <h4>背景</h4>
+    <p style="font-size: 13px; color: #555;">WBC 设备（无线运维/控制一体）上云简与物联网 1.0 模块高度耦合：合入验证困难、内存日益紧张。目标：解耦并隔离至独立虚拟机，实现独立发布。</p>
+    <h4>本人分工</h4>
+    <ul class="duty">
+        <li>主导 WBC <strong>编译打包流程重构</strong>，支持"一体机+虚拟机"双镜像模式</li>
+        <li>开发 WBC 监控平台 <strong>VNC 远程管理</strong>功能（宿主机↔物联网虚拟机安全通信通道），运维免切换工具</li>
+        <li>参与云简侧物联网数据剥离与迁移，精确定位并重构耦合接口</li>
+    </ul>
+    <div class="result">
+        <h4>✅ 核心成果</h4>
+        <ul>
+            <li>云简与物联网实现进程级隔离、独立版本生命周期，可并行开发独立发布，版本交付周期显著缩短</li>
+            <li>虚拟机资源隔离缓解主机内存压力，为平台后续扩展服务提供可复制范式</li>
+        </ul>
+    </div>
+</div>
+
+<h2>技 术 栈</h2>
+<table>
+<tr><th style="width:18%">分类</th><th>详情</th></tr>
+<tr><td><b>后端主栈</b></td><td>Node.js / TypeScript · Express · 微服务架构 · WebSocket · RESTful API · 异步/事件驱动</td></tr>
+<tr><td><b>容器 DevOps</b></td><td>Kubernetes(K8s) · Docker · CI/CD · 配置中心 · SonarQube · 多分支(acceptance/develop/release/international)管理</td></tr>
+<tr><td><b>数据 & 缓存</b></td><td>MongoDB（分库分表/聚合/跨库同步）· Redis（分布式锁/缓存保活）· MySQL</td></tr>
+<tr><td><b>消息队列</b></td><td>Kafka（消费者组/分区/消息可靠性）· RabbitMQ · 死信/重试/幂等治理</td></tr>
+<tr><td><b>网络 & 设备</b></td><td>TCP/IP · Netconf · 无线网络（WiFi7/802.11）· node-ffi 调用 C .so · Linux</td></tr>
+<tr><td><b>AI 工程化</b></td><td>LLM 深度使用者（提升开发效率 30%+）· 模型轻量化/边缘推理/增量训练落地经验 · Agent/MCP 概念实践</td></tr>
+</table>
+
+<h2>自 我 评 价</h2>
+<div class="section">
+    <ul style="padding-left: 22px; font-size: 13.5px; line-height: 2;">
+        <li><strong>规模系统实战</strong>：主导系统纳管 19.6万+ 设备、AP 数据 259万+ 的 RRM 后端，具备大型分布式系统架构、治理与性能调优实战</li>
+        <li><strong>从 0 到 1 架构能力</strong>：主导 AI RRM 重构全流程（需求→架构→开发→上线→规模化），协调跨 4 团队协作</li>
+        <li><strong>复杂系统攻坚</strong>：能独立接手遗留系统、定位深水区问题（消息可靠性/并发竞态/数据一致性）</li>
+        <li><strong>快速适应</strong>：C/C++ 功底扎实（西门子杯特等奖），3 年 Node.js 微服务；可快速切换 Go / Java 技术栈</li>
+        <li><strong>AI 时代效率</strong>：深度使用 LLM 辅助工程实践，具备 AI 产品工程化落地经验（增量训练/边缘推理）</li>
+    </ul>
+</div>
+
+<div class="footer">
+    李鑫 · Node.js 高级工程师 · 期待与您共事
+</div>
+
+</body>
+</html>

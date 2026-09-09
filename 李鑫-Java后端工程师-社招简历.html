@@ -54,7 +54,16 @@
         .footer { text-align: center; color: #999; margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; font-size: 13px; }
         .num { font-weight: 700; color: #2e7d32; }
         .migrate { background: #eef2ff; border: 1px dashed #6366f1; border-radius: 6px; padding: 6px 12px; font-size: 12.5px; color: #4338ca; margin-top: 8px; }
-    </style>
+    
+/* v3 数字亮点条 */
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 14px 0 20px; }
+.stat { background: #f5f7fa; border: 1px solid #e3e8ef; border-radius: 6px; padding: 10px 8px; text-align: center; }
+.stat .n { font-size: 18px; font-weight: 800; color: #1a73e8; display: block; }
+.stat .l { font-size: 11px; color: #777; }
+.scale-note { background: #e8f0fe; border-left: 4px solid #1a73e8; padding: 10px 14px; margin: 10px 0; border-radius: 0 4px 4px 0; font-size: 13px; color: #174ea6; }
+.scale-note h4 { color: #174ea6; margin-bottom: 6px; font-size: 13px; }
+
+</style>
 </head>
 <body>
 
@@ -69,6 +78,13 @@
 <div class="objective">
     <b>求职意向</b>：Java 后端开发工程师（3 年微服务后端经验，架构/分布式/中间件功底扎实，可快速上手）｜期望薪资 30-35 万｜成都
 </div>
+
+<div class="stats">
+    <div class="stat"><span class="n">19.6万+</span><span class="l">RRM 纳管无线设备</span></div>
+    <div class="stat"><span class="n">259万+</span><span class="l">现网 AP 数据规模</span></div>
+    <div class="stat"><span class="n">2700万+</span><span class="l">累计调优结果明细(clbDetail)</span></div>
+    <div class="stat"><span class="n">14.7万</span><span class="l">单月调优任务峰值(2026-08)</span></div>
+    </div>
 
 <h2>教 育 背 景</h2>
 <table>
@@ -126,7 +142,14 @@
     </div>
     
     <div class="result">
-        <h4 style="color: #2e7d32; margin-bottom: 8px;">✅ 项目成果</h4>
+            <div class="scale-note">
+        <h4>📊 现网规模（生产环境实测）</h4>
+        <ul style="padding-left:18px; margin:0;">
+            <li>系统纳管无线设备 <span class="num">19.6万+</span>、现网 AP 数据 <span class="num">259万+</span>（腾讯云现网 readonly 实测）</li>
+            <li>累计调优结果明细 <span class="num">2700万+</span> 条、调优任务记录 <span class="num">46万+</span>（2026-08 单月 <span class="num">14.7万</span> 次）</li>
+        </ul>
+    </div>
+<h4 style="color: #2e7d32; margin-bottom: 8px;">✅ 项目成果</h4>
         <ul class="result">
             <li>适配现网 <span class="num">98%+</span> AC+fitap 组网需求，RRM 计算压力分流至设备侧</li>
             <li>配置中心降低配置失误率，二期实现规模化落地</li>
@@ -236,6 +259,7 @@
 <table>
 <tr><th>时间</th><th>级别</th><th>奖项</th></tr>
 <tr><td>2021.09</td><td>校级</td><td>研究生一等奖学金（TOP 2%）</td></tr>
+<tr><td>2023-2026</td><td>工作期间</td><td>主导 AI RRM 创新特性（设备侧+云端双计算，覆盖 98%+ 组网）；季度稳定交付，现网 0 重大事故</td></tr>
 <tr><td>2019.09</td><td>国家级</td><td>第13届"西门子杯"中国智能制造挑战赛全国总决赛<strong>特等奖</strong></td></tr>
 <tr><td>2021.07</td><td>国家级</td><td>第13届"电工杯"中国大学生数学建模竞赛<strong>二等奖</strong></td></tr>
 <tr><td>2021.05</td><td>省部级</td><td>第13届"蓝桥杯"C/C++程序设计研究生组<strong>二等奖</strong></td></tr>
@@ -248,6 +272,7 @@
         <li><strong>分布式实战</strong>：精通 Kafka/Redis/MongoDB/K8s 等中间件的生产级使用（消息可靠/分布式锁/分库分表/容器编排）</li>
         <li><strong>快速学习</strong>：3 年后端经验打底，已系统掌握 Java 基础/JVM/并发与 Spring 体系，可快速上手 Java 栈</li>
         <li><strong>复杂系统维护</strong>：独立接手遗留系统、保障现网稳定（每周 1+ 线上问题处理）</li>
+        <li><strong>AI 工具实践</strong>：日常深度使用 LLM 辅助需求分析与代码生成，交付效率提升 <span class="num">30%+</span>；具备 AI 系统工程化落地经验</li>
         <li><strong>跨团队协作</strong>：主导项目全流程，协调前端、设备侧、测试、运维团队</li>
     </ul>
 </div>

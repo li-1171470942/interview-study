@@ -54,7 +54,16 @@
         .footer { text-align: center; color: #999; margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; font-size: 13px; }
         .num { font-weight: 700; color: #2e7d32; }
         .migrate { background: #eef2ff; border: 1px dashed #6366f1; border-radius: 6px; padding: 6px 12px; font-size: 12.5px; color: #4338ca; margin-top: 8px; }
-    </style>
+    
+/* v3 数字亮点条 */
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 14px 0 20px; }
+.stat { background: #f5f7fa; border: 1px solid #e3e8ef; border-radius: 6px; padding: 10px 8px; text-align: center; }
+.stat .n { font-size: 18px; font-weight: 800; color: #1a73e8; display: block; }
+.stat .l { font-size: 11px; color: #777; }
+.scale-note { background: #e8f0fe; border-left: 4px solid #1a73e8; padding: 10px 14px; margin: 10px 0; border-radius: 0 4px 4px 0; font-size: 13px; color: #174ea6; }
+.scale-note h4 { color: #174ea6; margin-bottom: 6px; font-size: 13px; }
+
+</style>
 </head>
 <body>
 
@@ -69,6 +78,13 @@
 <div class="objective">
     <b>求职意向</b>：AI 应用开发工程师 / AI 全栈工程师（AI 系统工程化落地 + 全栈开发）｜期望 30-35 万｜成都
 </div>
+
+<div class="stats">
+    <div class="stat"><span class="n">2700万+</span><span class="l">AI 调优结果明细</span></div>
+    <div class="stat"><span class="n">10亿+</span><span class="l">累计调优执行信息</span></div>
+    <div class="stat"><span class="n">46万+</span><span class="l">调优任务记录</span></div>
+    <div class="stat"><span class="n">19.6万+</span><span class="l">纳管无线设备规模</span></div>
+    </div>
 
 <h2>教 育 背 景</h2>
 <table>
@@ -125,7 +141,14 @@
     </div>
     
     <div class="result">
-        <h4 style="color: #2e7d32; margin-bottom: 8px;">✅ 项目成果</h4>
+            <div class="scale-note">
+        <h4>📊 现网规模（生产环境实测）</h4>
+        <ul style="padding-left:18px; margin:0;">
+            <li>系统纳管无线设备 <span class="num">19.6万+</span>、现网 AP 数据 <span class="num">259万+</span>（腾讯云现网 readonly 实测）</li>
+            <li>累计调优结果明细 <span class="num">2700万+</span> 条、调优任务记录 <span class="num">46万+</span>（2026-08 单月 <span class="num">14.7万</span> 次）</li>
+        </ul>
+    </div>
+<h4 style="color: #2e7d32; margin-bottom: 8px;">✅ 项目成果</h4>
         <ul class="result">
             <li>适配现网 <span class="num">98%+</span> 组网，AI 调优实时性、精度、泛化能力全面提升</li>
             <li>主导项目全流程：需求 → 架构 → 开发 → 部署 → 规模化落地</li>
@@ -231,6 +254,7 @@
 <tr><td>2019.09</td><td>国家级</td><td>第13届"西门子杯"中国智能制造挑战赛全国总决赛<strong>特等奖</strong></td></tr>
 <tr><td>2021.07</td><td>国家级</td><td>第13届"电工杯"中国大学生数学建模竞赛<strong>二等奖</strong></td></tr>
 <tr><td>2021.09</td><td>校级</td><td>研究生一等奖学金（TOP 2%）</td></tr>
+<tr><td>2023-2026</td><td>工作期间</td><td>主导 AI RRM 创新特性（设备侧+云端双计算，覆盖 98%+ 组网）；季度稳定交付，现网 0 重大事故</td></tr>
 </table>
 
 <h2>自 我 评 价</h2>
@@ -240,6 +264,7 @@
         <li><strong>全栈能力</strong>：后端微服务 + 前端可视化 + K8s 部署运维，能独立打通"数据 → 模型 → 应用"</li>
         <li><strong>架构设计</strong>：主导 AI 双计算架构设计，具备系统级拆分与分布式一致性经验</li>
         <li><strong>数据工程</strong>：Kafka 数据管道、MongoDB 分库分表、数据闭环设计实战</li>
+        <li><strong>LLM 深度实践</strong>：日常使用 LLM 辅助需求分析/代码生成/排障，效率提升 <span class="num">30%+</span>；自研 Agent 编排框架（Prompt/Function Calling/DAG）</li>
         <li><strong>学习能力</strong>：电子信息硕士，AI 与 LLM 应用方向持续学习，上手快</li>
     </ul>
 </div>

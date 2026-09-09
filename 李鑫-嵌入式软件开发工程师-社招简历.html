@@ -54,7 +54,16 @@
         .footer { text-align: center; color: #999; margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; font-size: 13px; }
         .num { font-weight: 700; color: #2e7d32; }
         .migrate { background: #eef2ff; border: 1px dashed #6366f1; border-radius: 6px; padding: 6px 12px; font-size: 12.5px; color: #4338ca; margin-top: 8px; }
-    </style>
+    
+/* v3 数字亮点条 */
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 14px 0 20px; }
+.stat { background: #f5f7fa; border: 1px solid #e3e8ef; border-radius: 6px; padding: 10px 8px; text-align: center; }
+.stat .n { font-size: 18px; font-weight: 800; color: #1a73e8; display: block; }
+.stat .l { font-size: 11px; color: #777; }
+.scale-note { background: #e8f0fe; border-left: 4px solid #1a73e8; padding: 10px 14px; margin: 10px 0; border-radius: 0 4px 4px 0; font-size: 13px; color: #174ea6; }
+.scale-note h4 { color: #174ea6; margin-bottom: 6px; font-size: 13px; }
+
+</style>
 </head>
 <body>
 
@@ -69,6 +78,13 @@
 <div class="objective">
     <b>求职意向</b>：嵌入式软件工程师（网络通信 / 无线方向）｜C/C++ 功底 + TCP/IP & 802.11 协议栈 + 底层调用经验｜期望 30-35 万｜成都
 </div>
+
+<div class="stats">
+    <div class="stat"><span class="n">259万+</span><span class="l">现网 AP 接入数据规模</span></div>
+    <div class="stat"><span class="n">258万+</span><span class="l">射频(Radio)数据规模</span></div>
+    <div class="stat"><span class="n">19.6万+</span><span class="l">RRM 纳管无线设备</span></div>
+    <div class="stat"><span class="n">802.11be</span><span class="l">WiFi7 · 6GHz 全链路支持</span></div>
+    </div>
 
 <h2>教 育 背 景</h2>
 <table>
@@ -113,7 +129,7 @@
     </ul>
     
     <div class="result">
-        <h4 style="color: #2e7d32; margin-bottom: 8px;">✅ 项目成果</h4>
+<h4 style="color: #2e7d32; margin-bottom: 8px;">✅ 项目成果</h4>
         <ul class="result">
             <li>实现进程级隔离与独立版本生命周期管理</li>
             <li>为设备软件扩展提供可复制的虚拟化技术范式</li>
@@ -142,6 +158,14 @@
         <li><b>node-ffi 调用 C 语言 .so 核心算法库</b>：理解 C 内存布局、指针传参、内存释放，实现跨语言底层调用</li>
         <li>无线信道/频段参数处理（2.4G/5G/6G 三频段统一调度）</li>
     </ul>
+    
+    <div class="scale-note">
+        <h4>📊 现网规模（生产环境实测）</h4>
+        <ul style="padding-left:18px; margin:0;">
+            <li>系统纳管无线设备 <span class="num">19.6万+</span>、AP 数据 <span class="num">259万+</span>、射频 <span class="num">258万+</span></li>
+            <li>覆盖 2.4G/5G/6G 三频段设备通信与无线参数下发</li>
+        </ul>
+    </div>
     
     <div class="result">
         <h4 style="color: #2e7d32; margin-bottom: 8px;">✅ 项目成果</h4>
@@ -217,6 +241,7 @@
 <tr><td>2021.05</td><td>省部级</td><td>第13届"蓝桥杯"C/C++程序设计研究生组<strong>二等奖</strong></td></tr>
 <tr><td>2021.07</td><td>国家级</td><td>第13届"电工杯"中国大学生数学建模竞赛<strong>二等奖</strong></td></tr>
 <tr><td>2021.09</td><td>校级</td><td>研究生一等奖学金（TOP 2%）</td></tr>
+<tr><td>2023-2026</td><td>工作期间</td><td>主导 AI RRM 创新特性（设备侧+云端双计算，覆盖 98%+ 组网）；季度稳定交付，现网 0 重大事故</td></tr>
 </table>
 
 <h2>自 我 评 价</h2>
@@ -226,7 +251,7 @@
         <li><strong>网络/无线专业</strong>：深入 TCP/IP、802.11（WiFi7/6GHz）、netconf 等协议，通信背景稀缺</li>
         <li><strong>设备软件经验</strong>：参与网络设备（WBC 一体机）软件开发，熟悉资源受限环境优化</li>
         <li><strong>快速学习</strong>：电子信息硕士 + 系统开发经验，可快速上手 RTOS/驱动等嵌入式方向</li>
-        <li><strong>工程化</strong>：K8s/CI/CD/监控全链路经验，质量意识强（SonarQube 代码审查）</li>
+        <li><strong>工程化</strong>：K8s/CI/CD/监控全链路经验，质量意识强（SonarQube 代码审查）；日常使用 LLM 提升编码与排查效率</li>
     </ul>
 </div>
 
