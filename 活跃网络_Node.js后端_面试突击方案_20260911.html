@@ -246,7 +246,36 @@
   </div>
 
   <div class="card">
-    <h2><span class="n">11</span> 📚 高频题精简清单（这场面试最可能问的 8 道）</h2>
+    <h2><span class="n">11</span> 🧭 RRM 架构介绍话术 + 追问预判（面试官不懂无线，必背）</h2>
+    <div class="warn">⚠️ 这场面试官是 <b>Node.js 后端背景，大概率不懂无线 RRM</b>。介绍核心策略：不要从"RRM=无线资源管理"讲起，要<b>翻译成他熟悉的分布式后端语言</b>——一句话定位业务，再直接讲架构分工，把重点落在 Kafka/Redis/MongoDB/K8s 上。</div>
+
+    <div class="speech">
+      <div class="label">🎤 30 秒架构介绍（开场被问"介绍一下你做的系统"直接背）：</div>
+      "我做的是一个<b>无线网络的自动调优后端系统</b>。企业 WiFi 信号会互相干扰，RRM 负责自动给每个 AP 分信道、调功率、改带宽，让网络一直处于最优状态——相当于无线网络的<b>自动驾驶系统</b>。<br><br>
+      技术上拆成 <b>4 个 Node.js 微服务</b>，职责非常清晰：<b>rrmcontrol</b> 是控制入口（收 HTTP 请求、做调度、给设备下发配置）；<b>rrmserver</b> 管数据采集和业务处理；<b>rrmcompute</b> 是核心计算引擎（算最优信道/功率）；<b>aioptimize</b> 做基于流量的 AI 自动调优。<br><br>
+      服务之间用 <b>RabbitMQ</b> 异步通信，设备数据走 <b>Kafka</b> 上报，<b>Redis</b> 做分布式锁和缓存，<b>MongoDB</b> 持久化并分库分表，整体跑在 <b>K8s</b> 上。<br><br>
+      我主导了这套系统从"云端集中计算"到"<b>设备侧+云端分流计算</b>"的重构——现在系统纳管 <b>19.6 万+ 设备</b>，单月调优任务 <b>14.7 万次</b>。"
+    </div>
+
+    <div class="talk"><b>翻译对照表</b>：面试官听不懂 RRM → 说"无线网络自动驾驶系统"；问 4 个服务为什么拆 → 讲 IO 密集(rrmcontrol) vs CPU 密集(rrmcompute，会 OOM 需单独内存) vs AI 独立演进(aioptimize)，可独立扩缩容+故障隔离；无线部分他不懂 → 全部落到他懂的中间件实战。</div>
+
+    <h3 style="font-size:14px;margin:12px 0 6px;">🎯 高频追问 7 连 · 标准答案</h3>
+    <table>
+      <tr><th style="width:30%">可能被问</th><th>标准答案（STAR / 直接背）</th></tr>
+      <tr><td>① 为什么拆成 4 个服务？一个不行吗？</td><td>三类资源特征不同：rrmcontrol <b>IO 密集</b>（HTTP+设备长连接）、rrmcompute <b>CPU 密集</b>（跑算法会 OOM，需单独内存配额，我们单独从 5Gi→5.5Gi）、aioptimize <b>AI 独立演进</b>（模型迭代不影响主链路）。拆后<b>独立扩缩容 + 故障隔离</b>：计算服务挂了不影响控制面</td></tr>
+      <tr><td>② 服务间怎么通信？为什么用两套 MQ？</td><td><b>RabbitMQ</b> 走服务间业务调用（rrmcontrol→rrmcompute 任务分发，需确认）；<b>Kafka</b> 走设备侧高频数据上报（AP 状态/调优结果回传），吞吐高可重放。选型对应：RabbitMQ 适合复杂路由、Kafka 适合日志流/高吞吐</td></tr>
+      <tr><td>③ 设备上报失败怎么办？消息不丢？</td><td>Kafka 消费<b>手动 commit offset</b>——处理成功才提交，失败自动重投；超限进<b>死信队列</b>兜底；MongoDB 加 {taskId, apSN, RI} 唯一索引做<b>幂等</b>，重复消费不写脏数据</td></tr>
+      <tr><td>④ Redis 分布式锁用在什么场景？怎么实现？</td><td>定时任务<b>防重复触发</b>（K8s 多副本，同一 shop 任务可能被多 pod 同时扫到）。`SET key value NX EX 300` 原子获取，300s 过期防死锁；锁内<b>二次检查开关状态</b>（入队→执行间用户可能关开关，检查-执行竞态单靠锁不够）</td></tr>
+      <tr><td>⑤ MongoDB 怎么分库分表？</td><td>4 微服务<b>按业务域分库</b>（配置/调度/计算/AI 数据分开）；<b>冷热物理分层</b>，在线库控制 100GB 内；历史明细 TTL 索引自动清理+定期归档；核心集合 {taskId, apSN, RI} 复合索引</td></tr>
+      <tr><td>⑥ 什么是"设备侧+云端双计算"？为什么这么设计？</td><td>原架构所有 AP 数据传云端算，带宽运维压力大→功能只能白名单小范围开。现网 <b>98% 是 AC+fitap 组网</b>，AC 本身有算力 → <b>AC+fitap 计算下沉设备侧</b>（云端只管策略），<b>云 AP 沿用云端计算</b>。计算压力分流，云端成本大降，功能才敢全量放开——架构层面解决"系统不敢用、用不起"</td></tr>
+      <tr><td>⑦ 最自豪/最难的 bug？</td><td>OOM / write-after-end / 竞态修复故事，用<b>现象→定位→修复→反思</b>四段式（见手册 22 Bug 故事）</td></tr>
+    </table>
+
+    <div class="ok">✅ <b>必背 3 句防卡壳</b>：①"系统纳管 19.6 万+ 设备，单月调优 14.7 万次"（冷场就补数字）②"我主导了从云端集中到设备侧+云端分流的架构重构"（证明架构能力）③"Kafka 手动 offset + 幂等索引保消息不丢不重"（证明可靠性功底）</div>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">12</span> 📚 高频题精简清单（这场面试最可能问的 8 道）</h2>
     <div class="warn">⚠️ 上一版 15 题太多像背诵——<b>这场只准备 8 道</b>，每道都能接"我们项目里..."才过关。</div>
     <ul class="chk">
       <li><b>Node.js 事件循环</b>（libuv、宏任务/微任务）—— 你 RRM 网关层的核心机制</li>
@@ -262,7 +291,7 @@
   </div>
 
   <div class="card">
-    <h2><span class="n">12</span> 💬 行为题应答卡</h2>
+    <h2><span class="n">13</span> 💬 行为题应答卡</h2>
     <table>
       <tr><th style="width:24%">问题</th><th>应答要点</th></tr>
       <tr><td>为什么想看机会？</td><td>"在新华三三年业务熟了，<b>想接触国际化业务和北美团队协作</b>，技术栈继续做 Node 高并发"——<b>不报薪资为第一理由、不贬前司</b></td></tr>
@@ -276,7 +305,7 @@
   </div>
 
   <div class="card">
-    <h2><span class="n">13</span> 🧘 24 小时心理建设卡（防崩盘）</h2>
+    <h2><span class="n">14</span> 🧘 24 小时心理建设卡（防崩盘）</h2>
     <div class="warn">⚠️ <b>面试前 24 小时最易崩</b>：背了忘、英文卡壳、被怼到答不上来。这卡给你三个最坏场景的应对。</div>
     <table>
       <tr><th style="width:32%">最坏场景</th><th>应对话术 / 心态</th></tr>
@@ -289,7 +318,7 @@
   </div>
 
   <div class="card">
-    <h2><span class="n">14</span> ⏰ 两天冲刺计划（9/9-9/11 上午）</h2>
+    <h2><span class="n">15</span> ⏰ 两天冲刺计划（9/9-9/11 上午）</h2>
     <table class="plan">
       <tr><th style="width:96px">时间</th><th>任务</th><th style="width:70px">完成</th></tr>
       <tr><td class="day">9/9（三）<br/><span style="font-weight:400;color:var(--sub);">已完成 · 通读+自介</span></td><td>① 本方案通读一遍（30min）② 中文自我介绍脱稿 3 遍（30min）③ 英文自我介绍背熟（30min）④ AWS 话术一句 + 名词表过一遍（20min）⑤ Node 8 题里 7 道实战题各准备一句"项目里…"（40min）⑥ MongoDB 5 题深度答案背一遍（30min）</td><td style="text-align:center">☐</td></tr>
@@ -299,7 +328,7 @@
   </div>
 
   <div class="card">
-    <h2><span class="n">15</span> 🎒 面试当天 checklist</h2>
+    <h2><span class="n">16</span> 🎒 面试当天 checklist</h2>
     <ul class="chk">
       <li>纸质简历 ×2（<b>Node.js 精简版</b>，对应 JD 是 Node 岗）+ 手机存 PDF 备份</li>
       <li>身份证 + 手机充满电 + 充电宝</li>
