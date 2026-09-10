@@ -146,8 +146,9 @@
     <div class="speech">
       <div class="label">English Self-introduction (1 min)：</div>
       Hello, my name is <b>Li Xin</b>. I have a master's degree in Electronic Information from Chongqing University of Posts and Telecommunications. I'm currently a senior Node.js developer at New H3C, working on Radio Resource Management for wireless networks.<br><br>
-      Over the past three years, I rebuilt a legacy RRM module into a high-concurrency service using <b>Node.js, Kafka, Redis and MongoDB</b>, supporting multi-band access with a network adaptation rate above <b>98%</b>. I also handle production issues on a weekly basis, from monitoring to root cause analysis.<br><br>
-      I'm experienced with REST APIs, WebSocket, and containerized deployment on K8s. I'm a quick learner of cloud platforms like AWS. I'm excited about this opportunity at Active Network, and I believe my backend experience fits your high-concurrency requirements well. Thank you.
+      Over the past three years, I led the architecture evolution of our RRM system — I rebuilt a legacy single-process module into a <b>distributed high-concurrency service</b> using <b>Node.js, Kafka, Redis and MongoDB</b>. Today the system <b>manages over 196,000 devices</b> and runs <b>about 147,000 tuning tasks per month</b>, with a network adaptation rate above <b>98%</b>. I also handle production on-call, from monitoring and alerting to root cause analysis.<br><br>
+      I'm experienced with REST APIs, WebSocket, and containerized deployment on K8s. I'm a quick learner of cloud platforms like AWS. I'm excited about this opportunity at Active Network, and I believe my backend experience fits your high-concurrency requirements well. Thank you.<br><br>
+      <span style="color:#b45309;">🔢 <b>数字念法</b>：196,000 → "over one ninety-six thousand"（快读）或 "nearly two hundred thousand"（更顺口）；147,000 → "about one forty-seven thousand" 或 "roughly a hundred and fifty thousand"（模糊化不失真，推荐）。<b>卡壳时补一句数字，比沉默强。</b></span>
     </div>
     <ul class="clean">
       <li><b>常备英文词</b>：high concurrency / distributed lock / message queue / sharding / microservice / containerization / CI-CD / monitoring / latency / throughput / scalability / on-call / root cause analysis / bandwidth / orchestration</li>
@@ -220,12 +221,12 @@
     <h2><span class="n">9</span> 🎤 中文自我介绍（60 秒 · 脱稿）</h2>
     <div class="speech">
       <div class="label">中文 60 秒版本：</div>
-      面试官好，我叫李鑫，重庆邮电大学电子信息硕士，现在在新华三云研发部负责无线网络的 RRM（无线资源管理）方向，Node.js 后端开发，已经三年。<br><br>
-      这三年我主要做两件事：第一，把传统的 RRM 算法模块重构成高并发服务，用 Node.js 加 Kafka、Redis、MongoDB 这套技术栈，支撑 2.4G/5G/6G 三频段设备接入，组网适配率做到 98% 以上；第二，主导线上问题治理，每周处理 1+ 个线上问题，沉淀了一套从监控告警到根因定位的方法。<br><br>
+      面试官好，我叫李鑫，重庆邮电大学电子信息硕士，现在在新华三云研发部·云简网络产品线，<b>主导 RRM（无线资源管理）系统的开发与架构演进</b>，Node.js 后端，已经三年。<br><br>
+      这三年我主要做两件事：第一，<b>主导了 RRM 从"云端集中计算"到"设备侧+云端分流计算"的架构重构</b>，用 Node.js 加 Kafka、Redis、MongoDB 这套技术栈，把传统的单机算法模块做成分布式高并发服务，支撑 2.4G/5G/6G 三频段接入，适配现网 98% 的 AC+fitap 组网——<b>目前系统纳管 19.6 万+ 设备，单月调优任务 14.7 万次</b>；第二，主导线上问题治理，每周处理 1+ 个线上问题，沉淀了一套从监控告警到根因定位的方法。<br><br>
       部署上服务全部 K8s 容器化，跑过腾讯云生产 + 新加坡海外集群，对跨国云端协作比较熟悉；MongoDB 是我的强项，4 个微服务的分库分表、索引优化、TTL 数据治理我都主导过。<br><br>
       今天来应聘贵公司的 Node.js 后端岗，一是技术栈和 JD 高度匹配，二是希望接触体育赛事 SaaS 的国际化业务和北美团队协作，发挥我的后端经验。
     </div>
-    <div class="warn">⚠️ <b>讲项目必须带数字</b>（98% 适配、三频段、每周 1+ 问题、259 万 AP），讲完看面试官反应再决定展开细节，别一口气全倒。<b>收尾必落到"国际化业务+北美协作"——这是对方真正想听你来的理由</b>。</div>
+    <div class="warn">⚠️ <b>讲项目必须带数字（本节已内置规模数字，务必念出来）</b>：<b>19.6 万+ 设备 / 单月 14.7 万次</b>（最硬的两个）+ 98% 适配 + 三频段 + 259 万 AP（追问时用）。讲完看面试官反应再决定展开细节，别一口气全倒。<b>收尾必落到"国际化业务+北美协作"——这是对方真正想听你来的理由</b>。<br>💡 开场两句就是"主导架构演进 + 架构重构"，把"维护和开发"的保守表述换掉，分量立刻不一样。</div>
   </div>
 
   <div class="card">
