@@ -15,3 +15,6 @@ node_modules/
 *.rar
 *.zip.bak
 .idea/
+
+# 部署临时目录（云端发布用，不入库）
+_deploy/
