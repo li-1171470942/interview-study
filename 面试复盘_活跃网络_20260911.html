@@ -39,6 +39,11 @@
   .tl-item:before { content:""; position:absolute; left:-20px; top:7px; width:8px; height:8px; border-radius:50%; background:var(--brand); }
   .tl-item b { color:var(--brand); }
   .footer { text-align:center; color:#9aa3b5; font-size:12px; margin-top:26px; }
+  .card h3 { font-size:14px; margin:14px 0 6px; color:var(--brand); }
+  pre { background:#0f172a; color:#e2e8f0; padding:12px 14px; border-radius:8px; overflow-x:auto; margin:8px 0; font-size:12.5px; line-height:1.6; }
+  code { background:#f1f3fa; padding:1px 5px; border-radius:4px; font-size:12.5px; color:#be185d; }
+  pre code { background:none; color:inherit; padding:0; }
+  .q { background:#f8f9fd; border:1px solid var(--line); border-left:3px solid var(--brand); border-radius:0 8px 8px 0; padding:10px 12px; margin:8px 0; font-size:13px; }
   @media (max-width:600px){ .hero h1{font-size:18px;} }
 </style>
 </head>
@@ -149,6 +154,130 @@
       <tr><td><b>本周</b></td><td>① 建立"代码审查题"专项练习（外企高频）② 每个基础概念准备"例子+项目场景"③ 继续投递，把这次经验用到下一场</td></tr>
     </table>
     <div class="ok">✅ <b>一句话总结</b>：这场面试证明你的<b>项目经验和架构能力够用</b>（微服务划分、代码缺陷分析前半段答得不错），但<b>计算机基础和数据库深度是硬伤</b>——这正好是可以通过 1-2 周突击补上的。下一场面试前，把 MongoDB 索引和代码审查这两块补牢。</div>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">8</span> 📝 代码题完整解析（6 题 · 含你的回答 + 正确答案）</h2>
+    <div class="warn">⚠️ 这是本场面试的<b>真正主战场</b>（占近一半时间）。每题格式：<b>题目 → 你的回答 → 正确答案 → 解析</b>。下次遇到同类题，按"读题框架"逐项过：<b>参数校验 → 异常处理 → 引用/作用域 → 执行顺序 → 并发/边界 → 安全</b>。</div>
+
+    <h3>Q1 · Express + fs 文件接口：找代码缺陷</h3>
+    <div class="q"><b>题目代码（还原）</b></div>
+    <pre><code>const express = require('express');
+const fs = require('fs');
+const app = express();
+let cache = {};                       // 内存缓存（懒加载）
+
+app.get('/getFile', (req, res) =&gt; {
+    let userId = req.query.userId;
+    let fileName = req.query.fileName;
+    if (cache[userId]) {              // 命中缓存就直接返回
+        res.send(cache[userId][fileName]);
+        return;
+    }
+    fs.readFile(fileName, 'utf-8', function (err, data) {
+        cache[userId] = {};
+        cache[userId][fileName] = data;
+        res.send(data);
+    });
+});</code></pre>
+    <div class="talk"><b>你的回答</b>：✅ 异常处理缺失（文件不存在要 try-catch）✅ 内存泄漏（缓存只增不减 → OOM）⚠️ 响应头 Content-Type 没答好</div>
+    <div class="ok"><b>正确答案（7 个问题）</b>：<br>
+      ① <b>参数未判空</b>——userId/fileName 可能是 undefined，应先校验返回 400<br>
+      ② <b>fs.readFile 没处理 err</b>——文件不存在时 data 是 undefined 还被写进缓存并返回<br>
+      ③ <b>缓存只增不减 → 内存泄漏</b>——每个用户+文件永久驻留，长期跑必然 OOM，应加 LRU/TTL<br>
+      ④ <b>路径穿越漏洞（最严重·加分项）</b>——fileName 用户可控，传 <code>../../etc/passwd</code> 可读任意系统文件！必须用 <code>path.resolve</code> + 白名单目录校验<br>
+      ⑤ <b>响应头 Content-Type 未设置</b>——浏览器无法正确解析<br>
+      ⑥ <b>缓存命中判断不严谨</b>——只判断 userId 层，没判断具体 fileName 是否存在<br>
+      ⑦ <b>并发重复读</b>——缓存未命中时多个请求同时读同一文件（缓存击穿）</div>
+    <div class="talk"><b>解析</b>：这题是外企经典的"读代码找缺陷"，考察面广（健壮性 / 资源管理 / 安全 / 并发）。<b>安全漏洞是最容易被忽略、也最能加分的一项</b>。</div>
+
+    <h3>Q2 · Object.assign 浅拷贝 + unshift</h3>
+    <div class="q"><b>题目代码（还原）</b></div>
+    <pre><code>const body = { name: 'Tom', hobby: ['篮球', '音乐'] };
+const copy = Object.assign({}, body);   // 浅拷贝
+
+body.name = 'Jerry';        // 改基本类型
+copy.hobby.unshift('游戏');  // 改引用类型
+
+console.log(body);
+console.log(copy);</code></pre>
+    <div class="talk"><b>你的回答</b>：（当场未能完整说清）</div>
+    <div class="ok"><b>正确答案</b>：<br>
+      <code>body: { name: 'Jerry', hobby: ['游戏','篮球','音乐'] }</code><br>
+      <code>copy: { name: 'Tom',   hobby: ['游戏','篮球','音乐'] }</code><br>
+      <b>name 独立</b>（基本类型按值复制）；<b>hobby 共享</b>（数组按引用复制，unshift 后两边都变）</div>
+    <div class="talk"><b>解析</b>：<code>Object.assign({}, obj)</code> 是<b>浅拷贝</b>——只复制第一层，嵌套对象/数组复制的是<b>引用</b>。要真正独立需深拷贝：<code>structuredClone()</code>（推荐）/ <code>JSON.parse(JSON.stringify())</code>（会丢函数/undefined/Date）/ lodash <code>cloneDeep</code>。补充考点：<b>const 只限制变量重新赋值，不限制属性修改</b>。</div>
+
+    <h3>Q3 · Express 中间件初始化顺序 + async</h3>
+    <div class="q"><b>题目代码（还原）</b></div>
+    <pre><code>const app = express();
+
+app.use(async (req, res, next) =&gt; {     // 异步带延时的中间件
+    console.log('A start');
+    await new Promise(r =&gt; setTimeout(r, 1000));
+    console.log('A end');
+    next();
+});
+
+app.use((req, res, next) =&gt; { console.log('B'); next(); });
+app.get('/', (req, res) =&gt; { console.log('C'); res.send('ok'); });</code></pre>
+    <div class="talk"><b>你的回答</b>：（当场未能完整说清）</div>
+    <div class="ok"><b>正确答案</b>：输出顺序 <code>A start</code> →（等 1 秒）→ <code>A end</code> → <code>B</code> → <code>C</code></div>
+    <div class="talk"><b>解析（3 个考点）</b>：<br>
+      ① <b>中间件按注册顺序执行</b>（洋葱模型），<code>app.use</code> 先注册先执行；写在路由之后的中间件不会执行<br>
+      ② <b>async 中间件的 next() 时机</b>——await 期间后续中间件全部阻塞，必须手动调 <code>next()</code>，忘了则请求挂起至超时<br>
+      ③ <b>Express 4 不自动捕获 async 错误</b>——async 函数抛错不会进错误中间件，会变成 unhandledRejection；需 try-catch + <code>next(err)</code> 或 <code>express-async-errors</code>；<b>Express 5 才原生支持</b></div>
+
+    <h3>Q4 · Promise executor 的返回值被忽略</h3>
+    <div class="q"><b>题目代码（还原）</b></div>
+    <pre><code>function foo() {
+    return Promise.reject('出错了');
+}
+const p = new Promise((resolve, reject) =&gt; {
+    foo();          // 调用一个「返回 rejected promise」的函数
+});
+p.catch(err =&gt; console.log('catch:', err));
+console.log('end');</code></pre>
+    <div class="talk"><b>你的回答</b>：（当场未能完整说清）</div>
+    <div class="ok"><b>正确答案</b>：只打印 <code>end</code>，<b>catch 永远不执行</b>；同时产生 <code>UnhandledPromiseRejection</code> 警告</div>
+    <div class="talk"><b>解析</b>：<b>Promise 构造函数里 executor 的返回值被完全忽略</b>——只看你是否调用了 <code>resolve()</code> / <code>reject()</code>。所以 <code>foo()</code> 返回的 rejected promise 被丢弃，外层 <code>p</code> 永远 pending，catch 不会触发。<br>
+      <b>正确写法</b>：<code>new Promise((resolve, reject) =&gt; foo().catch(reject)).catch(...)</code>；或更直接 <code>foo().catch(err =&gt; console.log(err))</code>（根本不用包一层）。<br>
+      <b>延伸</b>：executor 里 <code>throw</code> 等价于 <code>reject</code>；<code>catch</code> 返回新 promise，可继续链式 <code>.then()</code> 做错误恢复。</div>
+
+    <h3>Q5 · 10 万 IP 用 Promise.all 批量请求</h3>
+    <div class="q"><b>题目代码（还原）</b></div>
+    <pre><code>const ips = users.map(u =&gt; u.ip);        // 10 万个
+let results = [];
+await Promise.all(
+    ips.map(ip =&gt; axios.get(`http://api/user?ip=${ip}`))
+).then(res =&gt; { results = res.map(r =&gt; r.data); });</code></pre>
+    <div class="talk"><b>你的回答</b>：✅ 没捕获异常 ✅ 10 万并发可能打爆服务器 TCP 端口 ✅ 没有超时兜底机制　❌ <b>漏了 Promise.all 一票否决</b>（面试官提示后才补）</div>
+    <div class="ok"><b>正确答案（7 个问题）</b>：<br>
+      ① <b>无异常捕获</b>——任一失败整体崩（你答出 ✅）<br>
+      ② <b>无并发控制</b>——10 万并发耗尽 TCP 端口（默认约 2.8 万）与文件描述符（EMFILE）（你答出 ✅）<br>
+      ③ <b>Promise.all 一票否决（最核心）</b>——10 万请求里任何一个失败，整体 reject，<b>已成功的全部丢弃</b>；应用 <code>Promise.allSettled</code>（面试官最想听的）<br>
+      ④ <b>无超时兜底</b>——某请求卡住则整体永久 pending（你答出 ✅）<br>
+      ⑤ <b>内存暴涨</b>——10 万个 pending promise + 全部响应体同时驻留 → OOM<br>
+      ⑥ <b>无重试机制</b>——偶发失败直接丢数据，应指数退避重试<br>
+      ⑦ <b>对目标服务是 DDoS</b>——可能被限流/封禁；且无连接复用（应开 keep-alive）</div>
+    <div class="talk"><b>正确写法</b>：<code>p-limit</code> 限并发（如 20）+ <code>Promise.allSettled</code> + <code>timeout</code> + 重试 + 分批 + keep-alive Agent。<br>
+      <b>口诀</b>：<b>看到 <code>Promise.all</code> 做批量操作 → 第一反应就是"一票否决"问题</b>。</div>
+
+    <h3>Q6 · MongoDB 复合索引 {a:1, b:1, c:-1} 的排序命中</h3>
+    <div class="q"><b>题目</b>：索引为 <code>{a:1, b:1, c:-1}</code>，下列三个查询能否用索引排序？<br>
+      A. <code>find({a:1}).sort({c:-1})</code>　B. <code>find({a:1,b:1}).sort({c:-1})</code>　C. <code>find({a:1}).sort({b:1,c:-1})</code></div>
+    <div class="talk"><b>你的回答</b>：❌ <b>面试官连问 3 次都答不上（本场最严重失分）</b></div>
+    <div class="ok"><b>正确答案</b>：<br>
+      <b>A ❌ 不能</b>——只命中 a、<b>跳过 b</b>，c 在索引中非全局有序 → 走内存排序（SORT）<br>
+      <b>B ✅ 能</b>——a、b 都是等值查询，前两列锁死，c 在索引中自然有序<br>
+      <b>C ✅ 能</b>——a 等值锁定，排序 b:1,c:-1 <b>与索引方向完全一致</b></div>
+    <div class="talk"><b>解析（3 条核心规则）</b>：<br>
+      ① <b>最左前缀原则</b>：查询条件必须从索引最左列开始连续匹配<br>
+      ② <b>排序能否用索引</b>：排序字段<b>前面的所有字段必须是等值查询</b>（缺失或有范围查询都会截断有序性）<br>
+      ③ <b>排序方向</b>：必须与索引<b>全同向或全反向</b>，混用方向则无法复用索引<br>
+      <b>验证方式</b>：<code>explain('executionStats')</code> 看 winningPlan——出现 <code>SORT</code> 就是内存排序（❌），理想是只有 <code>IXSCAN</code> 无 <code>SORT</code>（✅）。</div>
+
+    <div class="ok">🎯 <b>本节小结</b>：6 题覆盖 <b>API 健壮性 / 浅深拷贝 / 中间件执行模型 / Promise 语义 / 并发治理 / 索引原理</b>——全是<b>通用工程能力</b>，与具体业务无关。这些正是可以通过专项练习快速补齐的。</div>
   </div>
 
   <div class="footer">李鑫 · 求职档案 · 2026-09-11 复盘 · 基于面试录音（46.9 分钟）本地转写分析 · 转写存在少量识别误差，关键内容已人工校对</div>
