@@ -119,7 +119,7 @@
     <table>
       <tr><th style="width:42%">JD 职责</th><th style="width:18%">匹配度</th><th>面试应答要点（挂自己的项目）</th></tr>
       <tr><td>基于 Node.js/JavaScript 构建稳定可扩展服务与 API，支撑高并发数据处理</td><td><span class="tag g">强项</span></td><td><b>AI RRM 重构</b>：Node.js 网关层支撑 2.4G/5G/6G 三频段设备接入；事件循环背压机制 + Kafka 削峰。带 QPS 量级数字（哪怕说"千级到万级"也行）</td></tr>
-      <tr><td>MongoDB 数据模型设计、查询优化、索引策略、数据治理与性能调优</td><td><span class="tag g">强项</span></td><td>RRM 4 微服务全部上 MongoDB，<b>分库分表</b>实战（按 {taskId, apSN, RI} 复合索引、慢查询 explain、TTL 治理历史）——详见第 5 节深度准备</td></tr>
+      <tr><td>MongoDB 数据模型设计、查询优化、索引策略、数据治理与性能调优</td><td><span class="tag g">强项</span></td><td>RRM 4 微服务全部上 MongoDB，<b>副本集 + 业务域拆库</b>实战（复合索引 {taskId, apSN, RI}、慢查询 explain、TTL 冷热治理）——详见<b>第 7 节</b>深度准备</td></tr>
       <tr><td>AWS 云上服务架构建设与运维协作，可用性/扩展性/安全性</td><td><span class="tag y">短板·突击</span></td><td>坦诚 K8s/Docker 是主战场，AWS 是"EKS 平移 + 我有清晰迁移路径"——见第 4 节 AWS 话术</td></tr>
       <tr><td>业务系统间接口设计与联调，数据链路稳定可追踪</td><td><span class="tag g">强项</span></td><td>WBC IoT 2.0 多系统对接：REST + WebSocket 双通道、netconf 协议适配、链路日志 traceId 全程追踪</td></tr>
       <tr><td>高数据规模下架构演进：缓存、异步处理、消息机制、可观测性</td><td><span class="tag g">强项</span></td><td>Redis 缓存 + 分布式锁（防击穿/雪崩）+ Kafka 削峰异步（ack + 幂等） + Prometheus/Grafana + traceId 日志链路</td></tr>
@@ -146,8 +146,9 @@
     <div class="speech">
       <div class="label">English Self-introduction (1 min)：</div>
       Hello, my name is <b>Li Xin</b>. I have a master's degree in Electronic Information from Chongqing University of Posts and Telecommunications. I'm currently a senior Node.js developer at New H3C, working on Radio Resource Management for wireless networks.<br><br>
-      Over the past three years, I rebuilt a legacy RRM module into a high-concurrency service using <b>Node.js, Kafka, Redis and MongoDB</b>, supporting multi-band access with a network adaptation rate above <b>98%</b>. I also handle production issues on a weekly basis, from monitoring to root cause analysis.<br><br>
-      I'm experienced with REST APIs, WebSocket, and containerized deployment on K8s. I'm a quick learner of cloud platforms like AWS. I'm excited about this opportunity at Active Network, and I believe my backend experience fits your high-concurrency requirements well. Thank you.
+      Over the past three years, I led the architecture evolution of our RRM system — I rebuilt a legacy single-process module into a <b>distributed high-concurrency service</b> using <b>Node.js, Kafka, Redis and MongoDB</b>. Today the system <b>manages over 196,000 devices</b> and runs <b>about 147,000 tuning tasks per month</b>, with a network adaptation rate above <b>98%</b>. I also handle production on-call, from monitoring and alerting to root cause analysis.<br><br>
+      I'm experienced with REST APIs, WebSocket, and containerized deployment on K8s. I'm a quick learner of cloud platforms like AWS. I'm excited about this opportunity at Active Network, and I believe my backend experience fits your high-concurrency requirements well. Thank you.<br><br>
+      <span style="color:#b45309;">🔢 <b>数字念法</b>：196,000 → "over one ninety-six thousand"（快读）或 "nearly two hundred thousand"（更顺口）；147,000 → "about one forty-seven thousand" 或 "roughly a hundred and fifty thousand"（模糊化不失真，推荐）。<b>卡壳时补一句数字，比沉默强。</b></span>
     </div>
     <ul class="clean">
       <li><b>常备英文词</b>：high concurrency / distributed lock / message queue / sharding / microservice / containerization / CI-CD / monitoring / latency / throughput / scalability / on-call / root cause analysis / bandwidth / orchestration</li>
@@ -189,14 +190,15 @@
     <h3 style="font-size:14px;margin:10px 0 6px;">📌 必准备 5 个深度问题与标准答案</h3>
     <table>
       <tr><th style="width:36%">可能被问</th><th>标准答案（按 STAR 结构）</th></tr>
-      <tr><td>① 你们的 MongoDB 怎么分库分表的？</td><td>RRM 4 微服务的 MongoDB 按业务域拆分（rrmcontrol 放配置数据、rrmserver 放调度数据、rrmcompute 放计算结果、aioptimize 放 AI 模型数据），每个库内部再按 <b>{taskId, apSN, RI}</b> 复合索引走 shard key；冷热数据物理分库（在线业务 vs 历史归档），控制单库 100GB 内</td></tr>
+      <tr><td>① 你们的 MongoDB 怎么分库分表的？</td><td><b>先定性</b>：我们用的是<b>副本集（Replica Set）+ 业务域拆库，不是分片集群</b>——单业务数据量还没到需要水平分片的量级。<br><b>所谓"分库分表"在我们这儿是两层</b>：<b>库级</b>按配置数据 / 运行时数据拆开（rrmcontrol 配置、rrmcompute 计算结果、aioptimize 模型数据各连自己的库）；<b>集合级</b>按业务拆——手动调优 clbSpace、自动调优 autoOptConfig、射频配置 RFConfig，共同<b>唯一索引</b>是「场所Id + 设备类型 + 设备序列号」（防配置重复）；调优数据按 taskId 关联再拆成<b>结果 clbRecord / 明细 clbDetail</b>，让页面查简要结果更快。<br><b>数据量背书</b>：配置类只有几千条；运行时 clbDetail <b>2700 万+</b>、clbRecord <b>46 万+</b> → 运行时库做<b>冷热分离</b>，热数据留 MongoDB，历史明细 TTL 清理 + 归档，在线库控制在 100GB 内。<br><span style="color:#dc2626">⚠️ 千万别说"{taskId, apSN, RI} 复合索引走 shard key"——分片键是分片集群概念，我们是副本集没有 shard key；{taskId, apSN, RI} 是<b>查询用复合索引</b>，跟分片无关。</span></td></tr>
       <tr><td>② 慢查询怎么排查？讲一个真实案例</td><td>db.collection.s.find({apSN: 'X'}).explain('executionStats') 看 executionTimeMillis + IXSCAN/COLLSCAN；典型案例：AP 状态查询接口超时（P95 1.2s）→ explain 发现 COLLSCAN → 加复合索引 {apSN:1, timestamp:-1} → P95 降到 80ms</td></tr>
       <tr><td>③ 索引设计原则？你建的索引是不是越少越好？</td><td><b>不是越少越好，是越精越好</b>。原则：① 高频查询字段 + 高基数字段先建；② 复合索引遵循 ESR 法则（Equality / Sort / Range）；③ 避免在低基数字段建（如 boolean）；④ 索引写入会拖慢，需 balance 读写比。线上索引数量通常 5-15 个/集合，太多会拖写入</td></tr>
       <tr><td>④ MongoDB 副本集 vs 分片集群怎么选？</td><td><b>副本集（Replica Set）</b> = 主从 + 自动故障切换，1 主 2 从起步，单机数据放得下就够用（< 2TB）；<b>分片集群（Sharded Cluster）</b> = 数据水平拆分到多 shard，适合数据 > 2TB 或写并发 > 10K/s。我们 RRM 单业务 < 100GB 走副本集就够，未来可平滑扩展到分片</td></tr>
-      <tr><td>⑤ 数据治理怎么做？（TTL、归档、冷热分离）</td><td>① <b>TTL 索引</b>：db.collection.s.createIndex({expireAt: 1}, {expireAfterSeconds: 0}) 自动清理过期数据（如设备日志保留 30 天）；② <b>冷热分层</b>：热数据 MongoDB、温数据降采样到时序库、冷数据归档到 S3/OSS；③ <b>定期清理脚本</b>：cron 跑 db.collection.s.deleteMany({timestamp: {$lt: cutoffDate}})，带监控告警防误删</td></tr>
+      <tr><td>⑤ 数据治理怎么做？（TTL、归档、冷热分离）</td><td>① <b>TTL 索引</b>：db.collection.s.createIndex({expireAt: 1}, {expireAfterSeconds: 0}) 触发自动清理——<b>但删除条件是业务驱动的</b>：必须同时满足「<b>① 该记录不是最新一次调优 ② 产生时间超 30 天</b>」才删（否则页面查不到最近记录），用应用层维护 expireAt 字段实现；② <b>冷热分层</b>：热数据留 MongoDB、冷数据归档（OSS/S3）；③ <b>定期清理脚本</b>：cron 跑 deleteMany 带监控告警防误删。<span style="color:#b45309">💡 "不是最新记录"这个条件是<b>从业务反推技术设计</b>，面试官会觉得真实——务必讲出来。</span></td></tr>
     </table>
 
-    <div class="talk"><b>🎤 1 分钟 MongoDB 自我介绍（讲到 MongoDB 时直接套用）</b>："我 RRM 项目 4 个微服务都基于 MongoDB，按业务域分库分表，复合索引 {taskId, apSN, RI} 是核心。线上一个真实案例：AP 状态查询 P95 从 1.2s 降到 80ms，靠的就是 explain 定位 COLLSCAN + 加复合索引。数据治理上用 TTL 索引自动清理 30 天前日志，定期归档到 OSS。"</div>
+    <div class="talk"><b>🎤 1 分钟 MongoDB 自我介绍（讲到 MongoDB 时直接套用）</b>："我 RRM 项目 4 个微服务都基于 MongoDB，用<b>副本集 + 业务域拆库</b>（不是分片集群）。拆两层：库级按配置数据/运行时数据分开，集合级按业务拆（手动调优 clbSpace、自动调优 autoOptConfig、射频配置 RFConfig），共同唯一索引是「场所Id+设备类型+设备SN」防配置重复。<br>两个真实案例：① AP 状态查询 P95 从 <b>1.2s 降到 80ms</b>——explain 定位 COLLSCAN 后加复合索引；② 一个计算密集型接口要几十秒——改成<b>异步预处理</b>（定时全表扫描产任务 → Kafka 分发 → 微服务多实例并行消费），接口只读结果，<b>降到 100ms 以内</b>。<br>数据治理做<b>冷热分离</b>，历史明细 TTL 自动清理 + 归档，在线库控制在 100GB 内。"</div>
+    <div class="warn">⚠️ <b>口径统一提醒</b>：本节与第 17 节"模拟面试实录 Q2/Q3"必须一致——<b>① 副本集而非分片集群（无 shard key）② {taskId, apSN, RI} 是查询复合索引不是分片键 ③ 慢查询有两个案例：索引优化(1.2s→80ms) + 异步化改造(几十秒→100ms)</b>。面试时随口说错"分片键"，面试官一追"副本集还是分片集群"就露馅。</div>
   </div>
 
   <div class="card">
@@ -220,12 +222,12 @@
     <h2><span class="n">9</span> 🎤 中文自我介绍（60 秒 · 脱稿）</h2>
     <div class="speech">
       <div class="label">中文 60 秒版本：</div>
-      面试官好，我叫李鑫，重庆邮电大学电子信息硕士，现在在新华三云研发部负责无线网络的 RRM（无线资源管理）方向，Node.js 后端开发，已经三年。<br><br>
-      这三年我主要做两件事：第一，把传统的 RRM 算法模块重构成高并发服务，用 Node.js 加 Kafka、Redis、MongoDB 这套技术栈，支撑 2.4G/5G/6G 三频段设备接入，组网适配率做到 98% 以上；第二，主导线上问题治理，每周处理 1+ 个线上问题，沉淀了一套从监控告警到根因定位的方法。<br><br>
+      面试官好，我叫李鑫，重庆邮电大学电子信息硕士，现在在新华三云研发部·云简网络产品线，<b>主导 RRM（无线资源管理）系统的开发与架构演进</b>，Node.js 后端，已经三年。<br><br>
+      这三年我主要做两件事：第一，<b>主导了 RRM 从"云端集中计算"到"设备侧+云端分流计算"的架构重构</b>，用 Node.js 加 Kafka、Redis、MongoDB 这套技术栈，把传统的单机算法模块做成分布式高并发服务，支撑 2.4G/5G/6G 三频段接入，适配现网 98% 的 AC+fitap 组网——<b>目前系统纳管 19.6 万+ 设备，单月调优任务 14.7 万次</b>；第二，主导线上问题治理，每周处理 1+ 个线上问题，沉淀了一套从监控告警到根因定位的方法。<br><br>
       部署上服务全部 K8s 容器化，跑过腾讯云生产 + 新加坡海外集群，对跨国云端协作比较熟悉；MongoDB 是我的强项，4 个微服务的分库分表、索引优化、TTL 数据治理我都主导过。<br><br>
       今天来应聘贵公司的 Node.js 后端岗，一是技术栈和 JD 高度匹配，二是希望接触体育赛事 SaaS 的国际化业务和北美团队协作，发挥我的后端经验。
     </div>
-    <div class="warn">⚠️ <b>讲项目必须带数字</b>（98% 适配、三频段、每周 1+ 问题、259 万 AP），讲完看面试官反应再决定展开细节，别一口气全倒。<b>收尾必落到"国际化业务+北美协作"——这是对方真正想听你来的理由</b>。</div>
+    <div class="warn">⚠️ <b>讲项目必须带数字（本节已内置规模数字，务必念出来）</b>：<b>19.6 万+ 设备 / 单月 14.7 万次</b>（最硬的两个）+ 98% 适配 + 三频段 + 259 万 AP（追问时用）。讲完看面试官反应再决定展开细节，别一口气全倒。<b>收尾必落到"国际化业务+北美协作"——这是对方真正想听你来的理由</b>。<br>💡 开场两句就是"主导架构演进 + 架构重构"，把"维护和开发"的保守表述换掉，分量立刻不一样。</div>
   </div>
 
   <div class="card">
@@ -281,7 +283,7 @@
       <li><b>Node.js 事件循环</b>（libuv、宏任务/微任务）—— 你 RRM 网关层的核心机制</li>
       <li><b>Redis 缓存穿透/击穿/雪崩</b> + 分布式锁（续期/误删）—— 你 RRM 实战题</li>
       <li><b>Kafka 不丢失不重复</b>（ack/幂等/offset）—— 你 RRM 实战题</li>
-      <li><b>MongoDB 索引策略 + 慢查询优化 + 分库分表</b> —— JD 第一硬骨头（详见第 5 节）</li>
+      <li><b>MongoDB 索引策略 + 慢查询优化 + 分库分表</b> —— JD 第一硬骨头（详见<b>第 7 节</b>；副本集口径见第 17 节 Q2）</li>
       <li><b>MySQL vs MongoDB 选型</b>；事务在 NoSQL 里的取舍</li>
       <li><b>高并发架构演进</b>：缓存 → 异步 → 消息 → 可观测性（对应 JD 第 5 条）</li>
       <li><b>K8s 核心</b>：Pod/Deployment/SVC/Ingress/ConfigMap/滚动发布 + requests/limits</li>
