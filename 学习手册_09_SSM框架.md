@@ -40,7 +40,14 @@
 - 参数：propagation（传播行为：REQUIRED 默认/REQUIRES_NEW 新事务/NESTED 嵌套）、isolation（隔离级别）、rollbackFor（指定回滚异常）
 - 坑：① 同类内部调用（this.method()）不走代理，事务失效；② 异常被 catch 吞了不触发回滚；③ rollbackFor 默认不含 Checked 异常
 - 分布式事务：@GlobalTransactional（Seata）——参考手册 04 第 27 题
-**话术/例题**：背"三个失效场景"（内部调用/吞异常/Checked 异常）是高频追问。追问：事务传播 REQUIRED 和 REQUIRES_NEW 区别？→ REQUIRED 加入现有事务，REQUIRES_NEW 挂起现有开新的。
+- **切面完成事务的源码链路（高频追问"切面怎么做到的"）**：
+  1. Bean 初始化时 BeanPostProcessor 发现 @Transactional → 生成代理对象（JDK/CGLIB）
+  2. 调用方法 → **TransactionInterceptor**（环绕通知）拦截 → invokeWithinTransaction()
+  3. **PlatformTransactionManager**（DataSourceTransactionManager.doBegin）开启事务：拿 Connection、**autoCommit=false**
+  4. **TransactionSynchronizationManager 把 Connection 绑到 ThreadLocal** —— 同线程内 MyBatis/JdbcTemplate 从 ThreadLocal 取同一个连接，这就是"多个 SQL 在同一事务"的本质
+  5. proceed() 执行业务方法 → 正常 commit / RuntimeException 则 rollback
+  6. 最后清理 ThreadLocal 解绑连接、恢复 autoCommit、归还连接池（无论成败都执行）
+**话术/例题**：背"三个失效场景"（内部调用/吞异常/Checked 异常）是高频追问。追问：事务传播 REQUIRED 和 REQUIRES_NEW 区别？→ REQUIRED 加入现有事务，REQUIRES_NEW 挂起现有开新的。追问：为什么多个 SQL 能在一个事务里？→ ThreadLocal 绑定同一个 Connection（第 4 步，必背）。
 
 ## 5. SpringMVC 请求处理流程
 **一句话结论**：请求 → DispatcherServlet（前端控制器）→ HandlerMapping 找 Controller → HandlerAdapter 执行 → 返回 ModelAndView/JSON → 响应。
