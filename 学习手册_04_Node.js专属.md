@@ -188,6 +188,26 @@ process.nextTick(()=>console.log('4')); // nextTick（最优先微任务）
 - 重平衡（rebalance）：消费者增减触发分区重分配，期间停止消费
 **话术/例题**：结合你们 RRM 上报链路（设备调优结果 → Kafka → 入库）讲"先写库后提交 offset"防丢。追问：重复消息怎么办？→ 幂等表/业务去重。
 
+### 19A. K8s 多 pod 消费 Kafka：异常/扩缩容后丢失与重排怎么办？（一致性哈希）
+**一句话结论**：丢失和重排是两个独立问题——**防丢靠提交策略**（手动 commit），**防重排靠分配策略**（一致性哈希），一致性哈希解决不了丢失。
+**详细解释**：
+- **丢失根因**：自动提交（`enable.auto.commit=true`，默认 5s）按时间提交而非按处理成功——poll 进内存未处理完的消息 offset 已被提交，pod 被 kill 后不再重投，真丢
+- **重排根因**：分区归属用 `partition % pod数`，pod 数一变（扩缩容/改副本量）→ 所有分区归属全变 → 全量重排、本地消费状态全废
+- **一致性哈希方案**：pod 和分区号都 hash 到环上，分区顺时针归属最近 pod；**虚拟节点**（每 pod 100~200 个）防倾斜；pod 列表通过 K8s headless service DNS/API watch 感知增删 → 扩缩容只迁移约 1/N 分区，其余不动
+- **迁移衔接**：新 owner assign 后 seek 到 `__consumer_offsets` 的 committed offset 断点续投；未提交部分重投（可能重复）→ 幂等表/唯一索引兜底；旧 owner 优雅退出（preStop：处理完当前批次 → commit → unassign）
+- **注意**：改副本量只影响**生产端高可用**（acks=all 等副本确认），不改变消费分配；消费分配只由"分区数 + 消费者拓扑"决定
+
+### 19B. 增删 pod / pod 异常后 Kafka 消费情况（rebalance 全流程）
+**一句话结论**：消费者组模式自动 rebalance（Eager 全组停摆 / Cooperative 增量）；手动 assign 模式不 rebalance，表现为积压直到 pod 重建——是延迟不是丢失。
+**详细解释**：
+- **触发条件**：① 消费者增减（扩缩 pod）；② 心跳超时（`session.timeout.ms` 默认 10s 内未恢复判死）；③ 处理超时（超过 `max.poll.interval.ms` 被踢出组——消费积压时常见雪崩源）
+- **Eager rebalance（旧默认）**：全组 revoke 所有分区 → 全组停止消费（stop-the-world）→ 重新 JoinGroup/SyncGroup → 分区重分给剩余成员 → 从 committed offset 继续
+- **优化 1 CooperativeStickyAssignor**：增量 rebalance，只 revoke 受影响分区，不再全组停摆
+- **优化 2 静态成员 `group.instance.id`**：滚动重启/短暂闪断在 session.timeout 内回来不触发 rebalance，分区保持——K8s 固定 pod 身份场景标配
+- **手动 assign 模式（rrmcontrol 现形态）**：pod 死 → 无 rebalance，分区无人接管 → lag 持续上涨（积压），pod 重建后从 committed offset 继续；扩 pod 需应用层感知拓扑重新计算分配——这正是引入一致性哈希的动因
+- **数据语义**：消息仍在分区日志中不丢；处理到一半的批次会重投 → 重复 → 幂等兜底
+**话术/例题**：先分清"防丢 vs 防重排"两个独立问题再答。追问：为什么改副本量会重排？→ 其实不重排，消费分配只看分区数和消费者拓扑；重排是 pod 数变化触发的。追问：消费积压引发 rebalance 雪崩？→ 处理慢超 max.poll.interval.ms 被踢 → rebalance → 更慢 → 再踢，解法是减批次（max.poll.records）+ 异步化 + 扩分区。
+
 ### 20. Kafka 与 RabbitMQ 选型？消息顺序性？
 **一句话结论**：Kafka 高吞吐/日志/回溯，RabbitMQ 灵活路由/低延迟/可靠性；顺序性=单分区+按 key 路由。
 **详细解释**：
