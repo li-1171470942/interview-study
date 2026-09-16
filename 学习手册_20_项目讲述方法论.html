@@ -30,13 +30,22 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 .bottomnav a { flex:1; text-align:center; background:#4f46e5; color:#fff; text-decoration:none; padding:12px 10px; border-radius:10px; font-size:14px; }
 .bottomnav a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
 @media (max-width:760px){ .article{padding:22px 18px;} .article h1{font-size:21px;} }
+/* handbook-layout-fix */
+.article p.lead { background:#eef2ff; border-left:4px solid #6366f1; padding:10px 14px; border-radius:6px; color:#312e81; margin:10px 0 4px; }
+.article p.lbl { font-size:13px; color:#64748b; margin:14px 0 4px; }
+.article p.say { background:#fff7ed; border-left:4px solid #f97316; padding:10px 14px; border-radius:6px; color:#7c2d12; margin:12px 0 4px; }
+.article h3 { font-size:15.5px; color:#1e293b; margin:26px 0 10px; padding-left:10px; border-left:3px solid #818cf8; }
+.article ul { margin:6px 0 6px 22px; }
+.article ol { margin:6px 0 6px 24px; }
+.article li { margin:5px 0; }
+.article ul ul { margin:4px 0 4px 20px; }
 </style></head>
 <body>
 <div class="topnav"><div class="inner"><a href="学习中心.html">🏠 学习中心</a> <span class="sep">|</span> <a href="学习手册索引.html">📚 手册索引</a> <span class="sep">|</span> <a href="学习手册_19_并发场景模式库.html">◀ 19 场景模式</a></div></div>
 <div class="wrap"><article class="article"><h1>📘 学习手册 20 · 项目讲述方法论（把 RRM 讲成"面试官想听的样子"）</h1>
 <blockquote>
-<p><strong>来源</strong>：WA6666.zip 项目八股（罗振耘 2026-09-04），提炼自同事材料的"方法论层"——不含任何同事项目业务细节，全部是<strong>可迁移的面试技术</strong>。
-<strong>一句话</strong>：面试的胜负手不是"知道多少八股"，是<strong>能不能把简历每个字都变成你准备好的问题的钩子</strong>。本手册教你三件事：① 简历怎么埋钩子 ② 项目怎么讲（电梯陈述/开场/收尾）③ 追问怎么接（连环追问模式 + 必死题预演）。
+<p><strong>来源</strong>：WA6666.zip 项目八股（罗振耘 2026-09-04），提炼自同事材料的"方法论层"——不含任何同事项目业务细节，全部是<strong>可迁移的面试技术</strong>。<br />
+<strong>一句话</strong>：面试的胜负手不是"知道多少八股"，是<strong>能不能把简历每个字都变成你准备好的问题的钩子</strong>。本手册教你三件事：① 简历怎么埋钩子 ② 项目怎么讲（电梯陈述/开场/收尾）③ 追问怎么接（连环追问模式 + 必死题预演）。<br />
 使用方式：每节留了 RRM 专属的"填空位"，请用你真实的项目数据填满并背熟——<strong>只有你自己的数字和故事才站得住</strong>。</p>
 </blockquote>
 <hr />
@@ -133,8 +142,8 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 </blockquote>
 <p><strong>RRM 版模板（请用你的话填实）</strong>：</p>
 <blockquote>
-<p>"我做的是新华三 Oasis 云平台的无线资源管理（RRM），解决 Wi-Fi 调优"谁来算、算完怎么推给设备、推错了怎么收敛"的问题。云平台上有 4 个微服务（rrmcontrol/rrmserver/rrmcompute/aioptimize），Kafka + MongoDB + K8s 这套底座。
-技术亮点两个：一是 <strong>AI RRM 重构</strong>，把"云端收集-云端计算-下发生效"改成"AC+fitap 设备侧计算、云 AP 云端计算"的双计算分流——适配了 98%+ 组网，把云端运维压力和单点风险降下来；二是<strong>调优任务从触发到设备生效的可靠性链路</strong>——调度器触发、消息驱动结果上报、失败补偿、状态收敛，配合配置中心一键部署和回滚。
+<p>"我做的是新华三 Oasis 云平台的无线资源管理（RRM），解决 Wi-Fi 调优"谁来算、算完怎么推给设备、推错了怎么收敛"的问题。云平台上有 4 个微服务（rrmcontrol/rrmserver/rrmcompute/aioptimize），Kafka + MongoDB + K8s 这套底座。<br />
+技术亮点两个：一是 <strong>AI RRM 重构</strong>，把"云端收集-云端计算-下发生效"改成"AC+fitap 设备侧计算、云 AP 云端计算"的双计算分流——适配了 98%+ 组网，把云端运维压力和单点风险降下来；二是<strong>调优任务从触发到设备生效的可靠性链路</strong>——调度器触发、消息驱动结果上报、失败补偿、状态收敛，配合配置中心一键部署和回滚。<br />
 我的战场是<strong>异步链路的正确性和工程化落地</strong>——消息不丢不重、任务不重复执行、发版能回滚，这些在真实无线环境里错的代价很高。"</p>
 </blockquote>
 <p>讲完这段，面试官的问题基本落在：双计算架构怎么分 / 一致性怎么保 / 消息可靠性 / 配置中心回滚 / K8s——<strong>全部是你有代码级答案的主场</strong>。</p>
@@ -237,18 +246,14 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 <blockquote>
 <p>首选标准：<strong>现象 → 定位 → 修复 → 反思</strong>四段式，真实发生过。</p>
 </blockquote>
-<p><strong>你的弹药库</strong>（从真实经历选一）：
-- <strong>国际环境 MQ bug</strong>：现象=pod 因 'write after end' 反复重启 → 定位=硬编码功率上限场景下连接生命周期管理缺陷 → 修复=commit fd4ed739 → 反思="对异步写连接的关闭时机要有统一收口，不能散落各处"。
-- <strong>rrmcompute OOM</strong>：现象=高量任务下 pod OOMKilled 重启 → 定位=内存监控 + 任务量分析 → 修复=5Gi→5.5Gi + requests/limits 明确 → 反思="K8s 里内存问题先看 limits/requests 配置和实际画像，再谈代码优化"。
-- <strong>WBC 解耦</strong>（如适配）：现象/定位/修复/反思自己填。</p>
+<p><strong>你的弹药库</strong>（从真实经历选一）：</p>
+<ul><li><strong>国际环境 MQ bug</strong>：现象=pod 因 'write after end' 反复重启 → 定位=硬编码功率上限场景下连接生命周期管理缺陷 → 修复=commit fd4ed739 → 反思="对异步写连接的关闭时机要有统一收口，不能散落各处"。</li><li><strong>rrmcompute OOM</strong>：现象=高量任务下 pod OOMKilled 重启 → 定位=内存监控 + 任务量分析 → 修复=5Gi→5.5Gi + requests/limits 明确 → 反思="K8s 里内存问题先看 limits/requests 配置和实际画像，再谈代码优化"。</li><li><strong>WBC 解耦</strong>（如适配）：现象/定位/修复/反思自己填。</li></ul>
 <h3>5.2 项目重来一次你会改什么？（答 3 条，别贪多）</h3>
 <blockquote>
 <p>每条都要"指得出位置 + 讲得清为什么 + 给得出改法"——反思的具体度=可信度。</p>
 </blockquote>
-<p>模板：
-1. （设计债）"调度器 60s 全量轮询 → 会改成事件驱动即时触发 + 递归调度兜底，减少空转和实时性损失"；
-2. （工程债）"日志和监控体系 → 关键链路加 traceId 贯穿 + 指标上报，现在排查靠日志 grep，可观测性是我接下来想补的方向"；
-3. （技术债）"当时 XXX 用了简单方案（如硬编码超时）→ 会改成配置中心可调"。</p>
+<p>模板：</p>
+<ol><li>（设计债）"调度器 60s 全量轮询 → 会改成事件驱动即时触发 + 递归调度兜底，减少空转和实时性损失"；</li><li>（工程债）"日志和监控体系 → 关键链路加 traceId 贯穿 + 指标上报，现在排查靠日志 grep，可观测性是我接下来想补的方向"；</li><li>（技术债）"当时 XXX 用了简单方案（如硬编码超时）→ 会改成配置中心可调"。</li></ol>
 <h3>5.3 三个必死题预演（RRM 版，先自己填答案再背）</h3>
 <table>
 <thead>
