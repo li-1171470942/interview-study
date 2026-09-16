@@ -30,19 +30,28 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 .bottomnav a { flex:1; text-align:center; background:#4f46e5; color:#fff; text-decoration:none; padding:12px 10px; border-radius:10px; font-size:14px; }
 .bottomnav a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
 @media (max-width:760px){ .article{padding:22px 18px;} .article h1{font-size:21px;} }
+/* handbook-layout-fix */
+.article p.lead { background:#eef2ff; border-left:4px solid #6366f1; padding:10px 14px; border-radius:6px; color:#312e81; margin:10px 0 4px; }
+.article p.lbl { font-size:13px; color:#64748b; margin:14px 0 4px; }
+.article p.say { background:#fff7ed; border-left:4px solid #f97316; padding:10px 14px; border-radius:6px; color:#7c2d12; margin:12px 0 4px; }
+.article h3 { font-size:15.5px; color:#1e293b; margin:26px 0 10px; padding-left:10px; border-left:3px solid #818cf8; }
+.article ul { margin:6px 0 6px 22px; }
+.article ol { margin:6px 0 6px 24px; }
+.article li { margin:5px 0; }
+.article ul ul { margin:4px 0 4px 20px; }
 </style></head>
 <body>
 <div class="topnav"><div class="inner"><a href="学习中心.html">🏠 学习中心</a> <span class="sep">|</span> <a href="学习手册索引.html">📚 手册索引</a> <span class="sep">|</span> <a href="学习手册_06_Java基础.html">◀ 06 Java</a> <span class="sep">|</span> <a href="学习手册_08_并发与锁.html">08 并发锁 ▶</a></div></div>
 <div class="wrap"><article class="article"><h1>📘 学习手册 07 · JVM</h1>
 <blockquote>
-<p>配套《面试八股复习计划》第 2 节 JVM + PDF 第 56-60 页
-模板：<strong>一句话结论 → 详细解释 → 面试话术/例题</strong>
+<p>配套《面试八股复习计划》第 2 节 JVM + PDF 第 56-60 页<br />
+模板：<strong>一句话结论 → 详细解释 → 面试话术/例题</strong><br />
 Java 岗（酷开/工行/银行系）必考；Node.js 岗问到概率低但你会了是加分</p>
 </blockquote>
 <hr />
 <h2>1. JVM 内存区域划分（运行时数据区）</h2>
-<p><strong>一句话结论</strong>：线程私有（程序计数器、虚拟机栈、本地方法栈）+ 线程共享（堆、方法区/元空间）；堆管对象、栈管方法调用。
-<strong>详细解释</strong>：</p>
+<p class="lead"><strong>一句话结论</strong>：线程私有（程序计数器、虚拟机栈、本地方法栈）+ 线程共享（堆、方法区/元空间）；堆管对象、栈管方法调用。</p>
+<p class="lbl"><strong>详细解释</strong>：</p>
 <table>
 <thead>
 <tr>
@@ -91,52 +100,32 @@ Java 岗（酷开/工行/银行系）必考；Node.js 岗问到概率低但你�
 </tr>
 </tbody>
 </table>
-<p><strong>话术/例题</strong>：画图 + "栈管方法、堆管对象、元空间存类"。追问：JDK8 为什么用元空间替代永久代？→ 永久代大小固定易 OOM，元空间用本地内存天然不受 JVM 堆限制。</p>
+<p class="say"><strong>话术/例题</strong>：画图 + "栈管方法、堆管对象、元空间存类"。追问：JDK8 为什么用元空间替代永久代？→ 永久代大小固定易 OOM，元空间用本地内存天然不受 JVM 堆限制。</p>
 <h2>2. 类加载机制（加载-验证-准备-解析-初始化）</h2>
-<p><strong>一句话结论</strong>：加载→验证→准备→解析→初始化，五个阶段；准备阶段给静态变量赋默认值，初始化阶段执行静态代码块。
-<strong>详细解释</strong>：
-1. <strong>加载</strong>：读 .class 字节码 → 生成 Class 对象
-2. <strong>验证</strong>：校验字节码合法性（安全）
-3. <strong>准备</strong>：为静态变量分配内存并赋<strong>默认值</strong>（0/null），final 常量直接赋值
-4. <strong>解析</strong>：符号引用 → 直接引用（常量池解析）
-5. <strong>初始化</strong>：执行 <code>&lt;clinit&gt;</code>（静态代码块、静态变量赋值）
-- 触发初始化时机：new/getstatic/反射/主类；被动引用（子类引用父类静态、数组、常量）不触发
-<strong>话术/例题</strong>：背五阶段 + "准备=默认值，初始化=真正赋值"。追问：什么时候类不会初始化？→ 静态常量（编译期常量池）、数组定义、通过子类引用父类静态字段。</p>
+<p class="lead"><strong>一句话结论</strong>：加载→验证→准备→解析→初始化，五个阶段；准备阶段给静态变量赋默认值，初始化阶段执行静态代码块。</p>
+<p class="lbl"><strong>详细解释</strong>：</p>
+<ol><li><strong>加载</strong>：读 .class 字节码 → 生成 Class 对象</li><li><strong>验证</strong>：校验字节码合法性（安全）</li><li><strong>准备</strong>：为静态变量分配内存并赋<strong>默认值</strong>（0/null），final 常量直接赋值</li><li><strong>解析</strong>：符号引用 → 直接引用（常量池解析）</li><li><strong>初始化</strong>：执行 <code>&lt;clinit&gt;</code>（静态代码块、静态变量赋值）</li></ol>
+<ul><li>触发初始化时机：new/getstatic/反射/主类；被动引用（子类引用父类静态、数组、常量）不触发</li></ul>
+<p class="say"><strong>话术/例题</strong>：背五阶段 + "准备=默认值，初始化=真正赋值"。追问：什么时候类不会初始化？→ 静态常量（编译期常量池）、数组定义、通过子类引用父类静态字段。</p>
 <h2>3. 类加载器与双亲委派</h2>
-<p><strong>一句话结论</strong>：Bootstrap → Extension/Platform → Application 三层，子先委派父，父加载不了才自己加载——防核心类被篡改、保证类唯一。
-<strong>详细解释</strong>：
-- Bootstrap：加载 JDK 核心（rt.jar），C++ 实现，没有父
-- Extension/Platform：JDK9+ 改名，加载扩展库
-- Application：加载 classpath 应用类
-- <strong>双亲委派流程</strong>：加载请求 → 逐级向上委托 → 父能加载就用父的 → 全失败才自己 loadClass
-- 好处：安全（自定义 java.lang.String 不会覆盖）、避免重复加载（类唯一性）
-- 破坏：SPI 场景（JDBC DriverManager）用线程上下文加载器反向加载
-<strong>话术/例题</strong>：背"委派链 + 两个好处"。追问：Tomcat 为什么打破双亲委派？→ 多个 WebApp 要隔离自己的类库，用子优先加载。</p>
+<p class="lead"><strong>一句话结论</strong>：Bootstrap → Extension/Platform → Application 三层，子先委派父，父加载不了才自己加载——防核心类被篡改、保证类唯一。</p>
+<p class="lbl"><strong>详细解释</strong>：</p>
+<ul><li>Bootstrap：加载 JDK 核心（rt.jar），C++ 实现，没有父</li><li>Extension/Platform：JDK9+ 改名，加载扩展库</li><li>Application：加载 classpath 应用类</li><li><strong>双亲委派流程</strong>：加载请求 → 逐级向上委托 → 父能加载就用父的 → 全失败才自己 loadClass</li><li>好处：安全（自定义 java.lang.String 不会覆盖）、避免重复加载（类唯一性）</li><li>破坏：SPI 场景（JDBC DriverManager）用线程上下文加载器反向加载</li></ul>
+<p class="say"><strong>话术/例题</strong>：背"委派链 + 两个好处"。追问：Tomcat 为什么打破双亲委派？→ 多个 WebApp 要隔离自己的类库，用子优先加载。</p>
 <h2>4. 对象在内存中的布局</h2>
-<p><strong>一句话结论</strong>：对象 = 对象头（Mark Word + 类型指针）+ 实例数据 + 对齐填充；Mark Word 存锁状态/GC 年龄/hash。
-<strong>详细解释</strong>：
-- <strong>Mark Word</strong>：64 位，存 hashCode、GC 分代年龄（4bit）、锁标志位（无锁/偏向/轻量/重量）、偏向线程 id——这就是 synchronized 锁升级的载体
-- 类型指针：指向方法区的 Class（开启压缩指针时省略优化）
-- 实例数据：字段值（按对齐规则排列）
-- 对齐填充：对象大小是 8 字节整数倍
-<strong>话术/例题</strong>：重点说"Mark Word 里存锁状态"——串起 synchronized。追问：对象头大小？→ 64 位 JVM 压缩指针下 12 字节（Mark Word 8 + 类型指针 4）。</p>
+<p class="lead"><strong>一句话结论</strong>：对象 = 对象头（Mark Word + 类型指针）+ 实例数据 + 对齐填充；Mark Word 存锁状态/GC 年龄/hash。</p>
+<p class="lbl"><strong>详细解释</strong>：</p>
+<ul><li><strong>Mark Word</strong>：64 位，存 hashCode、GC 分代年龄（4bit）、锁标志位（无锁/偏向/轻量/重量）、偏向线程 id——这就是 synchronized 锁升级的载体</li><li>类型指针：指向方法区的 Class（开启压缩指针时省略优化）</li><li>实例数据：字段值（按对齐规则排列）</li><li>对齐填充：对象大小是 8 字节整数倍</li></ul>
+<p class="say"><strong>话术/例题</strong>：重点说"Mark Word 里存锁状态"——串起 synchronized。追问：对象头大小？→ 64 位 JVM 压缩指针下 12 字节（Mark Word 8 + 类型指针 4）。</p>
 <h2>5. 垃圾回收：判断 + 算法</h2>
-<p><strong>一句话结论</strong>：可达性分析（GC Roots）判垃圾；回收算法：标记清除（碎片）、复制（新生代）、标记整理（老年代）。
-<strong>详细解释</strong>：
-- <strong>可达性分析</strong>：从 GC Roots（栈帧局部变量、静态变量、常量引用、native 引用）出发，不可达即垃圾；引用计数有循环引用缺陷不用
-- 四种引用：强（不回收）/软（内存不足回收，缓存）/弱（下次 GC 就回收）/虚（跟踪回收）
-- 算法：
-  - 标记-清除：标记垃圾后清除 → 碎片多
-  - 复制：把存活对象复制到另一块 → 无碎片、浪费一半空间（新生代 Eden:S0:S1=8:1:1 就是）
-  - 标记-整理：存活对象移到一端 → 无碎片、慢（老年代）
-- 分代：新生代（复制，Minor GC 频繁）+ 老年代（标记整理，Major/Full GC）
-<strong>话术/例题</strong>：答"可达性 + 三种算法对应两个分代"。追问：为什么新生代用复制？→ 存活率低，复制成本低；老年代存活率高，用标记整理。</p>
+<p class="lead"><strong>一句话结论</strong>：可达性分析（GC Roots）判垃圾；回收算法：标记清除（碎片）、复制（新生代）、标记整理（老年代）。</p>
+<p class="lbl"><strong>详细解释</strong>：</p>
+<ul><li><strong>可达性分析</strong>：从 GC Roots（栈帧局部变量、静态变量、常量引用、native 引用）出发，不可达即垃圾；引用计数有循环引用缺陷不用</li><li>四种引用：强（不回收）/软（内存不足回收，缓存）/弱（下次 GC 就回收）/虚（跟踪回收）</li><li>算法：<ul><li>标记-清除：标记垃圾后清除 → 碎片多</li><li>复制：把存活对象复制到另一块 → 无碎片、浪费一半空间（新生代 Eden:S0:S1=8:1:1 就是）</li><li>标记-整理：存活对象移到一端 → 无碎片、慢（老年代）</li></ul></li><li>分代：新生代（复制，Minor GC 频繁）+ 老年代（标记整理，Major/Full GC）</li></ul>
+<p class="say"><strong>话术/例题</strong>：答"可达性 + 三种算法对应两个分代"。追问：为什么新生代用复制？→ 存活率低，复制成本低；老年代存活率高，用标记整理。</p>
 <h2>6. 垃圾回收器：G1 与 CMS</h2>
-<p><strong>一句话结论</strong>：CMS 并发标记清除（低停顿但碎片多），G1 是 JDK9+ 默认（Region 化、可预测停顿、无碎片）。
-<strong>详细解释</strong>：
-- <strong>CMS</strong>：初始标记（快）→ 并发标记（与业务并发）→ 重新标记 → 并发清除；优点低停顿，缺点：标记清除碎片、并发阶段占 CPU、并发失败退化为 Full GC
-- <strong>G1</strong>：堆划分为多个 Region（新生代/老年代逻辑分区），跟踪每个 Region 垃圾占比，<strong>优先回收垃圾最多的</strong>（Garbage First）；可设置停顿目标 -XX:MaxGCPauseMillis；无碎片（复制整理）；JDK9 默认
-- 对比：</p>
+<p class="lead"><strong>一句话结论</strong>：CMS 并发标记清除（低停顿但碎片多），G1 是 JDK9+ 默认（Region 化、可预测停顿、无碎片）。</p>
+<p class="lbl"><strong>详细解释</strong>：</p>
+<ul><li><strong>CMS</strong>：初始标记（快）→ 并发标记（与业务并发）→ 重新标记 → 并发清除；优点低停顿，缺点：标记清除碎片、并发阶段占 CPU、并发失败退化为 Full GC</li><li><strong>G1</strong>：堆划分为多个 Region（新生代/老年代逻辑分区），跟踪每个 Region 垃圾占比，<strong>优先回收垃圾最多的</strong>（Garbage First）；可设置停顿目标 -XX:MaxGCPauseMillis；无碎片（复制整理）；JDK9 默认</li><li>对比：</li></ul>
 <table>
 <thead>
 <tr>
@@ -174,17 +163,13 @@ Java 岗（酷开/工行/银行系）必考；Node.js 岗问到概率低但你�
 </tbody>
 </table>
 <h2>7. JMM（Java 内存模型）与可见性</h2>
-<p><strong>一句话结论</strong>：JMM 定义线程间共享变量的可见性规则：主内存 + 线程工作内存，靠 volatile/synchronized/final 保证。
-<strong>详细解释</strong>：
-- 模型：所有变量存主内存，线程操作在自己的工作内存（副本）→ 线程间不直接共享，靠主内存同步
-- 问题：可见性（改了别线程看不见）、原子性、有序性
-- <strong>volatile</strong>：保证可见性（写立即刷主存，读从主存取）+ 禁止指令重排（内存屏障）——不保证原子性
-- <strong>synchronized</strong>：可见性 + 原子性（进入清空工作内存，退出刷回）
-- <strong>happens-before 规则</strong>：程序顺序、锁（解锁 happens-before 加锁）、volatile（写 happens-before 读）、线程启动/终止、传递性
-<strong>话术/例题</strong>："volatile 可见性不原子，synchronized 全都要"是核心。追问：volatile 能替代 synchronized 吗？→ 只能保证单读写的可见性，复合操作（i++）不行。</p>
+<p class="lead"><strong>一句话结论</strong>：JMM 定义线程间共享变量的可见性规则：主内存 + 线程工作内存，靠 volatile/synchronized/final 保证。</p>
+<p class="lbl"><strong>详细解释</strong>：</p>
+<ul><li>模型：所有变量存主内存，线程操作在自己的工作内存（副本）→ 线程间不直接共享，靠主内存同步</li><li>问题：可见性（改了别线程看不见）、原子性、有序性</li><li><strong>volatile</strong>：保证可见性（写立即刷主存，读从主存取）+ 禁止指令重排（内存屏障）——不保证原子性</li><li><strong>synchronized</strong>：可见性 + 原子性（进入清空工作内存，退出刷回）</li><li><strong>happens-before 规则</strong>：程序顺序、锁（解锁 happens-before 加锁）、volatile（写 happens-before 读）、线程启动/终止、传递性</li></ul>
+<p class="say"><strong>话术/例题</strong>："volatile 可见性不原子，synchronized 全都要"是核心。追问：volatile 能替代 synchronized 吗？→ 只能保证单读写的可见性，复合操作（i++）不行。</p>
 <h2>8. JVM 常见命令与调优</h2>
-<p><strong>一句话结论</strong>：jps 找进程、jstat 看 GC、jmap 出堆转储、jstack 看线程栈、jinfo 看参数；调优核心是减少 Full GC、控制堆与停顿。
-<strong>详细解释</strong>：</p>
+<p class="lead"><strong>一句话结论</strong>：jps 找进程、jstat 看 GC、jmap 出堆转储、jstack 看线程栈、jinfo 看参数；调优核心是减少 Full GC、控制堆与停顿。</p>
+<p class="lbl"><strong>详细解释</strong>：</p>
 <table>
 <thead>
 <tr>
@@ -236,23 +221,15 @@ Java 岗（酷开/工行/银行系）必考；Node.js 岗问到概率低但你�
 </tbody>
 </table>
 <h2>9. 逃逸分析与栈上分配</h2>
-<p><strong>一句话结论</strong>：JIT 逃逸分析发现对象不逃逸出方法 → 栈上分配/标量替换，减少 GC 压力。
-<strong>详细解释</strong>：
-- 逃逸：对象被方法外引用（返回/赋值给静态/全局）即逃逸
-- 优化：
-  - 栈上分配：不逃逸对象直接栈上分配（随方法结束销毁，免 GC）
-  - 标量替换：对象字段拆成局部变量
-  - 锁消除：无竞争锁直接去掉
-- 触发：-XX:+DoEscapeAnalysis（默认开）
-<strong>话术/例题</strong>：一句"逃逸分析让局部对象不进堆"。追问：为什么字符串拼接优化也用它？→ StringBuilder 逃逸分析后消除。</p>
+<p class="lead"><strong>一句话结论</strong>：JIT 逃逸分析发现对象不逃逸出方法 → 栈上分配/标量替换，减少 GC 压力。</p>
+<p class="lbl"><strong>详细解释</strong>：</p>
+<ul><li>逃逸：对象被方法外引用（返回/赋值给静态/全局）即逃逸</li><li>优化：<ul><li>栈上分配：不逃逸对象直接栈上分配（随方法结束销毁，免 GC）</li><li>标量替换：对象字段拆成局部变量</li><li>锁消除：无竞争锁直接去掉</li></ul></li><li>触发：-XX:+DoEscapeAnalysis（默认开）</li></ul>
+<p class="say"><strong>话术/例题</strong>：一句"逃逸分析让局部对象不进堆"。追问：为什么字符串拼接优化也用它？→ StringBuilder 逃逸分析后消除。</p>
 <h2>10. 大对象与 GC 调优实践</h2>
-<p><strong>一句话结论</strong>：大对象（如超长字符串/数组）直接进老年代（避免新生代反复复制），频繁创建大对象是 Full GC 元凶。
-<strong>详细解释</strong>：
-- 大对象直接分配老年代（-XX:PretenureSizeThreshold 阈值）
-- 对象晋升：Minor GC 后存活且年龄达 -XX:MaxTenuringThreshold（默认 15）→ 老年代；大对象/动态年龄判断
-- 常见 OOM：堆太小（Xmx）、内存泄漏（集合无限增长）、大对象过多、元空间满
-- 实践：类比你的 rrmcompute OOM 排查——调堆大小/限制任务并发/检查缓存无界增长
-<strong>话术/例题</strong>：结合你实际的 OOM 经验讲最有说服力（rrmcompute 内存 5Gi→5.5Gi 调整案例、大场所并发任务内存暴涨）。追问：Full GC 频繁怎么查？→ jstat 看 FGC 次数 + jmap 转储分析谁占内存。</p>
+<p class="lead"><strong>一句话结论</strong>：大对象（如超长字符串/数组）直接进老年代（避免新生代反复复制），频繁创建大对象是 Full GC 元凶。</p>
+<p class="lbl"><strong>详细解释</strong>：</p>
+<ul><li>大对象直接分配老年代（-XX:PretenureSizeThreshold 阈值）</li><li>对象晋升：Minor GC 后存活且年龄达 -XX:MaxTenuringThreshold（默认 15）→ 老年代；大对象/动态年龄判断</li><li>常见 OOM：堆太小（Xmx）、内存泄漏（集合无限增长）、大对象过多、元空间满</li><li>实践：类比你的 rrmcompute OOM 排查——调堆大小/限制任务并发/检查缓存无界增长</li></ul>
+<p class="say"><strong>话术/例题</strong>：结合你实际的 OOM 经验讲最有说服力（rrmcompute 内存 5Gi→5.5Gi 调整案例、大场所并发任务内存暴涨）。追问：Full GC 频繁怎么查？→ jstat 看 FGC 次数 + jmap 转储分析谁占内存。</p>
 <h2>📝 本章自测（闭卷）</h2>
 <ol>
 <li>画 JVM 内存区域图，哪些线程共享、各自存什么</li>

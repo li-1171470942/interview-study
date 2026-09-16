@@ -28,20 +28,29 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 .bottomnav a { flex:1; text-align:center; background:#4f46e5; color:#fff; text-decoration:none; padding:12px 10px; border-radius:10px; font-size:14px; }
 .bottomnav a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
 @media (max-width:760px){ .article{padding:22px 18px;} .article h1{font-size:21px;} }
+/* handbook-layout-fix */
+.article p.lead { background:#eef2ff; border-left:4px solid #6366f1; padding:10px 14px; border-radius:6px; color:#312e81; margin:10px 0 4px; }
+.article p.lbl { font-size:13px; color:#64748b; margin:14px 0 4px; }
+.article p.say { background:#fff7ed; border-left:4px solid #f97316; padding:10px 14px; border-radius:6px; color:#7c2d12; margin:12px 0 4px; }
+.article h3 { font-size:15.5px; color:#1e293b; margin:26px 0 10px; padding-left:10px; border-left:3px solid #818cf8; }
+.article ul { margin:6px 0 6px 22px; }
+.article ol { margin:6px 0 6px 24px; }
+.article li { margin:5px 0; }
+.article ul ul { margin:4px 0 4px 20px; }
 </style></head>
 <body>
 <div class="topnav"><div class="inner"><a href="学习中心.html">🏠 学习中心</a> <span class="sep">|</span> <a href="学习手册索引.html">📚 手册索引</a> <span class="sep">|</span> <a href="学习手册_17_SpringCloud微服务.html">◀ 17 SpringCloud</a></div></div>
 <div class="wrap"><article class="article"><h1>📘 学习手册 18 · 性能优化实战（把经验变成面试弹药）</h1>
 <blockquote>
-<p>来源：同事 Java 面试侧重点——"<strong>性能优化必须有实践经验</strong>"
-⚠️ 你有真实案例（RRM 生产环境）但没组织成"可讲的案例"。本册把你的经验 + Java 面试高频性能题结合
-案例讲法模板（背熟）：<strong>背景 → 现象 → 定位方法 → 方案 → 量化效果 → 可迁移</strong>
+<p>来源：同事 Java 面试侧重点——"<strong>性能优化必须有实践经验</strong>"<br />
+⚠️ 你有真实案例（RRM 生产环境）但没组织成"可讲的案例"。本册把你的经验 + Java 面试高频性能题结合<br />
+案例讲法模板（背熟）：<strong>背景 → 现象 → 定位方法 → 方案 → 量化效果 → 可迁移</strong><br />
 每个案例 2 分钟内讲完，面试官要的是"你真的排查过"的细节</p>
 </blockquote>
 <hr />
 <h2>0. 性能优化通用方法论（Java 面试高频题）</h2>
-<p><strong>一句话结论</strong>：性能问题四大类（慢查询/高延迟、内存/GC、吞吐/并发、资源泄漏），排查顺序：先指标定位（CPU/内存/IO/GC）→ 再代码定位 → 最后针对性优化。
-<strong>详细解释</strong>（面试常问"项目怎么优化的"，分层答）：</p>
+<p class="lead"><strong>一句话结论</strong>：性能问题四大类（慢查询/高延迟、内存/GC、吞吐/并发、资源泄漏），排查顺序：先指标定位（CPU/内存/IO/GC）→ 再代码定位 → 最后针对性优化。</p>
+<p><strong>详细解释</strong>（面试常问"项目怎么优化的"，分层答）：</p>
 <table>
 <thead>
 <tr>
@@ -83,60 +92,37 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 </tr>
 </tbody>
 </table>
-<p><strong>话术/例题</strong>："我优化过的点分四类：DB（索引/分表）、内存（OOM 调堆）、消息（积压）、日志（降级）"——先给分类框架再展开一个案例。</p>
+<p class="say"><strong>话术/例题</strong>："我优化过的点分四类：DB（索引/分表）、内存（OOM 调堆）、消息（积压）、日志（降级）"——先给分类框架再展开一个案例。</p>
 <h2>案例① rrmcompute OOM 内存调优（你的招牌案例）</h2>
-<p><strong>一句话结论</strong>：高量调优任务并发导致内存超限 OOM 重启，通过"分析内存构成 → 调 requests/limits + 限流任务"解决。
-<strong>完整讲法</strong>：
-- <strong>背景</strong>：RRM 云端计算微服务 rrmcompute，高量任务（大 AP 场所调优）时频繁 OOM 重启
-- <strong>现象</strong>：Pod OOMKilled，K8s 重启，任务中断用户投诉
-- <strong>定位</strong>：看 K8s events（OOMKilled）→ 内存监控曲线（峰值超 limits）→ 分析是单个大任务（大批 AP 数据一次载入）还是并发累积
-- <strong>方案</strong>：① 内存配额 5Gi→5.5Gi（requests 保持 3Gi，limits 上调留余量）② 大任务分批处理/限制单任务内存 ③ 消息消费限流（防突发堆积全进内存）
-- <strong>效果</strong>：OOM 重启消失，服务稳定
-- <strong>可迁移（Java）</strong>：Java 对应 -Xmx 调优 + 大对象/集合无界增长排查 + 线程池队列限制
-<strong>追问应对</strong>："为什么 requests 和 limits 都要配？"→ requests 决定调度（Node 内存够才调度），limits 是上限（超了 OOM kill）；只配 limits 会高估导致 Node 超卖。</p>
+<p class="lead"><strong>一句话结论</strong>：高量调优任务并发导致内存超限 OOM 重启，通过"分析内存构成 → 调 requests/limits + 限流任务"解决。</p>
+<p><strong>完整讲法</strong>：</p>
+<ul><li><strong>背景</strong>：RRM 云端计算微服务 rrmcompute，高量任务（大 AP 场所调优）时频繁 OOM 重启</li><li><strong>现象</strong>：Pod OOMKilled，K8s 重启，任务中断用户投诉</li><li><strong>定位</strong>：看 K8s events（OOMKilled）→ 内存监控曲线（峰值超 limits）→ 分析是单个大任务（大批 AP 数据一次载入）还是并发累积</li><li><strong>方案</strong>：① 内存配额 5Gi→5.5Gi（requests 保持 3Gi，limits 上调留余量）② 大任务分批处理/限制单任务内存 ③ 消息消费限流（防突发堆积全进内存）</li><li><strong>效果</strong>：OOM 重启消失，服务稳定</li><li><strong>可迁移（Java）</strong>：Java 对应 -Xmx 调优 + 大对象/集合无界增长排查 + 线程池队列限制</li></ul>
+<p><strong>追问应对</strong>："为什么 requests 和 limits 都要配？"→ requests 决定调度（Node 内存够才调度），limits 是上限（超了 OOM kill）；只配 limits 会高估导致 Node 超卖。</p>
 <h2>案例② Kafka 消费积压排查</h2>
-<p><strong>一句话结论</strong>：消费速度跟不上生产速度 → 积压，先看积压量定位是"生产暴涨"还是"消费卡住"，再对症处理。
-<strong>完整讲法</strong>：
-- <strong>背景</strong>：设备调优结果上报量大，消费处理慢，页面数据延迟
-- <strong>定位</strong>：查消费者组 lag（Kafka lag 监控）→ 确认积压持续增长 → 看消费端日志：是 DB 写入慢还是处理逻辑慢
-- <strong>方案</strong>：① 批量消费（攒一批一次入库，减少 DB 往返）② 加分区/消费者并行度 ③ 消费端慢 SQL 优化（加索引）
-- <strong>效果</strong>：lag 回落，数据实时
-- <strong>可迁移（Java）</strong>：Spring Kafka 消费者并发（concurrency）、批量 Listener、手动提交 offset
-<strong>追问应对</strong>："消息会不会丢？"→ 生产 acks=all + 消费先处理再提交 offset + 幂等去重（你手册 04 全套）。</p>
+<p class="lead"><strong>一句话结论</strong>：消费速度跟不上生产速度 → 积压，先看积压量定位是"生产暴涨"还是"消费卡住"，再对症处理。</p>
+<p><strong>完整讲法</strong>：</p>
+<ul><li><strong>背景</strong>：设备调优结果上报量大，消费处理慢，页面数据延迟</li><li><strong>定位</strong>：查消费者组 lag（Kafka lag 监控）→ 确认积压持续增长 → 看消费端日志：是 DB 写入慢还是处理逻辑慢</li><li><strong>方案</strong>：① 批量消费（攒一批一次入库，减少 DB 往返）② 加分区/消费者并行度 ③ 消费端慢 SQL 优化（加索引）</li><li><strong>效果</strong>：lag 回落，数据实时</li><li><strong>可迁移（Java）</strong>：Spring Kafka 消费者并发（concurrency）、批量 Listener、手动提交 offset</li></ul>
+<p><strong>追问应对</strong>："消息会不会丢？"→ 生产 acks=all + 消费先处理再提交 offset + 幂等去重（你手册 04 全套）。</p>
 <h2>案例③ MongoDB 慢查询与索引优化</h2>
-<p><strong>一句话结论</strong>：上报数据量大查询慢 → explain 看是否走索引 → 建复合索引 + 分片，查询从秒级到毫秒。
-<strong>完整讲法</strong>：
-- <strong>背景</strong>：按 taskId+AP 查调优历史慢（数据千万级）
-- <strong>定位</strong>：explain() 看 COLLSCAN（全集合扫）→ 无合适索引
-- <strong>方案</strong>：建复合索引 {taskId, apSN, RI} 命中查询 + 按任务维度分库分表分散热点 + 限制返回字段（projection）
-- <strong>效果</strong>：查询毫秒级
-- <strong>可迁移（Java/MySQL）</strong>：EXPLAIN 看 type（ref/range vs ALL）、联合索引最左前缀、覆盖索引
-<strong>追问应对</strong>："复合索引顺序怎么定？"→ 等值字段在前（taskId）、范围字段在后（时间/RI），最左前缀匹配。</p>
+<p class="lead"><strong>一句话结论</strong>：上报数据量大查询慢 → explain 看是否走索引 → 建复合索引 + 分片，查询从秒级到毫秒。</p>
+<p><strong>完整讲法</strong>：</p>
+<ul><li><strong>背景</strong>：按 taskId+AP 查调优历史慢（数据千万级）</li><li><strong>定位</strong>：explain() 看 COLLSCAN（全集合扫）→ 无合适索引</li><li><strong>方案</strong>：建复合索引 {taskId, apSN, RI} 命中查询 + 按任务维度分库分表分散热点 + 限制返回字段（projection）</li><li><strong>效果</strong>：查询毫秒级</li><li><strong>可迁移（Java/MySQL）</strong>：EXPLAIN 看 type（ref/range vs ALL）、联合索引最左前缀、覆盖索引</li></ul>
+<p><strong>追问应对</strong>："复合索引顺序怎么定？"→ 等值字段在前（taskId）、范围字段在后（时间/RI），最左前缀匹配。</p>
 <h2>案例④ Redis 缓存与配置中心优化</h2>
-<p><strong>一句话结论</strong>：高频读取走缓存 + 缓存一致性（先写库再删缓存）+ 防击穿，把 DB 压力降到 1/10。
-<strong>完整讲法</strong>：
-- <strong>背景</strong>：配置/基础数据每次请求都查 Mongo，高峰 DB 压力大
-- <strong>方案</strong>：① 热点配置缓存到 Redis（TTL 兜底）② 变更时先写库再删缓存（Cache Aside）③ 分布式锁防并发重建
-- <strong>效果</strong>：DB QPS 大幅下降，接口延迟降低
-- <strong>可迁移（Java）</strong>：Spring Cache/Redisson、缓存穿透/击穿/雪崩方案（手册 03 全链路）
-<strong>追问应对</strong>："缓存和 DB 不一致怎么办？"→ 删缓存 + 延迟双删/Canal 兜底 + TTL（手册 03 第 5/9 题）。</p>
+<p class="lead"><strong>一句话结论</strong>：高频读取走缓存 + 缓存一致性（先写库再删缓存）+ 防击穿，把 DB 压力降到 1/10。</p>
+<p><strong>完整讲法</strong>：</p>
+<ul><li><strong>背景</strong>：配置/基础数据每次请求都查 Mongo，高峰 DB 压力大</li><li><strong>方案</strong>：① 热点配置缓存到 Redis（TTL 兜底）② 变更时先写库再删缓存（Cache Aside）③ 分布式锁防并发重建</li><li><strong>效果</strong>：DB QPS 大幅下降，接口延迟降低</li><li><strong>可迁移（Java）</strong>：Spring Cache/Redisson、缓存穿透/击穿/雪崩方案（手册 03 全链路）</li></ul>
+<p><strong>追问应对</strong>："缓存和 DB 不一致怎么办？"→ 删缓存 + 延迟双删/Canal 兜底 + TTL（手册 03 第 5/9 题）。</p>
 <h2>案例⑤ 日志降级优化（非关键日志）</h2>
-<p><strong>一句话结论</strong>：把无业务价值的 error 级日志降为 info/warn，减少磁盘与 IO 开销、降低告警噪音。
-<strong>完整讲法</strong>：
-- <strong>背景</strong>：rrmcontrol 大量流程性日志用 ERROR 打印（如 'empty autoOptDoc' 每 60s 一次），日志量大、告警噪音
-- <strong>方案</strong>：分析日志分类（错误 vs 流程事件）→ 流程事件降级 console.info/warn，仅保留真错误为 ERROR
-- <strong>效果</strong>：日志量下降、告警准确率提升、IO 开销降低
-- <strong>可迁移（Java）</strong>：log4j2/logback 级别配置、按类调整级别、日志异步化
-<strong>追问应对</strong>："为什么流程事件也用 ERROR 是问题？"→ 掩盖真错误（告警疲劳）+ 额外 IO；日志策略：ERROR=需要人处理，INFO/WARN=可观测即可。</p>
+<p class="lead"><strong>一句话结论</strong>：把无业务价值的 error 级日志降为 info/warn，减少磁盘与 IO 开销、降低告警噪音。</p>
+<p><strong>完整讲法</strong>：</p>
+<ul><li><strong>背景</strong>：rrmcontrol 大量流程性日志用 ERROR 打印（如 'empty autoOptDoc' 每 60s 一次），日志量大、告警噪音</li><li><strong>方案</strong>：分析日志分类（错误 vs 流程事件）→ 流程事件降级 console.info/warn，仅保留真错误为 ERROR</li><li><strong>效果</strong>：日志量下降、告警准确率提升、IO 开销降低</li><li><strong>可迁移（Java）</strong>：log4j2/logback 级别配置、按类调整级别、日志异步化</li></ul>
+<p><strong>追问应对</strong>："为什么流程事件也用 ERROR 是问题？"→ 掩盖真错误（告警疲劳）+ 额外 IO；日志策略：ERROR=需要人处理，INFO/WARN=可观测即可。</p>
 <h2>案例⑥ 性能优化高阶题（Java 面试通用）</h2>
-<p><strong>一句话结论</strong>：线程池参数、连接池、批量 IO、异步化、GC 调优——五类高频考点，每类备一句实践理解。
-<strong>详细解释</strong>：
-1. <strong>线程池</strong>：核心/最大/队列怎么定？→ CPU 密集 = 核数+1，IO 密集可大；队列有界防 OOM（手册 06 第 13 题联动）
-2. <strong>连接池</strong>：DB/Redis/HTTP 连接都池化（避免频繁建连）；池大小 = 峰值并发 × 单连接耗时/预期响应
-3. <strong>批量 IO</strong>：批量入库/批量查询替代 N+1（一次循环查一次库是反模式）
-4. <strong>异步化</strong>：非核心逻辑异步（MQ/线程池），削峰填谷
-5. <strong>GC 调优</strong>：目标是少 Full GC；大对象/缓存无界增长是元凶（手册 07）
-<strong>话术/例题</strong>：挑 2-3 类结合真实场景讲（批量入库 + 异步上报你都在 RRM 做过）。追问：如何定位 Java 线上性能问题？→ top/arthas（dashboard/thread/ognl）+ jstat 看 GC + jmap 堆转储（手册 07 第 8 题命令）。</p>
+<p class="lead"><strong>一句话结论</strong>：线程池参数、连接池、批量 IO、异步化、GC 调优——五类高频考点，每类备一句实践理解。</p>
+<p class="lbl"><strong>详细解释</strong>：</p>
+<ol><li><strong>线程池</strong>：核心/最大/队列怎么定？→ CPU 密集 = 核数+1，IO 密集可大；队列有界防 OOM（手册 06 第 13 题联动）</li><li><strong>连接池</strong>：DB/Redis/HTTP 连接都池化（避免频繁建连）；池大小 = 峰值并发 × 单连接耗时/预期响应</li><li><strong>批量 IO</strong>：批量入库/批量查询替代 N+1（一次循环查一次库是反模式）</li><li><strong>异步化</strong>：非核心逻辑异步（MQ/线程池），削峰填谷</li><li><strong>GC 调优</strong>：目标是少 Full GC；大对象/缓存无界增长是元凶（手册 07）</li></ol>
+<p class="say"><strong>话术/例题</strong>：挑 2-3 类结合真实场景讲（批量入库 + 异步上报你都在 RRM 做过）。追问：如何定位 Java 线上性能问题？→ top/arthas（dashboard/thread/ognl）+ jstat 看 GC + jmap 堆转储（手册 07 第 8 题命令）。</p>
 <h2>📝 本章自测（闭卷）</h2>
 <ol>
 <li>用"背景-现象-定位-方案-效果"完整讲 rrmcompute OOM 案例（2 分钟脱稿）</li>

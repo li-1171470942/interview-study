@@ -22,6 +22,15 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 .article blockquote { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; margin:12px 0; border-radius:6px; color:#166534; font-size:13.5px; }
 .article hr { border:none; border-top:1px dashed #d1d5db; margin:26px 0; }
 .footer { text-align:center; color:#9aa3b5; font-size:12px; margin-top:26px; }
+/* handbook-layout-fix */
+.article p.lead { background:#eef2ff; border-left:4px solid #6366f1; padding:10px 14px; border-radius:6px; color:#312e81; margin:10px 0 4px; }
+.article p.lbl { font-size:13px; color:#64748b; margin:14px 0 4px; }
+.article p.say { background:#fff7ed; border-left:4px solid #f97316; padding:10px 14px; border-radius:6px; color:#7c2d12; margin:12px 0 4px; }
+.article h3 { font-size:15.5px; color:#1e293b; margin:26px 0 10px; padding-left:10px; border-left:3px solid #818cf8; }
+.article ul { margin:6px 0 6px 22px; }
+.article ol { margin:6px 0 6px 24px; }
+.article li { margin:5px 0; }
+.article ul ul { margin:4px 0 4px 20px; }
 </style></head>
 <body>
 <div class="topnav"><div class="inner">
@@ -10050,7 +10059,7 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
 <p><strong>Mybatis架构</strong></p>
 <p>1 mybatis SqlMapConfig.xml mybatis mybatis mapper.xml sql sql SqlMapConfig.xml 2 mybatis SqlSessionFactory 3 sqlSession sqlSession 4 mybatis Executor Executor 5 Mapped Statement mybatis mybatis sql mapper.xml sql Mapped Statement sql id Mapped statement id 6 Mapped Statement sql HashMap pojo Executor Mapped Statement sql java sql jdbc preparedStatement 7 Mapped Statement sql HashMap pojo Executor Mapped Statement sql java jdbc #### 7.2.1.1 MyBatis的基础使用</p>
 <p>因为 MyBatis 依赖 JDBC 驱动，所以，在项目中使用 MyBatis，除了需要引入 MyBatis 框架本身（mybatis.jar）之外，还需要引入 JDBC 驱动（比如，访问 MySQL 的 JDBC 驱动 实现类库mysql-connector-java.jar）。</p>
-<p>1) 导入MyBatis的坐标和其他相关坐标&lt;!--mybatis --&gt;&lt;dependency&gt;&lt;groupId&gt;org.mybatis&lt;/groupId&gt;&lt;artifactId&gt;mybatis&lt;/artifactId&gt;&lt;version&gt;3.5.4&lt;/version&gt;&lt;/dependency&gt;</p>
+<ol><li>导入MyBatis的坐标和其他相关坐标&lt;!--mybatis --&gt;&lt;dependency&gt;&lt;groupId&gt;org.mybatis&lt;/groupId&gt;&lt;artifactId&gt;mybatis&lt;/artifactId&gt;&lt;version&gt;3.5.4&lt;/version&gt;&lt;/dependency&gt;</li></ol>
 <p>&lt;!--mysql --&gt;&lt;dependency&gt;&lt;groupId&gt;mysql&lt;/groupId&gt;&lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;&lt;version&gt;5.1.6&lt;/version&gt;&lt;scope&gt;runtime&lt;/scope&gt;&lt;/dependency&gt;&lt;!-- --&gt;&lt;dependency&gt;&lt;groupId&gt;junit&lt;/groupId&gt;&lt;artifactId&gt;junit&lt;/artifactId&gt;&lt;version&gt;4.12&lt;/version&gt;&lt;scope&gt;test&lt;/scope&gt;&lt;/dependency&gt;&lt;!-- --&gt;&lt;dependency&gt;&lt;groupId&gt;log4j&lt;/groupId&gt;&lt;artifactId&gt;log4j&lt;/artifactId&gt;&lt;version&gt;1.2.17&lt;/version&gt;&lt;/dependency&gt;2) 创建user数据表CREATE DATABASE <code>mybatis_db</code>;USE <code>mybatis_db</code>;CREATE TABLE <code>user</code> (<code>id</code> int(11) NOT NULL auto_increment,<code>username</code> varchar(32) NOT NULL COMMENT ' ',<code>birthday</code> datetime default NULL COMMENT ' ',<code>sex</code> char(1) default NULL COMMENT ' ',<code>address</code> varchar(256) default NULL COMMENT ' ', PRIMARY KEY (<code>id</code>)) ENGINE=InnoDB DEFAULT CHARSET=utf8;-- insert.... 编写User实体</p>
 <pre><code>
     public class User {
@@ -10061,7 +10070,7 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
         private String address;
         // getter/setter }
 </code></pre>
-<p>4) 编写UserMapper映射文件</p>
+<ol><li>编写UserMapper映射文件</li></ol>
 <pre><code>
     public interface UserMapper {
         public List&lt;User&gt; findAll();
@@ -10409,8 +10418,8 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
     //
 </code></pre>
 <p>User{id=1, username='tom', birthday=Sat Oct 01 17:27:27 CST 2022, sex='0', address=' '}User{id=1, username='tom', birthday=Sat Oct 01 17:27:27 CST 2022, sex='0', address=' '}false③、<strong>总结</strong>1、第一次发起查询用户id为1的用户信息，先去找缓存中是否有id为1的用户信息，如果没有，从数据库查询用户信息。得到用户信息，将用户信息存储到一级缓存中。</p>
-<p>2、 如果中间sqlSession去执行commit操作（执行插入、更新、删除），则会清空SqlSession中的一级缓存，这样做的目的为了让缓存中存储的是最新的信息，避免脏读。</p>
-<p>3、 第二次发起查询用户id为1的用户信息，先去找缓存中是否有id为1的用户信息，缓存中有，直接从缓存中获取用户信息</p>
+<ol><li>如果中间sqlSession去执行commit操作（执行插入、更新、删除），则会清空SqlSession中的一级缓存，这样做的目的为了让缓存中存储的是最新的信息，避免脏读。</li></ol>
+<ol><li>第二次发起查询用户id为1的用户信息，先去找缓存中是否有id为1的用户信息，缓存中有，直接从缓存中获取用户信息</li></ol>
 <p><strong>1. 一级缓存 底层数据结构到底是什么？</strong></p>
 <p>之前说<code>不同SqlSession的一级缓存互不影响</code>,所以我从SqlSession这个类入手可以看到，<code>org.apache.ibatis.session.SqlSession</code>中有一个和缓存有关的方法——<code>clearCache()</code>刷新缓存的方法，点进去，找到它的实现类<code>DefaultSqlSession</code>@Override</p>
 <pre><code>

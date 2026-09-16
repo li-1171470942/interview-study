@@ -30,15 +30,24 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 .bottomnav a { flex:1; text-align:center; background:#4f46e5; color:#fff; text-decoration:none; padding:12px 10px; border-radius:10px; font-size:14px; }
 .bottomnav a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
 @media (max-width:760px){ .article{padding:22px 18px;} .article h1{font-size:21px;} }
+/* handbook-layout-fix */
+.article p.lead { background:#eef2ff; border-left:4px solid #6366f1; padding:10px 14px; border-radius:6px; color:#312e81; margin:10px 0 4px; }
+.article p.lbl { font-size:13px; color:#64748b; margin:14px 0 4px; }
+.article p.say { background:#fff7ed; border-left:4px solid #f97316; padding:10px 14px; border-radius:6px; color:#7c2d12; margin:12px 0 4px; }
+.article h3 { font-size:15.5px; color:#1e293b; margin:26px 0 10px; padding-left:10px; border-left:3px solid #818cf8; }
+.article ul { margin:6px 0 6px 22px; }
+.article ol { margin:6px 0 6px 24px; }
+.article li { margin:5px 0; }
+.article ul ul { margin:4px 0 4px 20px; }
 </style></head>
 <body>
 <div class="topnav"><div class="inner"><a href="学习中心.html">🏠 学习中心</a> <span class="sep">|</span> <a href="学习手册索引.html">📚 手册索引</a> <span class="sep">|</span> <a href="学习手册_18_性能优化实战.html">◀ 18 性能优化</a> <span class="sep">|</span> <a href="学习手册_20_项目讲述方法论.html">20 项目讲述 ▶</a></div></div>
 <div class="wrap"><article class="article"><h1>📘 学习手册 19 · Java 并发与中间件：六大项目场景模式库</h1>
 <blockquote>
-<p><strong>来源</strong>：WA6666.zip 项目八股（罗振耘 2026-09-04），已去重炼化自 AC集群 / AP邻居 / ISSU 三份同事材料。
-<strong>本手册价值</strong>：纯八股你已有手册 06/08/11/03/04 覆盖；这一本补的是<strong>"代码场景 → 知识点 → 面试话术"的三层映射</strong>——面试官要的不是你背得出线程池 7 参数，而是"你项目里哪里用了、为什么、坑在哪"。
-⚠️ <strong>红线提醒</strong>：场景模式、思考框架、话术可 1:1 迁移到你的 RRM 项目；但<strong>同事项目的具体业务细节（acpool/ap邻居/issu 升级）绝不能冒充成你的经历</strong>。每节末尾的 🎯 是把模式移植到你自己项目的落点。
-模板：场景一句话 → 为什么需要 → 代码形态 → 知识点串 → 面试话术 → 高频追问 → 🎯 我的 RRM 怎么讲。
+<p><strong>来源</strong>：WA6666.zip 项目八股（罗振耘 2026-09-04），已去重炼化自 AC集群 / AP邻居 / ISSU 三份同事材料。<br />
+<strong>本手册价值</strong>：纯八股你已有手册 06/08/11/03/04 覆盖；这一本补的是<strong>"代码场景 → 知识点 → 面试话术"的三层映射</strong>——面试官要的不是你背得出线程池 7 参数，而是"你项目里哪里用了、为什么、坑在哪"。<br />
+⚠️ <strong>红线提醒</strong>：场景模式、思考框架、话术可 1:1 迁移到你的 RRM 项目；但<strong>同事项目的具体业务细节（acpool/ap邻居/issu 升级）绝不能冒充成你的经历</strong>。每节末尾的 🎯 是把模式移植到你自己项目的落点。<br />
+模板：场景一句话 → 为什么需要 → 代码形态 → 知识点串 → 面试话术 → 高频追问 → 🎯 我的 RRM 怎么讲。<br />
 原始细节可查 <code>项目八股_原材料/</code> 对应文件。</p>
 </blockquote>
 <hr />
@@ -47,7 +56,7 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 <blockquote>
 <p><strong>30 秒业务</strong>（这系统解决什么问题）→ <strong>一句话架构</strong>（事件驱动/串行/异步 等核心特征）→ <strong>四件事收尾</strong>（并发正确性 / 幂等 / 失败兜底 / 保护下游）。</p>
 </blockquote>
-<p><strong>反例</strong>："我做了一个 XX 管理系统，用了 Spring Boot + Kafka……"（只有名词，没有业务因果，等于没讲）。
+<p><strong>反例</strong>："我做了一个 XX 管理系统，用了 Spring Boot + Kafka……"（只有名词，没有业务因果，等于没讲）。<br />
 <strong>正例</strong>："RRM 无线资源管理，解决 Wi-Fi 调优'算完推给谁、怎么不推错'的问题——核心难点不在吞吐，在<strong>并发正确性</strong>：调度任务重复触发一次、消息漏处理一次，设备射频参数就乱了。所以我在防抖、幂等、兜底上花的心思比在并发量上多。"（把战场引到你准备过的地方）</p>
 <blockquote>
 <p>🎯 你的 RRM 版本开场见《手册 20》第 2 节电梯陈述模板。</p>
@@ -190,10 +199,8 @@ public void onMsg(ConsumerRecord r, Acknowledgment ack) {
 // 幂等手段：① 业务天然幂等（覆盖写/set）② 唯一键约束 ③ 状态机（只允许合法流转）④ 去重表占位
 </code></pre>
 <p><strong>知识点串</strong>：Kafka 高吞吐四板斧（顺序写/零拷贝 sendfile/批量压缩/分区并行）；不丢三段（acks=all + min.insync.replicas / 消费端先处理后提交）；rebalance 危害（STW 停消费、已处理未提交被重消费→再次证明必须幂等）；消费并发度对齐分区数；延迟任务"丢了也能恢复"才敢用内存态。</p>
-<p><strong>分层兜底（答"链路怎么保证不漏"的满分结构）</strong>：
-1. 正常路径：处理完立即推进（消息驱动）；
-2. 兜底路径：定时对账轮询（内存任务丢了、消息丢了，最迟一个周期发现）；
-3. 数据路径：老化清理（28 天）防异常数据无限滞留；</p>
+<p><strong>分层兜底（答"链路怎么保证不漏"的满分结构）</strong>：</p>
+<ol><li>正常路径：处理完立即推进（消息驱动）；</li><li>兜底路径：定时对账轮询（内存任务丢了、消息丢了，最迟一个周期发现）；</li><li>数据路径：老化清理（28 天）防异常数据无限滞留；</li></ol>
 <blockquote>
 <p>金句："<strong>内存态任务 + 持久态定时对账</strong>的组合——内存快但不可靠，定时慢但可靠，两者叠加覆盖所有故障模式。"</p>
 </blockquote>
@@ -289,7 +296,7 @@ public void onMsg(ConsumerRecord r, Acknowledgment ack) {
 </tbody>
 </table>
 <blockquote>
-<p>讲法模板（面试官问"你用过哪些设计模式"）：
+<p>讲法模板（面试官问"你用过哪些设计模式"）：<br />
 "我不是背模式，是重构时认出来的。比如双计算我按组网类型抽了策略分发，新增组网只加一个策略类；消息处理按 optType 注册 handler 是工厂+策略的组合；配置中心变更走监听是观察者。模式是给代码演进留的口子，不是一开始套上去的。"——<strong>从重构反推模式，比罗列模式名单可信十倍</strong>。</p>
 </blockquote>
 <hr />
