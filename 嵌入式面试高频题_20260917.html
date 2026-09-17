@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>嵌入式面试高频题清单（2026-09-17）</title>
+<style>
+  :root { --bg:#f4f6fb; --card:#fff; --ink:#1f2430; --sub:#5b6478; --line:#e4e8f0; --brand:#4f46e5; --red:#dc2626; --green:#16a34a; --amber:#d97706; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:var(--bg); color:var(--ink); line-height:1.75; padding-bottom:60px; }
+  .hero { background:linear-gradient(135deg,#0f766e,#4f46e5); color:#fff; padding:30px 0 24px; }
+  .hero .wrap { max-width:960px; margin:0 auto; padding:0 18px; }
+  .hero h1 { font-size:22px; margin-bottom:6px; }
+  .hero .sub { font-size:13.5px; opacity:.93; }
+  .wrap { max-width:960px; margin:0 auto; padding:0 18px; }
+  .stats { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:16px 0; }
+  .stat { background:#fff; border:1px solid var(--line); border-radius:10px; padding:10px; text-align:center; }
+  .stat .n { font-size:18px; font-weight:800; color:var(--brand); display:block; }
+  .stat .l { font-size:11.5px; color:var(--sub); }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:18px; margin:14px 0; }
+  .card h2 { font-size:16px; margin-bottom:10px; display:flex; align-items:center; gap:8px; }
+  .card h2 .n { background:var(--brand); color:#fff; width:22px; height:22px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:12px; flex-shrink:0; }
+  .q { background:#f8f9fd; border-left:3px solid var(--brand); border-radius:0 8px 8px 0; padding:10px 12px; margin:10px 0; }
+  .q .qt { font-weight:700; font-size:13.5px; color:#312e81; margin-bottom:5px; }
+  .q .qa { font-size:13px; color:#2b3245; }
+  .q .qa b { color:#111827; }
+  .q .qs { font-size:12.5px; color:#166534; background:#f0fdf4; border-radius:6px; padding:6px 9px; margin-top:6px; }
+  .star { color:#d97706; font-weight:700; }
+  table { width:100%; border-collapse:collapse; font-size:12.5px; margin-top:6px; }
+  th { background:#f1f3fa; padding:7px; text-align:left; font-size:12px; color:var(--sub); }
+  td { padding:7px; border-top:1px solid var(--line); vertical-align:top; }
+  .warn { background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:10px 14px; font-size:13px; color:#92400e; margin:10px 0; }
+  .ok { background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; font-size:13px; color:#14532d; margin:10px 0; }
+  code { background:#f1f3fa; padding:1px 5px; border-radius:4px; font-size:12.5px; color:#be185d; }
+  pre { background:#0f172a; color:#e2e8f0; padding:10px 12px; border-radius:8px; overflow-x:auto; margin:8px 0; font-size:12px; line-height:1.55; }
+  pre code { background:none; color:inherit; padding:0; }
+  .footer { text-align:center; color:#9aa3b5; font-size:12px; margin-top:26px; }
+</style>
+</head>
+<body>
+
+<div class="hero"><div class="wrap">
+  <h1>🎯 嵌入式面试高频题清单</h1>
+  <div class="sub">针对华为引望（智能汽车）嵌入式岗 · 6 大模块 36 题 · 每题含结论 + 要点 + 话术</div>
+</div></div>
+
+<div class="wrap">
+
+<div class="stats">
+  <div class="stat"><span class="n">36</span><span class="l">高频题</span></div>
+  <div class="stat"><span class="n">C 语言</span><span class="l">权重最高</span></div>
+  <div class="stat"><span class="n">4</span><span class="l">总线协议</span></div>
+  <div class="stat"><span class="n">3</span><span class="l">⭐ 你有实战的</span></div>
+</div>
+
+<div class="ok">✅ <b>备考优先级</b>：<b>C 语言（模块一）> 中断/RTOS（模块二、三）> 总线协议（模块四）> MCU 基础（模块五）</b>。带 <span class="star">⭐</span> 的题目你有真实项目经历，必须讲出细节（这是你的差异化优势）。</div>
+
+<div class="card">
+  <h2><span class="n">1</span> 🔧 C 语言核心（权重最高，必考）</h2>
+
+  <div class="q"><div class="qt">1. 指针和数组的区别？</div>
+  <div class="qa"><b>结论</b>：数组名是<b>地址常量</b>（不能赋值/自增），指针是<b>变量</b>（可移动）。<br>
+  · <code>sizeof(arr)</code> = 整个数组字节数；<code>sizeof(ptr)</code> = 指针大小（32位4字节/64位8字节）<br>
+  · 数组名取地址 <code>&arr</code> 类型不同（数组指针），但值相同<br>
+  · 数组作为函数参数会<b>退化为指针</b>，所以函数内 sizeof 拿不到数组长度</div></div>
+
+  <div class="q"><div class="qt">2. <span class="star">⭐</span> 函数指针是什么？有什么用？</div>
+  <div class="qa"><b>结论</b>：指向函数的指针，可以把"函数"当参数传递，是实现<b>回调</b>和<b>注册机制</b>的基础。<br>
+  <b>定义</b>：<code>int (*fp)(int, int);</code> —— 注意括号，否则变成返回指针的函数<br>
+  <b>用途</b>：① 回调函数（异步通知）② 函数表/注册机制（函数名 → 指针映射）③ 解耦（上层不依赖具体实现）</div>
+  <div class="qs">💡 <b>你的项目</b>：clib 与 Node.js 双向调用就是靠<b>函数指针映射表</b>实现的——C 侧把 JS 注册的函数指针存成全局变量，算完通过 callback 指针回调。这段要能画图讲。</div></div>
+
+  <div class="q"><div class="qt">3. 野指针、空指针、悬空指针的区别？</div>
+  <div class="qa">· <b>空指针</b>：指向 NULL，明确不指向任何对象，<b>可判断</b><br>
+  · <b>野指针</b>：未初始化的指针，指向随机地址 —— <b>最危险</b>（定义时应初始化为 NULL）<br>
+  · <b>悬空指针</b>：指向的内存已被释放（free 后未置 NULL）—— 使用会崩溃<br>
+  <b>防范</b>：定义时初始化 NULL → 使用前判空 → free 后立即置 NULL</div>
+  <div class="qs">💡 <b>你的项目</b>：终止函数里"回收内存并<b>重置为 null</b>"就是为了防止悬空指针。</div></div>
+
+  <div class="q"><div class="qt">4. <span class="star">⭐</span> volatile 的作用？能保证原子性吗？</div>
+  <div class="qa"><b>结论</b>：告诉编译器<b>每次都从内存读取，不要优化到寄存器</b>。<br>
+  <b>场景</b>：① 多线程/多进程共享变量 ② 中断服务函数里被修改的标志位 ③ 硬件寄存器（值可能被硬件改变）<br>
+  <b>追问"能保证原子性吗？"</b> → <b>不能</b>！它只保证<b>可见性</b>，不保证原子性（原子性要靠锁或原子操作）</div>
+  <div class="qs">💡 <b>你的项目</b>：压测时用 volatile 全局变量做多进程计数——这是"真的写过 C"的铁证，必须主动讲。</div></div>
+
+  <div class="q"><div class="qt">5. const 修饰不同位置的含义？</div>
+  <div class="qa">· <code>const int *p</code> —— 指向的内容不可改（指针可动）<br>
+  · <code>int * const p</code> —— 指针本身不可改（内容可改）<br>
+  · <code>const int * const p</code> —— 都不可以改<br>
+  <b>记忆</b>：const 修饰它<b>右边</b>最近的东西</div></div>
+
+  <div class="q"><div class="qt">6. static 的作用？</div>
+  <div class="qa">· 修饰<b>局部变量</b>：生命周期延长到整个程序（存静态区），值保留，但作用域不变<br>
+  · 修饰<b>全局变量/函数</b>：限制为<b>本文件可见</b>（内部链接），避免命名冲突<br>
+  · 修饰<b>类成员</b>（C++）：属于类而非对象，所有对象共享</div></div>
+
+  <div class="q"><div class="qt">7. 堆和栈的区别？</div>
+  <div class="qa">| | 栈 | 堆 |
+  |--|----|----|
+  | 分配 | 编译器自动 | 程序员手动（malloc/free） |
+  | 速度 | 快 | 慢 |
+  | 大小 | 小（默认 1-8MB） | 大（受物理内存限制） |
+  | 生长方向 | 高→低 | 低→高 |
+  | 碎片 | 无 | 会产生碎片 |
+  <b>嵌入式坑</b>：栈溢出（递归太深/大数组放栈上）是常见故障</div></div>
+
+  <div class="q"><div class="qt">8. malloc/free 的注意事项？内存泄漏怎么产生？</div>
+  <div class="qa">· <code>malloc</code> 后必须判空（可能返回 NULL）<br>
+  · <code>free</code> 后必须置 NULL（防悬空指针）<br>
+  · 不能重复 free（double free）<br>
+  · <b>泄漏原因</b>：申请后忘记释放 / 异常路径提前 return / 指针被覆盖<br>
+  · 嵌入式常禁用动态内存（用静态分配避免碎片）</div></div>
+
+  <div class="q"><div class="qt">9. 结构体内存对齐规则？</div>
+  <div class="qa"><b>规则</b>：① 每个成员相对结构体首地址的偏移，必须是该成员大小的整数倍 ② 结构体总大小必须是最大成员大小的整数倍<br>
+  <b>为什么对齐</b>：CPU 访问对齐地址效率高（某些平台不对齐会异常）<br>
+  <b>优化</b>：把成员按大小<b>从大到小</b>排列可减少填充；<code>#pragma pack(1)</code> 可取消对齐（但影响性能）</div></div>
+
+  <div class="q"><div class="qt">10. 如何判断大端还是小端？</div>
+  <div class="qa"><b>大端</b>：高位字节存低地址（网络字节序）；<b>小端</b>：低位字节存低地址（x86/ARM 常见）<br>
+  <b>判断方法</b>：
+  <pre><code>int i = 1;
+char *p = (char *)&i;
+if (*p == 1) printf("小端");
+else printf("大端");</code></pre>
+  <b>转换</b>：htons/htonl（主机→网络）、ntohs/ntohl（网络→主机）</div></div>
+
+  <div class="q"><div class="qt">11. 位操作：如何置位、清位、取反、判断？</div>
+  <div class="qa">· 置位：<code>reg |= (1 &lt;&lt; n)</code><br>
+  · 清位：<code>reg &amp;= ~(1 &lt;&lt; n)</code><br>
+  · 取反：<code>reg ^= (1 &lt;&lt; n)</code><br>
+  · 判断：<code>if (reg &amp; (1 &lt;&lt; n))</code><br>
+  <b>嵌入式场景</b>：寄存器配置、标志位管理（你项目里的位掩码状态压缩就是这个思路）</div></div>
+
+  <div class="q"><div class="qt">12. 宏定义和函数的区别？</div>
+  <div class="qa">· 宏是<b>预处理阶段文本替换</b>，无类型检查、无函数调用开销，但可能重复计算/体积膨胀<br>
+  · 函数有类型检查、有调用开销<br>
+  · 宏要加括号防优先级问题：<code>#define MAX(a,b) ((a)&gt;(b)?(a):(b))</code><br>
+  · C++ 可用 inline 函数替代宏</div></div>
+
+  <div class="q"><div class="qt">13. sizeof 和 strlen 的区别？</div>
+  <div class="qa">· <code>sizeof</code> 是<b>运算符</b>，编译期求值，返回类型/变量占用字节数（含 '\0'）<br>
+  · <code>strlen</code> 是<b>函数</b>，运行期计算，返回字符串长度（不含 '\0'）<br>
+  · <code>char s[] = "abc";</code> → sizeof(s)=4, strlen(s)=3</div></div>
+</div>
+
+<div class="card">
+  <h2><span class="n">2</span> ⚡ 中断与系统</h2>
+
+  <div class="q"><div class="qt">14. <span class="star">⭐</span> 中断和轮询的区别？（必考）</div>
+  <div class="qa"><b>中断</b>：事件驱动——外设主动通知 CPU，CPU 暂停当前任务去处理。优点：响应快、不浪费 CPU、省电；缺点：需处理优先级和嵌套<br>
+  <b>轮询</b>：CPU 主动循环查询状态。优点：实现简单；缺点：占 CPU、实时性差<br>
+  <b>选择</b>：实时性要求高/低功耗场景用中断；周期性简单任务可用轮询</div></div>
+
+  <div class="q"><div class="qt">15. 什么是中断嵌套？优先级怎么处理？</div>
+  <div class="qa"><b>中断嵌套</b>：高优先级中断可以打断正在执行的低优先级中断<br>
+  <b>优先级反转</b>：低优先级任务持有高优先级任务需要的资源 → 高优先级被阻塞<br>
+  <b>解决</b>：① 合理配置中断优先级 ② 用互斥锁的优先级继承机制 ③ 临界区尽量短</div></div>
+
+  <div class="q"><div class="qt">16. 中断服务函数（ISR）要注意什么？</div>
+  <div class="qa">① <b>尽量短</b>——耗时操作移到主循环（置标志位，主循环处理）<br>
+  ② <b>不要阻塞</b>——不能有 sleep/等待<br>
+  ③ 共享变量要加 <code>volatile</code><br>
+  ④ 注意可重入性（避免使用不可重入函数）<br>
+  ⑤ 中断里不能调用可能引起阻塞的 API</div></div>
+
+  <div class="q"><div class="qt">17. 中断和异常的区别？</div>
+  <div class="qa">· <b>中断</b>：来自外部硬件（异步），如按键、串口接收<br>
+  · <b>异常</b>：来自 CPU 内部（同步），如除零、非法指令、缺页<br>
+  · 两者处理机制类似（都跳转到处理程序），但触发源和时机不同</div></div>
+</div>
+
+<div class="card">
+  <h2><span class="n">3</span> 🧵 RTOS</h2>
+
+  <div class="q"><div class="qt">18. 裸机开发和 RTOS 怎么选？</div>
+  <div class="qa"><b>裸机</b>：任务简单、逻辑单一、资源极度受限（用前后台/状态机）<br>
+  <b>RTOS</b>：多任务协同、需要实时性保证、任务间有同步/通信需求<br>
+  <b>判断</b>：任务数量多、有优先级差异、需要阻塞等待 → 上 RTOS</div></div>
+
+  <div class="q"><div class="qt">19. RTOS 的任务调度机制？</div>
+  <div class="qa">· <b>抢占式调度</b>：高优先级任务就绪立即抢占 CPU（实时性保证）<br>
+  · <b>时间片轮转</b>：同优先级任务轮流执行<br>
+  · <b>空闲任务</b>：无任务可跑时执行<br>
+  <b>关键概念</b>：任务状态（就绪/运行/阻塞/挂起）、上下文切换</div></div>
+
+  <div class="q"><div class="qt">20. 什么是优先级反转？怎么解决？</div>
+  <div class="qa"><b>现象</b>：低优先级任务持有互斥锁 → 高优先级任务被阻塞 → 中优先级任务抢占 CPU → 高优先级实际被"中优先级"拖住<br>
+  <b>解决</b>：① <b>优先级继承</b>（持锁时临时提升到等待者的优先级）② <b>优先级天花板</b> ③ 临界区尽量短</div></div>
+
+  <div class="q"><div class="qt">21. 信号量和互斥锁的区别？</div>
+  <div class="qa">· <b>互斥锁</b>：用于<b>互斥</b>（保护共享资源），有所有权概念，谁加锁谁解锁<br>
+  · <b>信号量</b>：用于<b>同步</b>或计数（如生产者-消费者），无所有权，可以在一个任务释放、另一个任务获取<br>
+  · <b>二值信号量</b>可当锁用，但没有优先级继承</div></div>
+
+  <div class="q"><div class="qt">22. 任务间通信有哪些方式？</div>
+  <div class="qa">① <b>消息队列</b>（传数据，最常用）② <b>信号量</b>（同步/互斥）③ <b>事件标志组</b>（多事件等待）④ <b>邮箱</b>（传指针）⑤ <b>全局变量 + 临界区保护</b><br>
+  <b>选择</b>：传数据用队列，同步用信号量，多条件等待用事件组</div></div>
+</div>
+
+<div class="card">
+  <h2><span class="n">4</span> 🔌 通信总线（嵌入式核心 · 汽车电子重点）</h2>
+
+  <div class="q"><div class="qt">23. UART（串口）的特点？</div>
+  <div class="qa"><b>异步</b>（无时钟线，靠约定波特率）、<b>全双工</b>（TX/RX 两根线）、点对点<br>
+  <b>关键参数</b>：波特率、数据位、停止位、校验位<br>
+  <b>典型应用</b>：调试串口、GPS、蓝牙模块<br>
+  <b>注意</b>：双方波特率必须一致，否则乱码</div></div>
+
+  <div class="q"><div class="qt">24. SPI 的特点？</div>
+  <div class="qa"><b>同步</b>（有时钟线 SCK）、<b>全双工</b>、<b>四线</b>（SCK/MOSI/MISO/CS）、<b>速度快</b>（可达几十 MHz）<br>
+  <b>缺点</b>：每个从设备要一根片选线（CS），设备多了引脚占用大<br>
+  <b>典型应用</b>：Flash、屏幕、传感器</div></div>
+
+  <div class="q"><div class="qt">25. I2C 的特点？</div>
+  <div class="qa"><b>同步</b>、<b>半双工</b>、<b>两线</b>（SCL/SDA）、<b>支持多设备</b>（靠设备地址区分）<br>
+  <b>优点</b>：引脚少，一条总线挂多个设备<br>
+  <b>缺点</b>：速度较慢（标准 100kHz，快速 400kHz）<br>
+  <b>注意</b>：需要上拉电阻；总线仲裁机制</div></div>
+
+  <div class="q"><div class="qt">26. <span class="star">⭐</span> CAN 总线的特点？（汽车电子核心）</div>
+  <div class="qa"><b>差分信号</b>（CAN_H/CAN_L，抗干扰强）、<b>多主结构</b>（任何节点都可发）、<b>广播式</b>（所有节点都能收到）<br>
+  <b>核心机制</b>：<b>基于 ID 的仲裁</b>——ID 越小优先级越高，冲突时低优先级自动退让（非破坏性仲裁）<br>
+  <b>为什么汽车用 CAN</b>：抗干扰强（差分）、可靠性高（CRC 校验 + 自动重发）、线束少（一根总线挂多个 ECU）<br>
+  <b>速率</b>：经典 CAN 最高 1Mbps；CAN FD 可达 5Mbps+</div>
+  <div class="qs">💡 你是转岗，CAN 没实战经验——<b>诚实说"没做过 CAN，但理解它的差分传输和仲裁机制"</b>，然后类比 TCP/IP 的可靠性设计（你熟），展示可迁移性。</div></div>
+
+  <div class="q"><div class="qt">27. 四种总线对比（面试常让列表格）</div>
+  <table>
+    <tr><th>总线</th><th>同步/异步</th><th>双工</th><th>线数</th><th>速度</th><th>多设备</th></tr>
+    <tr><td><b>UART</b></td><td>异步</td><td>全双工</td><td>2（TX/RX）</td><td>低-中</td><td>点对点</td></tr>
+    <tr><td><b>SPI</b></td><td>同步</td><td>全双工</td><td>4（+CS）</td><td><b>高</b></td><td>靠 CS 片选</td></tr>
+    <tr><td><b>I2C</b></td><td>同步</td><td>半双工</td><td>2（SCL/SDA）</td><td>中</td><td><b>靠地址</b></td></tr>
+    <tr><td><b>CAN</b></td><td>异步</td><td>半双工</td><td>2（差分）</td><td>中-高</td><td><b>多主+仲裁</b></td></tr>
+  </table></div>
+</div>
+
+<div class="card">
+  <h2><span class="n">5</span> 💾 MCU 与硬件基础</h2>
+
+  <div class="q"><div class="qt">28. Flash 和 RAM 的区别？</div>
+  <div class="qa">· <b>Flash</b>：非易失（断电不丢），存程序代码和常量，写入慢、擦写次数有限（约 10 万次）<br>
+  · <b>RAM</b>：易失（断电丢失），存运行时变量/堆栈，读写快、容量小<br>
+  <b>延伸</b>：程序运行时代码从 Flash 读（或搬到 RAM 执行，视架构而定）</div></div>
+
+  <div class="q"><div class="qt">29. MCU 的启动流程？</div>
+  <div class="qa">① 上电复位 → ② 从固定地址取<b>复位向量</b> → ③ 执行<b>启动文件</b>（初始化栈指针、堆、中断向量表）→ ④ <b>初始化时钟/外设</b> → ⑤ 跳转到 <code>main()</code></div></div>
+
+  <div class="q"><div class="qt">30. 看门狗（Watchdog）的作用？</div>
+  <div class="qa"><b>作用</b>：程序跑飞/死锁时自动复位系统<br>
+  <b>原理</b>：定时器倒计时，程序必须在超时前"喂狗"（重置计数），否则触发复位<br>
+  <b>注意</b>：喂狗要放在主循环，不能放在中断里（否则中断正常但主循环卡死就失效了）</div></div>
+
+  <div class="q"><div class="qt">31. DMA 是什么？有什么好处？</div>
+  <div class="qa"><b>DMA</b> = 直接内存访问——外设和内存之间传数据<b>不经过 CPU</b><br>
+  <b>好处</b>：① 释放 CPU（可并行处理其他任务）② 传输大数据块时效率高<br>
+  <b>场景</b>：串口大量收发、ADC 采样、屏幕刷新</div></div>
+
+  <div class="q"><div class="qt">32. GPIO 的常见模式？</div>
+  <div class="qa">· <b>输入</b>：浮空 / 上拉 / 下拉 / 模拟<br>
+  · <b>输出</b>：推挽（强驱动）/ 开漏（需外部上拉，可线与）<br>
+  · <b>复用</b>：作为外设引脚（UART/SPI 等）</div></div>
+</div>
+
+<div class="card">
+  <h2><span class="n">6</span> 🐧 Linux 系统编程（你有基础，可加分）</h2>
+
+  <div class="q"><div class="qt">33. 进程和线程的区别？</div>
+  <div class="qa">· <b>进程</b>：资源分配的基本单位，有独立地址空间，切换开销大<br>
+  · <b>线程</b>：CPU 调度的基本单位，共享进程资源，切换开销小<br>
+  · <b>通信</b>：进程间要 IPC（管道/共享内存/消息队列/socket）；线程间直接共享变量（需加锁）</div></div>
+
+  <div class="q"><div class="qt">34. 进程间通信（IPC）有哪些方式？</div>
+  <div class="qa">① 管道/命名管道 ② 消息队列 ③ 共享内存（最快，需同步）④ 信号量 ⑤ 信号 ⑥ Socket（可跨主机）<br>
+  <b>你的项目</b>：Node.js 调用 Python 子进程 —— 这就是典型的进程间通信场景，可以举例。</div></div>
+
+  <div class="q"><div class="qt">35. 文件 IO 中 open/read/write 与标准 IO（fopen）的区别？</div>
+  <div class="qa">· <b>系统调用</b>（open/read/write）：直接操作文件描述符，无缓冲，效率低但可控<br>
+  · <b>标准 IO</b>（fopen/fread）：有用户态缓冲，减少系统调用次数，效率高<br>
+  <b>选择</b>：频繁小块读写用标准 IO；需要精确控制（如设备文件）用系统调用</div></div>
+
+  <div class="q"><div class="qt">36. 什么是僵尸进程和孤儿进程？</div>
+  <div class="qa">· <b>僵尸进程</b>：子进程已退出但父进程没回收（未 wait），占用进程表项<br>
+  · <b>孤儿进程</b>：父进程先退出，子进程被 init(1) 收养<br>
+  <b>解决僵尸</b>：父进程调用 wait/waitpid，或忽略 SIGCHLD 信号</div></div>
+</div>
+
+<div class="card">
+  <h2><span class="n">7</span> 🎯 面试前最后检查清单</h2>
+  <div class="ok">
+    ✅ <b>能答出</b>：中断 vs 轮询 · volatile 作用（+ 不保证原子性）· 函数指针定义与用途 · 堆栈区别 · 四大总线对比<br>
+    ✅ <b>能讲透</b>：C/Node.js 双向调用项目（函数指针映射表 → 初始化注册 → method-data-callback → 嵌套调用 → 10万/s QPS）<br>
+    ✅ <b>能坦诚</b>：无嵌入式经验的应对话术（三点契合 + 学习证据）<br>
+    ✅ <b>能举例</b>：每个概念准备一个"我项目里…"的对应场景
+  </div>
+  <div class="warn">⚠️ <b>不要背答案，要理解</b>——面试官会追问"为什么"。比如问 volatile，接着会问"什么场景下必须用"，答不上来就露馅了。</div>
+</div>
+
+<div class="footer">李鑫 · 求职档案 · 2026-09-17 生成 · 配合《嵌入式面试_无经验应对话术》+《李鑫-嵌入式开发工程师-OD版》使用</div>
+</div>
+</body>
+</html>
