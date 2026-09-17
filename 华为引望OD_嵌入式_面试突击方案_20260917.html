@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>华为引望（OD）· 嵌入式面试突击方案（2026-09-17）</title>
+<style>
+  :root { --bg:#f4f6fb; --card:#fff; --ink:#1f2430; --sub:#5b6478; --line:#e4e8f0; --brand:#4f46e5; --red:#dc2626; --green:#16a34a; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:var(--bg); color:var(--ink); line-height:1.75; padding-bottom:60px; }
+  .hero { background:linear-gradient(135deg,#0f766e,#4f46e5); color:#fff; padding:30px 0 24px; }
+  .hero .wrap { max-width:920px; margin:0 auto; padding:0 18px; }
+  .hero h1 { font-size:22px; margin-bottom:6px; }
+  .hero .sub { font-size:13.5px; opacity:.93; }
+  .wrap { max-width:920px; margin:0 auto; padding:0 18px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:18px; margin:14px 0; }
+  .card h2 { font-size:16px; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+  .card h2 .n { background:var(--brand); color:#fff; width:22px; height:22px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:12px; flex-shrink:0; }
+  .card h3 { font-size:14px; margin:14px 0 6px; color:var(--brand); }
+  table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  th { background:#f1f3fa; padding:8px; text-align:left; font-size:12px; color:var(--sub); }
+  td { padding:8px; border-top:1px solid var(--line); vertical-align:top; }
+  .speech { background:#f8f9fd; border:1px solid var(--line); border-radius:10px; padding:14px 16px; margin:10px 0; font-size:13.5px; }
+  .speech .label { font-size:12px; font-weight:700; color:var(--brand); margin-bottom:8px; }
+  .talk { background:#f5f7ff; border-left:3px solid var(--brand); border-radius:0 8px 8px 0; padding:10px 12px; margin:8px 0; font-size:13px; }
+  .warn { background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:10px 14px; font-size:13px; color:#92400e; margin:10px 0; }
+  .ok { background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; font-size:13px; color:#14532d; margin:10px 0; }
+  .bad { background:#fef2f2; border:1px solid #fecaca; border-radius:8px; padding:10px 14px; font-size:13px; color:#991b1b; margin:10px 0; }
+  ul.clean { padding-left:20px; margin:6px 0; }
+  ul.clean li { margin:5px 0; font-size:13.5px; }
+  ol.clean { padding-left:22px; margin:6px 0; }
+  ol.clean li { margin:5px 0; font-size:13.5px; }
+  code { background:#eef2ff; color:#3730a3; padding:1px 5px; border-radius:4px; font-family:Consolas,Monaco,monospace; font-size:12.5px; }
+  pre { background:#0f172a; color:#e2e8f0; padding:12px 14px; border-radius:8px; overflow-x:auto; font-family:Consolas,Monaco,monospace; font-size:12.5px; line-height:1.6; margin:8px 0; }
+  .hl { background:#fef3c7; border-radius:4px; padding:0 4px; }
+  .footer { text-align:center; color:#9aa3b5; font-size:12px; margin-top:26px; }
+</style>
+</head>
+<body>
+
+<div class="hero"><div class="wrap">
+  <h1>🎯 华为引望（OD）· 嵌入式开发 面试突击方案</h1>
+  <div class="sub">笔试已过（C++ 作答）→ 待技术面 · 2026-09-17 · 核心策略：<b>坦诚无经验 + 三点契合 + 手撕代码不丢分</b></div>
+</div></div>
+
+<div class="wrap">
+
+  <div class="card">
+    <h2><span class="n">1</span> 🧭 岗位与流程预判（先搞清打什么仗）</h2>
+    <table>
+      <tr><th style="width:22%">项</th><th>判断依据 / 应对</th></tr>
+      <tr><td><b>公司</b></td><td><b>引望智能</b>（华为车 BU 分拆成立的独立公司，长安/赛力斯等参股）主营<b>智能驾驶 / 智能座舱增量部件</b>——不是通信设备，业务语境要换</td></tr>
+      <tr><td><b>岗位属性</b></td><td><b>OD（外包）模式</b>：与德科/中软等签约、在华为体系内工作；<b>有转正通道</b>（绩效优秀可转正编）。面试官可能会问你对 OD 的认知——见第 8 节话术</td></tr>
+      <tr><td><b>已过环节</b></td><td>机考 ✅（C++ 作答）→ 说明<b>编程能力已获认可</b>，接下来重点考「基础深度」和「能不能干活」</td></tr>
+      <tr><td><b>剩余环节（预判）</b></td><td>① <b>技术面 1-2 轮</b>（60min，通常远程 WeMeeting/电话，含<b>手撕代码</b>）→ ② <b>主管面/综面</b>（30-40min，聊项目、动机、稳定性）→ ③ <b>HR/资格面</b>（谈薪、身份、到岗时间）</td></tr>
+      <tr><td><b>华为技术面特点</b></td><td><b>C 语言抠细节</b>（指针/内存/volatile/static）＞ 项目深挖 ＞ 手撕代码 ＞ 场景题。<b>答不出不装懂</b>是华子面试官的底线偏好</td></tr>
+    </table>
+    <div class="warn">⚠️ <b>待你确认（影响冲刺安排）</b>：① 技术面具体时间？② 远程还是现场（成都/深圳）？③ 面试官是引望还是华为车 BU（决定业务语境）④ 有没有英语/性格测评环节。</div>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">2</span> 🎯 攻防策略：时间怎么花（ROI 排序）</h2>
+    <table>
+      <tr><th style="width:8%">档</th><th style="width:26%">模块</th><th>为什么是这个优先级</th></tr>
+      <tr><td>🔴 P0</td><td><b>C 语言细节</b>（指针/内存/volatile/static/对齐）</td><td>华子技术面<b>必考且深挖</b>，也是手撕代码的地基。你有底子，是<b>性价比最高的得分区</b></td></tr>
+      <tr><td>🔴 P0</td><td><b>手撕代码</b>（字符串/链表/位操作/环形缓冲）</td><td>华为技术面<b>几乎必考</b>，白板写 C 代码。<b>会写=当场及格线，写不出=前面再好也打折</b></td></tr>
+      <tr><td>🔴 P0</td><td><b>C 双向调用项目</b>（函数指针/回调/OOM/10万QPS）</td><td>同时命中「C 语言深度」「底层架构」「工程能力」三个考点——<b>你的王牌</b></td></tr>
+      <tr><td>🟡 P1</td><td><b>中断 + RTOS + MCU 基础概念</b></td><td>纯背诵型考点，性价比高；必答 10 题见第 4 节</td></tr>
+      <tr><td>🟡 P1</td><td><b>通信总线（UART/I2C/SPI/CAN）</b></td><td><b>你的强项可迁移</b>（802.11/netconf/TCP-IP 底层同理），CAN 是汽车电子必问</td></tr>
+      <tr><td>🟢 P2</td><td>Linux 系统编程</td><td>有 3 年 Linux 底子，顺带复习即可，不是主战场</td></tr>
+      <tr><td>⚪ P3</td><td>~~算法刷题 / Redis / 数据库 / Java~~</td><td><b>嵌入式岗基本不问，直接暂停</b>（别浪费最后的时间）</td></tr>
+    </table>
+    <div class="ok">✅ <b>核心判断</b>：这场面试不是考你「会不会嵌入式」（你没有经验，赢不了），而是考 <b>① C 语言真功夫 ② 能不能快速上手干活 ③ 稳不稳定</b>。三条都指向"基础扎实 + 坦诚 + 学习路径清晰"。</div>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">3</span> 📣 自我介绍（嵌入式岗定制版 · 背熟）</h2>
+    <div class="speech">
+      <div class="label">中文 60 秒版（开场必用）：</div>
+      面试官好，我叫李鑫，重庆邮电大学电子信息硕士，现在在新华三云研发部做 RRM（无线资源管理）系统，<b>三年经验，主语言是 Node.js，同时写了三年 C 语言的调用层和算法集成</b>。<br><br>
+      我的工作可以概括成两件事：<b>第一，C 算法库的集成与双向调用架构</b>——我参与设计了 C 库和 Node.js 的双向调用（函数指针映射表 + 回调协议），解决大数据量下的 OOM 问题，<b>压测支撑 10 万/s 的并发调用</b>；<b>第二，设备侧通信链路</b>——做了三年 802.11 无线协议和 TCP/IP 设备通信，负责设备上报数据的格式设计、批量下发和链路调试。<br><br>
+      我的方向选择很明确：<b>做了三年应用层，我想往底层走</b>——设备怎么通信、数据怎么在硬件层流动，这是我想做深的方向。<b>嵌入式需要的 C 语言底子和协议思维我有，缺的 MCU 实战我正在补</b>（已搭 STM32 环境跑串口/中断实验）。<br><br>
+      贵司做智能驾驶和智能座舱的增量部件，通信链路和底层可靠性是核心，我希望把这部分能力用上。
+    </div>
+    <div class="speech">
+      <div class="label">项目概述 30 秒版（被问"介绍下你的项目"时用）：</div>
+      "我主要负责无线网络自动调优系统的后端和设备通信。其中<b>最有含金量的一段是 C 算法库的双向调用架构</b>——原方案一次性打包数据给 C 库，AP 数量一多就 OOM；我们改成<b>函数指针映射表 + 初始化注册 + method-data-callback 协议</b>，用回调实现异步和嵌套调用，最终做到 10 万/s 的并发函数链调用。这套东西本质上是<b>跨语言的底层接口设计</b>，和嵌入式的驱动接口设计是同一类问题。"
+    </div>
+    <div class="warn">⚠️ <b>自我介绍三不要</b>：① 不要说"我做过嵌入式"（一问就穿）② 不要把"设备侧"说成"嵌入式"（会被追问寄存器/驱动细节）③ 不要把 Node.js 说成唯一技能（<b>C 语言必须在前 30 秒出现</b>）。</div>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">4</span> 🔧 必答 10 题（技术面高频 · 每题都要能脱口而出）</h2>
+    <p style="font-size:13px;color:var(--sub)">完整 36 题见《嵌入式面试高频题_20260917.html》，以下是<b>出场率最高、答不上最致命</b>的 10 道。</p>
+    <table>
+      <tr><th style="width:22%">题目</th><th>答案要点（背这个骨架）</th></tr>
+      <tr><td><b>① volatile 的作用？能保证原子性吗？</b></td><td>告诉编译器<b>每次都从内存读取，不许优化到寄存器</b>；用于硬件寄存器、中断标志位、多线程/进程共享变量。<b>不能保证原子性</b>——它只管可见性，原子性要靠锁或原子操作。<span class="hl">你用它做过压测计数器，这是"真写过 C"的证据</span></td></tr>
+      <tr><td><b>② static 的三个作用？</b></td><td>① 修饰局部变量：<b>只初始化一次，生命周期延长到程序结束</b>（存静态区）② 修饰全局变量/函数：<b>限定文件内可见</b>（内部链接）③ 修饰函数：只能本文件调用。<b>面试延伸</b>：嵌入式里常用它做模块私有状态隔离</td></tr>
+      <tr><td><b>③ 指针和数组的区别？</b></td><td>数组名是<b>地址常量</b>（sizeof 得整个数组大小、不可赋值）；指针是<b>变量</b>（sizeof 得指针大小 4/8 字节、可移动）。<b>函数参数里数组会退化成指针</b>——所以传数组必须额外传长度</td></tr>
+      <tr><td><b>④ const 在四个位置的含义？</b></td><td><code>const int *p</code>：指向的值不可改（p 可改）；<code>int * const p</code>：指针本身不可改（值可改）；<code>const int * const p</code>：都不可改；<code>const int a=1</code>：常量。<b>口诀：const 在 * 左边锁值，在 * 右边锁指针</b></td></tr>
+      <tr><td><b>⑤ 结构体内存对齐规则？</b></td><td>① 每个成员起始地址必须是<b>自身大小的整数倍</b> ② 结构体总大小是<b>最大成员大小的整数倍</b>。用 <code>#pragma pack</code> 可改。嵌入式里为了省内存/配合硬件寄存器常手动排布字段（大→小排列减少 padding）</td></tr>
+      <tr><td><b>⑥ 堆和栈的区别？</b></td><td>栈：<b>编译器自动分配释放</b>、速度快、容量小（嵌入式里尤其小，常见几 KB），存局部变量/函数调用信息；堆：<b>手动 malloc/free</b>、速度慢、容量大但易碎片化。<b>嵌入式原则：能静态就别动态，避免频繁 malloc</b></td></tr>
+      <tr><td><b>⑦ 中断和轮询的区别？</b>（必考）</td><td>中断=事件驱动，CPU 不用空转、响应快、功耗低，但需处理优先级/嵌套/临界区；轮询=主循环不停查询，实现简单但<b>占 CPU、实时性差</b>。选型：低频/低速用轮询省事，实时性要求高/低功耗必须中断</td></tr>
+      <tr><td><b>⑧ 中断服务函数（ISR）要注意什么？</b></td><td>① <b>尽量短</b>——不干耗时活，复杂处理丢给主循环/任务（置标志位或发信号量）② <b>不能阻塞/延时</b>（不许 sleep、不等待信号量）③ <b>共享变量要 volatile</b> ④ 注意临界区保护 ⑤ 不用不可重入函数（如 printf）</td></tr>
+      <tr><td><b>⑨ 信号量和互斥锁的区别？什么是优先级反转？</b></td><td>信号量（semaphore）用于<b>同步/资源计数</b>，可被多任务释放；互斥锁（mutex）用于<b>互斥保护临界区</b>，<b>谁加锁谁解锁</b>，通常带优先级继承。<b>优先级反转</b>：低优先级任务持锁→高优先级任务被阻塞→中优先级任务抢占低优先级任务执行，导致高优先级任务被"间接拖住"。解决：<b>优先级继承</b>（FreeRTOS mutex 支持）或优先级天花板</td></tr>
+      <tr><td><b>⑩ CAN 总线特点？</b>（汽车核心）</td><td>① <b>差分信号、抗干扰强</b>（适合车载恶劣环境）② <b>多主、广播式</b>，节点平等 ③ <b>基于报文 ID 的仲裁</b>——ID 越小优先级越高，冲突时非破坏性仲裁（不丢数据）④ 有 CRC 校验 + 应答机制，可靠性高 ⑤ 速率 125K~1Mbps（CAN FD 更快）。<span class="hl">迁移话术：我做过 802.11 的信道竞争（CSMA/CA），CAN 的 ID 仲裁本质也是"总线竞争 + 优先级"，思路相通</span></td></tr>
+    </table>
+    <div class="ok">✅ <b>加练两道高频</b>：<b>Flash vs RAM</b>（Flash 掉电不丢、写入慢、有擦写寿命，存代码/常量；RAM 掉电丢、读写快，存运行时变量）· <b>DMA</b>（不占 CPU 直接搬数据，用于串口/ADC 大块传输，好处是释放 CPU + 提高吞吐）</div>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">5</span> ✍️ 手撕代码（华为技术面几乎必考 · 6 道高频）</h2>
+    <div class="warn">⚠️ <b>面试时先讲思路再写</b>（"我先说下思路，再写代码"）——华子面试官很看重这个。写完主动说边界情况（空指针/长度 0/内存重叠）。</div>
+
+    <h3>① 字符串反转（不额外申请空间）</h3>
+    <pre>void reverse_str(char *s) {
+    if (s == NULL) return;          /* 先判空——加分项 */
+    int i = 0, j = strlen(s) - 1;
+    while (i &lt; j) {
+        char t = s[i]; s[i++] = s[j]; s[j--] = t;
+    }
+}</pre>
+
+    <h3>② 实现 memcpy（考内存重叠的判断）</h3>
+    <pre>void *my_memcpy(void *dst, const void *src, size_t n) {
+    if (dst == NULL || src == NULL) return NULL;
+    char *d = (char *)dst;
+    const char *s = (const char *)src;
+    if (d &gt; s &amp;&amp; d &lt; s + n)          /* 目标在源区间内：从后往前拷，防止覆盖 */
+        for (size_t i = n; i != 0; i--) d[i-1] = s[i-1];
+    else
+        for (size_t i = 0; i &lt; n; i++) d[i] = s[i];
+    return dst;
+}</pre>
+
+    <h3>③ 单链表反转（函数指针题之后的第二大热点）</h3>
+    <pre>typedef struct Node { int val; struct Node *next; } Node;
+
+Node *reverse_list(Node *head) {
+    Node *prev = NULL;
+    while (head) {
+        Node *next = head-&gt;next;   /* 先存后继，别丢链 */
+        head-&gt;next = prev;         /* 反转指向 */
+        prev = head;               /* 前移 */
+        head = next;
+    }
+    return prev;                   /* 新头 */
+}</pre>
+
+    <h3>④ 统计二进制中 1 的个数（位操作 + 巧解）</h3>
+    <pre>int count_one(unsigned int n) {
+    int c = 0;
+    while (n) { n &amp;= (n - 1); c++; }  /* 每次消掉最低位的 1，比逐位判断快 */
+    return c;
+}</pre>
+
+    <h3>⑤ 判断大小端 / 字节序转换</h3>
+    <pre>int is_little_endian(void) {
+    int x = 1;
+    return *(char *)&amp;x == 1;   /* 低地址存低位 = 小端 */
+}
+/* 或联合体写法 */
+int check(void) { union { int i; char c; } u; u.i = 1; return u.c; }</pre>
+
+    <h3>⑥ 环形缓冲区（嵌入式超高频：串口收发必用）</h3>
+    <pre>#define BUF_SIZE 256          /* 建议 2 的幂，可用位运算取模 */
+typedef struct {
+    unsigned char buf[BUF_SIZE];
+    volatile unsigned int head;   /* 写指针：生产者改 */
+    volatile unsigned int tail;   /* 读指针：消费者改 */
+} ring_buf_t;
+
+int ring_write(ring_buf_t *rb, unsigned char data) {
+    unsigned int next = (rb-&gt;head + 1) &amp; (BUF_SIZE - 1);
+    if (next == rb-&gt;tail) return -1;      /* 满 */
+    rb-&gt;buf[rb-&gt;head] = data;
+    rb-&gt;head = next;
+    return 0;
+}
+int ring_read(ring_buf_t *rb, unsigned char *out) {
+    if (rb-&gt;tail == rb-&gt;head) return -1;  /* 空 */
+    *out = rb-&gt;buf[rb-&gt;tail];
+    rb-&gt;tail = (rb-&gt;tail + 1) &amp; (BUF_SIZE - 1);
+    return 0;
+}</pre>
+    <div class="ok">✅ <b>答这类题的加分点</b>：① 先判空指针 ② 考虑边界（满/空/重叠）③ 说出为什么这样设计（如环形缓冲解决"生产快消费慢"的丢数据问题，中断里只写不阻塞）。</div>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">6</span> 🧩 项目深挖：C / Node.js 双向调用（你的王牌）</h2>
+    <div class="ok">✅ <b>为什么主打这个</b>：它同时命中 <b>函数指针 + 回调（C 核心考点）、跨语言接口设计（底层架构）、OOM 解决（工程能力）、10 万/s QPS（硬指标）</b>——足以对冲"你没有嵌入式经验"。</div>
+    <p style="font-size:13px"><b>完整 8 问答案见《嵌入式面试_无经验应对话术_20260917.html》第 2.5 节</b>，核心链路速记：</p>
+    <table>
+      <tr><th style="width:30%">追问</th><th>一句话答</th></tr>
+      <tr><td>为什么做双向调用？</td><td>原方案一次性打包数据 → AP 多则数据包大 → 输入输出同时驻留内存 <b>OOM</b> + FFI 同步阻塞卡事件循环</td></tr>
+      <tr><td>函数指针怎么用？</td><td><b>函数名（字符串）→ 函数指针</b> 的映射表；Node 侧注册，C 侧按名查找调用</td></tr>
+      <tr><td>怎么实现异步？</td><td><b>method + data + callback</b> 三段式，C 算完通过 callback 指针回调 Node</td></tr>
+      <tr><td>内存谁管？</td><td>初始化函数写入指针，终止函数<b>回收并置 null</b>，不留悬空指针</td></tr>
+      <tr><td>10 万/s 怎么来的？</td><td>递归创建子进程，<b>1024 并发链 × 每链 100 次嵌套调用</b>，<b>volatile 全局计数</b>每秒打印</td></tr>
+    </table>
+    <div class="talk"><b>💡 把 C 三层套进嵌入式语境的翻译</b>：<br>
+      · 函数指针映射表 → <b>驱动注册/回调机制</b>（嵌入式里 driver 注册 ops 结构体就是同一套路）<br>
+      · 内存生命周期管理 → <b>嵌入式最怕内存泄漏/悬空指针</b>（长期运行系统）<br>
+      · OOM / 异常处理 → <b>资源受限环境的容错设计</b><br>
+      这样说，面试官会认为你"理解底层开发的核心难点"。</div>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">7</span> 🎯 "你没有嵌入式经验"怎么答</h2>
+    <div class="speech">
+      <div class="label">标准回答（90 秒 · 与话术文档一致，这里只留骨架）：</div>
+      <b>坦诚承认</b>（"过去三年在应用层，没有直接的嵌入式开发经验"）→ <b>三点契合</b>（① C 语言底子扎实：蓝桥杯省二 + 自研 C 调用层；② 协议栈经验可迁移：802.11/TCP-IP/netconf 三年；③ 理解设备侧约束：设备分组/批量下发/上报校验）→ <b>学习证据</b>（两个月系统学中断/RTOS/Flash-RAM/启动流程，买 STM32 在练）→ <b>合理预期</b>（"基础驱动和协议调试 1-2 个月能独立承担"）。
+    </div>
+    <div class="bad">❌ <b>绝对不要说</b>：「我其实也算做过嵌入式」「嵌入式很简单，我很快能学会」「我做后端的，想试试嵌入式」「我做过驱动开发」（编造）</div>
+    <div class="ok">✅ <b>最好的加分动作</b>：如果这几天真跑了 STM32 的串口中断收发或 FreeRTOS 双任务，面试时主动提一句具体做了什么——<b>这句话胜过十句"学习能力强"</b>。</div>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">8</span> 💼 行为题 + HR / OD 特有话题</h2>
+    <table>
+      <tr><th style="width:30%">问题</th><th>怎么答</th></tr>
+      <tr><td><b>为什么从后端转嵌入式？</b></td><td>「做了三年应用层，越做越发现兴趣在底层——设备怎么通信、数据怎么在硬件层流动。<b>我想把技术做深</b>，而不是一直往上堆业务逻辑。」（正向、不贬低过往）</td></tr>
+      <tr><td><b>你怎么看 OD（外包）身份？</b></td><td>「我了解 OD 的模式，也了解<b>有转正通道</b>。对我来说更重要的是<b>能不能进到真正做底层技术的团队</b>、做车相关的核心部件——平台和技术的价值大于签约形式。我相信绩效说话。」（<b>不回避、不纠结身份、强调成长</b>）</td></tr>
+      <tr><td><b>你多久能上手干活？</b></td><td>「基础驱动开发和协议调试，<b>1-2 个月</b>能独立承担；复杂系统设计需要更长时间跟团队学。」（给合理预期，不吹）</td></tr>
+      <tr><td><b>能接受加班吗？</b></td><td>「能接受项目冲刺期的合理加班，我更在意的是<b>加班有没有明确目标</b>——我过去处理线上问题也经常晚上响应。」（呼应财务铁律：拒绝透支型 996，但表达配合度）</td></tr>
+      <tr><td><b>最大缺点？</b></td><td>「<b>硬件调试经验不足</b>——示波器、逻辑分析仪看时序这些我还没实战过。所以我最近在补：买开发板、做串口/中断实验，<b>把能自己练的先练起来</b>。」（挑真实且已在改进的缺点）</td></tr>
+      <tr><td><b>职业规划？</b></td><td>「3 年内做成<b>能独立负责一个模块的嵌入式开发</b>：驱动→协议→系统调优都能兜住。长远想在<b>车载通信/智能座舱</b>这个方向深耕。」（贴业务、可预期、有耐心）</td></tr>
+      <tr><td><b>期望薪资？</b></td><td>「我目前月薪在 XX（<b>按简历口径说</b>），期望有合理涨幅。具体我更看重岗位和成长，可以谈。」（<b>先问清 OD 的薪资结构</b>：基本工资×月数 + 绩效，别只聊月薪）</td></tr>
+      <tr><td><b>还有什么想问的？</b></td><td>用第 9 节反问清单——<b>一定要问，且问技术/团队层面的</b></td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">9</span> ❓ 反问清单（挑 2-3 个问）</h2>
+    <ol class="clean">
+      <li><b>技术栈和分工</b>：「这个岗位在团队里主要做哪一层——驱动适配、协议中间件、还是上层应用？」（判断成长空间）</li>
+      <li><b>新人上手路径</b>：「像我这种有 C 和协议背景但缺 MCU 实战的，团队一般怎么带？有没有导师机制或培训？」（显得务实、有准备）</li>
+      <li><b>业务与产品</b>：「引望目前这个方向，主要对接哪些车型/项目？技术挑战集中在哪块？」（体现你做过功课，也了解业务）</li>
+      <li><b>转正机制（谨慎问）</b>：「OD 转正一般看什么指标、大概周期多久？」——可问，但语气别太"只看身份"</li>
+    </ol>
+    <div class="warn">⚠️ <b>别一上来就问薪资和转正</b>（技术面问技术，薪资留到 HR 面）。技术面反问优先问<b>技术栈/团队/成长</b>。</div>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">10</span> 🧠 心理建设 + 三条铁律</h2>
+    <div class="ok">
+      <b>① 你是"有底子的转型者"，不是"零基础"</b>——C 语言、协议栈、设备侧思维都是真东西，只是没在"嵌入式"标签下做过。<br>
+      <b>② 答不出就说不会，但要加一句方向</b>：「这个我没实战过，我的理解是……如果不对请您指正。」华为面试官对<b>坦诚 + 有思路</b>的容忍度远高于硬编。<br>
+      <b>③ 冷场别慌，用"三点框架"争取时间</b>：「这个问题我从三个方面想：一是……二是……」（结构化表达 = 加分）。
+    </div>
+    <div class="bad">⚠️ <b>三条铁律</b>：① 不编造没做过的经历（追问细节必穿）② 不说"我很快就能学会"（显得轻浮）③ 不在技术面纠结薪资/身份，先把技术打下来。</div>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">11</span> ⏰ 冲刺计划（D-3 → D-day · 按面试日倒排）</h2>
+    <table>
+      <tr><th style="width:16%">时段</th><th>任务</th><th style="width:12%">优先级</th></tr>
+      <tr><td><b>D-3 晚上</b></td><td>C 语言细节 10 题过一遍（第 4 节）→ 手撕代码 6 道<b>手写一遍</b>（不能在电脑上敲，练白板手感）</td><td>🔴 P0</td></tr>
+      <tr><td><b>D-2 晚上</b></td><td>自我介绍（第 3 节）背到脱口而出 + C 双向调用 8 问过一遍 + 无经验话术 90 秒复述</td><td>🔴 P0</td></tr>
+      <tr><td><b>D-1 晚上</b></td><td>36 题扫尾（重点：中断/RTOS/总线）→ 行为题 + 反问清单 → 环境准备（远程设备/网络/耳机/纸笔）</td><td>🟡 P1</td></tr>
+      <tr><td><b>D-1 白天</b></td><td>如果来得及：STM32 跑一个串口中断收发或 FreeRTOS 双任务 demo，<b>拿到"我做过"的资格</b></td><td>🟡 P1</td></tr>
+      <tr><td><b>D-day 早上</b></td><td>自我介绍 + C 双向调用话术各过 1 遍 → 三条铁律扫一眼 → 提前 10 分钟进会议室</td><td>⚪</td></tr>
+      <tr><td><b>面试中</b></td><td>手撕代码先讲思路 → 写完主动说边界情况 → 答不出坦诚 + 给方向</td><td>⚪</td></tr>
+      <tr><td><b>面试后</b></td><td>当天记录被问题目 → 回来更新进度中枢面试记录表</td><td>⚪</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">12</span> 📎 配套材料（本方案配合使用）</h2>
+    <table>
+      <tr><th style="width:44%">文档</th><th>用途</th></tr>
+      <tr><td><b>嵌入式面试高频题_20260917.html</b></td><td>36 题完整题库（C 语言 13 + 中断 4 + RTOS 5 + 总线 5 + MCU 5 + Linux 4）</td></tr>
+      <tr><td><b>嵌入式面试_无经验应对话术_20260917.html</b></td><td>无经验话术 + C/Node 双向调用 8 问深挖 + 保命三知识点 + 禁语</td></tr>
+      <tr><td><b>李鑫-嵌入式开发工程师-OD版.html</b></td><td>投递用简历（按真实工作重写，别与话术冲突）</td></tr>
+      <tr><td><b>学习手册_05_C-C++基础.html</b></td><td>指针/内存/STL/socket/epoll 系统复习（30 题）</td></tr>
+      <tr><td><b>学习手册_15_无线网络.html</b></td><td>协议栈细节（被问 802.11/netconf 时用）</td></tr>
+    </table>
+  </div>
+
+  <div class="footer">李鑫 · 求职档案 · 2026-09-17 生成 · 针对华为引望（OD）嵌入式开发岗<br>核心原则：坦诚无经验 + 三点契合 + C 语言/手撕代码不丢分 · 配套《嵌入式52题》《无经验话术》使用</div>
+</div>
+</body>
+</html>
