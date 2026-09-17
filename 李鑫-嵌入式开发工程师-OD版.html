@@ -58,10 +58,10 @@
 </div>
 
 <div class="stats">
-    <div class="stat"><span class="n">3 年</span><span class="l">设备侧软件开发</span></div>
+    <div class="stat"><span class="n">3 年</span><span class="l">软件开发经验</span></div>
     <div class="stat"><span class="n">C/C++</span><span class="l">蓝桥杯研究生组获奖</span></div>
+    <div class="stat"><span class="n">10万/s</span><span class="l">C/Node 双向调用 QPS</span></div>
     <div class="stat"><span class="n">259万+</span><span class="l">现网设备数据规模</span></div>
-    <div class="stat"><span class="n">6GHz</span><span class="l">WiFi7 协议全链路适配</span></div>
 </div>
 
 <h2>教 育 背 景</h2>
@@ -95,16 +95,16 @@
 
 <div class="project">
     <div class="project-head">
-        <span class="project-title">② RRM 无线系统支持 WiFi7（802.11be · 6GHz 频段功能开发）</span>
+        <span class="project-title">② C 算法库与 Node.js 双向调用架构 + RRM WiFi7（802.11be）</span>
         <span class="project-period">2024.01 - 2024.12</span>
     </div>
-    <div class="tech-line">Node.js · 802.11 协议 · MongoDB · <b>C 库调用层开发</b></div>
+    <div class="tech-line">C 语言 · <b>函数指针 / 回调机制</b> · node-ffi 双向调用 · Node.js · 802.11 协议</div>
     <ul>
-        <li>负责 6GHz 频段（802.11be）功能的<b>页面、接口、数据库设计与 C 库入参适配改造</b></li>
-        <li><b>自主开发 C 算法库调用层</b>：封装 C 库调用接口，支持直接传入参数获取计算结果、绕过完整云端调优流程，显著提升算法测试效率</li>
-        <li>独立接手无文档遗留系统，1 个月理清全链路调用逻辑并持续维护</li>
+        <li><b>参与设计 C 算法库（clib）与 Node.js 的双向调用架构</b>：解决大批量 AP 调优场景下数据包过大导致的 OOM 问题（原一次性输入输出模式无法承载大数据量）</li>
+        <li>基于 node-ffi 实现 <b>C ↔ JS 双向调用</b>：因 FFI 不支持异步，设计<b>函数指针映射表（函数名 → 函数指针）</b>+ 初始化注册机制——将 JS 侧可调用函数注册给 C、函数指针固化为全局变量，通过 <b>method-data-callback</b> 协议完成异步回调与<b>嵌套调用</b></li>
+        <li>负责 6GHz 频段（802.11be）功能的页面、接口、数据库设计与 C 库入参适配改造；独立接手无文档遗留系统，1 个月理清全链路逻辑</li>
     </ul>
-    <div class="result-line">成果：2.4G / 5G / 6G 三频段统一调度，支撑 WiFi7 商用落地</div>
+    <div class="result-line">成果：支撑 <span class="num">10 万/s</span> QPS 压力，解决大数据量场景 OOM；2.4G/5G/6G 三频段统一调度，支撑 WiFi7 商用落地</div>
 </div>
 
 <div class="project">
@@ -122,7 +122,7 @@
 
 <h2>技 术 栈</h2>
 <div class="skills-grid">
-    <div class="skill-item"><b>C / C++（核心）</b>：C/C++ 程序设计（蓝桥杯研究生组二等奖）· 指针与内存管理 · 结构体 · 位操作 · <b>自主开发 C 算法库调用层</b></div>
+    <div class="skill-item"><b>C / C++（核心）</b>：C/C++ 程序设计（蓝桥杯研究生组二等奖）· <b>函数指针与回调机制</b> · 指针与内存管理 · 结构体 · 位操作 · <b>C/JS 双向调用接口设计</b></div>
     <div class="skill-item"><b>系统与工具</b>：Linux 环境开发调试 · Shell 脚本 · Python 子进程调用 · VM 虚拟机管理 · 交叉编译（了解）</div>
     <div class="skill-item"><b>通信协议（优势）</b>：TCP/IP 协议栈 · 802.11 无线协议（2.4G/5G/6G）· Netconf/YANG · 设备上报数据格式设计与链路调试</div>
     <div class="skill-item"><b>嵌入式基础（在学）</b>：MCU 原理（STM32）· 中断/轮询机制 · RTOS 概念（FreeRTOS）· UART/SPI/I2C/CAN 总线原理 · Flash vs RAM</div>
@@ -143,7 +143,7 @@
 
 <h2>自 我 评 价</h2>
 <div class="section" style="font-size: 12.5px; line-height: 1.7;">
-    · <b>C/C++ 底层功底</b>：竞赛获奖 + <b>自主开发 C 算法库调用层</b>（参数封装/结果解析/跨语言调用），理解内存管理与底层调用约束<br>
+    · <b>C 底层实战</b>：竞赛获奖 + <b>设计 C 算法库与 Node.js 双向调用架构</b>（函数指针映射表 / 回调机制 / method-data-callback 协议），支撑 <b>10 万/s QPS</b><br>
     · <b>设备通信实战</b>：3 年网络管理系统开发，参与设备上报数据格式设计、Kafka 上报链路调试与设备分组调度逻辑<br>
     · <b>协议栈优势</b>：深入 TCP/IP、802.11（WiFi7/6GHz）、Netconf，具备设备通信链路的问题定位能力<br>
     · <b>工程化与学习力</b>：电子信息硕士，嵌入式方向（MCU/RTOS/总线）基础原理已系统学习，上手快、能吃苦
