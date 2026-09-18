@@ -1,131 +1,641 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>07 JVM · 学习手册</title><style>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📘 学习手册 07 · JVM · 学习手册</title><style>
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:60px; }
+body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:70px; -webkit-text-size-adjust:100%; }
 .topnav { position:sticky; top:0; z-index:9; background:#1f2937; color:#fff; padding:10px 0; }
 .topnav .inner { max-width:960px; margin:0 auto; padding:0 18px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; font-size:13px; }
 .topnav a { color:#c7d2fe; text-decoration:none; padding:3px 12px; border-radius:14px; background:rgba(255,255,255,.08); }
 .topnav a:hover { background:rgba(255,255,255,.2); color:#fff; }
 .topnav .sep { opacity:.4; }
 .wrap { max-width:960px; margin:0 auto; padding:0 18px; }
-.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px; margin-top:22px; box-shadow:0 1px 3px rgba(20,30,60,.05); }
+.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px 28px; margin-top:22px; box-shadow:0 1px 3px rgba(20,30,60,.05); }
 .article h1 { font-size:26px; color:#4f46e5; border-bottom:3px solid #4f46e5; padding-bottom:12px; margin-bottom:18px; }
-.article h2 { font-size:20px; margin:30px 0 12px; padding:10px 14px; background:#eef2ff; border-left:4px solid #4f46e5; border-radius:6px; color:#312e81; }
-.article h3 { font-size:14px; color:#475569; margin:14px 0 6px; }
-.article p { margin:8px 0; font-size:14.5px; color:#2b3245; }
-.article ul, .article ol { margin:8px 0 8px 24px; }
-.article li { font-size:14.5px; margin:4px 0; }
-.article strong { color:#111827; }
+.meta { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; border-radius:6px; color:#166534; font-size:13px; margin-bottom:8px; }
+
+.toolbar { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:18px 0 6px; padding:12px 14px; background:#eef2ff; border-radius:10px; border:1px solid #dbe2fb; position:sticky; top:44px; z-index:8; }
+.toolbar button { font-family:inherit; font-size:13px; padding:7px 14px; border-radius:16px; border:1px solid #c7d2fe; background:#fff; color:#4338ca; cursor:pointer; }
+.toolbar button:hover { background:#e0e7ff; }
+.toolbar button.on { background:#4f46e5; color:#fff; border-color:#4f46e5; }
+.toolbar .count { font-size:12.5px; color:#4f46e5; margin-left:auto; font-weight:600; }
+
+.kp { border-bottom:1px dashed #dbe0ea; padding:22px 0 10px; }
+.kp:last-child { border-bottom:none; }
+.kp-head { display:flex; gap:10px; align-items:flex-start; margin-bottom:12px; }
+.kp-no { flex:none; width:26px; height:26px; border-radius:8px; background:#4f46e5; color:#fff; font-size:13px; display:flex; align-items:center; justify-content:center; font-weight:600; margin-top:3px; }
+.kp-head h2 { font-size:18px; color:#312e81; line-height:1.5; }
+
+.concept { background:#f5f3ff; border-left:4px solid #8b5cf6; border-radius:8px; padding:12px 16px; margin:10px 0; }
+.tag { display:inline-block; font-size:11.5px; padding:2px 10px; border-radius:10px; margin-bottom:6px; font-weight:600; letter-spacing:.5px; }
+.tag-c { background:#ddd6fe; color:#4c1d95; }
+.tag-q { background:#fed7aa; color:#7c2d12; }
+.concept-body p { font-size:14.5px; color:#3b3355; margin:6px 0; }
+.concept-body p:first-child { margin-top:0; }
+
+.ask { background:#fffbeb; border-left:4px solid #f59e0b; border-radius:8px; padding:12px 16px; margin:10px 0 14px; }
+.ask-body ul, .ask-body ol { margin:4px 0 4px 22px; }
+.ask-body li { font-size:14.5px; color:#78350f; margin:5px 0; }
+.ask-body p { font-size:14.5px; color:#78350f; margin:5px 0; }
+
+details.ans { margin:6px 0 4px; }
+details.ans > summary { list-style:none; cursor:pointer; display:flex; align-items:center; gap:8px; background:#4f46e5; color:#fff; padding:11px 16px; border-radius:9px; font-size:14px; font-weight:600; user-select:none; }
+details.ans > summary::-webkit-details-marker { display:none; }
+details.ans > summary:hover { background:#4338ca; }
+.arrow { width:0; height:0; border-left:7px solid #fff; border-top:5px solid transparent; border-bottom:5px solid transparent; transition:transform .18s; }
+details.ans[open] > summary .arrow { transform:rotate(90deg); }
+details.ans[open] > summary .sum-text::after { content:" ▲"; font-size:11px; opacity:.7; }
+.ans-inner { border-left:3px solid #c7d2fe; margin:8px 0 0 14px; padding:6px 0 6px 18px; }
+.ans-body p { font-size:14.5px; margin:8px 0; }
+.ans-body h3 { font-size:15px; color:#1e293b; margin:16px 0 8px; padding-left:10px; border-left:3px solid #818cf8; }
+.ans-body ul, .ans-body ol { margin:8px 0 8px 24px; }
+.ans-body li { font-size:14.5px; margin:5px 0; }
+.ans-body strong { color:#111827; }
+.sec-h { font-size:12.5px; color:#0f766e; background:#ccfbf1; display:inline-block; padding:2px 12px; border-radius:10px; margin:18px 0 6px; font-weight:600; }
+.ext-body { border-left:3px solid #5eead4; padding-left:14px; margin-bottom:6px; }
+.ext-body p { font-size:14.5px; margin:8px 0; }
+.ext-body ul, .ext-body ol { margin:8px 0 8px 24px; }
+.ext-body li { font-size:14.5px; margin:5px 0; }
+details.sub { margin:12px 0 0; border:1px solid #e4e8f0; border-radius:9px; overflow:hidden; }
+details.sub > summary { list-style:none; cursor:pointer; padding:10px 14px; font-size:13.5px; background:#f8fafc; color:#334155; font-weight:600; user-select:none; }
+details.sub > summary::-webkit-details-marker { display:none; }
+details.sub > summary::before { content:"▸ "; color:#94a3b8; }
+details.sub[open] > summary::before { content:"▾ "; }
+details.sub[open] > summary { border-bottom:1px solid #e4e8f0; }
+.sub-body { padding:12px 16px; }
+.sub-body p { font-size:14.5px; margin:7px 0; }
+.sub-body ul, .sub-body ol { margin:7px 0 7px 24px; }
+.sub-body li { font-size:14.5px; margin:5px 0; }
+details.sub-ask > summary { background:#fff7ed; color:#9a3412; }
+details.sub-anchor > summary { background:#f0fdf4; color:#166534; }
+details.sub-anchor .sub-body { background:#fafffb; }
+
 .article code { background:#f1f3fa; padding:1px 6px; border-radius:4px; font-size:13px; color:#be185d; }
-.article pre { background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:8px; overflow-x:auto; margin:12px 0; font-size:13px; line-height:1.6; }
-.article pre code { background:none; color:inherit; padding:0; }
-.article table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13.5px; display:block; overflow-x:auto; }
-.article th { background:#f1f3fa; padding:8px 10px; text-align:left; color:#475569; font-size:12.5px; border:1px solid #e4e8f0; }
+.article pre { background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:8px; overflow-x:auto; margin:12px 0; font-size:12.8px; line-height:1.65; }
+.article pre code { background:none; color:inherit; padding:0; font-size:12.8px; }
+.article table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; display:block; overflow-x:auto; }
+.article th { background:#f1f3fa; padding:8px 10px; text-align:left; color:#475569; font-size:12.5px; border:1px solid #e4e8f0; white-space:nowrap; }
 .article td { padding:8px 10px; border:1px solid #e4e8f0; vertical-align:top; }
 .article blockquote { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; margin:12px 0; border-radius:6px; color:#166534; font-size:14px; }
-.article blockquote strong { color:#14532d; }
 .article hr { border:none; border-top:1px dashed #d1d5db; margin:26px 0; }
+
+body.quiz details.ans > summary { background:#94a3b8; }
+body.quiz details.ans:not([open]) .sum-text::after { content:"（自测中，先自己答）"; font-size:11.5px; font-weight:400; opacity:.9; }
+body.hide-ans details.ans { display:none; }
+
 .bottomnav { max-width:960px; margin:20px auto 0; padding:0 18px; display:flex; gap:10px; }
 .bottomnav a { flex:1; text-align:center; background:#4f46e5; color:#fff; text-decoration:none; padding:12px 10px; border-radius:10px; font-size:14px; }
 .bottomnav a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
-@media (max-width:760px){ .article{padding:22px 18px;} .article h1{font-size:21px;} }
-/* handbook-layout-fix */
-.article p.lead { background:#eef2ff; border-left:4px solid #6366f1; padding:10px 14px; border-radius:6px; color:#312e81; margin:10px 0 4px; }
-.article p.lbl { font-size:13px; color:#64748b; margin:14px 0 4px; }
-.article p.say { background:#fff7ed; border-left:4px solid #f97316; padding:10px 14px; border-radius:6px; color:#7c2d12; margin:12px 0 4px; }
-.article h3 { font-size:15.5px; color:#1e293b; margin:26px 0 10px; padding-left:10px; border-left:3px solid #818cf8; }
-.article ul { margin:6px 0 6px 22px; }
-.article ol { margin:6px 0 6px 24px; }
-.article li { margin:5px 0; }
-.article ul ul { margin:4px 0 4px 20px; }
+.totop { position:fixed; right:18px; bottom:22px; width:44px; height:44px; border-radius:50%; background:#4f46e5; color:#fff; display:flex; align-items:center; justify-content:center; font-size:18px; text-decoration:none; box-shadow:0 2px 10px rgba(79,70,229,.35); z-index:20; }
+@media (max-width:760px){
+  .article { padding:22px 16px 20px; }
+  .article h1 { font-size:21px; }
+  .kp-head h2 { font-size:16.5px; }
+  .toolbar { top:40px; padding:10px; }
+  .toolbar button { font-size:12.5px; padding:6px 11px; }
+  .toolbar .count { width:100%; margin:2px 0 0; }
+  .ans-inner { margin-left:4px; padding-left:12px; }
+  body { font-size:15px; }
+}
 </style></head>
 <body>
-<div class="topnav"><div class="inner"><a href="学习中心.html">🏠 学习中心</a> <span class="sep">|</span> <a href="学习手册索引.html">📚 手册索引</a> <span class="sep">|</span> <a href="学习手册_06_Java基础.html">◀ 06 Java</a> <span class="sep">|</span> <a href="学习手册_08_并发与锁.html">08 并发锁 ▶</a></div></div>
-<div class="wrap"><article class="article"><h1>📘 学习手册 07 · JVM</h1>
-<blockquote>
-<p>配套《面试八股复习计划》第 2 节 JVM + PDF 第 56-60 页<br />
-模板：<strong>一句话结论 → 详细解释 → 面试话术/例题</strong><br />
-Java 岗（酷开/工行/银行系）必考；Node.js 岗问到概率低但你会了是加分</p>
-</blockquote>
-<hr />
-<h2>1. JVM 内存区域划分（运行时数据区）</h2>
-<p class="lead"><strong>一句话结论</strong>：线程私有（程序计数器、虚拟机栈、本地方法栈）+ 线程共享（堆、方法区/元空间）；堆管对象、栈管方法调用。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+<div class="topnav"><div class="inner"><a href="学习中心.html">🏠 学习中心</a> <span class="sep">|</span> <a href="学习手册索引.html">📚 手册索引</a></div></div>
+<div class="wrap"><article class="article">
+<h1>📘 学习手册 07 · JVM</h1>
+<div class="meta">配套《面试八股复习计划》第 2 节 JVM + PDF 第 56-60 页<br />结构：**概念（常显）→ 面试官会怎么问（常显）→ 答案与原理（点开）→ 拓展 + 追问 + 项目锚点**<br />Java 岗必考；本文按「能扛住追问」标准编写，含可执行命令与真实排查 SOP</div>
+
+<div class="toolbar">
+  <button id="btnQuiz" type="button">自测模式</button>
+  <button id="btnOpen" type="button">全部展开</button>
+  <button id="btnClose" type="button">全部折叠</button>
+  <span class="count" id="cnt">已看 0 / 12</span>
+</div>
+
+<section class="kp" id="kp1">
+<div class="kp-head">
+<span class="kp-no">1</span>
+<h2>JVM 内存区域划分（运行时数据区）</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>线程私有：程序计数器、虚拟机栈、本地方法栈；线程共享：堆、方法区/元空间。外加一块不受堆限制的直接内存。
+一句话记：<strong>栈管方法调用、堆管对象、元空间存类</strong>。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>讲一下 JVM 的内存结构？</li>
+<li>哪些区域线程私有，哪些共享？</li>
+<li>堆内部怎么划分？新生代为什么是 8:1:1？</li>
+<li>元空间和永久代什么区别，为什么 JDK8 要换掉？</li>
+</ul></div>
+</div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body"><p><strong>区域总表</strong></p>
 <table>
 <thead>
 <tr>
 <th>区域</th>
 <th>线程</th>
-<th>内容</th>
+<th>存什么</th>
 <th>异常</th>
+<th>相关参数</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>程序计数器</td>
 <td>私有</td>
-<td>当前执行字节码行号</td>
+<td>当前字节码行号</td>
 <td>无</td>
+<td>—</td>
 </tr>
 <tr>
 <td>虚拟机栈</td>
 <td>私有</td>
-<td>栈帧：局部变量表/操作数栈/方法返回</td>
+<td>栈帧（局部变量表/操作数栈/动态链接/返回地址）</td>
 <td>StackOverflowError</td>
+<td><code>-Xss</code></td>
 </tr>
 <tr>
 <td>本地方法栈</td>
 <td>私有</td>
-<td>native 方法（类比 node-ffi 调 C）</td>
+<td>native 方法（就是 node-ffi 调 C 那层）</td>
 <td>StackOverflowError</td>
+<td><code>-Xss</code></td>
 </tr>
 <tr>
 <td><strong>堆</strong></td>
 <td>共享</td>
-<td>对象实例（新生代 Eden/S0/S1 + 老年代）</td>
+<td>对象实例、数组</td>
 <td>OutOfMemoryError</td>
+<td><code>-Xms</code> <code>-Xmx</code></td>
 </tr>
 <tr>
 <td><strong>方法区/元空间</strong></td>
 <td>共享</td>
-<td>类信息/常量/静态变量（JDK8+ 元空间用本地内存）</td>
-<td>OOM</td>
+<td>类元信息、运行时常量池、JIT 后的静态结构</td>
+<td>OOM: Metaspace</td>
+<td><code>-XX:MaxMetaspaceSize</code></td>
 </tr>
 <tr>
 <td>直接内存</td>
 <td>—</td>
-<td>NIO DirectBuffer 堆外</td>
-<td>OOM</td>
+<td>NIO DirectByteBuffer 堆外内存</td>
+<td>OOM: Direct buffer memory</td>
+<td><code>-XX:MaxDirectMemorySize</code></td>
 </tr>
 </tbody>
 </table>
-<p class="say"><strong>话术/例题</strong>：画图 + "栈管方法、堆管对象、元空间存类"。追问：JDK8 为什么用元空间替代永久代？→ 永久代大小固定易 OOM，元空间用本地内存天然不受 JVM 堆限制。</p>
-<h2>2. 类加载机制（加载-验证-准备-解析-初始化）</h2>
-<p class="lead"><strong>一句话结论</strong>：加载→验证→准备→解析→初始化，五个阶段；准备阶段给静态变量赋默认值，初始化阶段执行静态代码块。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
-<ol><li><strong>加载</strong>：读 .class 字节码 → 生成 Class 对象</li><li><strong>验证</strong>：校验字节码合法性（安全）</li><li><strong>准备</strong>：为静态变量分配内存并赋<strong>默认值</strong>（0/null），final 常量直接赋值</li><li><strong>解析</strong>：符号引用 → 直接引用（常量池解析）</li><li><strong>初始化</strong>：执行 <code>&lt;clinit&gt;</code>（静态代码块、静态变量赋值）</li></ol>
-<ul><li>触发初始化时机：new/getstatic/反射/主类；被动引用（子类引用父类静态、数组、常量）不触发</li></ul>
-<p class="say"><strong>话术/例题</strong>：背五阶段 + "准备=默认值，初始化=真正赋值"。追问：什么时候类不会初始化？→ 静态常量（编译期常量池）、数组定义、通过子类引用父类静态字段。</p>
-<h2>3. 类加载器与双亲委派</h2>
-<p class="lead"><strong>一句话结论</strong>：Bootstrap → Extension/Platform → Application 三层，子先委派父，父加载不了才自己加载——防核心类被篡改、保证类唯一。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
-<ul><li>Bootstrap：加载 JDK 核心（rt.jar），C++ 实现，没有父</li><li>Extension/Platform：JDK9+ 改名，加载扩展库</li><li>Application：加载 classpath 应用类</li><li><strong>双亲委派流程</strong>：加载请求 → 逐级向上委托 → 父能加载就用父的 → 全失败才自己 loadClass</li><li>好处：安全（自定义 java.lang.String 不会覆盖）、避免重复加载（类唯一性）</li><li>破坏：SPI 场景（JDBC DriverManager）用线程上下文加载器反向加载</li></ul>
-<p class="say"><strong>话术/例题</strong>：背"委派链 + 两个好处"。追问：Tomcat 为什么打破双亲委派？→ 多个 WebApp 要隔离自己的类库，用子优先加载。</p>
-<h2>4. 对象在内存中的布局</h2>
-<p class="lead"><strong>一句话结论</strong>：对象 = 对象头（Mark Word + 类型指针）+ 实例数据 + 对齐填充；Mark Word 存锁状态/GC 年龄/hash。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
-<ul><li><strong>Mark Word</strong>：64 位，存 hashCode、GC 分代年龄（4bit）、锁标志位（无锁/偏向/轻量/重量）、偏向线程 id——这就是 synchronized 锁升级的载体</li><li>类型指针：指向方法区的 Class（开启压缩指针时省略优化）</li><li>实例数据：字段值（按对齐规则排列）</li><li>对齐填充：对象大小是 8 字节整数倍</li></ul>
-<p class="say"><strong>话术/例题</strong>：重点说"Mark Word 里存锁状态"——串起 synchronized。追问：对象头大小？→ 64 位 JVM 压缩指针下 12 字节（Mark Word 8 + 类型指针 4）。</p>
-<h2>5. 垃圾回收：判断 + 算法</h2>
-<p class="lead"><strong>一句话结论</strong>：可达性分析（GC Roots）判垃圾；回收算法：标记清除（碎片）、复制（新生代）、标记整理（老年代）。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
-<ul><li><strong>可达性分析</strong>：从 GC Roots（栈帧局部变量、静态变量、常量引用、native 引用）出发，不可达即垃圾；引用计数有循环引用缺陷不用</li><li>四种引用：强（不回收）/软（内存不足回收，缓存）/弱（下次 GC 就回收）/虚（跟踪回收）</li><li>算法：<ul><li>标记-清除：标记垃圾后清除 → 碎片多</li><li>复制：把存活对象复制到另一块 → 无碎片、浪费一半空间（新生代 Eden:S0:S1=8:1:1 就是）</li><li>标记-整理：存活对象移到一端 → 无碎片、慢（老年代）</li></ul></li><li>分代：新生代（复制，Minor GC 频繁）+ 老年代（标记整理，Major/Full GC）</li></ul>
-<p class="say"><strong>话术/例题</strong>：答"可达性 + 三种算法对应两个分代"。追问：为什么新生代用复制？→ 存活率低，复制成本低；老年代存活率高，用标记整理。</p>
-<h2>6. 垃圾回收器：G1 与 CMS</h2>
-<p class="lead"><strong>一句话结论</strong>：CMS 并发标记清除（低停顿但碎片多），G1 是 JDK9+ 默认（Region 化、可预测停顿、无碎片）。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
-<ul><li><strong>CMS</strong>：初始标记（快）→ 并发标记（与业务并发）→ 重新标记 → 并发清除；优点低停顿，缺点：标记清除碎片、并发阶段占 CPU、并发失败退化为 Full GC</li><li><strong>G1</strong>：堆划分为多个 Region（新生代/老年代逻辑分区），跟踪每个 Region 垃圾占比，<strong>优先回收垃圾最多的</strong>（Garbage First）；可设置停顿目标 -XX:MaxGCPauseMillis；无碎片（复制整理）；JDK9 默认</li><li>对比：</li></ul>
+<p><strong>堆内部分代</strong></p>
+<pre><code>┌─────────────────── 堆（-Xms / -Xmx）───────────────────┐
+│  新生代 Young（1/3）           │   老年代 Old（2/3）      │
+│  ┌──────┬──────┬──────┐        │                        │
+│  │ Eden │ S0   │ S1   │        │  标记-整理 / 复制        │
+│  │  8   │  1   │  1   │        │                        │
+│  └──────┴──────┴──────┘        │                        │
+│        ← Minor GC              │       ← Major / Full GC │
+└────────────────────────────────────────────────────────┘
+</code></pre>
+<p><strong>为什么新生代是 8:1:1</strong>：新生代里 98% 的对象朝生夕死，存活对象极少。Eden 拿 80% 撑住分配量，两块 Survivor 各 10% 轮流做复制目标（永远有一块是空的）。10% 足够放下存活对象，比「1:1 复制」浪费一半空间划算得多。</p>
+<p><strong>栈溢出 vs 堆溢出</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>StackOverflowError</th>
+<th>OOM: Java heap space</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>根因</td>
+<td>栈深度超限（递归太深 / 死递归）</td>
+<td>堆中对象太多且不可回收</td>
+</tr>
+<tr>
+<td>参数</td>
+<td><code>-Xss</code> 每线程栈大小</td>
+<td><code>-Xms</code> / <code>-Xmx</code></td>
+</tr>
+<tr>
+<td>查什么</td>
+<td>递归出口、无限循环调用链</td>
+<td>dump 看谁在占内存</td>
+</tr>
+</tbody>
+</table>
+<p><strong>JDK8 为什么用元空间替代永久代</strong></p>
+<ol>
+<li>永久代<strong>在堆里</strong>（受 <code>-Xmx</code> 挤占），大小固定（<code>-XX:MaxPermSize</code>），很容易 <code>OOM: PermGen space</code></li>
+<li>永久代的调优极难：GC 与老年代绑定，要等 Full GC 才回收</li>
+<li>元空间改用<strong>本地内存（Native Memory）</strong>，默认不设上限，也可用 <code>-XX:MaxMetaspaceSize</code> 控制</li>
+<li>JDK7 已把字符串常量池和静态变量移到堆，是过渡；JDK8 彻底移除永久代</li>
+</ol></div><div class="sec-h">拓展</div><div class="ext-body"><p><strong>直接内存为什么容易漏</strong></p>
+<p>NIO 的 <code>DirectByteBuffer</code> 分配在堆外，由 <code>Cleaner</code>（虚引用）在 GC 时触发释放。堆内那个 <code>DirectByteBuffer</code> 对象很小，堆压力不大 → 迟迟不 GC → 堆外内存一直不还。现象是「堆很健康但进程 RSS 一直涨、最后被容器 OOMKilled」。</p>
+<p>排查：启动加 <code>-XX:NativeMemoryTracking=summary</code>，然后 <code>jcmd &lt;pid&gt; VM.native_memory summary</code> 看各区域占用。Netty、Kafka 客户端、gRPC 都是直接内存大户。</p></div><details class="sub sub-ask"><summary>继续追问（面试官下一步会问什么）</summary><div class="sub-body"><p><strong>Q：栈帧大小是编译期确定的吗？</strong>
+大部分是——局部变量表大小、操作数栈深度在编译期算好写在 <code>Code</code> 属性里。但逃逸分析带来的「栈上分配」是运行时优化，属于另一回事。</p>
+<p><strong>Q：一个对象从创建到回收，会经过哪些区域？</strong>
+TLAB（Eden 内线程私有的分配缓冲区）→ Eden → Survivor S0/S1 轮流复制 → 达到年龄阈值（默认 15）或大对象 → 老年代 → 回收。</p>
+<p><strong>Q：方法区里到底存什么？</strong>
+类元信息（Class 结构、字段/方法描述符）、运行时常量池、静态变量（JDK7+ 已移到堆）、以及 <code>Class</code> 对象本身。注意：JIT 编译后的代码不在方法区，在独立的 <strong>Code Cache</strong>。</p></div></details><details class="sub sub-anchor"><summary>挂到我的项目上</summary><div class="sub-body"><p>rrmcompute 现网 OOM 的真实教训：容器内存 limit ≠ 堆大小。<code>-Xmx5g</code> 的 Pod，实际 RSS = 堆 + 元空间 + 线程栈（<code>-Xss</code> × 线程数）+ 直接内存 + Code Cache。我们把内存从 5Gi 调到 5.5GiB（requests=3Gi），本质是把「堆 + 非堆」的总和撑开——因为高量任务并发时，除了堆，线程栈和元空间也在涨。</p>
+<p><strong>容器环境两条铁律</strong>：① 必须显式设 <code>-Xmx</code>（别让 JVM 自己按宿主机物理内存猜，会猜成节点总内存然后被 OOMKilled）；② <code>-Xmx</code> 要比容器 limit 留出 <strong>25% 以上</strong>余量给非堆。被 cgroup OOMKilled（Exit Code 137）时，日志里<strong>看不到</strong> <code>OutOfMemoryError</code>，只有 K8s 的 <code>OOMKilled</code> 事件——这个区别很多人踩过。</p></div></details></div>
+</details>
+</section>
+<section class="kp" id="kp2">
+<div class="kp-head">
+<span class="kp-no">2</span>
+<h2>类加载机制（加载-验证-准备-解析-初始化）</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>五个阶段：<strong>加载 → 验证 → 准备 → 解析 → 初始化</strong>（之后才是使用和卸载）。
+最容易被追问的一句：<strong>准备阶段给静态变量赋「默认值」（0/null），初始化阶段执行 <code>&lt;clinit&gt;</code> 赋「真实值」</strong>。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>讲一下类加载的过程？</li>
+<li>准备阶段和初始化阶段有什么区别？</li>
+<li>什么情况会触发类初始化？什么情况不会？</li>
+<li>静态代码块和静态变量赋值的执行顺序？</li>
+</ul></div>
+</div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body"><p><strong>五阶段</strong></p>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>做什么</th>
+<th>关键点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>加载</td>
+<td>读 .class 字节码，生成 <code>Class</code> 对象</td>
+<td>来源可以是文件/网络/动态代理生成</td>
+</tr>
+<tr>
+<td>验证</td>
+<td>校验字节码合法性</td>
+<td>文件格式、元数据、字节码、符号引用四类校验</td>
+</tr>
+<tr>
+<td><strong>准备</strong></td>
+<td>给静态变量分配内存并赋<strong>默认值</strong></td>
+<td><code>static int a = 10</code> 此时 a = <strong>0</strong>；<code>static final int b = 10</code> 直接是 10（常量在编译期已确定）</td>
+</tr>
+<tr>
+<td>解析</td>
+<td>符号引用 → 直接引用</td>
+<td>可以延迟到首次使用时才解析</td>
+</tr>
+<tr>
+<td><strong>初始化</strong></td>
+<td>执行 <code>&lt;clinit&gt;</code></td>
+<td>静态变量赋真实值 + 静态代码块；<strong>按代码书写顺序</strong>执行</td>
+</tr>
+</tbody>
+</table>
+<p><strong>触发初始化的 6 种「主动引用」</strong></p>
+<ol>
+<li><code>new</code>、读写静态字段（非 final 常量）、调用静态方法</li>
+<li>反射 <code>Class.forName()</code></li>
+<li>初始化子类时先初始化父类</li>
+<li>虚拟机启动时的主类</li>
+<li><code>MethodHandle</code> / <code>VarHandle</code> 解析结果</li>
+<li>默认方法（接口的 default）的实现类被初始化时</li>
+</ol>
+<p><strong>不触发初始化的 3 种「被动引用」</strong></p>
+<ol>
+<li>通过子类引用父类的静态字段 → 只初始化父类，不初始化子类</li>
+<li>定义数组 <code>Foo[] arr = new Foo[10]</code> → 不初始化 Foo</li>
+<li>引用编译期常量 <code>static final</code> → 常量在编译期进了调用方的常量池（已折叠）</li>
+</ol></div><div class="sec-h">拓展</div><div class="ext-body"><p><strong><code>&lt;clinit&gt;</code> 是线程安全的</strong></p>
+<p>JVM 保证一个类的 <code>&lt;clinit&gt;</code> 只被一个线程执行，其他线程阻塞等待。所以「静态内部类 Holder 单例」是天然线程安全的懒加载写法——这正好解释了手册 11 里那个单例为什么会推荐它。</p>
+<p><strong>类卸载（卸载条件很苛刻，三者同时满足）</strong></p>
+<ol>
+<li>该类的<strong>所有实例</strong>都已被回收</li>
+<li>加载该类的 <strong>ClassLoader</strong> 已被回收</li>
+<li>该类的 <code>Class</code> 对象没有被任何地方引用</li>
+</ol>
+<p>热部署场景下 ClassLoader 被静态字段 / ThreadLocal / 线程池引用住，条件 2 永远不成立 → 类卸载不掉 → <strong>元空间泄漏</strong>（详见第 11 题）。</p></div><details class="sub sub-ask"><summary>继续追问（面试官下一步会问什么）</summary><div class="sub-body"><p><strong>Q：静态变量和静态代码块的执行顺序？</strong>
+按<strong>书写顺序</strong>。<code>static { a = 1; } static int a = 2;</code> 最终 a = 2；反过来则 a = 1。这是常见笔试题。</p>
+<p><strong>Q：<code>Class.forName()</code> 和 <code>ClassLoader.loadClass()</code> 区别？</strong>
+<code>Class.forName</code> 默认会<strong>执行初始化</strong>（第二个参数可关）；<code>loadClass</code> 只到加载阶段，<strong>不初始化</strong>。JDBC 老代码用 <code>Class.forName("com.mysql.Driver")</code> 就是为了触发静态代码块注册驱动。</p>
+<p><strong>Q：<code>&lt;init&gt;</code> 和 <code>&lt;clinit&gt;</code> 区别？</strong>
+<code>&lt;clinit&gt;</code> 是类构造器（静态代码 + 静态变量），一个类一个；<code>&lt;init&gt;</code> 是实例构造器（实例变量 + 构造方法体），每个构造器一个。</p></div></details><details class="sub sub-anchor"><summary>挂到我的项目上</summary><div class="sub-body"><p>你的项目里有两处能讲：① <strong>node-ffi 加载 <code>.so</code></strong> 和 JVM 加载 native 库是同构的——<code>System.loadLibrary()</code> 会触发 <code>JNI_OnLoad</code>，跟 <code>&lt;clinit&gt;</code> 的角色一样（库级初始化钩子）。② Spring 启动慢，很大一部分就是「扫描 + 反射加载类 + 生成代理类」的开销——这跟你查 Metaspace 涨得快是同一件事的两面。</p></div></details></div>
+</details>
+</section>
+<section class="kp" id="kp3">
+<div class="kp-head">
+<span class="kp-no">3</span>
+<h2>类加载器与双亲委派</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>三层加载器：<strong>Bootstrap（C++ 实现，加载 JDK 核心）→ Platform/Ext（扩展库）→ Application（classpath 应用类）</strong>，另有自定义加载器。
+规则：收到加载请求先<strong>逐级向上委派</strong>，父能加载就用父的，全失败才自己加载。两个好处：<strong>安全（防核心类被篡改）+ 唯一（同一个类只被加载一次）</strong>。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>什么是双亲委派机制？为什么需要它？</li>
+<li>有哪些类加载器？各加载什么？</li>
+<li>什么时候会「破坏」双亲委派？举几个真实例子。</li>
+<li>怎么自己写一个类加载器？</li>
+</ul></div>
+</div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body"><p><strong>委派链</strong></p>
+<pre><code>Bootstrap ClassLoader   ← C++ 实现，加载 $JAVA_HOME/lib（rt.jar / java.base）
+        ↑ 委派
+Platform ClassLoader    ← JDK9+ 从 Extension 改名，加载扩展库
+        ↑ 委派
+Application ClassLoader ← 加载 classpath / -cp 指定的应用类
+        ↑ 委派
+Custom ClassLoader      ← 自定义，如 Tomcat、Spring Boot 的 LaunchedURLClassLoader
+</code></pre>
+<p><strong>两个作用</strong></p>
+<ol>
+<li><strong>安全</strong>：自己写一个 <code>java.lang.String</code> 不会被加载——请求一路上委派到 Bootstrap，发现核心库已有，直接用核心库的。防止核心 API 被替换。</li>
+<li><strong>唯一性</strong>：同一份 class 文件被不同路径加载，也只会得到一个 <code>Class</code> 对象，避免 <code>instanceof</code> / 类型转换莫名失败。</li>
+</ol>
+<p><strong>三次「破坏」</strong></p>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>谁破坏</th>
+<th>为什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SPI（JDBC、SLF4J）</td>
+<td>线程上下文类加载器</td>
+<td>接口在核心库（Bootstrap 加载），实现类在应用 classpath（App 加载），父加载器看不到子加载器的类 → 用 <code>Thread.currentThread().getContextClassLoader()</code> 反向加载</td>
+</tr>
+<tr>
+<td>Tomcat / Web 容器</td>
+<td><code>WebAppClassLoader</code> 子优先</td>
+<td>多个 WebApp 要用不同版本的同一个库，必须隔离 → 先自己加载，加载不到再委派父</td>
+</tr>
+<tr>
+<td>OSGi / 热部署</td>
+<td>网状委派</td>
+<td>按包级别细粒度委派，支持模块热插拔</td>
+</tr>
+</tbody>
+</table></div><div class="sec-h">拓展</div><div class="ext-body"><p><strong>Spring Boot 的 LaunchedURLClassLoader</strong></p>
+<p>Spring Boot fat jar 里的依赖不在文件系统上（嵌在 jar 的 <code>BOOT-INF/lib/</code> 里），所以自定义了加载器从嵌套 jar 里读字节流。这是「不用打破委派、只是换加载来源」的例子——重写 <code>findClass</code> 而不是 <code>loadClass</code>。</p>
+<p><strong>怎么自定义类加载器</strong></p>
+<pre><code class="language-java">public class MyLoader extends ClassLoader {
+    private final String baseDir;
+
+    public MyLoader(String baseDir) {
+        super(ClassLoader.getSystemClassLoader().getParent()); // 指定父
+        this.baseDir = baseDir;
+    }
+
+    @Override
+    protected Class&lt;?&gt; findClass(String name) throws ClassNotFoundException {
+        byte[] bytes = readBytes(baseDir, name);      // 自己去读字节码
+        if (bytes == null) throw new ClassNotFoundException(name);
+        return defineClass(name, bytes, 0, bytes.length);
+    }
+}
+</code></pre>
+<p>要打破委派（子优先），才去重写 <code>loadClass</code>。<strong>能用 <code>findClass</code> 解决的就别碰 <code>loadClass</code></strong>——重写 <code>loadClass</code> 是元空间泄漏的常见源头。</p></div><details class="sub sub-ask"><summary>继续追问（面试官下一步会问什么）</summary><div class="sub-body"><p><strong>Q：父加载器加载不了，子加载器能加载吗？</strong>
+不能。委派是单向的（子 → 父）；父没有「向下看」的能力。这正是 SPI 必须用线程上下文加载器的原因。</p>
+<p><strong>Q：同一个 class 文件被两个不同的 ClassLoader 加载，是同一个类吗？</strong>
+不是。JVM 里类的唯一标识 = <code>ClassLoader + 全限定名</code>。这也是 Tomcat 能同时跑两个不同版本 Spring 的原理。</p>
+<p><strong>Q：<code>ClassNotFoundException</code> 和 <code>NoClassDefFoundError</code> 区别？</strong>
+前者是显式加载时找不到（<code>Class.forName</code> / <code>loadClass</code> 抛）；后者是编译期在、运行期类初始化失败或找不到（<code>Error</code>，通常是依赖缺失或静态代码块抛异常）。</p></div></details><details class="sub sub-anchor"><summary>挂到我的项目上</summary><div class="sub-body"><p>你排查过的 <code>rrmcontrol</code> 国际环境 pod 反复重启（<code>write after end</code>）是 Node.js 的问题，但<strong>同一类问题的 Java 版本</strong>就是 ClassLoader 泄漏：连接池、定时器、监听器没注销，持有 ClassLoader → 元空间涨 → 容器 OOMKilled。面试官问「你遇到过内存泄漏吗」，你可以用容器里的现象（pod 反复重启、看不到堆栈）反推「这多半不是业务异常，而是资源没释放」——这个判断力比背八股值钱。</p></div></details></div>
+</details>
+</section>
+<section class="kp" id="kp4">
+<div class="kp-head">
+<span class="kp-no">4</span>
+<h2>对象的内存布局与对象头</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>对象 = <strong>对象头（Mark Word + 类型指针）+ 实例数据 + 对齐填充</strong>。
+对象头里的 <strong>Mark Word</strong> 同时存 hashCode、GC 年龄、锁状态——它是 <code>synchronized</code> 锁升级的物理载体，这是把「对象布局」和「并发」串起来的关键。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>一个对象在内存里占多大？对象头里有什么？</li>
+<li>对象头多大？什么是压缩指针？</li>
+<li>为什么对象大小要 8 字节对齐？</li>
+<li>对象是怎么创建的？并发创建怎么保证安全？</li>
+</ul></div>
+</div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body"><p><strong>布局</strong></p>
+<pre><code>┌─────────── 对象头（Header）───────────┐
+│ Mark Word（8 字节）                    │  ← hashCode / GC 年龄 / 锁状态 / 偏向线程
+│ 类型指针 Klass Pointer（4 或 8 字节）  │  ← 指向方法区的 Class
+├─────────── 实例数据（Instance Data）───┤  ← 各字段值
+├─────────── 对齐填充（Padding）─────────┤  ← 补齐到 8 字节整数倍
+</code></pre>
+<p>64 位 JVM 开启压缩指针时，对象头 = 8 + 4 = <strong>12 字节</strong>。</p>
+<p><strong>Mark Word 64 位的状态切换</strong>（这就是锁升级）</p>
+<table>
+<thead>
+<tr>
+<th>锁状态</th>
+<th>存储内容</th>
+<th>标志位</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>无锁</td>
+<td>hashCode(31) + 分代年龄(4) + 偏向位0</td>
+<td>01</td>
+</tr>
+<tr>
+<td>偏向锁</td>
+<td>偏向线程 ID(54) + epoch + 年龄</td>
+<td>01</td>
+</tr>
+<tr>
+<td>轻量级锁</td>
+<td>指向栈中 Lock Record 的指针</td>
+<td>00</td>
+</tr>
+<tr>
+<td>重量级锁</td>
+<td>指向 Monitor（ObjectMonitor）的指针</td>
+<td>10</td>
+</tr>
+<tr>
+<td>GC 标记</td>
+<td>空（不存 hashCode）</td>
+<td>11</td>
+</tr>
+</tbody>
+</table>
+<p><strong>压缩指针</strong>：64 位 JVM 里引用本来要 8 字节，开启 <code>-XX:+UseCompressedOops</code>（默认开）后用 4 字节存「偏移量 / 8」，堆小于 32G 时够用。<strong>所以堆不要刚好设到 32G——超过后压缩指针失效，内存反而更紧张。</strong></p>
+<p><strong>对象创建 5 步</strong></p>
+<ol>
+<li>检查类是否已加载（没加载先走类加载）</li>
+<li>分配内存：堆规整 → <strong>指针碰撞</strong>；堆有碎片 → <strong>空闲列表</strong></li>
+<li>内存置零（保证字段有默认值）</li>
+<li>设置对象头（Mark Word、类型指针）</li>
+<li>执行 <code>&lt;init&gt;</code>（构造方法）</li>
+</ol>
+<p><strong>并发安全</strong>：CAS + 失败重试，或 <strong>TLAB（Thread Local Allocation Buffer）</strong>——每个线程在 Eden 里先划一块私有缓冲区，各自分配互不干扰。</p></div><div class="sec-h">拓展</div><div class="ext-body"><p><strong>对齐填充不是为了好看</strong></p>
+<p>CPU 读内存是按「缓存行（Cache Line，通常 64 字节）」读的。字段按 8 字节对齐可以避免一个字段跨两个缓存行（false sharing 伪共享的物理基础）。<code>@Contended</code> 注解就是靠填充把热点字段隔离到不同缓存行。</p></div><details class="sub sub-ask"><summary>继续追问（面试官下一步会问什么）</summary><div class="sub-body"><p><strong>Q：为什么偏向锁在 JDK15 之后被默认关闭了？</strong>
+偏向锁的「撤销」需要 STW（safepoint），在高并发/大量锁竞争场景下开销大于收益，而且实现复杂难维护。JDK15 起 <code>-XX:-UseBiasedLocking</code> 成为默认。</p></div></details><details class="sub sub-anchor"><summary>挂到我的项目上</summary><div class="sub-body"><p>你在 rrmcompute 里处理 OOM 时，如果算过「一个 OptHistory 文档对象在堆里占多大」——那就用上了这套：对象头 12 字节 + 字段 + 对齐。dump 分析工具（MAT）显示的 retained size 也是同一套逻辑。<strong>如果你在面试里能说出「容器 -Xmx5g 大概能放多少这种对象」这种量级估算，面试官会觉得你真的摸过内存。</strong></p></div></details></div>
+</details>
+</section>
+<section class="kp" id="kp5">
+<div class="kp-head">
+<span class="kp-no">5</span>
+<h2>垃圾回收：可达性分析与三种算法</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>判活用<strong>可达性分析</strong>（从 GC Roots 出发，不可达就是垃圾）；回收用三种算法：<strong>标记-清除（有碎片）、复制（新生代）、标记-整理（老年代）</strong>。
+为什么不用引用计数？<strong>循环引用会漏判</strong>。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>怎么判断一个对象是垃圾？</li>
+<li>GC Roots 有哪些？</li>
+<li>为什么不用引用计数？</li>
+<li>三种回收算法分别用在哪？新生代为什么用复制？</li>
+</ul></div>
+</div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body"><p><strong>GC Roots（五类）</strong></p>
+<ol>
+<li>虚拟机栈中引用的对象（局部变量）</li>
+<li>方法区中静态属性引用的对象</li>
+<li>方法区中常量引用的对象（字符串常量池）</li>
+<li>本地方法栈中 JNI 引用的对象</li>
+<li>JVM 内部引用：基本类型 Class 对象、常驻异常对象（NPE/OOM）、系统类加载器</li>
+</ol>
+<p><strong>四种引用</strong></p>
+<table>
+<thead>
+<tr>
+<th>引用</th>
+<th>回收时机</th>
+<th>典型用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>强引用</td>
+<td>永不回收（除非不可达）</td>
+<td>普通 <code>new</code></td>
+</tr>
+<tr>
+<td>软引用</td>
+<td>内存不足时回收</td>
+<td>缓存</td>
+</tr>
+<tr>
+<td>弱引用</td>
+<td>下次 GC 就回收</td>
+<td><code>ThreadLocalMap</code> 的 key、<code>WeakHashMap</code></td>
+</tr>
+<tr>
+<td>虚引用</td>
+<td>对象被回收时收到通知</td>
+<td><code>DirectByteBuffer</code> 的 Cleaner</td>
+</tr>
+</tbody>
+</table>
+<p><strong>三种算法</strong></p>
+<table>
+<thead>
+<tr>
+<th>算法</th>
+<th>过程</th>
+<th>优点</th>
+<th>缺点</th>
+<th>用在哪</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>标记-清除</td>
+<td>标记垃圾 → 直接清除</td>
+<td>简单</td>
+<td><strong>内存碎片</strong>，大对象可能分配失败</td>
+<td>CMS</td>
+</tr>
+<tr>
+<td>复制</td>
+<td>存活对象复制到另一半</td>
+<td>无碎片、快</td>
+<td>浪费空间</td>
+<td>新生代（Eden:S0:S1 = 8:1:1）</td>
+</tr>
+<tr>
+<td>标记-整理</td>
+<td>存活对象移到一端 → 清边界外</td>
+<td>无碎片</td>
+<td>移动对象要 STW，慢</td>
+<td>老年代</td>
+</tr>
+</tbody>
+</table>
+<p><strong>分代假设</strong>：绝大多数对象朝生夕死（弱分代假说）→ 新生代用复制（存活率低，复制成本小）；熬过多次 GC 的是「老不死」→ 老年代用标记-整理。</p></div><div class="sec-h">拓展</div><div class="ext-body"><p><strong>三色标记法</strong>（并发标记的理论基础）</p>
+<ul>
+<li>白色：未访问（最终仍白的 = 垃圾）</li>
+<li>灰色：自己访问了，成员还没访问完</li>
+<li>黑色：自己和成员都访问完</li>
+</ul>
+<p><strong>并发标记的两个问题</strong></p>
+<ol>
+<li><strong>漏标</strong>（对象消失）：黑色对象新指向了白色对象，且灰色对象到该白色对象的引用被删除 → 白色对象被误回收。解决：<strong>增量更新（CMS，写屏障记录新引用，重新标记时重扫）</strong> 或 <strong>原始快照 SATB（G1，记录旧引用，按开始时的快照标记）</strong></li>
+<li><strong>浮动垃圾</strong>：标记期间新产生的垃圾本轮收不掉，留到下一轮</li>
+</ol>
+<p><strong>Stop-The-World</strong>：可达性分析必须在一个「一致性快照」上进行，所以初始标记和重新标记阶段要 STW。<strong>调优的本质就是压缩 STW 总时长。</strong></p></div><details class="sub sub-ask"><summary>继续追问（面试官下一步会问什么）</summary><div class="sub-body"><p><strong>Q：为什么新生代 Survivor 是两块轮流用？</strong>
+复制算法的要求：永远留一块空的目的地。刚经历过 Minor GC 存活的对象在 S0，下次 GC 复制到 S1，S0 清空——角色互换。</p>
+<p><strong>Q：对象什么时候进老年代？</strong>
+① 年龄达到 <code>-XX:MaxTenuringThreshold</code>（默认 15）；② <strong>动态年龄判断</strong>：Survivor 中相同年龄对象总和 &gt; Survivor 一半，该年龄及以上的直接晋升；③ 大对象（超过 <code>-XX:PretenureSizeThreshold</code>）直接进老年代。</p>
+<p><strong>Q：<code>finalize()</code> 能救回对象吗？</strong>
+能，但只能救一次，且不保证执行时机。<strong>生产禁用</strong>，用 try-with-resources / Cleaner 替代。</p></div></details><details class="sub sub-anchor"><summary>挂到我的项目上</summary><div class="sub-body"><p>排查 rrmcompute 内存问题时的核心判断：<strong>「GC 后老年代能否回落到基线」是区分「内存泄漏」和「内存不够」的唯一标准</strong>。回不去、且逐次抬高 = 泄漏（对象被长期引用住）；回得去但很快又满 = 单纯不够用（调大堆或限并发）。这个判断比看代码快得多。</p></div></details></div>
+</details>
+</section>
+<section class="kp" id="kp6">
+<div class="kp-head">
+<span class="kp-no">6</span>
+<h2>垃圾回收器：CMS vs G1（及 ZGC）</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p><strong>CMS</strong>：并发标记清除，低停顿但有碎片，JDK9 起废弃。<strong>G1</strong>：Region 化堆、可预测停顿、无碎片，JDK9+ 默认。<strong>ZGC</strong>：染色指针 + 读屏障，停顿 &lt; 10ms，JDK15+ 生产可用。
+选型一句话：<strong>吞吐优先 Parallel，低延迟 G1，极致低延迟 ZGC。</strong></p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>CMS 和 G1 有什么区别？</li>
+<li>G1 怎么做到「可预测停顿」？</li>
+<li>项目里用什么收集器？为什么？</li>
+<li>什么是 concurrent mode failure？</li>
+</ul></div>
+</div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body"><p><strong>对比</strong></p>
 <table>
 <thead>
 <tr>
@@ -136,19 +646,24 @@ Java 岗（酷开/工行/银行系）必考；Node.js 岗问到概率低但你�
 </thead>
 <tbody>
 <tr>
-<td>停顿</td>
-<td>低但不稳定</td>
-<td>可预测（目标控制）</td>
+<td>分代</td>
+<td>物理连续分代</td>
+<td>Region 化（逻辑分代）</td>
+</tr>
+<tr>
+<td>算法</td>
+<td>标记-清除</td>
+<td>整体标记-整理，Region 间复制</td>
 </tr>
 <tr>
 <td>碎片</td>
-<td>有</td>
+<td><strong>有</strong></td>
 <td>无</td>
 </tr>
 <tr>
-<td>内存布局</td>
-<td>连续分代</td>
-<td>Region 化</td>
+<td>停顿</td>
+<td>低但不稳定</td>
+<td><strong>可预测</strong>（<code>-XX:MaxGCPauseMillis</code> 目标）</td>
 </tr>
 <tr>
 <td>大对象</td>
@@ -156,95 +671,882 @@ Java 岗（酷开/工行/银行系）必考；Node.js 岗问到概率低但你�
 <td>Humongous Region</td>
 </tr>
 <tr>
-<td><strong>话术/例题</strong>：结论"默认 G1，低延迟场景"，对比表背住。追问：G1 怎么实现可预测停顿？→ 基于回收成本模型（每个 Region 预估回收收益，选性价比最高的集合）。</td>
-<td></td>
-<td></td>
+<td>状态</td>
+<td>JDK9 废弃，JDK14 移除</td>
+<td>JDK9+ 默认</td>
 </tr>
 </tbody>
 </table>
-<h2>7. JMM（Java 内存模型）与可见性</h2>
-<p class="lead"><strong>一句话结论</strong>：JMM 定义线程间共享变量的可见性规则：主内存 + 线程工作内存，靠 volatile/synchronized/final 保证。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
-<ul><li>模型：所有变量存主内存，线程操作在自己的工作内存（副本）→ 线程间不直接共享，靠主内存同步</li><li>问题：可见性（改了别线程看不见）、原子性、有序性</li><li><strong>volatile</strong>：保证可见性（写立即刷主存，读从主存取）+ 禁止指令重排（内存屏障）——不保证原子性</li><li><strong>synchronized</strong>：可见性 + 原子性（进入清空工作内存，退出刷回）</li><li><strong>happens-before 规则</strong>：程序顺序、锁（解锁 happens-before 加锁）、volatile（写 happens-before 读）、线程启动/终止、传递性</li></ul>
-<p class="say"><strong>话术/例题</strong>："volatile 可见性不原子，synchronized 全都要"是核心。追问：volatile 能替代 synchronized 吗？→ 只能保证单读写的可见性，复合操作（i++）不行。</p>
-<h2>8. JVM 常见命令与调优</h2>
-<p class="lead"><strong>一句话结论</strong>：jps 找进程、jstat 看 GC、jmap 出堆转储、jstack 看线程栈、jinfo 看参数；调优核心是减少 Full GC、控制堆与停顿。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+<p><strong>G1 四个阶段</strong></p>
+<ol>
+<li>初始标记（STW，很短）—— 标记 GC Roots 直接可达对象</li>
+<li>并发标记（与业务并发）—— 遍历整个对象图，用 <strong>SATB</strong> 记录快照</li>
+<li>最终标记（STW，很短）—— 处理 SATB 队列里的遗留引用</li>
+<li>筛选回收（STW）—— 按 <strong>回收收益/成本模型</strong> 排序 Region，优先回收垃圾最多的（Garbage First 的来源），在停顿目标内挑最大收益组合</li>
+</ol>
+<p><strong>可预测停顿的本质</strong>：G1 不是「一次收完」，而是「在给定时间预算内收收益最高的那批 Region」。停顿目标越小，每次收的 Region 越少，GC 次数越多。</p>
+<p><strong>CMS 四阶段</strong>：初始标记（STW）→ 并发标记 → 重新标记（STW，用<strong>增量更新</strong>）→ 并发清除。</p></div><div class="sec-h">拓展</div><div class="ext-body"><p><strong>收集器全景与选型</strong></p>
+<table>
+<thead>
+<tr>
+<th>收集器</th>
+<th>分代</th>
+<th>停顿</th>
+<th>适用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Serial</td>
+<td>单线程</td>
+<td>长</td>
+<td>客户端小程序、容器里单核</td>
+</tr>
+<tr>
+<td>ParNew</td>
+<td>并行新生代</td>
+<td>中</td>
+<td>配 CMS 用</td>
+</tr>
+<tr>
+<td>Parallel Scavenge / Old</td>
+<td>并行</td>
+<td>中</td>
+<td><strong>吞吐优先</strong>（批处理、离线计算）</td>
+</tr>
+<tr>
+<td>CMS</td>
+<td>并发</td>
+<td>低但不稳</td>
+<td>已废弃</td>
+</tr>
+<tr>
+<td><strong>G1</strong></td>
+<td>Region</td>
+<td>可预测</td>
+<td><strong>默认选择</strong>，4G~32G 堆最佳</td>
+</tr>
+<tr>
+<td>ZGC / Shenandoah</td>
+<td>不分代（ZGC16+ 分代）</td>
+<td><strong>&lt; 10ms</strong></td>
+<td>超大堆（TB 级）、极致低延迟</td>
+</tr>
+</tbody>
+</table>
+<p><strong>常用参数</strong></p>
+<pre><code class="language-bash"># 通用（容器环境推荐）
+-XX:+UseG1GC
+-XX:MaxGCPauseMillis=200          # 期望最大停顿（软目标）
+-XX:MaxRAMPercentage=75.0         # 按容器 limit 算堆，替代写死 -Xmx
+-XX:+HeapDumpOnOutOfMemoryError
+-XX:HeapDumpPath=/data/dump
+
+# 容器里强烈建议显式关掉这个（JDK8u191 之前不识别 cgroup）
+-XX:+UseContainerSupport          # JDK10+ 默认开
+</code></pre>
+<p><strong>为什么容器里用 <code>-XX:MaxRAMPercentage</code> 而不是写死 <code>-Xmx</code></strong>：同一个镜像要在不同规格的 Pod 上跑，写死堆大小会导致小规格 OOMKilled、大规格浪费。按 limit 百分比算，一次配置到处跑。</p></div><details class="sub sub-ask"><summary>继续追问（面试官下一步会问什么）</summary><div class="sub-body"><p><strong>Q：什么是 concurrent mode failure？</strong>
+CMS 并发清除期间，老年代被新晋升的对象填满（预留空间不足）→ 被迫退化成 <strong>Serial Old 单线程 Full GC</strong>（STW 超长）。预防手段：<code>-XX:CMSInitiatingOccupancyFraction=70</code> 提前触发、<code>-XX:+UseCMSInitiatingOccupancyOnly</code> 固定阈值。</p>
+<p><strong>Q：G1 的 Humongous 对象是什么？</strong>
+大于等于 Region 一半的对象（Region 默认堆的 1/2048）。它占用连续的 Humongous Region，分配和回收成本都高。<strong>频繁出现 Humongous 分配说明有大对象反复创建</strong>，日志里会看到 <code>Humongous</code> 字样——这是 G1 特有的调优点。</p>
+<p><strong>Q：ZGC 为什么能做到 &lt; 10ms？</strong>
+染色指针（把标记信息存在 64 位指针的高位里）+ 读屏障（读取引用时顺带修正）+ 并发转移。代价是吞吐下降、内存占用更高。</p></div></details><details class="sub sub-anchor"><summary>挂到我的项目上</summary><div class="sub-body"><p>你们 K8s 环境里的服务（rrmcompute 等）基本都是容器 + JVM。面试时可以直接讲：<strong>「我们按容器 limit 的 75% 设堆（<code>-XX:MaxRAMPercentage</code>），收集器用 G1，因为服务是长连接 + 实时调优任务，要求停顿可控；现网 rrmcompute 之前用 5Gi 堆时在高量任务下出现过 OOM 重启，后来加到 5.5GiB 并限制任务并发。」</strong> —— 这段话里有选型、有参数、有故障、有处置，是一段完整的工程叙事。</p></div></details></div>
+</details>
+</section>
+<section class="kp" id="kp7">
+<div class="kp-head">
+<span class="kp-no">7</span>
+<h2>JMM（Java 内存模型）与 volatile</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>JMM 定义了<strong>多线程间共享变量的可见性规则</strong>：变量存主内存，线程操作自己工作内存里的副本，靠 volatile / synchronized / final 保证同步。
+<strong>volatile 保可见性 + 禁止指令重排，但不保证原子性。</strong></p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>volatile 有什么作用？能替代 synchronized 吗？</li>
+<li>什么是可见性、原子性、有序性？</li>
+<li>happens-before 规则是什么？</li>
+<li>DCL 单例为什么要加 volatile？</li>
+</ul></div>
+</div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body"><p><strong>三个问题</strong></p>
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>含义</th>
+<th>解决手段</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>可见性</td>
+<td>一个线程改了，另一个线程看不见（各自读缓存副本）</td>
+<td>volatile、synchronized、final</td>
+</tr>
+<tr>
+<td>原子性</td>
+<td>操作不可分割（<code>i++</code> 其实是读-改-写三步）</td>
+<td>synchronized、Lock、AtomicXxx</td>
+</tr>
+<tr>
+<td>有序性</td>
+<td>编译器和 CPU 会重排指令</td>
+<td>volatile、synchronized、happens-before</td>
+</tr>
+</tbody>
+</table>
+<p><strong>volatile 的两个语义</strong></p>
+<ol>
+<li><strong>可见性</strong>：写操作立即刷回主内存，读操作直接从主内存读，并使其他线程的副本失效</li>
+<li><strong>禁止重排</strong>：插入内存屏障（LoadLoad / StoreStore / LoadStore / StoreLoad），禁止 volatile 前后的指令越过它重排</li>
+</ol>
+<p><strong>关键结论：<code>volatile</code> 不保证原子性</strong>。<code>volatile int i; i++</code> 在多线程下依然会丢更新。要原子性得用 <code>synchronized</code> 或 <code>AtomicInteger</code>（CAS）。</p>
+<p><strong>happens-before 六条</strong></p>
+<ol>
+<li>程序顺序：同一线程内，前面的操作 hb 后面的操作（<strong>只是保证单线程语义，多线程下不保证</strong>）</li>
+<li>监视器锁：解锁 hb 后续对该锁的加锁</li>
+<li>volatile：对 volatile 变量的写 hb 后续的读</li>
+<li>线程启动：<code>Thread.start()</code> hb 新线程里的所有操作</li>
+<li>线程终止：线程里所有操作 hb 其他线程检测到它结束（<code>join()</code> 返回）</li>
+<li>传递性：A hb B，B hb C ⇒ A hb C</li>
+</ol></div><div class="sec-h">拓展</div><div class="ext-body"><p><strong>DCL 单例为什么必须 volatile</strong></p>
+<pre><code class="language-java">private static volatile Singleton INSTANCE;   // volatile 不可省！
+
+static Singleton get() {
+    if (INSTANCE == null) {
+        synchronized (Singleton.class) {
+            if (INSTANCE == null) INSTANCE = new Singleton();
+        }
+    }
+    return INSTANCE;
+}
+</code></pre>
+<p><code>new Singleton()</code> 编译后是三步：① 分配内存 ② 初始化对象 ③ 把引用赋给 INSTANCE。<strong>② 和 ③ 可能重排</strong>。若先执行 ③（引用已非 null，但对象还没初始化），另一个线程在第一次 <code>if</code> 检查时看到 <code>INSTANCE != null</code>，直接拿去用 —— 拿到一个<strong>半成品对象</strong>。<code>volatile</code> 禁止了这个重排。</p>
+<p><strong>MESI 缓存一致性协议</strong>：现代 CPU 靠 MESI 维护多核缓存一致性（Modified/Exclusive/Shared/Invalid）。volatile 的内存屏障本质上是在触发缓存行的失效与同步。</p>
+<p><strong>伪共享（False Sharing）</strong>：两个不相关的变量落在同一个缓存行，一个核改了导致另一个核的缓存行失效。解决：填充（<code>@Contended</code>）或让变量独占缓存行。Disruptor 框架的性能秘诀之一。</p></div><details class="sub sub-ask"><summary>继续追问（面试官下一步会问什么）</summary><div class="sub-body"><p><strong>Q：<code>synchronized</code> 和 <code>volatile</code> 怎么选？</strong>
+只需要「一个线程写、多个线程读」的状态标志位 → volatile（轻量）。需要「复合操作的原子性」 → synchronized / Lock / 原子类。</p>
+<p><strong>Q：<code>volatile int i; i++</code> 会怎样？</strong>
+丢失更新。因为 <code>i++</code> = 读 i → 加 1 → 写回，中间可能被其他线程插进来。正确做法：<code>AtomicInteger.incrementAndGet()</code>（CAS 自旋）。</p>
+<p><strong>Q：final 为什么能保证可见性？</strong>
+final 字段在构造器里写完后，JMM 要求「写 final 字段」与「把该对象引用赋给其他变量」之间不能重排 —— 所以正确构造的对象，其他线程一定看到 final 字段的正确值（不用加锁）。</p></div></details><details class="sub sub-anchor"><summary>挂到我的项目上</summary><div class="sub-body"><p>你是 Node.js 出身，这里有一个<strong>很能体现理解深度的对比</strong>：Node 主线程单线程执行 JS，不存在共享内存的可见性问题（cluster/worker_threads 之间靠消息传递而非共享变量）；而 JVM 里线程是真并行、共享堆。<strong>所以「为什么 JS 不需要 volatile」这个问题的答案，恰好证明了 JMM 存在的意义</strong>。面试里主动做这个对比，比只会背六条 happens-before 强得多。</p></div></details></div>
+</details>
+</section>
+<section class="kp" id="kp8">
+<div class="kp-head">
+<span class="kp-no">8</span>
+<h2>逃逸分析与栈上分配</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>JIT 的<strong>逃逸分析</strong>判断对象会不会「逃出」方法：不逃逸就在<strong>栈上分配</strong>（随方法结束自动销毁，不进堆、不参与 GC），或做<strong>标量替换</strong>、<strong>锁消除</strong>。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>什么是逃逸分析？能带来哪些优化？</li>
+<li>栈上分配和堆上分配的区别？</li>
+<li>逃逸分析一定生效吗？</li>
+</ul></div>
+</div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body"><p><strong>什么算「逃逸」</strong></p>
+<table>
+<thead>
+<tr>
+<th>情形</th>
+<th>是否逃逸</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>对象只在方法内使用，不被返回</td>
+<td>不逃逸 → 可优化</td>
+</tr>
+<tr>
+<td>对象作为返回值返回</td>
+<td>逃逸</td>
+</tr>
+<tr>
+<td>对象赋值给静态字段 / 成员字段</td>
+<td>逃逸</td>
+</tr>
+<tr>
+<td>对象作为参数传给<strong>未知方法</strong></td>
+<td>保守认为逃逸</td>
+</tr>
+</tbody>
+</table>
+<p><strong>三种优化</strong></p>
+<ol>
+<li><strong>栈上分配</strong>：不逃逸对象直接在栈帧里分配，方法返回即销毁 —— 减少 GC 压力</li>
+<li><strong>标量替换</strong>：把对象拆成若干局部变量（把「聚合量」拆成「标量」），对象根本不创建</li>
+<li><strong>锁消除</strong>：对象只在单线程内使用 → 加在它上面的锁直接去掉（StringBuffer 在局部变量里用就会触发）</li>
+</ol>
+<p><strong>开启</strong>：<code>-XX:+DoEscapeAnalysis</code>（JDK6u23+ 默认开），<code>-XX:+EliminateAllocations</code>（标量替换，默认开）。</p></div><div class="sec-h">拓展</div><div class="ext-body"><p><strong>JIT 分层编译（Tiered Compilation）</strong></p>
+<ul>
+<li>C1（Client）：编译快、优化浅 → 方法刚热起来时用</li>
+<li>C2（Server）：编译慢、优化深（逃逸分析就在这层）</li>
+<li>方法被调用到阈值（<code>-XX:CompileThreshold</code>，C1 默认 1500，C2 默认 10000）才被编译</li>
+</ul>
+<p><strong>Code Cache 的坑</strong>：JIT 编译产物放在 Code Cache（独立区域，<code>-XX:ReservedCodeCacheSize</code>，默认 240M）。Code Cache 满了之后 JIT 停止编译、退回解释执行 → <strong>性能莫名劣化但 GC 正常</strong>。日志里会看到 <code>CodeCache is full. Compiler has been disabled.</code></p></div><details class="sub sub-ask"><summary>继续追问（面试官下一步会问什么）</summary><div class="sub-body"><p><strong>Q：逃逸分析一定生效吗？</strong>
+不一定。① 可以通过 <code>-XX:-DoEscapeAnalysis</code> 关闭；② 只有 C2 编译过的热点方法才做（前几次执行是解释器/C1，没优化）；③ 对象太大或方法太复杂时分析会放弃。</p>
+<p><strong>Q：栈上分配的对象会参与 GC 吗？</strong>
+不会。它随栈帧销毁，不进入堆，GC 根本看不到它。这也是「减少小对象分配能减轻 GC」的原理。</p>
+<p><strong>Q：为什么说「不要过早优化」？</strong>
+因为逃逸分析这类优化是 JIT 自动做的，手写「对象池」反而可能破坏 JIT 的优化（对象被长期引用住了，逃逸了），还可能引入内存泄漏。</p></div></details><details class="sub sub-anchor"><summary>挂到我的项目上</summary><div class="sub-body"><p>你在 rrmcompute 处理内存暴涨时，如果代码里有「循环里创建临时对象」（比如每次计算都 new 一个结果包装对象），那就是 GC 压力的直接来源。<strong>面试时讲「我们通过减少循环内的大对象创建 + 限制并发任务数把内存压下来了」，比笼统说「优化了内存」具体得多。</strong></p></div></details></div>
+</details>
+</section>
+<section class="kp" id="kp9">
+<div class="kp-head">
+<span class="kp-no">9</span>
+<h2>排查命令与调优总览</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p><code>jps</code> 找进程 → <code>jstat</code> 看 GC → <code>jmap</code> 出堆转储 → <code>jstack</code> 看线程栈 → <code>jinfo</code> 看参数 → <strong><code>jcmd</code> 万能</strong>。
+调优目标只有两个：<strong>减少 Full GC 次数</strong> + <strong>控制单次停顿时长</strong>。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>线上 CPU 100% 怎么排查？</li>
+<li>内存泄漏怎么定位？</li>
+<li>常用 JVM 参数有哪些？</li>
+<li>你会用哪些工具？</li>
+</ul></div>
+</div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body"><p><strong>命令速查</strong></p>
 <table>
 <thead>
 <tr>
 <th>命令</th>
 <th>用途</th>
+<th>危险度</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>jps</td>
+<td><code>jps -l</code></td>
 <td>列出 JVM 进程</td>
+<td>安全</td>
 </tr>
 <tr>
-<td>jstat -gcutil pid</td>
-<td>GC 统计（频繁/停顿）</td>
+<td><code>jstat -gcutil &lt;pid&gt; 1000</code></td>
+<td>每秒打印各区使用率 + GC 次数/耗时</td>
+<td>安全</td>
 </tr>
 <tr>
-<td>jmap -heap pid</td>
-<td>堆详情</td>
+<td><code>jstat -gc &lt;pid&gt; 1000</code></td>
+<td>更详细（含各代容量与用量）</td>
+<td>安全</td>
 </tr>
 <tr>
-<td>jmap -dump:format=b,file=x.hprof</td>
-<td>堆转储（OOM 分析）</td>
+<td><code>jmap -heap &lt;pid&gt;</code></td>
+<td>堆配置与使用概况</td>
+<td>安全</td>
 </tr>
 <tr>
-<td>jstack pid</td>
-<td>线程栈（死锁/阻塞定位）</td>
+<td><code>jmap -histo:live &lt;pid&gt;</code></td>
+<td>类直方图（<strong>会触发 Full GC</strong>）</td>
+<td>⚠️ 慎用</td>
 </tr>
 <tr>
-<td>jinfo</td>
-<td>查看/修改运行参数</td>
+<td><code>jmap -dump:format=b,file=x.hprof &lt;pid&gt;</code></td>
+<td>堆转储</td>
+<td>⚠️ <strong>STW，生产慎用</strong></td>
 </tr>
 <tr>
-<td>jvisualvm / MAT</td>
-<td>可视化 + 内存分析</td>
+<td><code>jstack &lt;pid&gt;</code></td>
+<td>线程栈，死锁检测</td>
+<td>安全（短暂 STW）</td>
 </tr>
 <tr>
-<td>- 常用参数：-Xms/-Xmx（堆大小）、-XX:MaxMetaspaceSize、-XX:+HeapDumpOnOutOfMemoryError（OOM 自动转储）、-XX:MaxGCPauseMillis</td>
-<td></td>
+<td><code>jinfo -flags &lt;pid&gt;</code></td>
+<td>查看运行参数</td>
+<td>安全</td>
 </tr>
 <tr>
-<td>- 调优思路：先看 GC 日志 → 堆是否合理 → 停顿是否可接受 → 对象分配是否异常</td>
-<td></td>
+<td><code>jcmd &lt;pid&gt; GC.heap_info</code></td>
+<td>jcmd 版堆信息</td>
+<td>安全</td>
 </tr>
 <tr>
-<td><strong>话术/例题</strong>：背命令表 + "OOM 先开 HeapDumpOnOutOfMemoryError"。追问：线上 CPU 100% 怎么查？→ top 找进程 → top -Hp 找线程 → jstack 对照线程 id（nid 转十六进制）看栈。</td>
-<td></td>
+<td><code>jcmd &lt;pid&gt; VM.native_memory summary</code></td>
+<td>本地内存明细</td>
+<td>需预设 NMT</td>
 </tr>
 </tbody>
 </table>
-<h2>9. 逃逸分析与栈上分配</h2>
-<p class="lead"><strong>一句话结论</strong>：JIT 逃逸分析发现对象不逃逸出方法 → 栈上分配/标量替换，减少 GC 压力。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
-<ul><li>逃逸：对象被方法外引用（返回/赋值给静态/全局）即逃逸</li><li>优化：<ul><li>栈上分配：不逃逸对象直接栈上分配（随方法结束销毁，免 GC）</li><li>标量替换：对象字段拆成局部变量</li><li>锁消除：无竞争锁直接去掉</li></ul></li><li>触发：-XX:+DoEscapeAnalysis（默认开）</li></ul>
-<p class="say"><strong>话术/例题</strong>：一句"逃逸分析让局部对象不进堆"。追问：为什么字符串拼接优化也用它？→ StringBuilder 逃逸分析后消除。</p>
-<h2>10. 大对象与 GC 调优实践</h2>
-<p class="lead"><strong>一句话结论</strong>：大对象（如超长字符串/数组）直接进老年代（避免新生代反复复制），频繁创建大对象是 Full GC 元凶。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
-<ul><li>大对象直接分配老年代（-XX:PretenureSizeThreshold 阈值）</li><li>对象晋升：Minor GC 后存活且年龄达 -XX:MaxTenuringThreshold（默认 15）→ 老年代；大对象/动态年龄判断</li><li>常见 OOM：堆太小（Xmx）、内存泄漏（集合无限增长）、大对象过多、元空间满</li><li>实践：类比你的 rrmcompute OOM 排查——调堆大小/限制任务并发/检查缓存无界增长</li></ul>
-<p class="say"><strong>话术/例题</strong>：结合你实际的 OOM 经验讲最有说服力（rrmcompute 内存 5Gi→5.5Gi 调整案例、大场所并发任务内存暴涨）。追问：Full GC 频繁怎么查？→ jstat 看 FGC 次数 + jmap 转储分析谁占内存。</p>
-<h2>📝 本章自测（闭卷）</h2>
-<ol>
-<li>画 JVM 内存区域图，哪些线程共享、各自存什么</li>
-<li>类加载五阶段，准备 vs 初始化区别</li>
-<li>双亲委派机制 + 两个作用 + 什么时候被破坏</li>
-<li>对象头里有什么？怎么关联锁升级</li>
-<li>可达性分析 GC Roots 有哪些？三种回收算法各用于哪个分代</li>
-<li>G1 vs CMS 差异</li>
-<li>volatile 保证什么不保证什么</li>
-<li>线上 OOM 排查完整流程（命令顺序）</li>
-</ol>
+<p><strong>CPU 100% 排查五步</strong></p>
+<pre><code class="language-bash">1. top                     # 找到 CPU 高的 Java 进程 PID
+2. top -Hp &lt;pid&gt;           # 找到该进程内 CPU 高的线程 TID
+3. printf &quot;%x\n&quot; &lt;TID&gt;     # TID 转十六进制（jstack 里的 nid 是十六进制）
+4. jstack &lt;pid&gt; &gt; stack.txt
+5. grep -A 30 &quot;nid=0x&lt;hex&gt;&quot; stack.txt   # 定位到具体代码行
+</code></pre>
+<p><strong>内存泄漏排查五步</strong></p>
+<pre><code class="language-bash">1. jstat -gcutil &lt;pid&gt; 5000              # 看 O 区是否 GC 后不回落、逐次抬高
+2. jmap -dump:format=b,file=/tmp/heap.hprof &lt;pid&gt;   # 取两份 dump（间隔 30min 更准）
+3. 用 MAT 打开 → Leak Suspects 报告
+4. 看 Dominator Tree（支配树）找 retained size 最大的对象
+5. 对可疑对象右键 → Path to GC Roots → exclude weak/soft references
+</code></pre>
+<p><strong>关键参数</strong></p>
+<pre><code class="language-bash">-Xms4g -Xmx4g                     # 建议设成相等，避免动态扩容抖动
+-XX:MaxRAMPercentage=75.0         # 容器环境推荐
+-XX:MetaspaceSize=256m -XX:MaxMetaspaceSize=512m
+-Xss512k                          # 每线程栈，线程多时要调小（容器里线程数受限）
+-XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/data/dump
+-XX:+UseG1GC -XX:MaxGCPauseMillis=200
+-XX:+PrintGCDetails -Xloggc:/data/logs/gc.log     # JDK8
+-Xlog:gc*:file=/data/logs/gc.log:time,uptime      # JDK9+
+</code></pre></div><div class="sec-h">拓展</div><div class="ext-body"><p><strong>arthas —— 线上诊断的神器</strong>（阿里开源，不停机 attach）</p>
+<pre><code class="language-bash"># 启动
+curl -O https://arthas.aliyun.com/arthas-boot.jar
+java -jar arthas-boot.jar          # 选进程号
+
+# 常用命令
+dashboard                # 实时面板：线程 + 内存 + GC
+thread                   # 列出所有线程及 CPU 占用
+thread -n 3              # CPU 最高的 3 个线程栈
+thread -b                # 直接找出阻塞其他线程的「死锁元凶」
+heapdump /tmp/a.hprof    # 导出堆
+jad com.xxx.Service      # 反编译线上类（确认跑的是哪个版本！）
+watch com.xxx.Service method '{params, returnObj}' -x 3   # 方法出入参观测
+trace com.xxx.Service method          # 方法内部调用链路耗时
+profiler start / stop    # 生成火焰图
+</code></pre>
+<p><code>jad</code> 这个命令特别有用——<strong>能确认线上跑的到底是哪个版本的代码</strong>，跟你们核对镜像里文件 md5 是一个思路。</p>
+<p><strong>async-profiler</strong>：低开销采样，生成火焰图（<code>-e cpu</code> / <code>-e alloc</code> / <code>-e lock</code>）。</p></div><details class="sub sub-ask"><summary>继续追问（面试官下一步会问什么）</summary><div class="sub-body"><p><strong>Q：<code>jmap -dump</code> 会 STW 吗？生产能用吗？</strong>
+会。堆越大停顿越久（几十秒到几分钟）。生产三板斧：① 提前配 <code>-XX:+HeapDumpOnOutOfMemoryError</code> 让它自动转储；② 从<strong>从节点</strong>或<strong>流量低谷</strong>再做；③ 用 <code>jcmd</code> 的 <code>GC.heap_dump</code> 或 arthas 的 <code>heapdump</code>（相对温和）。</p>
+<p><strong>Q：容器里怎么排查？</strong>
+<code>kubectl exec -it &lt;pod&gt; -- bash</code> 进容器（前提是镜像里有 JDK 而不是只有 JRE，JRE 没有 jmap/jstack，要装 <code>openjdk-devel</code> 或用 arthas）。更稳的做法是<strong>把 dump 目录挂成 PVC/宿主目录</strong>，OOM 时 dump 自动落盘，Pod 重启也不丢。</p>
+<p><strong>Q：<code>jstat -gcutil</code> 里各列什么意思？</strong>
+<code>S0 S1 E O M</code> = Survivor0 / Survivor1 / Eden / Old / Metaspace 使用率（%）；
+<code>CCS</code> = 压缩类空间；<code>YGC YGCT</code> = 新生代 GC 次数 / 总耗时；
+<code>FGC FGCT</code> = Full GC 次数 / 总耗时；<code>GCT</code> = 总 GC 耗时。<strong>重点盯 <code>O</code>（老年代）和 <code>FGC</code></strong>。</p></div></details><details class="sub sub-anchor"><summary>挂到我的项目上</summary><div class="sub-body"><p>你们现网是 K8s + 容器，进容器排查要过跳板机。简历/面试里可以这样讲：「<strong>线上问题定位走 kubectl exec 进容器用 jcmd/jstat 看 GC 指标，配合现网日志和监控；涉及堆内存问题会挂 PV 存 dump，避免 Pod 重启丢失现场。</strong>」——这个细节说明你处理过真实的生产环境约束，而不是在本地 IDE 里玩。</p></div></details></div>
+</details>
+</section>
+<section class="kp" id="kp10">
+<div class="kp-head">
+<span class="kp-no">10</span>
+<h2>GC 日志怎么读 ★</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>GC 日志是内存调优的<strong>唯一事实来源</strong>——所有猜测都要用它验证。
+判读只看三个维度：<strong>频率</strong>（多久一次）、<strong>效果</strong>（GC 后能否回落）、<strong>停顿</strong>（单次多长）。
+一句话判据：<strong>GC 后回落不到基线且逐次抬高 = 内存泄漏；回得去但频率高 = 分配率过高或堆太小。</strong></p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>GC 日志怎么开启？</li>
+<li>日志里每个字段是什么意思？</li>
+<li>怎么从 GC 日志判断有没有内存泄漏？</li>
+<li>Minor GC 很频繁但 Full GC 正常，有问题吗？</li>
+</ul></div>
+</div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body"><p><strong>开启方式</strong></p>
+<pre><code class="language-bash"># JDK8
+-XX:+PrintGCDetails
+-XX:+PrintGCDateStamps
+-XX:+PrintHeapAtGC                 # 每次 GC 前后打印堆详情
+-Xloggc:/data/logs/gc.log
+-XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=10 -XX:GCLogFileSize=50M
+
+# JDK9+（统一日志框架，更推荐）
+-Xlog:gc*:file=/data/logs/gc.log:time,uptime,level,tags:filecount=10,filesize=50M
+-Xlog:gc+heap=debug:file=/data/logs/gc.log     # 想看堆详情加这段
+</code></pre>
+<p><strong>一行真实日志逐字段拆</strong>（JDK8 + ParallelGC 格式）</p>
+<pre><code>2026-09-18T10:23:41.512+0800: 4231.876: [GC (Allocation Failure)
+  [PSYoungGen: 655360K-&gt;52480K(752640K)] 812345K-&gt;221465K(2048000K), 0.0314521 secs]
+  [Times: user=0.21 sys=0.02, real=0.03 secs]
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>片段</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>2026-09-18T10:23:41.512+0800</code></td>
+<td>墙钟时间（必须开 <code>PrintGCDateStamps</code>，否则只有 uptime 没法对日志）</td>
+</tr>
+<tr>
+<td><code>4231.876</code></td>
+<td>JVM 启动以来的秒数（uptime）</td>
+</tr>
+<tr>
+<td><code>[GC</code></td>
+<td><strong>Minor GC</strong>；<code>[Full GC</code> 才是 Full GC</td>
+</tr>
+<tr>
+<td><code>(Allocation Failure)</code></td>
+<td>触发原因：分配失败。其他常见：<code>Metadata GC Threshold</code>（元空间到阈值）、<code>System.gc()</code>、<code>Ergonomics</code>、<code>Humongous Allocation</code>（G1 大对象）</td>
+</tr>
+<tr>
+<td><code>[PSYoungGen: 655360K-&gt;52480K(752640K)]</code></td>
+<td><strong>新生代</strong> GC 前→后（总容量）。回收掉 602880K</td>
+</tr>
+<tr>
+<td><code>812345K-&gt;221465K(2048000K)</code></td>
+<td><strong>全堆</strong> GC 前→后（总容量）</td>
+</tr>
+<tr>
+<td><code>0.0314521 secs</code></td>
+<td><strong>本次停顿时间</strong>（0.03 秒 ≈ 31ms）</td>
+</tr>
+<tr>
+<td><code>[Times: user=0.21 sys=0.02, real=0.03]</code></td>
+<td>user=多核 CPU 总耗时，sys=系统调用耗时，<strong>real=墙钟停顿</strong>。<code>user/real &gt; 核数</code> 说明多线程并行</td>
+</tr>
+</tbody>
+</table>
+<p><strong>三种形态判读（核心）</strong></p>
+<table>
+<thead>
+<tr>
+<th>形态</th>
+<th>GC 日志表现</th>
+<th>结论</th>
+<th>处置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>内存泄漏</strong></td>
+<td>Full GC 后老年代<strong>降不下去</strong>（如始终 1.6G/2G），且逐次抬高；Full GC 越来越频繁</td>
+<td>对象被长期引用</td>
+<td>取 dump 用 MAT 找 GC Roots 引用链</td>
+</tr>
+<tr>
+<td><strong>内存不足</strong></td>
+<td>GC 后能回落到低位（如降到 200M），但<strong>很快就又满</strong>，Minor GC 极频繁</td>
+<td>分配率高 / 堆偏小</td>
+<td>调大堆、减少对象分配（循环内 new）、提高新生代比例</td>
+</tr>
+<tr>
+<td><strong>停顿过长</strong></td>
+<td>单次 <code>real</code> &gt; 1s，尤其 Full GC</td>
+<td>堆太大或收集器不合适</td>
+<td>换 G1 设 <code>MaxGCPauseMillis</code>；或拆分堆</td>
+</tr>
+</tbody>
+</table>
+<p><strong>辅助命令（和日志交叉验证）</strong></p>
+<pre><code class="language-bash">jstat -gcutil &lt;pid&gt; 5000     # O 列百分比 + FGC 计数，最直观
+jstat -gccause &lt;pid&gt; 5000    # 多看一列 LGCC：上次 GC 原因
+</code></pre>
+<p><strong>内存泄漏的判据（背下来）</strong></p>
 <blockquote>
-<p>完成自测后回《面试八股复习计划》勾选 JVM 相关题</p>
-</blockquote></article></div>
-<div class="bottomnav"><a href="学习手册_06_Java基础.html">◀ 上一本：06 Java</a>
-<a class="ghost" href="面试八股复习计划_李鑫.html">📖 回复习计划勾选</a>
-<a href="学习手册_08_并发与锁.html">下一本：08 并发锁 ▶</a></div>
+<p>连续观察几次 Full GC，如果 <code>Full GC 后的老年代占用</code> 这个数值<strong>基本不降或持续抬高</strong>，就是泄漏。反之每次都回落到同一基线，就是单纯不够用。</p>
+</blockquote></div><div class="sec-h">拓展</div><div class="ext-body"><p><strong>G1 日志长什么样</strong></p>
+<pre><code>[2026-09-18T10:23:41.512+0800][info][gc,start] GC(123) Pause Young (Normal) (G1 Evacuation Pause)
+[2026-09-18T10:23:41.545+0800][info][gc,phases] GC(123)   Evacuate Collection Set: 28.1ms
+[2026-09-18T10:23:41.546+0800][info][gc,heap] GC(123) Eden regions: 210-&gt;0(240)
+[2026-09-18T10:23:41.546+0800][info][gc,heap] GC(123) Survivor regions: 5-&gt;12(30)
+[2026-09-18T10:23:41.546+0800][info][gc,heap] GC(123) Old regions: 180-&gt;186(600)
+[2026-09-18T10:23:41.547+0800][info][gc,phases] GC(123)   Other: 0.9ms
+[2026-09-18T10:23:41.547+0800][info][gc] GC(123) Pause Young (Normal) (G1 Evacuation Pause) 394M-&gt;197M(1600M) 34.071ms
+</code></pre>
+<p>关注点变了：<strong>Region 为单位计数</strong>（不是字节），看 <code>Old regions</code> 是否单调上涨，看 <code>Pause</code> 后面的毫秒数（就是 STW 时长），看 <code>Humongous</code> 有没有频繁出现。</p>
+<p><strong>在线分析工具</strong>：GCeasy（上传日志出报告，免费额度够用）、GCParser、<code>gcviewer</code>。生产排障时先传日志生成趋势图，比人肉 grep 快得多。</p>
+<p><strong>Node.js 的类比</strong>：Node 没有 GC 日志，但 <code>node --trace-gc --max-old-space-size=2048 app.js</code> 会打印每次 GC 前后大小和耗时，判读逻辑完全一样——<strong>看回收后能否回落</strong>。</p></div><details class="sub sub-ask"><summary>继续追问（面试官下一步会问什么）</summary><div class="sub-body"><p><strong>Q：Minor GC 很频繁但 Full GC 正常，有问题吗？</strong>
+看程度。Minor GC 本身很快（几十 ms），频繁但每次停顿短、且对象确实朝生夕死，是正常的。<strong>但如果 Minor GC 后存活对象大量涌入老年代（促销率高），就会把老年代撑满导致 Full GC</strong> —— 这时要查「是不是有大对象」或「Survivor 太小」。判据是 <code>jstat -gcutil</code> 里 <code>O</code> 列是否在缓涨。</p>
+<p><strong>Q：日志写爆磁盘怎么办？</strong>
+必须配滚动：JDK8 用 <code>-XX:+UseGCLogFileRotation</code>；JDK9+ 用 <code>-Xlog:...:filecount=10,filesize=50M</code>。<strong>GC 日志开启后每秒可能写几 KB 到几 MB</strong>，不滚动是生产事故隐患。</p>
+<p><strong>Q：停顿时间（real）比 CPU 时间（user）短正常吗？</strong>
+正常。<code>real &lt; user</code> 说明 GC 是多线程并行的（多个核同时干活，墙钟时间小于 CPU 累计时间）。若 <code>real ≈ user</code> 说明是单线程 GC（Serial），该换收集器了。</p></div></details><details class="sub sub-anchor"><summary>挂到我的项目上</summary><div class="sub-body"><p>rrmcompute 现网 OOM 排查时，时间线应该这样串（面试可以直接讲）：</p>
+<p><strong>现象</strong> → Pod 反复重启，K8s 事件里是 <code>OOMKilled</code>，应用日志里<strong>看不到</strong> <code>OutOfMemoryError</code>（这是关键区别！）
+<strong>为什么看不到堆栈</strong> → 被 cgroup 杀的是进程，不是 JVM 自己抛的 OOM，所以没有 Java 堆栈
+<strong>怎么定位</strong> → ① 看 Pod 的 memory limit 历史曲线，确认是内存打满被杀；② 进容器 <code>jstat -gcutil</code> 看 <code>O</code>（老年代）和 <code>FGC</code>，发现 GC 后老年代回落但很快又满 → <strong>不是泄漏，是不够用</strong>；③ 结合业务日志确认是「高量调优任务」并发进入时内存暴涨
+<strong>处置</strong> → 内存 5Gi → 5.5GiB（requests=3Gi），同时限制任务并发度、检查有没有无界的缓存/集合增长
+<strong>反思</strong> → 「容器里堆大小必须和 limit 联动（<code>-XX:MaxRAMPercentage</code>），且要留 25% 给非堆」</p></div></details></div>
+</details>
+</section>
+<section class="kp" id="kp11">
+<div class="kp-head">
+<span class="kp-no">11</span>
+<h2>方法区/元空间满了怎么办 ★</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>报错特征：JDK8+ 是 <code>java.lang.OutOfMemoryError: Metaspace</code>，JDK7- 是 <code>PermGen space</code>。
+根因 90% 是两类：<strong>动态生成类太多</strong>（代理/字节码增强）或 <strong>ClassLoader 泄漏</strong>（旧加载器被引用住，它加载的所有类都卸载不掉）。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>元空间为什么会满？</li>
+<li>怎么排查是哪个类加载器泄漏？</li>
+<li>怎么避免？</li>
+<li>什么情况会动态生成大量类？</li>
+</ul></div>
+</div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body"><p><strong>为什么会满（三个原因）</strong></p>
+<table>
+<thead>
+<tr>
+<th>原因</th>
+<th>具体场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>动态生成类太多</strong></td>
+<td>CGLIB / JDK 动态代理（Spring AOP 每个被代理 Bean 一个类）、反射、JSP/Groovy 编译、ASM/ByteBuddy 字节码增强（APM Agent、Mockito）、Lambda（<code>LambdaMetafactory</code> 生成的类）</td>
+</tr>
+<tr>
+<td><strong>ClassLoader 泄漏</strong>（最常见）</td>
+<td>热部署 / redeploy 时旧 ClassLoader 被<strong>静态字段、ThreadLocal、线程池、监听器、JDBC Driver 注册表、缓存</strong>引用住 → 卸载条件不成立 → 它加载的所有类永久驻留</td>
+</tr>
+<tr>
+<td>常量池膨胀</td>
+<td>大量 <code>intern()</code> 字符串（JDK7+ 字符串常量已在堆，影响较小）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>四步排查</strong></p>
+<pre><code class="language-bash">1. 确认是元空间，不是堆
+   jstat -gcutil &lt;pid&gt; 5000
+   # 看 M（Metaspace）与 MU/MC 两列：持续上涨且 Full GC 后不回落 → 元空间问题
+
+2. 看有多少 ClassLoader、各加载了多少类
+   jmap -clstats &lt;pid&gt;
+   # 输出每个 ClassLoader 的 class count。
+   # 若 ClassLoader 数量和类数量随时间单调上涨 → 泄漏实锤
+
+3. 看类是否只加载不卸载
+   -XX:+TraceClassLoading -XX:+TraceClassUnloading   # 启动时加
+   # 或 jcmd &lt;pid&gt; VM.classloader_stats
+
+4. 找是谁引用住了 ClassLoader
+   jmap -dump:format=b,file=/tmp/heap.hprof &lt;pid&gt;
+   # MAT 打开 → 搜 ClassLoader → Path to GC Roots（exclude weak/soft）
+   # 常见元凶：静态 Map、ThreadLocal、线程池、Timer、监听器列表、日志框架的 appender
+</code></pre>
+<p><strong>怎么办</strong></p>
+<p>治标（马上恢复服务）：</p>
+<pre><code class="language-bash">-XX:MaxMetaspaceSize=512m     # 先调大（默认无上限，受本地内存限制）
+# 或者直接重启 Pod
+</code></pre>
+<p>治本（杜绝复发）：</p>
+<ol>
+<li><strong>修 ClassLoader 泄漏</strong>：静态字段不持有 ClassLoader；<code>ThreadLocal</code> 用完必须 <code>remove()</code>（线程池场景是重灾区）；注销监听器 / <code>DriverManager.deregisterDriver</code>；Agent 卸载</li>
+<li><strong>限制动态类生成</strong>：有接口时优先 JDK 动态代理而不是 CGLIB；<strong>Spring AOP 切点别写太宽</strong>（<code>execution(* com..*(..))</code> 会给几乎所有 Bean 生成代理类）；缓存代理类而不是每次重复生成</li>
+<li><strong>设上限 + 监控告警</strong>：<code>-XX:MaxMetaspaceSize</code> 明确设一个值，让它<strong>早点暴露</strong>而不是吃光本地内存拖垮宿主机；对 Metaspace 使用率设阈值告警</li>
+</ol></div><div class="sec-h">拓展</div><div class="ext-body"><p><strong>为什么 Metaspace 默认无上限反而危险</strong></p>
+<p>元空间在本地内存，默认上限约等于物理内存。若单机跑多个容器，一个泄漏的 JVM 会<strong>偷偷吃掉宿主机内存</strong>，最后是宿主机整体 OOM 或者被 K8s 判定超限驱逐——比设上限后自己先报错更糟。所以<strong>生产必须设 <code>-XX:MaxMetaspaceSize</code></strong>。</p>
+<p><strong>JDK8 vs JDK8+ 的差异</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>永久代（≤JDK7）</th>
+<th>元空间（JDK8+）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>位置</td>
+<td>JVM 堆内</td>
+<td>本地内存（堆外）</td>
+</tr>
+<tr>
+<td>参数</td>
+<td><code>-XX:MaxPermSize</code></td>
+<td><code>-XX:MaxMetaspaceSize</code></td>
+</tr>
+<tr>
+<td>默认上限</td>
+<td>有限（易 OOM）</td>
+<td>无限（受物理内存限制）</td>
+</tr>
+<tr>
+<td>GC 时机</td>
+<td>只能等 Full GC</td>
+<td>元空间达阈值就触发 GC（日志里 <code>Metadata GC Threshold</code>）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Metaspace 的 GC 触发</strong></p>
+<p>日志里出现 <code>[GC (Metadata GC Threshold)</code> 就说明<strong>这次 GC 是元空间快满触发的</strong>，不是堆不够——这是一个很容易被误判的信号。</p></div><details class="sub sub-ask"><summary>继续追问（面试官下一步会问什么）</summary><div class="sub-body"><p><strong>Q：<code>jmap -clstats</code> 输出里怎么判断泄漏？</strong>
+看两件事：① <code>ClassLoader</code> 实例<strong>数量</strong>是否单调上涨（每次 redeploy 多一个且旧的不消失）；② 某个 ClassLoader 的 <code>class count</code> 很大且持续增长。<strong>正常稳态下这两个数都应该收敛。</strong></p>
+<p><strong>Q：为什么热部署最容易泄漏？</strong>
+每次 redeploy 都 new 一个 ClassLoader 加载整个应用。只要有一处（一个静态字段、一个没 remove 的 ThreadLocal、一个活着的线程）引用住旧 ClassLoader，整套旧类就都留下。这就是 <strong>Tomcat 内存泄漏警告</strong>（<code>The web application appears to have started a thread but has failed to stop it</code>）的由来——Tomcat 会在 shutdown 时主动清理一批已知泄漏点。</p>
+<p><strong>Q：Lambda 也会生成类？</strong>
+会。每个 Lambda 表达式在运行时通过 <code>LambdaMetafactory</code> 生成一个实现类。大量不同的 Lambda（尤其在循环/动态场景）会持续生成类。正常代码里静态 Lambda 是复用的，问题不大。</p>
+<p><strong>Q：<code>-XX:MetaspaceSize</code> 和 <code>-XX:MaxMetaspaceSize</code> 区别？</strong>
+前者是<strong>首次触发 GC 的阈值</strong>（初始高水位，默认约 21M，太小会导致启动期频繁 GC），后者是硬上限。生产建议两个都设，例如 <code>-XX:MetaspaceSize=256m -XX:MaxMetaspaceSize=512m</code>。</p></div></details><details class="sub sub-anchor"><summary>挂到我的项目上</summary><div class="sub-body"><p>你项目里最相关的两个点：</p>
+<p>① <strong>Spring AOP 切点范围</strong>——如果写过 <code>@Around("execution(* com.h3c..*(..))")</code> 这种宽切点，每个被匹配的 Bean 都会生成代理类，Bean 多的时候元空间增长明显。面试时可以说「我们控制切点范围，只对需要的注解标记的方法织入」。</p>
+<p>② <strong>rrmcompute 内存调优的另一半故事</strong>——调内存时不只调堆，元空间也要一起看。如果当时只调 <code>-Xmx</code> 没动 <code>-XX:MaxMetaspaceSize</code>，元空间仍然可能撞顶。<strong>能说出「容器内存 = 堆 + 元空间 + 线程栈 + 直接内存 + Code Cache」这个公式，并知道每一块怎么配参数，就已经超过大多数候选人。</strong></p></div></details></div>
+</details>
+</section>
+<section class="kp" id="kp12">
+<div class="kp-head">
+<span class="kp-no">12</span>
+<h2>线上 OOM / Full GC 频繁排查实战 ★</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>OOM 分四类，<strong>每类的排查路径完全不同</strong>：
+<code>Java heap space</code>（对象太多）/ <code>Metaspace</code>（类太多）/ <code>GC overhead limit exceeded</code>（GC 白干）/ <code>unable to create new native thread</code>（线程数爆了）。
+<strong>先分类，再排查</strong>——这一步错了后面全白做。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>线上 OOM 怎么排查？</li>
+<li>Full GC 频繁怎么定位？</li>
+<li>堆 dump 怎么分析？</li>
+<li>容器里 OOMKilled 和 Java OOM 有什么区别？</li>
+</ul></div>
+</div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body"><p><strong>OOM 四类对照表（先分类）</strong></p>
+<table>
+<thead>
+<tr>
+<th>报错</th>
+<th>含义</th>
+<th>根因方向</th>
+<th>处置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>OOM: Java heap space</code></td>
+<td>堆装不下</td>
+<td>内存泄漏 or 堆太小 or 大对象</td>
+<td>dump + MAT 分析</td>
+</tr>
+<tr>
+<td><code>OOM: Metaspace</code></td>
+<td>类元信息装不下</td>
+<td>动态生成类多 / ClassLoader 泄漏</td>
+<td>见第 11 题</td>
+</tr>
+<tr>
+<td><code>OOM: GC overhead limit exceeded</code></td>
+<td>98% 时间在 GC，但回收不到 2% 内存</td>
+<td><strong>堆太小</strong>（不是泄漏）</td>
+<td>调大堆、减对象分配</td>
+</tr>
+<tr>
+<td><code>OOM: unable to create new native thread</code></td>
+<td>线程数超过系统限制</td>
+<td>线程泄漏 / 每线程栈太大</td>
+<td>查线程池、调小 <code>-Xss</code>、调 <code>ulimit</code></td>
+</tr>
+<tr>
+<td><code>OOM: Direct buffer memory</code></td>
+<td>直接内存耗尽</td>
+<td>NIO/Netty 未释放</td>
+<td>见第 1 题拓展</td>
+</tr>
+</tbody>
+</table>
+<p><strong>完整排查 SOP（七步）</strong></p>
+<pre><code>① 先看现象归属
+   - 是 Pod 重启（K8s OOMKilled，Exit Code 137）还是应用抛 OOM？
+   - 前者=容器级，没有 Java 堆栈；后者=JVM 级，有堆栈
+
+② 确认是不是 GC 问题
+   jstat -gcutil &lt;pid&gt; 5000
+   看：O（老年代）是否接近 100%？FGC 是否快速上涨？GC 后 O 能否回落？
+
+③ 留现场（最关键的一步，别先重启！）
+   jmap -dump:format=b,file=/data/dump/heap.hprof &lt;pid&gt;
+   或提前配好 -XX:+HeapDumpOnOutOfMemoryError
+
+④ 看 GC 日志确认时间线
+   - GC 后老年代不回落 → 泄漏
+   - GC 后回落但很快满 → 不够用
+
+⑤ MAT 分析 dump
+   - Leak Suspects（自动报告，先看这个）
+   - Dominator Tree（支配树）→ 按 retained size 排序，找最大的
+   - 对可疑对象 → Path to GC Roots（exclude weak/soft）→ 找到持有链
+
+⑥ 对照代码定位
+   常见元凶：静态 Map/List 无界增长、缓存没设 TTL/上限、
+             ThreadLocal 没 remove、监听器没注销、
+             大查询结果集一次性加载进内存、循环里 new 大对象
+
+⑦ 处置 + 加防线
+   短期：调大内存 / 限流 / 重启
+   长期：给缓存加上限（LRU/Caffeine maximumSize）、
+         分页查库、加监控告警（堆使用率、FGC 频率）
+</code></pre>
+<p><strong>MAT 三个必看视图</strong></p>
+<table>
+<thead>
+<tr>
+<th>视图</th>
+<th>看什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Leak Suspects</td>
+<td>自动给出「疑似泄漏点」和它占的字节数，第一眼就看这个</td>
+</tr>
+<tr>
+<td>Dominator Tree</td>
+<td>按 <strong>retained size</strong>（该对象支配的总内存）排序，找真正的内存大户</td>
+</tr>
+<tr>
+<td>Histogram</td>
+<td>按类聚合的实例数/占用，快速看「哪个类实例最多」</td>
+</tr>
+</tbody>
+</table>
+<p><strong>一个反直觉的点</strong>：<code>jmap -histo</code> 里<strong>实例数最多的类往往不是元凶</strong>（大量小对象是正常的）。要看 <strong>retained size</strong>——一个 <code>HashMap</code> 实例只有几百字节，但它支配的 Entry 可能有几个 G。</p></div><div class="sec-h">拓展</div><div class="ext-body"><p><strong>容器里 OOMKilled vs Java OOM —— 必须分清</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Java OOM</th>
+<th>容器 OOMKilled</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>谁杀的</td>
+<td>JVM 自己抛异常</td>
+<td>cgroup / Linux OOM Killer</td>
+</tr>
+<tr>
+<td>Exit Code</td>
+<td>1</td>
+<td><strong>137</strong></td>
+</tr>
+<tr>
+<td>有无堆栈</td>
+<td>有 <code>OutOfMemoryError</code> 堆栈</td>
+<td><strong>没有！日志戛然而止</strong></td>
+</tr>
+<tr>
+<td>触发条件</td>
+<td>堆/元空间到上限</td>
+<td>进程 RSS 超过容器 memory limit</td>
+</tr>
+<tr>
+<td>排查入口</td>
+<td>GC 日志 + dump</td>
+<td><code>kubectl describe pod</code> 看 Last State、看节点 dmesg</td>
+</tr>
+</tbody>
+</table>
+<p><strong>为什么 <code>-Xmx</code> 设成等于 limit 会死</strong>：堆用满了还有元空间、线程栈、直接内存、Code Cache 要占内存 → RSS 超 limit → 被 OOMKilled。所以 <code>-Xmx</code> 只能占 limit 的 <strong>70~75%</strong>。</p>
+<p><strong>K8s 里怎么保住 dump</strong></p>
+<pre><code class="language-yaml">volumes:
+  - name: dump-dir
+    persistentVolumeClaim:
+      claimName: app-dump-pvc      # dump 落 PVC，Pod 重启也不丢
+containers:
+  - name: app
+    resources:
+      limits:
+        memory: &quot;6Gi&quot;              # 堆设 4.5g（75%）
+    env:
+      - name: JAVA_OPTS
+        value: &gt;-
+          -Xms4g -Xmx4g
+          -XX:MaxMetaspaceSize=512m
+          -XX:+HeapDumpOnOutOfMemoryError
+          -XX:HeapDumpPath=/data/dump
+</code></pre></div><details class="sub sub-ask"><summary>继续追问（面试官下一步会问什么）</summary><div class="sub-body"><p><strong>Q：<code>GC overhead limit exceeded</code> 和 <code>Java heap space</code> 有什么区别？</strong>
+<code>Java heap space</code> 是「实在塞不下了」；<code>GC overhead limit exceeded</code> 是「还有一点空间，但 GC 花了 98% 时间只回收了不到 2%，判定为无效劳动」而提前抛错。<strong>前者多半是泄漏，后者多半是堆太小</strong>——这个区分能直接决定你是去调参数还是去查代码。</p>
+<p><strong>Q：没有 dump 怎么办？</strong>
+靠 GC 日志 + <code>jstat</code> 历史数据 + 业务日志时间线反推。但信息量差一个量级，所以 <strong><code>-XX:+HeapDumpOnOutOfMemoryError</code> 是生产必配项</strong>，成本极低收益极高。</p>
+<p><strong>Q：<code>unable to create new native thread</code> 怎么排查？</strong>
+① <code>jstack &lt;pid&gt; | grep "java.lang.Thread.State" | wc -l</code> 看线程总数；② <code>jstack &lt;pid&gt; | grep -c "pool-"</code> 看线程池是否无界；③ 常见根因是<strong>线程池用了无界队列 + 无限创建线程</strong>（<code>Executors.newCachedThreadPool()</code> 是经典坑）；④ 每线程占 1M 栈（<code>-Xss</code>），1000 线程就是 1G 内存。</p></div></details><details class="sub sub-anchor"><summary>挂到我的项目上</summary><div class="sub-body"><p><strong>rrmcompute OOM 案例（面试完整讲法）</strong></p>
+<blockquote>
+<p>现象：现网 rrmcompute 的 Pod 反复重启，K8s 事件里是 <code>OOMKilled</code>，但应用日志里没有 <code>OutOfMemoryError</code> 堆栈。</p>
+<p>第一层判断：日志没有 Java 堆栈 → 不是 JVM 自己抛的，是 cgroup 杀的进程。这说明<strong>进程总 RSS 超过了容器 limit</strong>，不只是堆的问题。</p>
+<p>第二层定位：进容器 <code>jstat -gcutil</code> 观察，老年代在 GC 后能回落，但很快又涨满 → 不是典型泄漏，是<strong>内存确实不够用</strong>。结合业务日志，确认是高量调优任务并发进入时内存暴涨（大场所任务同时触发计算）。</p>
+<p>第三层处置：内存 5Gi 调到 5.5GiB（requests 保持 3Gi），同时限制任务并发度、检查有无界的缓存/集合增长。</p>
+<p>反思：容器里内存是一个<strong>总和预算</strong>——堆 + 元空间 + 线程栈 + 直接内存 + Code Cache。只调 <code>-Xmx</code> 是治不了 OOMKilled 的，必须按 limit 反算各块参数，并且留下 25% 余量。</p>
+</blockquote>
+<p>讲完这段，再补一句<strong>防御性改进</strong>：「后来我们在启动参数里显式配了 <code>-XX:MaxRAMPercentage=75</code> 和 <code>MaxMetaspaceSize</code> 上限，并给堆使用率加了告警阈值」——从「救火」到「建防线」，这是面试官最想听的成长轨迹。</p></div></details></div>
+</details>
+</section>
+</article></div>
+<div class="bottomnav"><a href="学习中心.html">🏠 回学习中心</a><a class="ghost" href="学习手册索引.html">📚 手册索引</a></div>
+<a class="totop" href="#" title="回到顶部">↑</a>
+<script>
+(function(){
+  var KEY = 'hb07_read';
+  var boxes = [].slice.call(document.querySelectorAll('details.ans'));
+  var cnt = document.getElementById('cnt');
+  var read = {};
+  try { read = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch(e){ read = {}; }
+
+  function paint(){
+    var n = 0;
+    boxes.forEach(function(d, i){ if (read[i]) n++; });
+    cnt.textContent = '已看 ' + n + ' / ' + boxes.length;
+  }
+  boxes.forEach(function(d, i){
+    if (read[i]) d.open = true;
+    d.addEventListener('toggle', function(){
+      read[i] = d.open;
+      try { localStorage.setItem(KEY, JSON.stringify(read)); } catch(e){}
+      paint();
+    });
+  });
+  paint();
+
+  function ensureSaved(){
+    boxes.forEach(function(d, i){ read[i] = d.open; });
+    try { localStorage.setItem(KEY, JSON.stringify(read)); } catch(e){}
+    paint();
+  }
+
+  var btnQuiz = document.getElementById('btnQuiz');
+  btnQuiz.addEventListener('click', function(){
+    var on = document.body.classList.toggle('quiz');
+    btnQuiz.classList.toggle('on', on);
+    if (on) { boxes.forEach(function(d){ d.open = false; }); }
+    ensureSaved();
+  });
+
+  document.getElementById('btnOpen').addEventListener('click', function(){
+    document.body.classList.remove('quiz');
+    btnQuiz.classList.remove('on');
+    boxes.forEach(function(d){ d.open = true; });
+    ensureSaved();
+  });
+
+  document.getElementById('btnClose').addEventListener('click', function(){
+    document.body.classList.remove('quiz');
+    btnQuiz.classList.remove('on');
+    boxes.forEach(function(d){ d.open = false; });
+    ensureSaved();
+  });
+
+  document.querySelectorAll('a[href="#"]').forEach(function(a){
+    a.addEventListener('click', function(e){ e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); });
+  });
+})();
+</script>
 </body></html>
