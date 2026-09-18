@@ -1,34 +1,88 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>18 性能优化实战 · 学习手册</title><style>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📘 学习手册 18 · 性能优化实战（把经验变成面试弹药）</title><style>
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:60px; }
+body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:70px; -webkit-text-size-adjust:100%; }
 .topnav { position:sticky; top:0; z-index:9; background:#1f2937; color:#fff; padding:10px 0; }
 .topnav .inner { max-width:960px; margin:0 auto; padding:0 18px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; font-size:13px; }
 .topnav a { color:#c7d2fe; text-decoration:none; padding:3px 12px; border-radius:14px; background:rgba(255,255,255,.08); }
 .topnav a:hover { background:rgba(255,255,255,.2); color:#fff; }
 .topnav .sep { opacity:.4; }
 .wrap { max-width:960px; margin:0 auto; padding:0 18px; }
-.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px; margin-top:22px; box-shadow:0 1px 3px rgba(20,30,60,.05); }
+.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px 28px; margin-top:22px; box-shadow:0 1px 3px rgba(20,30,60,.05); }
 .article h1 { font-size:26px; color:#4f46e5; border-bottom:3px solid #4f46e5; padding-bottom:12px; margin-bottom:18px; }
-.article h2 { font-size:20px; margin:30px 0 12px; padding:10px 14px; background:#eef2ff; border-left:4px solid #4f46e5; border-radius:6px; color:#312e81; }
-.article h3 { font-size:14px; color:#475569; margin:14px 0 6px; }
-.article p { margin:8px 0; font-size:14.5px; color:#2b3245; }
-.article ul, .article ol { margin:8px 0 8px 24px; }
-.article li { font-size:14.5px; margin:4px 0; }
-.article strong { color:#111827; }
+.meta { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; border-radius:6px; color:#166534; font-size:13px; margin-bottom:8px; }
+
+.toolbar { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:18px 0 6px; padding:12px 14px; background:#eef2ff; border-radius:10px; border:1px solid #dbe2fb; position:sticky; top:44px; z-index:8; }
+.toolbar button { font-family:inherit; font-size:13px; padding:7px 14px; border-radius:16px; border:1px solid #c7d2fe; background:#fff; color:#4338ca; cursor:pointer; }
+.toolbar button:hover { background:#e0e7ff; }
+.toolbar button.on { background:#4f46e5; color:#fff; border-color:#4f46e5; }
+.toolbar .count { font-size:12.5px; color:#4f46e5; margin-left:auto; font-weight:600; }
+
+.kp { border-bottom:1px dashed #dbe0ea; padding:22px 0 10px; }
+.kp:last-child { border-bottom:none; }
+.kp-head { display:flex; gap:10px; align-items:flex-start; margin-bottom:12px; }
+.kp-no { flex:none; width:26px; height:26px; border-radius:8px; background:#4f46e5; color:#fff; font-size:13px; display:flex; align-items:center; justify-content:center; font-weight:600; margin-top:3px; }
+.kp-head h2 { font-size:18px; color:#312e81; line-height:1.5; }
+.kp-head .h3sub { font-size:13px; color:#64748b; font-weight:400; display:block; margin-top:2px; }
+
+.concept { background:#f5f3ff; border-left:4px solid #8b5cf6; border-radius:8px; padding:12px 16px; margin:10px 0; }
+.tag { display:inline-block; font-size:11.5px; padding:2px 10px; border-radius:10px; margin-bottom:6px; font-weight:600; letter-spacing:.5px; }
+.tag-c { background:#ddd6fe; color:#4c1d95; }
+.tag-q { background:#fed7aa; color:#7c2d12; }
+.concept-body p { font-size:14.5px; color:#3b3355; margin:6px 0; }
+.concept-body p:first-child { margin-top:0; }
+.concept-body ul, .concept-body ol { margin:6px 0 6px 22px; }
+.concept-body li { font-size:14.5px; color:#3b3355; margin:4px 0; }
+
+.ask { background:#fffbeb; border-left:4px solid #f59e0b; border-radius:8px; padding:12px 16px; margin:10px 0 14px; }
+.ask-body ul, .ask-body ol { margin:4px 0 4px 22px; }
+.ask-body li { font-size:14.5px; color:#78350f; margin:5px 0; }
+.ask-body p { font-size:14.5px; color:#78350f; margin:5px 0; }
+
+details.ans { margin:6px 0 4px; }
+details.ans > summary { list-style:none; cursor:pointer; display:flex; align-items:center; gap:8px; background:#4f46e5; color:#fff; padding:11px 16px; border-radius:9px; font-size:14px; font-weight:600; user-select:none; }
+details.ans > summary::-webkit-details-marker { display:none; }
+details.ans > summary:hover { background:#4338ca; }
+.arrow { width:0; height:0; border-left:7px solid #fff; border-top:5px solid transparent; border-bottom:5px solid transparent; transition:transform .18s; }
+details.ans[open] > summary .arrow { transform:rotate(90deg); }
+details.ans[open] > summary .sum-text::after { content:" ▲"; font-size:11px; opacity:.7; }
+.ans-inner { border-left:3px solid #c7d2fe; margin:8px 0 0 14px; padding:6px 0 6px 18px; }
+.ans-body p { font-size:14.5px; margin:8px 0; }
+.ans-body h3 { font-size:15px; color:#1e293b; margin:16px 0 8px; padding-left:10px; border-left:3px solid #818cf8; }
+.ans-body h4 { font-size:14.5px; color:#334155; margin:14px 0 6px; }
+.ans-body ul, .ans-body ol { margin:8px 0 8px 24px; }
+.ans-body li { font-size:14.5px; margin:5px 0; }
+.ans-body strong { color:#111827; }
+.sec-h { font-size:12.5px; color:#0f766e; background:#ccfbf1; display:inline-block; padding:2px 12px; border-radius:10px; margin:18px 0 6px; font-weight:600; }
+.ext-body { border-left:3px solid #5eead4; padding-left:14px; margin-bottom:6px; }
+.ext-body p { font-size:14.5px; margin:8px 0; }
+.ext-body ul, .ext-body ol { margin:8px 0 8px 24px; }
+.ext-body li { font-size:14.5px; margin:5px 0; }
+details.sub { margin:12px 0 0; border:1px solid #e4e8f0; border-radius:9px; overflow:hidden; }
+details.sub > summary { list-style:none; cursor:pointer; padding:10px 14px; font-size:13.5px; background:#f8fafc; color:#334155; font-weight:600; user-select:none; }
+details.sub > summary::-webkit-details-marker { display:none; }
+details.sub > summary::before { content:"\25B8 "; color:#94a3b8; }
+details.sub[open] > summary::before { content:"\25BE "; }
+details.sub[open] > summary { border-bottom:1px solid #e4e8f0; }
+.sub-body { padding:12px 16px; }
+.sub-body p { font-size:14.5px; margin:7px 0; }
+.sub-body ul, .sub-body ol { margin:7px 0 7px 24px; }
+.sub-body li { font-size:14.5px; margin:5px 0; }
+details.sub-ask > summary { background:#fff7ed; color:#9a3412; }
+details.sub-anchor > summary { background:#f0fdf4; color:#166534; }
+details.sub-anchor .sub-body { background:#fafffb; }
+
 .article code { background:#f1f3fa; padding:1px 6px; border-radius:4px; font-size:13px; color:#be185d; }
-.article table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13.5px; display:block; overflow-x:auto; }
-.article th { background:#f1f3fa; padding:8px 10px; text-align:left; color:#475569; font-size:12.5px; border:1px solid #e4e8f0; }
+.article pre { background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:8px; overflow-x:auto; margin:12px 0; font-size:12.8px; line-height:1.65; }
+.article pre code { background:none; color:inherit; padding:0; font-size:12.8px; }
+.article table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; display:block; overflow-x:auto; }
+.article th { background:#f1f3fa; padding:8px 10px; text-align:left; color:#475569; font-size:12.5px; border:1px solid #e4e8f0; white-space:nowrap; }
 .article td { padding:8px 10px; border:1px solid #e4e8f0; vertical-align:top; }
 .article blockquote { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; margin:12px 0; border-radius:6px; color:#166534; font-size:14px; }
 .article blockquote strong { color:#14532d; }
 .article hr { border:none; border-top:1px dashed #d1d5db; margin:26px 0; }
-.bottomnav { max-width:960px; margin:20px auto 0; padding:0 18px; display:flex; gap:10px; }
-.bottomnav a { flex:1; text-align:center; background:#4f46e5; color:#fff; text-decoration:none; padding:12px 10px; border-radius:10px; font-size:14px; }
-.bottomnav a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
-@media (max-width:760px){ .article{padding:22px 18px;} .article h1{font-size:21px;} }
-/* handbook-layout-fix */
 .article p.lead { background:#eef2ff; border-left:4px solid #6366f1; padding:10px 14px; border-radius:6px; color:#312e81; margin:10px 0 4px; }
 .article p.lbl { font-size:13px; color:#64748b; margin:14px 0 4px; }
 .article p.say { background:#fff7ed; border-left:4px solid #f97316; padding:10px 14px; border-radius:6px; color:#7c2d12; margin:12px 0 4px; }
@@ -37,19 +91,54 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 .article ol { margin:6px 0 6px 24px; }
 .article li { margin:5px 0; }
 .article ul ul { margin:4px 0 4px 20px; }
+
+body.quiz details.ans > summary { background:#94a3b8; }
+body.quiz details.ans:not([open]) .sum-text::after { content:"（自测中，先自己答）"; font-size:11.5px; font-weight:400; opacity:.9; }
+body.hide-ans details.ans { display:none; }
+
+.bottomnav { max-width:960px; margin:20px auto 0; padding:0 18px; display:flex; gap:10px; }
+.bottomnav a { flex:1; text-align:center; background:#4f46e5; color:#fff; text-decoration:none; padding:12px 10px; border-radius:10px; font-size:14px; }
+.bottomnav a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
+.totop { position:fixed; right:18px; bottom:22px; width:44px; height:44px; border-radius:50%; background:#4f46e5; color:#fff; display:flex; align-items:center; justify-content:center; font-size:18px; text-decoration:none; box-shadow:0 2px 10px rgba(79,70,229,.35); z-index:20; }
+@media (max-width:760px){
+  .article { padding:22px 16px 20px; }
+  .article h1 { font-size:21px; }
+  .kp-head h2 { font-size:16.5px; }
+  .toolbar { top:40px; padding:10px; }
+  .toolbar button { font-size:12.5px; padding:6px 11px; }
+  .toolbar .count { width:100%; margin:2px 0 0; }
+  .ans-inner { margin-left:4px; padding-left:12px; }
+  body { font-size:15px; }
+}
 </style></head>
 <body>
 <div class="topnav"><div class="inner"><a href="学习中心.html">🏠 学习中心</a> <span class="sep">|</span> <a href="学习手册索引.html">📚 手册索引</a> <span class="sep">|</span> <a href="学习手册_17_SpringCloud微服务.html">◀ 17 SpringCloud</a></div></div>
-<div class="wrap"><article class="article"><h1>📘 学习手册 18 · 性能优化实战（把经验变成面试弹药）</h1>
-<blockquote>
-<p>来源：同事 Java 面试侧重点——"<strong>性能优化必须有实践经验</strong>"<br />
-⚠️ 你有真实案例（RRM 生产环境）但没组织成"可讲的案例"。本册把你的经验 + Java 面试高频性能题结合<br />
-案例讲法模板（背熟）：<strong>背景 → 现象 → 定位方法 → 方案 → 量化效果 → 可迁移</strong><br />
-每个案例 2 分钟内讲完，面试官要的是"你真的排查过"的细节</p>
-</blockquote>
-<hr />
-<h2>0. 性能优化通用方法论（Java 面试高频题）</h2>
-<p class="lead"><strong>一句话结论</strong>：性能问题四大类（慢查询/高延迟、内存/GC、吞吐/并发、资源泄漏），排查顺序：先指标定位（CPU/内存/IO/GC）→ 再代码定位 → 最后针对性优化。</p>
+<div class="wrap"><article class="article">
+<h1>📘 学习手册 18 · 性能优化实战（把经验变成面试弹药）</h1>
+<div class="meta"><p>来源：同事 Java 面试侧重点——"<strong>性能优化必须有实践经验</strong>"<br /><br />⚠️ 你有真实案例（RRM 生产环境）但没组织成"可讲的案例"。本册把你的经验 + Java 面试高频性能题结合<br /><br />案例讲法模板（背熟）：<strong>背景 → 现象 → 定位方法 → 方案 → 量化效果 → 可迁移</strong><br /><br />每个案例 2 分钟内讲完，面试官要的是"你真的排查过"的细节</p></div>
+<div class="toolbar">
+  <button id="btnQuiz" type="button">自测模式</button>
+  <button id="btnOpen" type="button">全部展开</button>
+  <button id="btnClose" type="button">全部折叠</button>
+  <span class="count" id="cnt">已看 0 / 8</span>
+</div>
+<section class="kp" id="kp1">
+<div class="kp-head">
+<span class="kp-no">0</span>
+<h2>性能优化通用方法论（Java 面试高频题）</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>性能问题四大类（慢查询/高延迟、内存/GC、吞吐/并发、资源泄漏），排查顺序：先指标定位（CPU/内存/IO/GC）→ 再代码定位 → 最后针对性优化。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>性能优化通用方法论（Java 面试高频题）？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>详细解释</strong>（面试常问"项目怎么优化的"，分层答）：</p>
 <table>
 <thead>
@@ -92,38 +181,153 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 </tr>
 </tbody>
 </table>
-<p class="say"><strong>话术/例题</strong>："我优化过的点分四类：DB（索引/分表）、内存（OOM 调堆）、消息（积压）、日志（降级）"——先给分类框架再展开一个案例。</p>
+<div class="sec-h">拓展</div><div class="ext-body">"我优化过的点分四类：DB（索引/分表）、内存（OOM 调堆）、消息（积压）、日志（降级）"——先给分类框架再展开一个案例。</div>
+</div></div></details>
+</section>
+<section class="kp" id="kp2">
+<div class="kp-head">
+<span class="kp-no">2</span>
 <h2>案例① rrmcompute OOM 内存调优（你的招牌案例）</h2>
-<p class="lead"><strong>一句话结论</strong>：高量调优任务并发导致内存超限 OOM 重启，通过"分析内存构成 → 调 requests/limits + 限流任务"解决。</p>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>高量调优任务并发导致内存超限 OOM 重启，通过"分析内存构成 → 调 requests/limits + 限流任务"解决。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>案例① rrmcompute OOM 内存调优（你的招牌案例）？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>完整讲法</strong>：</p>
 <ul><li><strong>背景</strong>：RRM 云端计算微服务 rrmcompute，高量任务（大 AP 场所调优）时频繁 OOM 重启</li><li><strong>现象</strong>：Pod OOMKilled，K8s 重启，任务中断用户投诉</li><li><strong>定位</strong>：看 K8s events（OOMKilled）→ 内存监控曲线（峰值超 limits）→ 分析是单个大任务（大批 AP 数据一次载入）还是并发累积</li><li><strong>方案</strong>：① 内存配额 5Gi→5.5Gi（requests 保持 3Gi，limits 上调留余量）② 大任务分批处理/限制单任务内存 ③ 消息消费限流（防突发堆积全进内存）</li><li><strong>效果</strong>：OOM 重启消失，服务稳定</li><li><strong>可迁移（Java）</strong>：Java 对应 -Xmx 调优 + 大对象/集合无界增长排查 + 线程池队列限制</li></ul>
 <p><strong>追问应对</strong>："为什么 requests 和 limits 都要配？"→ requests 决定调度（Node 内存够才调度），limits 是上限（超了 OOM kill）；只配 limits 会高估导致 Node 超卖。</p>
+</div></div></details>
+</section>
+<section class="kp" id="kp3">
+<div class="kp-head">
+<span class="kp-no">3</span>
 <h2>案例② Kafka 消费积压排查</h2>
-<p class="lead"><strong>一句话结论</strong>：消费速度跟不上生产速度 → 积压，先看积压量定位是"生产暴涨"还是"消费卡住"，再对症处理。</p>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>消费速度跟不上生产速度 → 积压，先看积压量定位是"生产暴涨"还是"消费卡住"，再对症处理。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>案例② Kafka 消费积压排查？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>完整讲法</strong>：</p>
 <ul><li><strong>背景</strong>：设备调优结果上报量大，消费处理慢，页面数据延迟</li><li><strong>定位</strong>：查消费者组 lag（Kafka lag 监控）→ 确认积压持续增长 → 看消费端日志：是 DB 写入慢还是处理逻辑慢</li><li><strong>方案</strong>：① 批量消费（攒一批一次入库，减少 DB 往返）② 加分区/消费者并行度 ③ 消费端慢 SQL 优化（加索引）</li><li><strong>效果</strong>：lag 回落，数据实时</li><li><strong>可迁移（Java）</strong>：Spring Kafka 消费者并发（concurrency）、批量 Listener、手动提交 offset</li></ul>
 <p><strong>追问应对</strong>："消息会不会丢？"→ 生产 acks=all + 消费先处理再提交 offset + 幂等去重（你手册 04 全套）。</p>
+</div></div></details>
+</section>
+<section class="kp" id="kp4">
+<div class="kp-head">
+<span class="kp-no">4</span>
 <h2>案例③ MongoDB 慢查询与索引优化</h2>
-<p class="lead"><strong>一句话结论</strong>：上报数据量大查询慢 → explain 看是否走索引 → 建复合索引 + 分片，查询从秒级到毫秒。</p>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>上报数据量大查询慢 → explain 看是否走索引 → 建复合索引 + 分片，查询从秒级到毫秒。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>案例③ MongoDB 慢查询与索引优化？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>完整讲法</strong>：</p>
 <ul><li><strong>背景</strong>：按 taskId+AP 查调优历史慢（数据千万级）</li><li><strong>定位</strong>：explain() 看 COLLSCAN（全集合扫）→ 无合适索引</li><li><strong>方案</strong>：建复合索引 {taskId, apSN, RI} 命中查询 + 按任务维度分库分表分散热点 + 限制返回字段（projection）</li><li><strong>效果</strong>：查询毫秒级</li><li><strong>可迁移（Java/MySQL）</strong>：EXPLAIN 看 type（ref/range vs ALL）、联合索引最左前缀、覆盖索引</li></ul>
 <p><strong>追问应对</strong>："复合索引顺序怎么定？"→ 等值字段在前（taskId）、范围字段在后（时间/RI），最左前缀匹配。</p>
+</div></div></details>
+</section>
+<section class="kp" id="kp5">
+<div class="kp-head">
+<span class="kp-no">5</span>
 <h2>案例④ Redis 缓存与配置中心优化</h2>
-<p class="lead"><strong>一句话结论</strong>：高频读取走缓存 + 缓存一致性（先写库再删缓存）+ 防击穿，把 DB 压力降到 1/10。</p>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>高频读取走缓存 + 缓存一致性（先写库再删缓存）+ 防击穿，把 DB 压力降到 1/10。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>案例④ Redis 缓存与配置中心优化？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>完整讲法</strong>：</p>
 <ul><li><strong>背景</strong>：配置/基础数据每次请求都查 Mongo，高峰 DB 压力大</li><li><strong>方案</strong>：① 热点配置缓存到 Redis（TTL 兜底）② 变更时先写库再删缓存（Cache Aside）③ 分布式锁防并发重建</li><li><strong>效果</strong>：DB QPS 大幅下降，接口延迟降低</li><li><strong>可迁移（Java）</strong>：Spring Cache/Redisson、缓存穿透/击穿/雪崩方案（手册 03 全链路）</li></ul>
 <p><strong>追问应对</strong>："缓存和 DB 不一致怎么办？"→ 删缓存 + 延迟双删/Canal 兜底 + TTL（手册 03 第 5/9 题）。</p>
+</div></div></details>
+</section>
+<section class="kp" id="kp6">
+<div class="kp-head">
+<span class="kp-no">6</span>
 <h2>案例⑤ 日志降级优化（非关键日志）</h2>
-<p class="lead"><strong>一句话结论</strong>：把无业务价值的 error 级日志降为 info/warn，减少磁盘与 IO 开销、降低告警噪音。</p>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>把无业务价值的 error 级日志降为 info/warn，减少磁盘与 IO 开销、降低告警噪音。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>案例⑤ 日志降级优化（非关键日志）？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>完整讲法</strong>：</p>
 <ul><li><strong>背景</strong>：rrmcontrol 大量流程性日志用 ERROR 打印（如 'empty autoOptDoc' 每 60s 一次），日志量大、告警噪音</li><li><strong>方案</strong>：分析日志分类（错误 vs 流程事件）→ 流程事件降级 console.info/warn，仅保留真错误为 ERROR</li><li><strong>效果</strong>：日志量下降、告警准确率提升、IO 开销降低</li><li><strong>可迁移（Java）</strong>：log4j2/logback 级别配置、按类调整级别、日志异步化</li></ul>
 <p><strong>追问应对</strong>："为什么流程事件也用 ERROR 是问题？"→ 掩盖真错误（告警疲劳）+ 额外 IO；日志策略：ERROR=需要人处理，INFO/WARN=可观测即可。</p>
+</div></div></details>
+</section>
+<section class="kp" id="kp7">
+<div class="kp-head">
+<span class="kp-no">7</span>
 <h2>案例⑥ 性能优化高阶题（Java 面试通用）</h2>
-<p class="lead"><strong>一句话结论</strong>：线程池参数、连接池、批量 IO、异步化、GC 调优——五类高频考点，每类备一句实践理解。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>线程池参数、连接池、批量 IO、异步化、GC 调优——五类高频考点，每类备一句实践理解。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>如何定位 Java 线上性能问题？→ top/arthas（dashboard/thread/ognl）+ jstat 看 GC + jmap 堆转储（手册 07 第 8 题命令）</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ol><li><strong>线程池</strong>：核心/最大/队列怎么定？→ CPU 密集 = 核数+1，IO 密集可大；队列有界防 OOM（手册 06 第 13 题联动）</li><li><strong>连接池</strong>：DB/Redis/HTTP 连接都池化（避免频繁建连）；池大小 = 峰值并发 × 单连接耗时/预期响应</li><li><strong>批量 IO</strong>：批量入库/批量查询替代 N+1（一次循环查一次库是反模式）</li><li><strong>异步化</strong>：非核心逻辑异步（MQ/线程池），削峰填谷</li><li><strong>GC 调优</strong>：目标是少 Full GC；大对象/缓存无界增长是元凶（手册 07）</li></ol>
-<p class="say"><strong>话术/例题</strong>：挑 2-3 类结合真实场景讲（批量入库 + 异步上报你都在 RRM 做过）。追问：如何定位 Java 线上性能问题？→ top/arthas（dashboard/thread/ognl）+ jstat 看 GC + jmap 堆转储（手册 07 第 8 题命令）。</p>
+<div class="sec-h">拓展</div><div class="ext-body">挑 2-3 类结合真实场景讲（批量入库 + 异步上报你都在 RRM 做过）。追问：如何定位 Java 线上性能问题？→ top/arthas（dashboard/thread/ognl）+ jstat 看 GC + jmap 堆转储（手册 07 第 8 题命令）。</div>
+</div></div></details>
+</section>
+<section class="kp" id="kp8">
+<div class="kp-head">
+<span class="kp-no">8</span>
 <h2>📝 本章自测（闭卷）</h2>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>📝 本章自测（闭卷）？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ol>
 <li>用"背景-现象-定位-方案-效果"完整讲 rrmcompute OOM 案例（2 分钟脱稿）</li>
 <li>Kafka 积压排查三步 + 防丢三件套</li>
@@ -133,9 +337,61 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 <li>线程池参数怎么定（CPU/IO 密集）</li>
 <li>Java 线上性能定位命令链（arthas/jstat/jmap）</li>
 </ol>
-<blockquote>
-<p>完成自测后回《学习手册_10》把 4 个案例补进你的"高频追问应对"，面试时按需调取</p>
-</blockquote></article></div>
+</div></div></details>
+</section>
+</article></div>
 <div class="bottomnav"><a href="学习手册_17_SpringCloud微服务.html">◀ 上一本：17 SpringCloud</a>
 <a class="ghost" href="面试八股复习计划_李鑫.html">📖 回复习计划勾选</a></div>
+</body>
+<a class="totop" href="#">↑</a>
+<script>
+(function(){
+  var KEY = '%s';
+  var boxes = [].slice.call(document.querySelectorAll('details.ans'));
+  var cnt = document.getElementById('cnt');
+  var read = {};
+  try { read = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch(e){ read = {}; }
+  function paint(){
+    var n = 0;
+    boxes.forEach(function(d, i){ if (read[i]) n++; });
+    cnt.textContent = '\u5df2\u770b ' + n + ' / ' + boxes.length;
+  }
+  boxes.forEach(function(d, i){
+    if (read[i]) d.open = true;
+    d.addEventListener('toggle', function(){
+      read[i] = d.open;
+      try { localStorage.setItem(KEY, JSON.stringify(read)); } catch(e){}
+      paint();
+    });
+  });
+  paint();
+  function ensureSaved(){
+    boxes.forEach(function(d, i){ read[i] = d.open; });
+    try { localStorage.setItem(KEY, JSON.stringify(read)); } catch(e){}
+    paint();
+  }
+  var btnQuiz = document.getElementById('btnQuiz');
+  btnQuiz.addEventListener('click', function(){
+    var on = document.body.classList.toggle('quiz');
+    btnQuiz.classList.toggle('on', on);
+    if (on) { boxes.forEach(function(d){ d.open = false; }); }
+    ensureSaved();
+  });
+  document.getElementById('btnOpen').addEventListener('click', function(){
+    document.body.classList.remove('quiz');
+    btnQuiz.classList.remove('on');
+    boxes.forEach(function(d){ d.open = true; });
+    ensureSaved();
+  });
+  document.getElementById('btnClose').addEventListener('click', function(){
+    document.body.classList.remove('quiz');
+    btnQuiz.classList.remove('on');
+    boxes.forEach(function(d){ d.open = false; });
+    ensureSaved();
+  });
+  document.querySelectorAll('a[href="#"]').forEach(function(a){
+    a.addEventListener('click', function(e){ e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); });
+  });
+})();
+</script>
 </body></html>

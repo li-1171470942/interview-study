@@ -1,27 +1,88 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>📘 学习手册 23 · 招银网络 Java 4 轮面经 · 标准答案</title><style>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📘 学习手册 23 · 招银网络 Java 4 轮面经 · 标准答案</title><style>
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:60px; }
+body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:70px; -webkit-text-size-adjust:100%; }
 .topnav { position:sticky; top:0; z-index:9; background:#1f2937; color:#fff; padding:10px 0; }
 .topnav .inner { max-width:960px; margin:0 auto; padding:0 18px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; font-size:13px; }
 .topnav a { color:#c7d2fe; text-decoration:none; padding:3px 12px; border-radius:14px; background:rgba(255,255,255,.08); }
 .topnav a:hover { background:rgba(255,255,255,.2); color:#fff; }
+.topnav .sep { opacity:.4; }
 .wrap { max-width:960px; margin:0 auto; padding:0 18px; }
-.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px; margin-top:22px; }
+.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px 28px; margin-top:22px; box-shadow:0 1px 3px rgba(20,30,60,.05); }
 .article h1 { font-size:26px; color:#4f46e5; border-bottom:3px solid #4f46e5; padding-bottom:12px; margin-bottom:18px; }
-.article h2 { font-size:20px; margin:30px 0 12px; padding:10px 14px; background:#eef2ff; border-left:4px solid #4f46e5; border-radius:6px; color:#312e81; }
-.article h3 { font-size:16px; margin:14px 0 6px; color:#4338ca; }
-.article p { margin:8px 0; font-size:14.5px; color:#2b3245; }
-.article pre { background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:8px; overflow-x:auto; margin:12px 0; font-size:13px; line-height:1.6; }
-.article blockquote { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; margin:12px 0; border-radius:6px; color:#166534; font-size:14px; }
-.article strong { color:#111827; }
+.meta { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; border-radius:6px; color:#166534; font-size:13px; margin-bottom:8px; }
+
+.toolbar { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:18px 0 6px; padding:12px 14px; background:#eef2ff; border-radius:10px; border:1px solid #dbe2fb; position:sticky; top:44px; z-index:8; }
+.toolbar button { font-family:inherit; font-size:13px; padding:7px 14px; border-radius:16px; border:1px solid #c7d2fe; background:#fff; color:#4338ca; cursor:pointer; }
+.toolbar button:hover { background:#e0e7ff; }
+.toolbar button.on { background:#4f46e5; color:#fff; border-color:#4f46e5; }
+.toolbar .count { font-size:12.5px; color:#4f46e5; margin-left:auto; font-weight:600; }
+
+.kp { border-bottom:1px dashed #dbe0ea; padding:22px 0 10px; }
+.kp:last-child { border-bottom:none; }
+.kp-head { display:flex; gap:10px; align-items:flex-start; margin-bottom:12px; }
+.kp-no { flex:none; width:26px; height:26px; border-radius:8px; background:#4f46e5; color:#fff; font-size:13px; display:flex; align-items:center; justify-content:center; font-weight:600; margin-top:3px; }
+.kp-head h2 { font-size:18px; color:#312e81; line-height:1.5; }
+.kp-head .h3sub { font-size:13px; color:#64748b; font-weight:400; display:block; margin-top:2px; }
+
+.concept { background:#f5f3ff; border-left:4px solid #8b5cf6; border-radius:8px; padding:12px 16px; margin:10px 0; }
+.tag { display:inline-block; font-size:11.5px; padding:2px 10px; border-radius:10px; margin-bottom:6px; font-weight:600; letter-spacing:.5px; }
+.tag-c { background:#ddd6fe; color:#4c1d95; }
+.tag-q { background:#fed7aa; color:#7c2d12; }
+.concept-body p { font-size:14.5px; color:#3b3355; margin:6px 0; }
+.concept-body p:first-child { margin-top:0; }
+.concept-body ul, .concept-body ol { margin:6px 0 6px 22px; }
+.concept-body li { font-size:14.5px; color:#3b3355; margin:4px 0; }
+
+.ask { background:#fffbeb; border-left:4px solid #f59e0b; border-radius:8px; padding:12px 16px; margin:10px 0 14px; }
+.ask-body ul, .ask-body ol { margin:4px 0 4px 22px; }
+.ask-body li { font-size:14.5px; color:#78350f; margin:5px 0; }
+.ask-body p { font-size:14.5px; color:#78350f; margin:5px 0; }
+
+details.ans { margin:6px 0 4px; }
+details.ans > summary { list-style:none; cursor:pointer; display:flex; align-items:center; gap:8px; background:#4f46e5; color:#fff; padding:11px 16px; border-radius:9px; font-size:14px; font-weight:600; user-select:none; }
+details.ans > summary::-webkit-details-marker { display:none; }
+details.ans > summary:hover { background:#4338ca; }
+.arrow { width:0; height:0; border-left:7px solid #fff; border-top:5px solid transparent; border-bottom:5px solid transparent; transition:transform .18s; }
+details.ans[open] > summary .arrow { transform:rotate(90deg); }
+details.ans[open] > summary .sum-text::after { content:" ▲"; font-size:11px; opacity:.7; }
+.ans-inner { border-left:3px solid #c7d2fe; margin:8px 0 0 14px; padding:6px 0 6px 18px; }
+.ans-body p { font-size:14.5px; margin:8px 0; }
+.ans-body h3 { font-size:15px; color:#1e293b; margin:16px 0 8px; padding-left:10px; border-left:3px solid #818cf8; }
+.ans-body h4 { font-size:14.5px; color:#334155; margin:14px 0 6px; }
+.ans-body ul, .ans-body ol { margin:8px 0 8px 24px; }
+.ans-body li { font-size:14.5px; margin:5px 0; }
+.ans-body strong { color:#111827; }
+.sec-h { font-size:12.5px; color:#0f766e; background:#ccfbf1; display:inline-block; padding:2px 12px; border-radius:10px; margin:18px 0 6px; font-weight:600; }
+.ext-body { border-left:3px solid #5eead4; padding-left:14px; margin-bottom:6px; }
+.ext-body p { font-size:14.5px; margin:8px 0; }
+.ext-body ul, .ext-body ol { margin:8px 0 8px 24px; }
+.ext-body li { font-size:14.5px; margin:5px 0; }
+details.sub { margin:12px 0 0; border:1px solid #e4e8f0; border-radius:9px; overflow:hidden; }
+details.sub > summary { list-style:none; cursor:pointer; padding:10px 14px; font-size:13.5px; background:#f8fafc; color:#334155; font-weight:600; user-select:none; }
+details.sub > summary::-webkit-details-marker { display:none; }
+details.sub > summary::before { content:"\25B8 "; color:#94a3b8; }
+details.sub[open] > summary::before { content:"\25BE "; }
+details.sub[open] > summary { border-bottom:1px solid #e4e8f0; }
+.sub-body { padding:12px 16px; }
+.sub-body p { font-size:14.5px; margin:7px 0; }
+.sub-body ul, .sub-body ol { margin:7px 0 7px 24px; }
+.sub-body li { font-size:14.5px; margin:5px 0; }
+details.sub-ask > summary { background:#fff7ed; color:#9a3412; }
+details.sub-anchor > summary { background:#f0fdf4; color:#166534; }
+details.sub-anchor .sub-body { background:#fafffb; }
+
 .article code { background:#f1f3fa; padding:1px 6px; border-radius:4px; font-size:13px; color:#be185d; }
-.article li { margin:4px 0 4px 24px; font-size:14.5px; }
-.article table { border-collapse:collapse; width:100%; margin:12px 0; font-size:14px; }
-.article th { background:#eef2ff; color:#312e81; font-weight:600; padding:8px 12px; border:1px solid #cbd5e1; }
-.article td { padding:8px 12px; border:1px solid #cbd5e1; }
-/* handbook-layout-fix */
+.article pre { background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:8px; overflow-x:auto; margin:12px 0; font-size:12.8px; line-height:1.65; }
+.article pre code { background:none; color:inherit; padding:0; font-size:12.8px; }
+.article table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; display:block; overflow-x:auto; }
+.article th { background:#f1f3fa; padding:8px 10px; text-align:left; color:#475569; font-size:12.5px; border:1px solid #e4e8f0; white-space:nowrap; }
+.article td { padding:8px 10px; border:1px solid #e4e8f0; vertical-align:top; }
+.article blockquote { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; margin:12px 0; border-radius:6px; color:#166534; font-size:14px; }
+.article blockquote strong { color:#14532d; }
+.article hr { border:none; border-top:1px dashed #d1d5db; margin:26px 0; }
 .article p.lead { background:#eef2ff; border-left:4px solid #6366f1; padding:10px 14px; border-radius:6px; color:#312e81; margin:10px 0 4px; }
 .article p.lbl { font-size:13px; color:#64748b; margin:14px 0 4px; }
 .article p.say { background:#fff7ed; border-left:4px solid #f97316; padding:10px 14px; border-radius:6px; color:#7c2d12; margin:12px 0 4px; }
@@ -30,6 +91,25 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 .article ol { margin:6px 0 6px 24px; }
 .article li { margin:5px 0; }
 .article ul ul { margin:4px 0 4px 20px; }
+
+body.quiz details.ans > summary { background:#94a3b8; }
+body.quiz details.ans:not([open]) .sum-text::after { content:"（自测中，先自己答）"; font-size:11.5px; font-weight:400; opacity:.9; }
+body.hide-ans details.ans { display:none; }
+
+.bottomnav { max-width:960px; margin:20px auto 0; padding:0 18px; display:flex; gap:10px; }
+.bottomnav a { flex:1; text-align:center; background:#4f46e5; color:#fff; text-decoration:none; padding:12px 10px; border-radius:10px; font-size:14px; }
+.bottomnav a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
+.totop { position:fixed; right:18px; bottom:22px; width:44px; height:44px; border-radius:50%; background:#4f46e5; color:#fff; display:flex; align-items:center; justify-content:center; font-size:18px; text-decoration:none; box-shadow:0 2px 10px rgba(79,70,229,.35); z-index:20; }
+@media (max-width:760px){
+  .article { padding:22px 16px 20px; }
+  .article h1 { font-size:21px; }
+  .kp-head h2 { font-size:16.5px; }
+  .toolbar { top:40px; padding:10px; }
+  .toolbar button { font-size:12.5px; padding:6px 11px; }
+  .toolbar .count { width:100%; margin:2px 0 0; }
+  .ans-inner { margin-left:4px; padding-left:12px; }
+  body { font-size:15px; }
+}
 </style></head>
 <body>
 <div class="topnav"><div class="inner">
@@ -38,73 +118,197 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 </div></div>
 <div class="wrap"><article class="article">
 <h1>📘 学习手册 23 · 招银网络 Java 4 轮面经 · 标准答案</h1>
-<blockquote>
-<p><strong>来源</strong>：2026-09-08 招银网络 Java 社招 4 轮（4 轮共 35 题）完整回忆<br /><br />
-<strong>风格</strong>：一面/二面/三面/HR 面分章节，每题按手册模板：<strong>一句话结论 → 详细解释 → 面试话术（要背） → 例题/追问</strong><br /><br />
-<strong>复用价值</strong>：招银题目覆盖<strong>金融科技 + 企业 AI Copilot + 分布式经典</strong>三大方向，可复用至工行/中信/民生/平安/招联等同梯队银行系；<strong>AI Agent 9 题是生死线</strong>，建议先攻手册 16 AI 应用工程再回此章<br /><br />
-<strong>整体特点</strong>：务实、场景设计题占比 50%、AI Agent/LLM 占比 26%、算法全简单/中等、4 轮看真实项目落地<br /><br />
-<strong>你的底牌</strong>：RRM 项目（手册 21/22）+ personalAgent 项目（简历 AI 全栈版）+ 性能优化 6 案例（手册 18）—— 35 题有 28 题能挂自己项目</p>
-</blockquote>
-<hr />
-<h2>一面 · 技术面（8 题）</h2>
-<h3>一面 Q1. 自我介绍（1min 电梯陈述）</h3>
-<p class="lead"><strong>一句话结论</strong>：身份 + 工龄 + 一句话定位 + 数字锚点 + 投递理由（5 段共 60 秒）<br /></p>
-<p class="lbl"><strong>详细解释</strong>：<br /></p>
+<div class="meta"><p><strong>来源</strong>：2026-09-08 招银网络 Java 社招 4 轮（4 轮共 35 题）完整回忆<br /><br /><br /><strong>风格</strong>：一面/二面/三面/HR 面分章节，每题按手册模板：<strong>一句话结论 → 详细解释 → 面试话术（要背） → 例题/追问</strong><br /><br /><br /><strong>复用价值</strong>：招银题目覆盖<strong>金融科技 + 企业 AI Copilot + 分布式经典</strong>三大方向，可复用至工行/中信/民生/平安/招联等同梯队银行系；<strong>AI Agent 9 题是生死线</strong>，建议先攻手册 16 AI 应用工程再回此章<br /><br /><br /><strong>整体特点</strong>：务实、场景设计题占比 50%、AI Agent/LLM 占比 26%、算法全简单/中等、4 轮看真实项目落地<br /><br /><br /><strong>你的底牌</strong>：RRM 项目（手册 21/22）+ personalAgent 项目（简历 AI 全栈版）+ 性能优化 6 案例（手册 18）—— 35 题有 28 题能挂自己项目</p></div>
+<div class="toolbar">
+  <button id="btnQuiz" type="button">自测模式</button>
+  <button id="btnOpen" type="button">全部展开</button>
+  <button id="btnClose" type="button">全部折叠</button>
+  <span class="count" id="cnt">已看 0 / 38</span>
+</div>
+<section class="kp" id="kp1">
+<div class="kp-head">
+<span class="kp-no">1</span>
+<h2>一面 Q1. 自我介绍（1min 电梯陈述）</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>身份 + 工龄 + 一句话定位 + 数字锚点 + 投递理由（5 段共 60 秒）<br /></p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>一面 Q1. 自我介绍（1min 电梯陈述）？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li><strong>模板</strong>（必背）：「您好，我叫李鑫，3 年 H3C 后端开发，本科重大邮电。一直做 Oasis 无线资源管理（RRM）项目，用 Node.js + Kafka + MongoDB 撑过日均百万级 AP 调优任务；去年开始转型 Java 后端，业余做 AI Agent 工具链（personalAgent 框架）。看到招银网络金融科技 + AI Copilot 的方向很匹配，今天来聊两个最有代表性的项目。」<br /></li><li><strong>数字锚点</strong>：3 年 / 4 个微服务 / 日均百万级 / QPS 4 位数 / 内存调优 5→5.5Gi<br /></li><li><strong>必杀</strong>：「一收一放」：收（学历/经历）+ 放（亮眼数据 + 投递动机）<br /></li><li><strong>禁忌</strong>：别说"学习能力强""沟通好"这种空话；不报菜名式列技术栈<br /></li></ul>
 <p><strong>话术</strong>：见上模板，按 60 秒掐表。话术已脱稿在《手册 20 项目讲述方法论》第 2 章。<br /><br />
 <strong>追问预演</strong>：「你不是 Node 吗，为什么投 Java？」→ 看《手册 17 SpringCloud》转译话术："团队用 K8s+微服务，我用 Node 也跑过完整链路；转 Java 不是从零，是把同一套架构/中间件/工程化能力换语言重写，2-3 周能上手 Spring Cloud 整套。"</p>
 <hr />
-<h3>一面 Q2. 最有代表性项目，讲架构和你的职责</h3>
-<p class="lead"><strong>一句话结论</strong>：RRM 项目（你最强弹药库），用 <strong>4 句话讲清"是什么 / 怎么做 / 数据量 / 我的活"</strong>。<br /></p>
-<p class="lbl"><strong>详细解释</strong>：<br /></p>
+</div></div></details>
+</section>
+<section class="kp" id="kp2">
+<div class="kp-head">
+<span class="kp-no">2</span>
+<h2>一面 Q2. 最有代表性项目，讲架构和你的职责</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>RRM 项目（你最强弹药库），用 <strong>4 句话讲清"是什么 / 怎么做 / 数据量 / 我的活"</strong>。<br /></p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>一面 Q2. 最有代表性项目，讲架构和你的职责？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li><strong>项目钩子</strong>（1 句）：H3C Oasis 云 AP 无线资源管理，自动调优信道/功率/邻居，解决云 AP 部署后人工调优成本高问题<br /></li><li><strong>架构</strong>（3 句）：K8s 上 4 个微服务（rrmcontrol 决策 / rrmserver 入口 / rrmcompute 计算 / yw-aioptimize AI 调优），Kafka 做消息总线（wlan_apcomp_lb / wlan_rrmopt / wlan_clb 三 topic），MongoDB 存 clbDetail/optHistory/autoSwitch 三集合，Redis 做幂等+开关<br /></li><li><strong>数据量</strong>（数字锚点）：日均百万级 AP 调优任务，4 位数 QPS，消息堆积 5 分钟内必消费<br /></li><li><strong>我的职责</strong>（3 件具体活）：①rrmcontrol 新 AP 调优（newApUpScheduler 每 60s 触发，处理"空 autoOptDoc"异常）；②渐进式优化功能开发（从 0 到 1）；③日志降级（console.error → info/warn/log，CR 202606290000）<br /></li></ul>
 <p><strong>话术</strong>："最有代表性的是 H3C 的 RRM 项目——Oasis 云 AP 的无线资源自动调优，我负责 rrmcontrol 微服务，做新 AP 上线调优和渐进式优化。架构上是 K8s 部署的 4 个微服务，Kafka 做消息总线，MongoDB 存调优结果，Redis 做幂等，日均百万级任务量。具体三个活：①新 AP 调优，每 60 秒扫一次，处理数据为空异常；②渐进式优化（增量调优）从 0 到 1 实现；③日志降级优化，减少运维噪声。详见简历。"<br /><br />
 <strong>追问预演</strong>：<br /></p>
 <ul><li>「QPS 多少？」→ 4 位数，峰值 5k<br /></li><li>「为什么用 Kafka 不用 RocketMQ？」→ 团队基线，且日志型业务（可重放）<br /></li><li>「幂等怎么做的？」→ 写 Redis setnx 任务 ID + 消费时 MongoDB 唯一索引兜底</li></ul>
 <hr />
-<h3>一面 Q3. Redis 使用场景；三穿雪崩如何处理</h3>
-<p class="lead"><strong>一句话结论</strong>：使用场景 = 缓存/分布式锁/幂等/计数；<strong>三穿雪崩是 Redis 面试第一送分题</strong>，必须形成"现象→原因→方案"三件套。<br /></p>
-<p class="lbl"><strong>详细解释</strong>：<br /></p>
+</div></div></details>
+</section>
+<section class="kp" id="kp3">
+<div class="kp-head">
+<span class="kp-no">3</span>
+<h2>一面 Q3. Redis 使用场景；三穿雪崩如何处理</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>使用场景 = 缓存/分布式锁/幂等/计数；<strong>三穿雪崩是 Redis 面试第一送分题</strong>，必须形成"现象→原因→方案"三件套。<br /></p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>一面 Q3. Redis 使用场景；三穿雪崩如何处理？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li><strong>穿透</strong>（查不存在的 key，请求直达 DB）：<strong>空值缓存</strong>（短 TTL）+ <strong>布隆过滤器</strong>（先过 BF）+ <strong>参数校验</strong><br /></li><li><strong>击穿</strong>（热点 key 过期瞬间并发打 DB）：<strong>分布式锁</strong>（setnx，只让一个线程回源）+ <strong>逻辑过期</strong>（不设真过期，写时异步续期）+ <strong>singleflight</strong>（Go 概念，Java 用 ConcurrentHashMap keyLock）<br /></li><li><strong>雪崩</strong>（大量 key 同时过期/Redis 挂了）：<strong>过期时间打散</strong>（±10% 随机）+ <strong>Redis 高可用</strong>（哨兵/Cluster）+ <strong>多级缓存</strong>（Caffeine + Redis）+ <strong>熔断降级</strong>（Sentinel/Resilience4j）<br /></li></ul>
 <p><strong>话术</strong>（背）："穿透用空值缓存+布隆，击穿用分布式锁或逻辑过期，雪崩用过期时间打散+多级缓存+熔断。我在 RRM 项目里 Redis 主要做幂等键和 shop 模式开关，热点配置是热加载到本地缓存防击穿。"<br /><br />
 <strong>追问预演</strong>：<br /></p>
 <ul><li>「布隆过滤器误判怎么办？」→ 误判只会让少量请求穿透到 DB，不会丢数据；BF 误判率可配（0.01% 量级），够用<br /></li><li>「分布式锁用 Redis 怎么实现？」→ SET key value NX EX 30 + Lua 释放锁（看原子性），见手册 21 RRM 场景模式库<br /></li><li>「逻辑过期怎么续期？」→ 单独异步线程每 30s 查 TTL &lt; 10s 的 key 续期；或读写分离+消息队列</li></ul>
 <hr />
-<h3>一面 Q4. MySQL 事务 ACID；项目遇到脏写幻读怎么规避</h3>
-<p class="lead"><strong>一句话结论</strong>：ACID 4 字母展开 1 句；<strong>脏写/幻读/脏读/不可重复读</strong>是 4 个不同概念，<strong>RR 隔离级别用 MVCC + 临键锁兜底防幻读</strong>。<br /></p>
-<p class="lbl"><strong>详细解释</strong>：<br /></p>
+</div></div></details>
+</section>
+<section class="kp" id="kp4">
+<div class="kp-head">
+<span class="kp-no">4</span>
+<h2>一面 Q4. MySQL 事务 ACID；项目遇到脏写幻读怎么规避</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>ACID 4 字母展开 1 句；<strong>脏写/幻读/脏读/不可重复读</strong>是 4 个不同概念，<strong>RR 隔离级别用 MVCC + 临键锁兜底防幻读</strong>。<br /></p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>一面 Q4. MySQL 事务 ACID；项目遇到脏写幻读怎么规避？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li><strong>ACID</strong>：A 原子性（undolog 回滚）/ C 一致性（约束+业务双写）/ I 隔离性（锁+MVCC）/ D 持久性（redolog+binlog）<br /></li><li><strong>4 个并发问题</strong>（必背）：脏写（最严重，A 写完未提交被 B 覆盖）/ 脏读（A 读到 B 未提交）/ 不可重复读（A 同一事务两次读 B 改的数据不同）/ 幻读（A 同一事务两次范围读 B 插入的行数不同）<br /></li><li><strong>隔离级别</strong>（SQL 标准）：RU → RC → RR → Serializable；<strong>InnoDB 默认 RR</strong><br /></li><li><strong>防幻读 3 件套</strong>（RR 级别下）：①MVCC 快照读（普通 SELECT）；②临键锁（Next-Key Lock，SELECT FOR UPDATE）；③间隙锁（Gap Lock）<br /></li><li><strong>RR 解决脏写</strong>：行锁（X 锁）互斥<br /></li></ul>
 <p><strong>话术</strong>（背）："ACID 是原子性/一致性/隔离性/持久性，靠 undolog/redolog/binlog 三大日志+锁+MVCC 实现。脏写最严重靠 X 锁防，幻读靠临键锁+MVCC 防。RR 是 InnoDB 默认级别。我在 RRM 项目里 MongoDB 为主，MySQL 只用事务管用户/订单类，配置过 RR + 显式 SELECT FOR UPDATE 兜底。"<br /><br />
 <strong>追问预演</strong>：<br /></p>
 <ul><li>「RR 就完全没幻读了吗？」→ 当前读（SELECT FOR UPDATE）走临键锁防；快照读（普通 SELECT）靠 ReadView 防。<strong>特殊场景</strong>（事务内先快照读再当前读）仍可能幻读<br /></li><li>「binlog 三种格式？」→ STATEMENT（记录 SQL，主从数据不一致风险）/ ROW（记录行数据，安全但日志大）/ MIXED（混合）</li></ul>
 <hr />
-<h3>一面 Q5. 线程池核心参数；IO 密集型、计算密集型线程数配置</h3>
-<p class="lead"><strong>一句话结论</strong>：7 大参数（corePoolSize / maxPoolSize / keepAliveTime / BlockingQueue / ThreadFactory / RejectedExecutionHandler / allowCoreThreadTimeout）；<strong>线程数公式</strong>：「CPU 密集 = N+1 / IO 密集 = 2N / 混合 = 分段计算」。<br /></p>
-<p class="lbl"><strong>详细解释</strong>：<br /></p>
+</div></div></details>
+</section>
+<section class="kp" id="kp5">
+<div class="kp-head">
+<span class="kp-no">5</span>
+<h2>一面 Q5. 线程池核心参数；IO 密集型、计算密集型线程数配置</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>7 大参数（corePoolSize / maxPoolSize / keepAliveTime / BlockingQueue / ThreadFactory / RejectedExecutionHandler / allowCoreThreadTimeout）；<strong>线程数公式</strong>：「CPU 密集 = N+1 / IO 密集 = 2N / 混合 = 分段计算」。<br /></p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>一面 Q5. 线程池核心参数；IO 密集型、计算密集型线程数配置？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li><strong>7 大参数</strong>（必背顺序）：①corePoolSize 核心线程数；②maxPoolSize 最大线程数；③keepAliveTime 空闲线程存活时间；④workQueue 任务队列（Array/Linked/Synchronous/Priority）；⑤threadFactory 线程工厂（命名+daemon）；⑥handler 拒绝策略（Abort/CallerRuns/Discard/DiscardOldest）；⑦allowCoreThreadTimeout 核心线程超时开关<br /></li><li><strong>公式</strong>（背）：<strong>CPU 密集 = N+1</strong>（N = CPU 核数；+1 是兜底线程切换）；<strong>IO 密集 = 2N</strong> 或 <strong>N/(1-阻塞系数)</strong>，阻塞系数 0.8-0.9 时 ≈ 10N<br /></li><li><strong>真实落地</strong>：压测为准，先用公式估算，再 jstack + jvisualvm 看线程状态/等待时长/上下文切换<br /></li><li><strong>避坑</strong>：任务队列别用无界 LinkedBlockingQueue（OOM）；拒绝策略别用默认 Abort（直接抛）<br /></li></ul>
 <p><strong>话术</strong>（背）："7 大参数核心是 core/max/queue/handler；线程数公式 CPU 密集用 N+1，IO 密集用 2N，混合用压测调。RRM 项目里 rrmcompute 是 IO 密集（Mongo+Redis+HTTP 远程调用多），配 2N；纯计算的下游算法服务用 N+1。"<br /><br />
 <strong>追问预演</strong>：<br /></p>
 <ul><li>「为什么 CPU 密集 +1？」→ 多一个兜底，万一某线程 IO 切换或 GC 暂停，CPU 不会空转<br /></li><li>「任务队列怎么选？」→ 瞬时高峰用 SynchronousQueue（直接交给 max 线程）；平稳流量用 ArrayBlockingQueue（容量可控）；千万别用无界<br /></li><li>「线程池异常会怎么样？」→ execute 提交异常会终止该线程（线程池补一个新）；submit 提交异常存在 Future 里，get() 才会抛</li></ul>
 <hr />
-<h3>一面 Q6. 场景题：高频查询接口，设计「缓存+布隆过滤器+本地二级缓存」，保证数据一致性</h3>
-<p class="lead"><strong>一句话结论</strong>：<strong>先 BF 挡穿透 → 本地缓存（Caffeine）挡热 key → Redis 挡批量 → DB 兜底</strong>；<strong>一致性方案：Cache Aside + 延迟双删 + 订阅 binlog 兜底</strong>。<br /></p>
-<p class="lbl"><strong>详细解释</strong>：<br /></p>
+</div></div></details>
+</section>
+<section class="kp" id="kp6">
+<div class="kp-head">
+<span class="kp-no">6</span>
+<h2>一面 Q6. 场景题：高频查询接口，设计「缓存+布隆过滤器+本地二级缓存」，保证数据一致性</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p><strong>先 BF 挡穿透 → 本地缓存（Caffeine）挡热 key → Redis 挡批量 → DB 兜底</strong>；<strong>一致性方案：Cache Aside + 延迟双删 + 订阅 binlog 兜底</strong>。<br /></p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>一面 Q6. 场景题：高频查询接口，设计「缓存+布隆过滤器+本地二级缓存」，保证数据一致性？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li><strong>架构图</strong>（必画，5 层）：Client → Caffeine（本地 L1）→ Redis（分布式 L2）→ 布隆过滤器（BF，挡不存在 key）→ MySQL（DB 兜底）<br /></li><li><strong>读流程</strong>：①查 Caffeine，命中返回；②查 Redis，命中回填 Caffeine；③查 BF，不在直接返空；④查 DB，回写 Redis + 失效 Caffeine<br /></li><li><strong>写流程</strong>（Cache Aside）：①写 DB；②<strong>删 Redis</strong>（不是更新）；③<strong>延迟双删</strong>（异步 500ms 后再删一次，防写 DB 期间并发读回写旧值）；④<strong>订阅 binlog</strong>（Canal 监听 binlog，异步删本地缓存，最终兜底）<br /></li><li><strong>一致性等级</strong>：强一致用分布式锁（性能差）/ 最终一致用延迟双删 + binlog（推荐）<br /></li><li><strong>数字锚点</strong>：命中率 95%+ / 延迟 &lt; 5ms / DB QPS 降 80%<br /></li></ul>
 <p><strong>话术</strong>（背）："5 层架构：Caffeine L1 挡热 key（TTL 5s）→ Redis L2 挡批量 → BF 挡不存在 key → DB 兜底。一致性用 Cache Aside + 延迟双删 + Canal 订阅 binlog 失效本地缓存。RRM 项目里配置查询接口就是这个套路，命中率 99%。"<br /><br />
 <strong>追问预演</strong>：<br /></p>
 <ul><li>「延迟双删的 500ms 怎么定？」→ 看业务读链路最大耗时，宁可长不可短（不够就还会读到旧值）<br /></li><li>「BF 怎么保证不过期？」→ 定期重建（凌晨低峰全量重建）+ 增量更新（写 DB 时同步写 BF）<br /></li><li>「Caffeine 比 Guava Cache 强在哪？」→ 性能（接近 O(1)）+ 淘汰策略（LRU/LFU/SoftReference）+ 统计（命中率/加载时间）</li></ul>
 <hr />
-<h3>一面 Q7. AI Agent/LLM 开发经历；Agent 与单纯调用 Chat API 的区别</h3>
-<p class="lead"><strong>一句话结论</strong>：<strong>Chat API = 单轮问答</strong>；<strong>Agent = 多轮规划 + 工具调用 + 记忆 + 自主决策</strong>——核心是 <strong>ReAct（Reasoning + Acting）循环</strong>。<br /></p>
-<p class="lbl"><strong>详细解释</strong>：<br /></p>
+</div></div></details>
+</section>
+<section class="kp" id="kp7">
+<div class="kp-head">
+<span class="kp-no">7</span>
+<h2>一面 Q7. AI Agent/LLM 开发经历；Agent 与单纯调用 Chat API 的区别</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p><strong>Chat API = 单轮问答</strong>；<strong>Agent = 多轮规划 + 工具调用 + 记忆 + 自主决策</strong>——核心是 <strong>ReAct（Reasoning + Acting）循环</strong>。<br /></p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>一面 Q7. AI Agent/LLM 开发经历；Agent 与单纯调用 Chat API 的区别？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li><strong>Chat API</strong>：输入 prompt → 输出 response，<strong>无状态</strong>、<strong>无工具</strong>、<strong>无规划</strong><br /></li><li><strong>Agent = LLM 大脑 + 4 大件</strong>（必背）：<br /> ① <strong>规划</strong>（Plan）：拆任务，ReAct / Plan-and-Execute / ReWOO<br /> ② <strong>记忆</strong>（Memory）：短期（对话窗口）/ 长期（向量库/外部 KV）<br /> ③ <strong>工具</strong>（Tools）：Function Calling / MCP / 代码执行<br /> ④ <strong>反思</strong>（Reflection）：Self-Critique / Re-prompt / 评估器<br /></li><li><strong>架构对比图</strong>（必画）：<br /> Chat API：Client → [LLM] → Client<br /> Agent：User → [Agent Loop] → LLM 思考 → 选 Tool → 调 Tool → 拿结果 → 再思考 → ... → 答 User<br /></li><li><strong>你的 personalAgent 框架</strong>（最强弹药）：<br /><ul><li>定位：把"自己炼成可复用的 AI Skill 分身"<br /></li><li>架构：LangChain4j + Function Calling + RAG + Skill 模板<br /></li><li>真实落地：搭了 RRM 项目八股炼化 Skill，喂原材料一键产出面试话术<br /></li></ul></li></ul>
 <p><strong>话术</strong>（背）："Agent 与 Chat API 的核心区别是 ReAct 循环：Chat API 是单轮问答，Agent 是「思考→选工具→调工具→拿结果→再思考」的多轮循环。我业余做 personalAgent 框架（LangChain4j + Function Calling），把 RRM 项目八股炼化做成可复用 Skill，喂原材料自动产出面试话术。具体跑通过：手写提示词 → Agent 拆解 5 步 → 调用搜索/代码/写文件三个工具 → 输出 markdown 答案。"<br /><br />
 <strong>追问预演</strong>：<br /></p>
 <ul><li>「ReAct 流程讲一下？」→ Thought（LLM 思考）→ Action（选工具+参数）→ Observation（工具返回）→ 再 Thought... 直到 Final Answer<br /></li><li>「Agent 怎么防止死循环？」→ 最大步数限制（max_iterations=10）+ 自我反思触发停止 + 工具调用失败重试上限<br /></li><li>「个人项目 vs 公司的 Agent 平台区别？」→ 个人玩具不要求高可用/权限/审计；企业 Copilot 要 Tool 注册中心、权限隔离、审计日志、限流</li></ul>
 <hr />
-<h3>一面 Q8. Java + SpringAI/LangChain4j 实现 Tool Calling，Tool 注册与执行链路如何设计</h3>
-<p class="lead"><strong>一句话结论</strong>：<strong>Tool 接口标准化 + Spring Bean 注册 + LLM 选 Tool → 框架调度 → 反射执行 → 结果回填 LLM → LLM 继续 ReAct</strong>。<br /></p>
-<p class="lbl"><strong>详细解释</strong>：<br /></p>
+</div></div></details>
+</section>
+<section class="kp" id="kp8">
+<div class="kp-head">
+<span class="kp-no">8</span>
+<h2>一面 Q8. Java + SpringAI/LangChain4j 实现 Tool Calling，Tool 注册与执行链路如何设计</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p><strong>Tool 接口标准化 + Spring Bean 注册 + LLM 选 Tool → 框架调度 → 反射执行 → 结果回填 LLM → LLM 继续 ReAct</strong>。<br /></p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>一面 Q8. Java + SpringAI/LangChain4j 实现 Tool Calling，Tool 注册与执行链路如何设计？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li><strong>Tool 标准化接口</strong>（LangChain4j）：<br /></li></ul>
 <p><code>java<br />
 @Tool("查询RRM调优历史")<br />
@@ -116,8 +320,25 @@ return mongoTemplate.findById(taskId, OptHistory.class).toString();<br />
 <strong>追问预演</strong>：<br /></p>
 <ul><li>「Tool 失败怎么办？」→ 返回错误信息给 LLM，让 LLM 决定重试或换 Tool；强失败直接终止 Agent<br /></li><li>「怎么避免 LLM 瞎编参数？」→ JSON Schema 强校验（类型/必填/枚举）；参数化查询防 SQL 注入<br /></li><li>「Tool 同步/异步？」→ 默认同步；长任务用异步（CompletableFuture + 回调结果回填）</li></ul>
 <hr />
-<h3>一面 Q9. 算法：两数之和 LeetCode 1</h3>
-<p class="lead"><strong>一句话结论</strong>：哈希表 O(n)，一遍扫描边存边查。<br /></p>
+</div></div></details>
+</section>
+<section class="kp" id="kp9">
+<div class="kp-head">
+<span class="kp-no">9</span>
+<h2>一面 Q9. 算法：两数之和 LeetCode 1</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>哈希表 O(n)，一遍扫描边存边查。<br /></p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>一面 Q9. 算法：两数之和 LeetCode 1？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>代码模板</strong>（必背）：</p>
 <pre><code class="language-java">public int[] twoSum(int[] nums, int target) {
     Map&lt;Integer, Integer&gt; map = new HashMap&lt;&gt;();
@@ -132,35 +353,97 @@ return mongoTemplate.findById(taskId, OptHistory.class).toString();<br />
 <p><strong>复杂度</strong>：时间 O(n)，空间 O(n)<br /><br />
 <strong>追问</strong>：「为什么不用排序+双指针？」→ 排序 O(nlogn) 比哈希慢，且<strong>会改原数组下标</strong>（如果要求返回原下标就不能排）</p>
 <hr />
-<h2>二面 · 技术面（9 题）</h2>
-<h3>二面 Q1. 自我介绍（同上，略）</h3>
-<h3>二面 Q2. 最复杂模块，遇到什么难点</h3>
-<p class="lead"><strong>一句话结论</strong>：<strong>rrmcontrol 渐进式优化（incremental tuning）</strong> 是你从 0 到 1 的活，<strong>难点 = "边学边写 + 与现网 AI 调优结果融合"</strong>。<br /></p>
-<p class="lbl"><strong>详细解释</strong>：<br /></p>
+</div></div></details>
+</section>
+<section class="kp" id="kp10">
+<div class="kp-head">
+<span class="kp-no">10</span>
+<h2>二面 Q2. 最复杂模块，遇到什么难点</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p><strong>rrmcontrol 渐进式优化（incremental tuning）</strong> 是你从 0 到 1 的活，<strong>难点 = "边学边写 + 与现网 AI 调优结果融合"</strong>。<br /></p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>二面 Q2. 最复杂模块，遇到什么难点？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li><strong>背景</strong>：H3C 老 AI 优化（aioptimize）有环境白名单，<strong>新 AP 调优效果不错但存量 AP 优化不增量</strong>；现网 50 万存量 AP 重调一遍成本极高<br /></li><li><strong>你的活</strong>：rrmcontrol 加增量调优，<strong>对比上次调优结果</strong>只调变化项<br /></li><li><strong>技术栈</strong>：Node.js + MongoDB aggregation pipeline（算 diff） + Redis 任务锁 + Kafka 异步触发<br /></li><li><strong>3 大难点</strong>（STAR 讲法）：<br /> ① <strong>MongoDB 索引设计</strong>（taskId+apSN+RI 联合索引，但 RI 单调递增要避免热点页）<br /> ② <strong>对比算法</strong>（500 万行级全量 diff 太慢，分批 + 布隆）<br /> ③ <strong>MQ 积压</strong>（高峰期任务积压 30 分钟，加批量 + 跳过不变项兜底）<br /></li><li><strong>结果</strong>：单次调优任务从 15 分钟 → 90 秒，CPU 降 60%<br /></li></ul>
 <p><strong>话术</strong>（背）："rrmcontrol 渐进式优化模块是我从 0 到 1 做的——对比上次调优结果只调变化项。难点三件：MongoDB 联合索引热点页、500 万行全量 diff 太慢、MQ 积压。最终把单次任务从 15 分钟压到 90 秒，CPU 降六成。详见手册 22 RRM 讲述卡。"<br /><br />
 <strong>追问预演</strong>：<br /></p>
 <ul><li>「为什么不直接用老 AI 调优？」→ 老的有环境白名单 + 重调全量成本高<br /></li><li>「diff 怎么做的？」→ 算 hash + 分段布隆 + aggregation $lookup 对比<br /></li><li>「线上效果怎么验证？」→ 灰度 10% 跑一周看 AP 调优成功率 + 用户投诉率</li></ul>
 <hr />
-<h3>二面 Q3. MQ 为什么引入；怎么保证消息不丢失、不重复消费</h3>
-<p class="lead"><strong>一句话结论</strong>：<strong>解耦 + 异步 + 削峰</strong>（三件套背熟）；<strong>不丢 = 生产者 ack + 持久化 + 消费者手动提交；不重 = 业务幂等 + 去重表</strong>。<br /></p>
-<p class="lbl"><strong>详细解释</strong>：<br /></p>
+</div></div></details>
+</section>
+<section class="kp" id="kp11">
+<div class="kp-head">
+<span class="kp-no">11</span>
+<h2>二面 Q3. MQ 为什么引入；怎么保证消息不丢失、不重复消费</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p><strong>解耦 + 异步 + 削峰</strong>（三件套背熟）；<strong>不丢 = 生产者 ack + 持久化 + 消费者手动提交；不重 = 业务幂等 + 去重表</strong>。<br /></p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>二面 Q3. MQ 为什么引入；怎么保证消息不丢失、不重复消费？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li><strong>三件套</strong>（背）：解耦（上下游不互相依赖）/ 异步（不等下游返回）/ 削峰（突发流量进队列）<br /></li><li><strong>Kafka 不丢</strong>（3 道防线）：<br /> ① <strong>生产者</strong>：ack=all（等所有 ISR 副本确认）+ 重试（retries=3）+ 幂等（enable.idempotence=true，PID+SeqNumber）<br /> ② <strong>Broker</strong>：log.flush 落盘（log.flush.interval.messages=1）+ min.insync.replicas=2（至少 2 副本才写）<br /> ③ <strong>消费者</strong>：<strong>手动提交 offset</strong>（处理完再提交）+ 失败重试 + 死信队列<br /></li><li><strong>Kafka 不重</strong>（3 道）：①业务幂等（数据库唯一约束）；②Redis 去重（setnx requestId）；③消费位点 + 业务位点双记录<br /></li><li><strong>RRM 项目实战</strong>（最强弹药）：<br /><ul><li>引入原因：rrmcontrol 触发 → rrmcompute 计算 → yw-aioptimize 落库，<strong>任务 30 分钟必须完成</strong>，解耦后 rrmcontrol 立即返回<br /></li><li>不丢：ack=all + log.flush 落盘 + 手动 offset<br /></li><li>不重：MongoDB clbDetail 唯一索引 (taskId+apSN+RI) + Redis setnx 防并发<br /></li></ul></li></ul>
 <p><strong>话术</strong>（背）："三件套：解耦/异步/削峰。Kafka 不丢靠生产者 ack=all + Broker 副本 + 消费者手动提交；不重靠业务幂等 + Redis 去重。RRM 项目 wlan_apcomp_lb/wlan_rrmopt/wlan_clb 三 topic 跑了一年，零丢失靠的就是这套配置。详见手册 21 RRM 场景模式库第 1 节。"<br /><br />
 <strong>追问预演</strong>：<br /></p>
 <ul><li>「为什么不用 RocketMQ？」→ 团队基线 + 日志型业务可重放；RocketMQ 优势在事务消息（金融场景更适合）<br /></li><li>「顺序消息怎么保证？」→ 单 partition 单 consumer + 业务 key hash 到同一 partition<br /></li><li>「消息积压怎么办？」→ 临时扩 consumer + 紧急扩 partition + 业务降级（丢弃非关键）</li></ul>
 <hr />
-<h3>二面 Q4. 场景题：银行 OpenAPI 网关设计（限流/鉴权/防重放）</h3>
-<p class="lead"><strong>一句话结论</strong>：<strong>网关 5 件套 = 路由/限流/鉴权/防重放/熔断</strong>；<strong>Spring Cloud Gateway + Sentinel + JWT + Nonce 是经典组合</strong>。<br /></p>
-<p class="lbl"><strong>详细解释</strong>：<br /></p>
+</div></div></details>
+</section>
+<section class="kp" id="kp12">
+<div class="kp-head">
+<span class="kp-no">12</span>
+<h2>二面 Q4. 场景题：银行 OpenAPI 网关设计（限流/鉴权/防重放）</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p><strong>网关 5 件套 = 路由/限流/鉴权/防重放/熔断</strong>；<strong>Spring Cloud Gateway + Sentinel + JWT + Nonce 是经典组合</strong>。<br /></p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>二面 Q4. 场景题：银行 OpenAPI 网关设计（限流/鉴权/防重放）？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li><strong>架构</strong>（必画）：Client → [API Gateway] → 微服务集群<br /> 网关做的事：路由 / 限流 / 鉴权 / 防重放 / 熔断 / 日志 / 协议转换<br /></li><li><strong>限流</strong>（4 种算法）：①固定窗口（简单，突刺）；②滑动窗口（精确，内存大）；③令牌桶（推荐，Guava RateLimiter / Sentinel）；④漏桶（流量整形）<br /></li><li><strong>鉴权</strong>（OAuth2.0）：Access Token + Refresh Token；JWT 自包含（Header.Payload.Signature）；网关统一校验，下游服务只解析 userId<br /></li><li><strong>防重放</strong>（4 道防线）：①Nonce 随机数（一次一用，Redis 存 5min）；②Timestamp 时间戳（±5min 窗口）；③Sequence 序列号（业务流水号）；④TLS 双向认证（防中间人）<br /></li><li><strong>熔断</strong>：Sentinel / Resilience4j 三态（CLOSED/OPEN/HALF_OPEN）<br /></li><li><strong>金融专属</strong>：国密 SM2/SM4 算法 + 等保 2.0 三级 + 审计日志 6 个月留存<br /></li></ul>
 <p><strong>话术</strong>（背）："5 件套：路由/限流/鉴权/防重放/熔断。Spring Cloud Gateway + Sentinel（令牌桶限流）+ JWT 鉴权 + Nonce+Timestamp 防重放 + Sentinel 熔断。金融场景还要加国密算法和审计日志。RRM 项目对外接口走的是 K8s Ingress + Redis 限流 + JWT，原理一致只是规模小。"<br /><br />
 <strong>追问预演</strong>：<br /></p>
 <ul><li>「限流维度？」→ IP/用户/接口/全局，多维度组合（限流 ID 拼接）<br /></li><li>「JWT 比 Session 强在哪？」→ 无状态（服务端不存）/ 跨服务（多服务共用）/ 防 CSRF（不用 Cookie）<br /></li><li>「JWT 被盗怎么办？」→ 短有效期（15min）+ Refresh Token + 黑名单（Redis 存已撤销 jti）</li></ul>
 <hr />
-<h3>二面 Q5. 智能工单助手 Agent（自然语言查单/退款）+ RAG + Tool 定义 + 多轮记忆</h3>
-<p class="lead"><strong>一句话结论</strong>：<strong>Agent = LLM + RAG（业务知识）+ Tools（工单/退款 API）+ Memory（短期对话+长期用户偏好）</strong>；<strong>多轮记忆 = Redis 短期窗口 + 向量库长期偏好</strong>。<br /></p>
-<p class="lbl"><strong>详细解释</strong>：<br /></p>
+</div></div></details>
+</section>
+<section class="kp" id="kp13">
+<div class="kp-head">
+<span class="kp-no">13</span>
+<h2>二面 Q5. 智能工单助手 Agent（自然语言查单/退款）+ RAG + Tool 定义 + 多轮记忆</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p><strong>Agent = LLM + RAG（业务知识）+ Tools（工单/退款 API）+ Memory（短期对话+长期用户偏好）</strong>；<strong>多轮记忆 = Redis 短期窗口 + 向量库长期偏好</strong>。<br /></p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>二面 Q5. 智能工单助手 Agent（自然语言查单/退款）+ RAG + Tool 定义 + 多轮记忆？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li><strong>架构</strong>（必画 4 层）：<br /></li></ul>
 <p><code>User → [Agent]<br />
 ├─ LLM（Qwen2.5/DeepSeek）<br />
@@ -177,25 +460,74 @@ public RefundResult refund(@P("orderId") String orderId, @P("amount") BigDecimal
 <strong>追问预演</strong>：<br /></p>
 <ul><li>「文档切分粒度怎么选？」→ 业务问答 200-500 token；多轮文档 1000 token；带 overlap 50-100 防跨段语义丢失<br /></li><li>「检索不准怎么优化？」→ ①Query 改写（HyDE 生成假设答案再检索）②混合检索（向量+BM25）③重排（BGE-reranker）④领域微调 embedding<br /></li><li>「怎么防 Agent 误退款？」→ 高危 Tool 加 <strong>人工确认节点</strong>（"确认给订单 X 退款 100 元吗？[是/否]"） + 幂等键（requestId 5min 内不重）</li></ul>
 <hr />
-<h3>二面 Q6. RAG 端到端流程；文档切分；检索不准如何优化</h3>
-<p class="lead"><strong>一句话结论</strong>：见上 Q5 RAG 7 步；<strong>检索不准 4 招 = Query 改写 + 混合检索 + 重排 + 微调</strong>。<br /></p>
+</div></div></details>
+</section>
+<section class="kp" id="kp14">
+<div class="kp-head">
+<span class="kp-no">14</span>
+<h2>二面 Q6. RAG 端到端流程；文档切分；检索不准如何优化</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>见上 Q5 RAG 7 步；<strong>检索不准 4 招 = Query 改写 + 混合检索 + 重排 + 微调</strong>。<br /></p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>二面 Q6. RAG 端到端流程；文档切分；检索不准如何优化？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>详细解释</strong>（展开追问点）：<br /></p>
 <ul><li><strong>文档切分 3 法</strong>（按场景选）：<br /> ①<strong>定长切分</strong>（chunk_size=500 overlap=50）：通用，但跨段语义丢失<br /> ②<strong>按段落切</strong>（句号/换行）：保语义，但长短不一<br /> ③<strong>按语义切</strong>（小模型判语义边界）：质量最高，慢<br /></li><li><strong>检索不准 4 优化</strong>（按收益排序）：<br /> ①<strong>Query 改写</strong>（HyDE / Sub-query / Step-back Prompting）：让 query 接近文档风格<br /> ②<strong>混合检索</strong>（向量召回 + BM25 关键词）：解决"专业术语匹配不上"<br /> ③<strong>重排</strong>（BGE-reranker / Cohere Rerank）：粗排 TopK 进精排<br /> ④<strong>Embedding 微调</strong>（领域数据 SFT）：最后才做，成本高<br /></li><li><strong>评测指标</strong>：Recall@K / MRR / NDCG@K + 人工 Bad Case 分析<br /></li><li><strong>真实数据</strong>（personalAgent）：纯向量 65% → 混合检索 80% → + 重排 85% → + Query 改写 90%<br /></li></ul>
 <p><strong>话术</strong>（背）："RAG 7 步，重点说检索不准的 4 优化：Query 改写（HyDE）、混合检索（向量+BM25）、重排（BGE-reranker）、Embedding 微调。我的 personalAgent 跑过 RRM 知识库，混合检索+重排把命中率从 65% 提到 85%。"<br /><br />
 <strong>追问预演</strong>：<br /></p>
 <ul><li>「Embedding 模型怎么选？」→ 通用 BGE-large-zh-v1.5；垂直领域（医疗/法律）选专用；数据敏感用本地部署<br /></li><li>「重排模型为什么必要？」→ 向量检索 TopK 100，重排取 Top5，<strong>精度换延迟</strong><br /></li><li>「怎么评估 RAG 效果？」→ 业务问答有标准答案的走 Recall/MRR；无标准答案走 Bad Case + LLM-as-Judge</li></ul>
 <hr />
-<h3>二面 Q7. Agent 防 LLM 幻觉误操作；代码层防护</h3>
-<p class="lead"><strong>一句话结论</strong>：<strong>幻觉 = LLM 编事实/编参数/编 Tool</strong>；<strong>代码层 3 道 = 参数校验 + 幂等 + 人工确认</strong>。<br /></p>
-<p class="lbl"><strong>详细解释</strong>：<br /></p>
+</div></div></details>
+</section>
+<section class="kp" id="kp15">
+<div class="kp-head">
+<span class="kp-no">15</span>
+<h2>二面 Q7. Agent 防 LLM 幻觉误操作；代码层防护</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p><strong>幻觉 = LLM 编事实/编参数/编 Tool</strong>；<strong>代码层 3 道 = 参数校验 + 幂等 + 人工确认</strong>。<br /></p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>二面 Q7. Agent 防 LLM 幻觉误操作；代码层防护？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li><strong>幻觉 3 类</strong>：①事实幻觉（编不存在的人/事）；②参数幻觉（调 Tool 时瞎填）；③逻辑幻觉（推理错误）<br /></li><li><strong>代码层 3 道防线</strong>（必背）：<br /> ①<strong>参数强校验</strong>（JSON Schema 校验 + 业务白名单）：LLM 输出强制走 schema + Bean Validation（@NotNull/@Min/@Pattern）<br /> ②<strong>幂等键</strong>（requestId 5min 去重）：同一请求 5min 内只执行一次<br /> ③<strong>人工确认节点</strong>（高危 Tool 加 yes/no）：退款/删除/转账类 Tool 必须二次确认<br /></li><li><strong>业务层 3 道</strong>：<br /> ①<strong>Tool 返回值校验</strong>（金额 &gt; 0、订单存在）<br /> ②<strong>最小权限</strong>（Tool 不能做超权限操作）<br /> ③<strong>审计日志</strong>（所有 Tool 调用落库，事后可追责）<br /></li><li><strong>架构层 1 道</strong>：<br /> ①<strong>多 Agent 验证</strong>（一个 Agent 答，另一个 Agent 挑刺）<br /></li></ul>
 <p><strong>话术</strong>（背）："防幻觉代码层 3 道：参数 JSON Schema 强校验 + 幂等键去重 + 高危 Tool 人工确认节点。业务层加 Tool 返回值校验+最小权限+审计。架构层可走多 Agent 互验。RRM/personalAgent 项目退款 Tool 我用这套，零误操作。"<br /><br />
 <strong>追问预演</strong>：<br /></p>
 <ul><li>「JSON Schema 怎么生成？」→ LangChain4j 扫 @Tool/@P 注解自动生成；或手写 JSON Schema 字符串<br /></li><li>「高危 Tool 怎么定义？」→ 黑名单（转账/删除/退款）；或按金额阈值（&gt;1000 触发人工）<br /></li><li>「如果 LLM 输出非法 JSON 怎么办？」→ 重试 3 次 + LangChain4j 自带 schema-constrained 输出</li></ul>
 <hr />
-<h3>二面 Q8. MCP 是什么，对比 Function Calling/Tool Calling 优势</h3>
-<p class="lead"><strong>一句话结论</strong>：<strong>MCP（Model Context Protocol）= Anthropic 2024 提出的"AI 应用的 USB 接口"</strong>；<strong>FC/Tool Calling = 单应用内 LLM 调 Tool；MCP = 跨应用/跨模型的 Tool 协议标准</strong>。<br /></p>
-<p class="lbl"><strong>详细解释</strong>：<br /></p>
+</div></div></details>
+</section>
+<section class="kp" id="kp16">
+<div class="kp-head">
+<span class="kp-no">16</span>
+<h2>二面 Q8. MCP 是什么，对比 Function Calling/Tool Calling 优势</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p><strong>MCP（Model Context Protocol）= Anthropic 2024 提出的"AI 应用的 USB 接口"</strong>；<strong>FC/Tool Calling = 单应用内 LLM 调 Tool；MCP = 跨应用/跨模型的 Tool 协议标准</strong>。<br /></p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>二面 Q8. MCP 是什么，对比 Function Calling/Tool Calling 优势？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li><strong>背景</strong>：每个 LLM 框架（LangChain/LlamaIndex/自研）调 Tool 方式都不一样，<strong>Tool 不能跨模型复用</strong>——这是 AI 应用的"巴别塔"<br /></li><li><strong>MCP 解决什么</strong>：<strong>统一 Tool 协议</strong>—— Tool 提供方按 MCP 协议暴露，LLM 客户端按 MCP 协议调用，<strong>一次开发多端复用</strong><br /></li><li><strong>MCP 架构</strong>（必画 3 角色）：<br /></li></ul>
 <p><code>MCP Host（Claude Desktop / IDE）<br />
 ↕ MCP 协议（JSON-RPC over stdio/HTTP）<br />
@@ -205,8 +537,25 @@ MCP Server（提供 Tool/Resource/Prompt）</code><br /></p>
 <strong>追问预演</strong>：<br /></p>
 <ul><li>「MCP 和 API 网关的区别？」→ API 网关给应用调；MCP 给 LLM 调（<strong>意图理解 + Tool 选择</strong>是 LLM 干的，网关不干）<br /></li><li>「MCP 安全怎么保？」→ OAuth 2.1 + 沙箱（Tool 在隔离环境执行）+ 白名单 + 审计<br /></li><li>「MCP 会取代 Function Calling 吗？」→ 短期不，FC 仍是单应用最优；MCP 解决生态标准化，长期共存</li></ul>
 <hr />
-<h3>二面 Q9. 算法：二叉树最大深度 LeetCode 104</h3>
-<p class="lead"><strong>一句话结论</strong>：<strong>DFS 后序</strong>（自底向上），左右子树深度取 max + 1。<br /></p>
+</div></div></details>
+</section>
+<section class="kp" id="kp17">
+<div class="kp-head">
+<span class="kp-no">17</span>
+<h2>二面 Q9. 算法：二叉树最大深度 LeetCode 104</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p><strong>DFS 后序</strong>（自底向上），左右子树深度取 max + 1。<br /></p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>二面 Q9. 算法：二叉树最大深度 LeetCode 104？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>代码模板</strong>（必背）：</p>
 <pre><code class="language-java">public int maxDepth(TreeNode root) {
     if (root == null) return 0;
@@ -218,27 +567,74 @@ MCP Server（提供 Tool/Resource/Prompt）</code><br /></p>
 <p><strong>复杂度</strong>：时间 O(n)，空间 O(h)（递归栈，h = 树高）<br /><br />
 <strong>追问</strong>：「BFS 怎么写？」→ 队列层序遍历，每层 size++；时空同 DFS，但<strong>BFS 适合求最小深度</strong>（找到第一个叶子就停）</p>
 <hr />
-<h2>三面 · 技术主管面（9 题）</h2>
-<h3>三面 Q1. 自我介绍（同上，略）</h3>
-<h3>三面 Q2. 技术亮点项目 + 选型理由 + 踩过的坑</h3>
-<p class="lead"><strong>一句话结论</strong>：<strong>最亮点 = RRM 渐进式优化</strong>（从 0 到 1 + 真实生产数据）；<strong>选型 = 团队基线优先 + 业务匹配 + 试错成本</strong>；<strong>坑 = 内存 OOM + MQ 积压 + 索引热点</strong>。<br /></p>
+</div></div></details>
+</section>
+<section class="kp" id="kp18">
+<div class="kp-head">
+<span class="kp-no">18</span>
+<h2>三面 Q2. 技术亮点项目 + 选型理由 + 踩过的坑</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p><strong>最亮点 = RRM 渐进式优化</strong>（从 0 到 1 + 真实生产数据）；<strong>选型 = 团队基线优先 + 业务匹配 + 试错成本</strong>；<strong>坑 = 内存 OOM + MQ 积压 + 索引热点</strong>。<br /></p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>三面 Q2. 技术亮点项目 + 选型理由 + 踩过的坑？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>详细解释</strong>（用 STAR + 选型 + 坑三件套）：<br /></p>
 <ul><li><strong>S</strong>（背景）：现网 50 万存量 AP 调优成本高<br /></li><li><strong>T</strong>（目标）：增量调优，只调变化项<br /></li><li><strong>A</strong>（行动）：选 Node.js（团队基线）+ MongoDB aggregation（diff 算法）+ Redis 任务锁 + Kafka 异步<br /></li><li><strong>R</strong>（结果）：任务 15 分钟 → 90 秒，CPU 降 60%<br /></li><li><strong>选型理由 3 条</strong>：①Node.js 团队基线（开发效率高）；②MongoDB 文档模型（clbDetail 是文档型），aggregation pipeline 算 diff 强；③Kafka 异步解耦（任务 30 分钟必须完成）<br /></li><li><strong>踩过 3 坑</strong>（必背，<strong>讲坑 = 讲成长</strong>）：<br /> ①<strong>内存 OOM</strong>：高峰期 Mongo cursor 一次拉 50 万行撑爆堆 → 改 batchSize=1000 + 流式<br /> ②<strong>MQ 积压</strong>：突发流量任务堆 30 分钟 → 加批量 + 跳过不变项兜底 + consumer 扩容<br /> ③<strong>索引热点</strong>：联合索引 (taskId+apSN+RI) RI 单调递增，全写热页 → 改 RI 改为哈希前缀<br /></li></ul>
 <p><strong>话术</strong>（背）："最亮点是 RRM 渐进式优化——从 0 到 1 做的。选型理由 3 条：Node 团队基线、Mongo 文档模型适合 clbDetail、Kafka 异步解耦。结果任务从 15 分钟压到 90 秒。坑有 3 个：Mongo OOM 改流式、MQ 积压加批量、索引热点改哈希前缀。详见手册 22 RRM 讲述卡第 6 章。"<br /><br />
 <strong>追问预演</strong>：<br /></p>
 <ul><li>「为什么不选 ClickHouse？」→ 团队没人用过；MongoDB 现有 schema 直接复用；上线成本 vs 收益不值<br /></li><li>「选 Node 不用 Java 是因为？」→ 当时团队基线；现在 2026 我也在转 Java 准备<br /></li><li>「渐进式优化和全量优化结果差异？」→ 精度差 3-5%，业务可接受；可加兜底二次全量</li></ul>
 <hr />
-<h3>三面 Q3. ES 使用场景；分词器选择；深分页如何解决</h3>
-<p class="lead"><strong>一句话结论</strong>：<strong>ES 场景 = 全文检索/日志分析/向量检索</strong>；<strong>分词器 = IK（中文）/ Standard（英文）/ 自定义字典</strong>；<strong>深分页 = search_after 游标</strong>（不是 from+size）。<br /></p>
-<p class="lbl"><strong>详细解释</strong>：<br /></p>
+</div></div></details>
+</section>
+<section class="kp" id="kp19">
+<div class="kp-head">
+<span class="kp-no">19</span>
+<h2>三面 Q3. ES 使用场景；分词器选择；深分页如何解决</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p><strong>ES 场景 = 全文检索/日志分析/向量检索</strong>；<strong>分词器 = IK（中文）/ Standard（英文）/ 自定义字典</strong>；<strong>深分页 = search_after 游标</strong>（不是 from+size）。<br /></p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>三面 Q3. ES 使用场景；分词器选择；深分页如何解决？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li><strong>使用场景</strong>（3 大类）：①全文检索（电商/工单/知识库）；②日志分析（ELK）；③向量检索（KNN，配合 embedding 做语义搜索）<br /></li><li><strong>分词器</strong>（按语种选）：<br /><ul><li>Standard：英文/数字（按空格分），中文会按字拆（不智能）<br /></li><li><strong>IK</strong>（中文分词）：ik_max_word（细粒度）/ ik_smart（粗粒度）<br /></li><li>自定义：加词典（行业术语/公司产品名）<br /></li><li>中文 + 英文混合：ik_max_word + Lowercase + ASCII Folding<br /></li></ul></li><li><strong>深分页 3 方案</strong>（按场景选）：<br /> ①<strong>from + size</strong>（简单，<strong>from &gt; 10000 直接报错</strong>，且越深越慢）<br /> ②<strong>scroll API</strong>（快照遍历，<strong>只适合一次性导出</strong>，不能跳页）<br /> ③<strong>search_after</strong>（<strong>推荐</strong>，游标式分页，基于 sort 字段）<br /> ④<strong>Point In Time（PIT）</strong>（search_after 增强版，跨分片一致快照）<br /></li><li><strong>你 RRM 项目的 ES 实战</strong>（如有）：AP 日志检索 / 调优记录全文搜索<br /></li></ul>
 <p><strong>话术</strong>（背）："ES 三场景：全文检索/日志/向量。分词器中文用 IK（max_word 召回高/smart 精确高），加自定义词典。深分页用 search_after 游标，from+size 上限 1 万会报错。我 RRM 调优记录检索用过 IK + search_after，10 万行翻页秒级。"<br /><br />
 <strong>追问预演</strong>：<br /></p>
 <ul><li>「倒排索引原理？」→ 词项 → 文档 ID 列表（posting list）；压缩存储（Roaring Bitmap）<br /></li><li>「ES 集群怎么设计？」→ 3 master（避免脑裂）+ N data（按数据量）+ coordinating 节点；分片数 = 数据量 / 单分片 30-50GB<br /></li><li>「ES vs MySQL 全文检索？」→ MySQL LIKE '%xx%' 不走索引；ES 倒排索引快 100 倍</li></ul>
 <hr />
-<h3>三面 Q4. Redis 分布式锁场景；注意点：续期/误删/集群红锁</h3>
-<p class="lead"><strong>一句话结论</strong>：<strong>SET NX EX + 唯一 UUID + Lua 释放 + Watchdog 续期</strong>；<strong>集群 = Redlock</strong>（过半节点成功才算获锁）。<br /></p>
-<p class="lbl"><strong>详细解释</strong>：<br /></p>
+</div></div></details>
+</section>
+<section class="kp" id="kp20">
+<div class="kp-head">
+<span class="kp-no">20</span>
+<h2>三面 Q4. Redis 分布式锁场景；注意点：续期/误删/集群红锁</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p><strong>SET NX EX + 唯一 UUID + Lua 释放 + Watchdog 续期</strong>；<strong>集群 = Redlock</strong>（过半节点成功才算获锁）。<br /></p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>三面 Q4. Redis 分布式锁场景；注意点：续期/误删/集群红锁？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li><strong>基础 4 件套</strong>（必背代码）：<br /></li></ul>
 <p><code>java<br />
 // 1. 加锁<br />
@@ -255,8 +651,25 @@ ScheduledExecutorService.scheduleAtFixedRate(() -&gt; renew(), 10, 10, SECONDS);
 <strong>追问预演</strong>：<br /></p>
 <ul><li>「Redlock 争议？」→ Martin Kleppmann 写过《How to do distributed locking》质疑时钟漂移问题；Antirez 回复；实际生产用 ZK/etcd 更稳<br /></li><li>「为什么不直接用 ZK？」→ 性能 Redis 更高；ZK 适合强一致场景（如 master 选举）<br /></li><li>「锁粒度怎么选？」→ 业务维度（订单锁到 userId）越小并发越高；不能太粗（订单维度）</li></ul>
 <hr />
-<h3>三面 Q5. 企业 AI Copilot 对接几十个内部 API（Tool 注册中心/权限隔离/审计/限流）</h3>
-<p class="lead"><strong>一句话结论</strong>：<strong>Tool Registry 中心化 + OAuth 鉴权 + AOP 审计 + Sentinel 限流 + MCP 协议</strong>（<strong>主管面聊架构治理 = 转型加分项</strong>）。<br /></p>
+</div></div></details>
+</section>
+<section class="kp" id="kp21">
+<div class="kp-head">
+<span class="kp-no">21</span>
+<h2>三面 Q5. 企业 AI Copilot 对接几十个内部 API（Tool 注册中心/权限隔离/审计/限流）</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p><strong>Tool Registry 中心化 + OAuth 鉴权 + AOP 审计 + Sentinel 限流 + MCP 协议</strong>（<strong>主管面聊架构治理 = 转型加分项</strong>）。<br /></p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>三面 Q5. 企业 AI Copilot 对接几十个内部 API（Tool 注册中心/权限隔离/审计/限流）？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>详细解释</strong>（架构师思维，必画 4 组件）：<br /></p>
 <ul><li><strong>架构</strong>（必画）：<br /></li></ul>
 <p><code>Copilot<br />
@@ -273,32 +686,98 @@ Tool Registry（统一管理）<br />
 <strong>追问预演</strong>：<br /></p>
 <ul><li>「Tool 版本怎么管？」→ Tool Registry 加 version 字段；Copilot 调用时按用户/部门绑定版本<br /></li><li>「限流被击穿怎么办？」→ Sentinel 熔断降级（返回兜底响应）+ 告警人工介入<br /></li><li>「审计日志多大？」→ 按调用量估算（日均 100 万次 × 200 字节 = 200GB/天）；用 ES 冷热分离</li></ul>
 <hr />
-<h3>三面 Q6. 最近学习什么新技术；如何上手新框架</h3>
-<p class="lead"><strong>一句话结论</strong>：<strong>"2026 我重点学 AI Agent 工程化 + Java 转岗"</strong>——一个对应业务趋势，一个对应转型（呼应"为什么投 Java"）。<br /></p>
-<p class="lbl"><strong>详细解释</strong>：<br /></p>
+</div></div></details>
+</section>
+<section class="kp" id="kp22">
+<div class="kp-head">
+<span class="kp-no">22</span>
+<h2>三面 Q6. 最近学习什么新技术；如何上手新框架</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p><strong>"2026 我重点学 AI Agent 工程化 + Java 转岗"</strong>——一个对应业务趋势，一个对应转型（呼应"为什么投 Java"）。<br /></p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>三面 Q6. 最近学习什么新技术；如何上手新框架？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li><strong>学什么</strong>（挑 2 个有故事的）：<br /> ①<strong>AI Agent 工程化</strong>（LangChain4j / MCP / AgentScope）—— 趋势判断（2026 是 Agent 元年）+ 实战项目（personalAgent）<br /> ②<strong>Java 后端生态</strong>（Spring Boot 3 / Spring Cloud / Virtual Thread）—— 转型驱动<br /> ③<strong>云原生</strong>（K8s Operator / Service Mesh）—— 已经在用<br /></li><li><strong>上手新框架 4 步法</strong>（背）：<br /> ①<strong>读 Quick Start</strong>（30min 跑通 demo）<br /> ②<strong>看官方架构图</strong>（理解核心组件）<br /> ③<strong>做 Side Project</strong>（拿真实场景练手，不 Toy）<br /> ④<strong>写技术博客 / 内部分享</strong>（强迫自己输出，逼深度理解）<br /></li><li><strong>举实例</strong>（personalAgent）："学 LangChain4j 时先跑通官方 example，再把 RRM 知识库塞进去做 RAG 调优，最后写一篇内部博客《LLM 应用的 5 道防线》。"<br /></li></ul>
 <p><strong>话术</strong>（背）："最近学两块：AI Agent 工程化（LangChain4j/MCP）和 Java 转型（Spring Boot 3/Virtual Thread）。上手新框架 4 步：Quick Start → 架构图 → Side Project → 博客输出。比如 LangChain4j 我从 example 起步，跑了 RRM 知识库 RAG，输出过《LLM 应用 5 道防线》文章。"<br /><br />
 <strong>追问预演</strong>：<br /></p>
 <ul><li>「技术博客写哪了？」→ 个人博客 / 公司内部 KM / 掘金（你实际有就报，没有说"草稿中"）<br /></li><li>「Virtual Thread 解决了什么？」→ 解决高并发阻塞场景下线程开销问题；JDK21 GA；<strong>不适合 CPU 密集</strong><br /></li><li>「下一步学什么？」→ AgentScope（多 Agent 协作框架）+ Rust 高性能服务</li></ul>
 <hr />
-<h3>三面 Q7. 团队技术方案分歧（Agent 平台 vs 规则引擎），如何推动决策</h3>
-<p class="lead"><strong>一句话结论</strong>：<strong>不站队 / 拉数据 / 跑 POC / 听领导 / 不撕破脸</strong>——5 步法<br /></p>
+</div></div></details>
+</section>
+<section class="kp" id="kp23">
+<div class="kp-head">
+<span class="kp-no">23</span>
+<h2>三面 Q7. 团队技术方案分歧（Agent 平台 vs 规则引擎），如何推动决策</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p><strong>不站队 / 拉数据 / 跑 POC / 听领导 / 不撕破脸</strong>——5 步法<br /></p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>三面 Q7. 团队技术方案分歧（Agent 平台 vs 规则引擎），如何推动决策？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>详细解释</strong>（<strong>HR+主管面高频题</strong>，必背 5 步）：<br /></p>
 <ul><li>①<strong>理解双方立场</strong>：Agent 派要创新、规则派要稳定；<strong>不要先评判对错</strong><br /></li><li>②<strong>拉数据</strong>：调出近 3 个月运营数据（误判率/响应时长/维护成本），用事实说话<br /></li><li>③<strong>跑 POC</strong>：搭最小原型（2 周），让两边都看到效果<br /></li><li>④<strong>听领导/老板</strong>：把对比报告 + POC 结果给决策者，让领导拍板<br /></li><li>⑤<strong>执行 + 复盘</strong>：无论结果，全力执行；季度复盘效果<br /></li><li><strong>关键心态</strong>：<strong>决策不是争对错，是把事办成</strong>；即使你支持 Agent，最后选了规则，也要全力落地<br /></li></ul>
 <p><strong>话术</strong>（背）："我会做 5 步：理解双方→拉数据→跑 POC 2 周→让领导决策→全力执行 + 季度复盘。关键是心态——决策不是争对错，是把事办成。我 RRM 项目日志降级有过类似分歧，运维要全 ERROR 方便告警，开发要 INFO 降噪，最后我跑了 1 周日志分析 + 提了分级别方案。"<br /><br />
 <strong>追问预演</strong>：<br /></p>
 <ul><li>「如果最后选了你不认同的方案？」→ 全力执行 + 留观察窗口 + 拿数据说话<br /></li><li>「如果双方都不让步？」→ 升级到上一级 + 引入外部专家评审<br /></li><li>「POC 资源谁出？」→ 申请专项 + 团队内部众包 + 用真实场景（小流量灰度）</li></ul>
 <hr />
-<h3>三面 Q8. 跟进技术趋势的方法；印象深刻的 Java/AI 工程化文章</h3>
-<p class="lead"><strong>一句话结论</strong>：<strong>RSS 订阅（InfoQ/掘金） + 关注大厂博客（阿里/字节/AWS） + GitHub Trending + 内部 KM 分享</strong>——4 路并行<br /></p>
-<p class="lbl"><strong>详细解释</strong>：<br /></p>
+</div></div></details>
+</section>
+<section class="kp" id="kp24">
+<div class="kp-head">
+<span class="kp-no">24</span>
+<h2>三面 Q8. 跟进技术趋势的方法；印象深刻的 Java/AI 工程化文章</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p><strong>RSS 订阅（InfoQ/掘金） + 关注大厂博客（阿里/字节/AWS） + GitHub Trending + 内部 KM 分享</strong>——4 路并行<br /></p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>三面 Q8. 跟进技术趋势的方法；印象深刻的 Java/AI 工程化文章？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li><strong>4 路方法</strong>（背）：<br /> ①<strong>RSS</strong>：InfoQ / 掘金 / 36Kr / Hacker News 早班车<br /> ②<strong>大厂博客</strong>：阿里云原生（K8s）、字节技术沙龙、AWS Architecture Blog、Netflix Tech Blog<br /> ③<strong>GitHub Trending</strong>：每周扫一次，关注 Java/AI 方向<br /> ④<strong>内部 KM / 社区</strong>：公司技术分享、Java 社区线下、AICon/QCon 大会回放<br /></li><li><strong>印象深刻文章</strong>（准备 2 篇，<strong>能讲出核心观点</strong>）：<br /> ①《LangChain4j 实战：从 0 到 1 搭 Agent 平台》——讲了 ReAct 循环 + 5 道防线的工程实践<br /> ②《Java 21 Virtual Thread 原理与实践》——讲协程实现 + 不适用场景<br /> ③《Redis 分布式锁红锁争议》——Martin Kleppmann vs Antirez 之争，<strong>讲技术争议背后的工程哲学</strong><br /></li></ul>
 <p><strong>话术</strong>（背）："4 路跟进：InfoQ/掘金 RSS + 阿里字节大厂博客 + GitHub Trending + 内部 KM。印象深两篇：①LangChain4j 实战讲 ReAct + 5 道防线；②Java 21 Virtual Thread 讲协程和不适用场景。技术争议我喜欢看反向观点，比如 Redlock 之争，逼自己深入。"<br /><br />
 <strong>追问预演</strong>：<br /></p>
 <ul><li>「AI 圈最近什么趋势？」→ MCP 协议成事实标准 / Agent Scope 多 Agent 协作 / RAG → GraphRAG / LLM 端侧部署<br /></li><li>「技术选型怎么不被忽悠？」→ ①看真实生产案例而非 PPT；②问 SLA/可观测/回滚；③跑 POC；④听用过的人</li></ul>
 <hr />
-<h3>三面 Q9. 算法：反转链表 LeetCode 206</h3>
-<p class="lead"><strong>一句话结论</strong>：<strong>双指针/头插法/递归 3 种</strong>——双指针最常考。<br /></p>
+</div></div></details>
+</section>
+<section class="kp" id="kp25">
+<div class="kp-head">
+<span class="kp-no">25</span>
+<h2>三面 Q9. 算法：反转链表 LeetCode 206</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p><strong>双指针/头插法/递归 3 种</strong>——双指针最常考。<br /></p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>三面 Q9. 算法：反转链表 LeetCode 206？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>代码模板</strong>（必背双指针）：</p>
 <pre><code class="language-java">public ListNode reverseList(ListNode head) {
     ListNode prev = null, curr = head;
@@ -314,30 +793,141 @@ Tool Registry（统一管理）<br />
 <p><strong>复杂度</strong>：时间 O(n)，空间 O(1)<br /><br />
 <strong>追问</strong>：「递归怎么写？」→ head.next.next = head; head.next = null; return 新头</p>
 <hr />
-<h2>HR 面（8 题）</h2>
-<h3>HR Q1. 自我介绍（精炼 30 秒版）</h3>
+</div></div></details>
+</section>
+<section class="kp" id="kp26">
+<div class="kp-head">
+<span class="kp-no">26</span>
+<h2>HR Q1. 自我介绍（精炼 30 秒版）</h2>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>HR Q1. 自我介绍（精炼 30 秒版）？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>结论</strong>：比技术面更短，<strong>30 秒 4 段</strong>：身份 + 经历 + 亮点 + 投递理由<br /><br />
 <strong>话术</strong>："您好李鑫，3 年 H3C 后端开发（重大邮电本科），一直做 Oasis 无线资源管理项目（4 个微服务 + 日均百万级）。现在在转 Java 后端 + AI Agent 方向，看到招银金融科技 + Copilot 业务很匹配，今天来聊项目。"</p>
-<h3>HR Q2. 为什么选招银网络</h3>
+</div></div></details>
+</section>
+<section class="kp" id="kp27">
+<div class="kp-head">
+<span class="kp-no">27</span>
+<h2>HR Q2. 为什么选招银网络</h2>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>HR Q2. 为什么选招银网络？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>结论</strong>：<strong>业务匹配 + 公司平台 + 城市/家庭 + 技术栈</strong>——4 维度，结合自身讲<br /><br />
 <strong>话术</strong>（背）："四个理由：①<strong>业务匹配</strong>——RRM 项目和金融交易系统本质都是分布式高可用，我的能力可迁移；②<strong>公司平台</strong>——招银网络是招行金融科技核心，体系化、规模化、技术深度足；③<strong>AI Copilot 方向</strong>——我业余做 personalAgent Agent 框架，正好契合；④<strong>城市</strong>——家在成都，招银在成都/深圳双中心，长期发展稳定。"</p>
-<h3>HR Q3. 自身最大优势、缺点</h3>
+</div></div></details>
+</section>
+<section class="kp" id="kp28">
+<div class="kp-head">
+<span class="kp-no">28</span>
+<h2>HR Q3. 自身最大优势、缺点</h2>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>HR Q3. 自身最大优势、缺点？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>结论</strong>：<strong>优势 = 数字锚点（解决问题能力）；缺点 = 真缺点 + 改进计划（不装）</strong><br /><br />
 <strong>优势话术</strong>："最大优势是<strong>用工程化思维解决业务问题</strong>——RRM 项目 6 大性能案例（OOM/积压/索引/缓存/日志/调优）都是真实落地，单次任务从 15 分钟压到 90 秒。"<br /><br />
 <strong>缺点话术</strong>："<strong>Java 转型期</strong>还在补 Spring Cloud 全套（用了 3 周过 17 手册），但项目里基础已经能用。<strong>改进计划</strong>——入职前 2 个月把 Spring Cloud Alibaba 完整链路跑通。"</p>
-<h3>HR Q4. 和同事/产品意见不一致</h3>
+</div></div></details>
+</section>
+<section class="kp" id="kp29">
+<div class="kp-head">
+<span class="kp-no">29</span>
+<h2>HR Q4. 和同事/产品意见不一致</h2>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>HR Q4. 和同事/产品意见不一致？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>结论</strong>：<strong>先听后说 / 找共同目标 / 数据说话 / 升级而非硬刚</strong><br /><br />
 <strong>话术</strong>（背）："我一般 4 步：①<strong>先听对方理由</strong>，理解立场；②<strong>找共同目标</strong>（大家都想项目好）；③<strong>用数据/用户反馈</strong>说话（不靠嗓门）；④<strong>实在达不成</strong>升级到 leader，不硬刚。RRM 项目运维和开发对日志级别有分歧，最后我拉了 1 周日志数据 + 提分级别方案收尾。"</p>
-<h3>HR Q5. 对工作强度、加班的看法</h3>
+</div></div></details>
+</section>
+<section class="kp" id="kp30">
+<div class="kp-head">
+<span class="kp-no">30</span>
+<h2>HR Q5. 对工作强度、加班的看法</h2>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>HR Q5. 对工作强度、加班的看法？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>结论</strong>：<strong>接受合理加班 + 反对透支式 996 + 看重效率</strong>——呼应你记忆里的财务铁律 4<br /><br />
 <strong>话术</strong>（背）："<strong>接受合理加班</strong>——项目上线、故障应急、版本发布该加就加。<strong>反对透支式 996</strong>——长期熬夜效率低、心力垮了反而守不住边界，看我这 3 年工作方式很自律。<strong>看重效率</strong>——加班应该是临时抢进度，不该是常态；我更希望团队能按时下班、效率高、加班少。"</p>
-<h3>HR Q6. 未来几年职业规划</h3>
+</div></div></details>
+</section>
+<section class="kp" id="kp31">
+<div class="kp-head">
+<span class="kp-no">31</span>
+<h2>HR Q6. 未来几年职业规划</h2>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>HR Q6. 未来几年职业规划？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>结论</strong>：<strong>3 年技术专家 / 5 年架构师</strong>——分阶段讲<br /><br />
 <strong>话术</strong>（背）："<strong>1 年内</strong>：融入团队，把 Spring Cloud/Java 栈补齐，主导 1-2 个模块；<strong>3 年内</strong>：成为金融科技领域的技术专家，<strong>AI Agent + 分布式</strong> 双轮；<strong>5 年内</strong>：往架构师方向走，能独立带 5-10 人小组做系统设计。"</p>
-<h3>HR Q7. 是否手握其他 offer，选择倾向</h3>
+</div></div></details>
+</section>
+<section class="kp" id="kp32">
+<div class="kp-head">
+<span class="kp-no">32</span>
+<h2>HR Q7. 是否手握其他 offer，选择倾向</h2>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>HR Q7. 是否手握其他 offer，选择倾向？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>结论</strong>：<strong>诚实 + 不卖惨 + 留谈判空间</strong><br /><br />
 <strong>话术</strong>（背）："在面几家（<strong>说 1-2 个</strong>类似方向，不点名），<strong>招银网络是优先</strong>——业务匹配 + 平台 + 城市都是我想要的方向。如果两边都到 offer 阶段，<strong>招银的优先级更高</strong>。具体薪资期望要看 offer 完整 package 再综合看。"</p>
-<h3>HR Q8. 反问面试官</h3>
+</div></div></details>
+</section>
+<section class="kp" id="kp33">
+<div class="kp-head">
+<span class="kp-no">33</span>
+<h2>HR Q8. 反问面试官</h2>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>HR Q8. 反问面试官？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>结论</strong>：<strong>问 2-3 个有深度的问题</strong>（业务/团队/培养），别问薪资/福利<br /><br />
 <strong>推荐问题</strong>（挑 2 个）：<br /><br />
 ①"<strong>团队目前的技术栈和未来 1-2 年的演进方向是什么？</strong>"（<strong>展现技术兴趣</strong>）<br /><br />
@@ -345,8 +935,21 @@ Tool Registry（统一管理）<br />
 ③"<strong>新人的培养机制和前 3 个月的预期是什么？</strong>"（<strong>展现长期主义</strong>）<br /><br />
 ④"<strong>团队对 RRM/分布式/AI 这几个方向，哪块最需要补强？</strong>"（<strong>自我定位</strong>）</p>
 <hr />
-<h2>📊 整体复盘 &amp; 备考策略</h2>
-<h3>35 题分布 &amp; 难度矩阵</h3>
+</div></div></details>
+</section>
+<section class="kp" id="kp34">
+<div class="kp-head">
+<span class="kp-no">34</span>
+<h2>35 题分布 & 难度矩阵</h2>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>35 题分布 & 难度矩阵？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <table>
 <thead>
 <tr>
@@ -407,7 +1010,21 @@ Tool Registry（统一管理）<br />
 </tr>
 </tbody>
 </table>
-<h3>你的弹药盘点</h3>
+</div></div></details>
+</section>
+<section class="kp" id="kp35">
+<div class="kp-head">
+<span class="kp-no">35</span>
+<h2>你的弹药盘点</h2>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>你的弹药盘点？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <table>
 <thead>
 <tr>
@@ -444,13 +1061,41 @@ Tool Registry（统一管理）<br />
 </tr>
 </tbody>
 </table>
-<h3>复盘 + 改进（按笔记 3 条提示）</h3>
+</div></div></details>
+</section>
+<section class="kp" id="kp36">
+<div class="kp-head">
+<span class="kp-no">36</span>
+<h2>复盘 + 改进（按笔记 3 条提示）</h2>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>复盘 + 改进（按笔记 3 条提示）？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ol>
 <li><strong>AI Agent 不要只背概念</strong>（你的弱项）→ <strong>立刻开 7 天专项</strong>：按 9 题清单 × personalAgent 实战写「Agent 八股卡」每题 1 页（钩子 + 关键概念 + 项目映射 + 追问预演），目标 9/15 前可脱稿</li>
 <li><strong>项目深挖要有 QPS/命中率/MQ 堆积</strong>（你有真实数据，是强项）→ <strong>整理 RRM 6 大数据卡</strong>：QPS 4 位数 / 命中率 99% / 任务 15→90s / 内存 5→5.5Gi / CPU 降 60% / 消息 0 丢失 —— 每张卡带数字+前后对比+原因</li>
 <li><strong>不会的坦诚+补思路</strong>（沟通能力）→ <strong>预设 3 个"我不会但我知道方向"</strong>：①Virtual Thread 实战没跑过但懂原理；②RAG GraphRag 没做过但知道引入图；③Redisson 源码没看但用过 API —— 都有学习计划</li>
 </ol>
-<h3>投递前 7 天冲刺（9/9 - 9/15）</h3>
+</div></div></details>
+</section>
+<section class="kp" id="kp37">
+<div class="kp-head">
+<span class="kp-no">37</span>
+<h2>投递前 7 天冲刺（9/9 - 9/15）</h2>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>投递前 7 天冲刺（9/9 - 9/15）？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <table>
 <thead>
 <tr>
@@ -498,7 +1143,21 @@ Tool Registry（统一管理）<br />
 </tbody>
 </table>
 <hr />
+</div></div></details>
+</section>
+<section class="kp" id="kp38">
+<div class="kp-head">
+<span class="kp-no">38</span>
 <h2>💡 同类复用</h2>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>💡 同类复用？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul>
 <li><strong>可复用公司</strong>：工行软开 / 中信银行 / 民生科技 / 平安银行 / 招联金融 / 微众银行 / 网商银行（<strong>同梯队银/金科技公司</strong>）</li>
 <li><strong>差异化重点</strong>：每家风格不同（招银务实/工行卷基础/平安业务重/微众 AI 重）—— <strong>针对每家调题单权重</strong></li>
@@ -507,6 +1166,58 @@ Tool Registry（统一管理）<br />
 <hr />
 <p><em>数据源：2026-09-08 用户提供招银网络 Java 4 轮完整回忆（35 题）</em><br /><br />
 <em>配套资料：手册 16 AI 应用工程 50 题 + 手册 17 SpringCloud + 手册 18 性能优化 + 手册 20 讲述方法论 + 手册 21/22 RRM</em></p>
+</div></div></details>
+</section>
 </article></div>
-</body>
-</html>
+<a class="totop" href="#">↑</a>
+<script>
+(function(){
+  var KEY = '%s';
+  var boxes = [].slice.call(document.querySelectorAll('details.ans'));
+  var cnt = document.getElementById('cnt');
+  var read = {};
+  try { read = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch(e){ read = {}; }
+  function paint(){
+    var n = 0;
+    boxes.forEach(function(d, i){ if (read[i]) n++; });
+    cnt.textContent = '\u5df2\u770b ' + n + ' / ' + boxes.length;
+  }
+  boxes.forEach(function(d, i){
+    if (read[i]) d.open = true;
+    d.addEventListener('toggle', function(){
+      read[i] = d.open;
+      try { localStorage.setItem(KEY, JSON.stringify(read)); } catch(e){}
+      paint();
+    });
+  });
+  paint();
+  function ensureSaved(){
+    boxes.forEach(function(d, i){ read[i] = d.open; });
+    try { localStorage.setItem(KEY, JSON.stringify(read)); } catch(e){}
+    paint();
+  }
+  var btnQuiz = document.getElementById('btnQuiz');
+  btnQuiz.addEventListener('click', function(){
+    var on = document.body.classList.toggle('quiz');
+    btnQuiz.classList.toggle('on', on);
+    if (on) { boxes.forEach(function(d){ d.open = false; }); }
+    ensureSaved();
+  });
+  document.getElementById('btnOpen').addEventListener('click', function(){
+    document.body.classList.remove('quiz');
+    btnQuiz.classList.remove('on');
+    boxes.forEach(function(d){ d.open = true; });
+    ensureSaved();
+  });
+  document.getElementById('btnClose').addEventListener('click', function(){
+    document.body.classList.remove('quiz');
+    btnQuiz.classList.remove('on');
+    boxes.forEach(function(d){ d.open = false; });
+    ensureSaved();
+  });
+  document.querySelectorAll('a[href="#"]').forEach(function(a){
+    a.addEventListener('click', function(e){ e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); });
+  });
+})();
+</script>
+</body></html>

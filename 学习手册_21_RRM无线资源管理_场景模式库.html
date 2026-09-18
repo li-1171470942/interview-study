@@ -1,23 +1,88 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>21 RRM 场景模式库</title><style>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>学习手册_21_RRM无线资源管理_场景模式库.md</title><style>
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:60px; }
+body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:70px; -webkit-text-size-adjust:100%; }
 .topnav { position:sticky; top:0; z-index:9; background:#1f2937; color:#fff; padding:10px 0; }
 .topnav .inner { max-width:960px; margin:0 auto; padding:0 18px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; font-size:13px; }
 .topnav a { color:#c7d2fe; text-decoration:none; padding:3px 12px; border-radius:14px; background:rgba(255,255,255,.08); }
 .topnav a:hover { background:rgba(255,255,255,.2); color:#fff; }
+.topnav .sep { opacity:.4; }
 .wrap { max-width:960px; margin:0 auto; padding:0 18px; }
-.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px; margin-top:22px; }
+.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px 28px; margin-top:22px; box-shadow:0 1px 3px rgba(20,30,60,.05); }
 .article h1 { font-size:26px; color:#4f46e5; border-bottom:3px solid #4f46e5; padding-bottom:12px; margin-bottom:18px; }
-.article h2 { font-size:20px; margin:30px 0 12px; padding:10px 14px; background:#eef2ff; border-left:4px solid #4f46e5; border-radius:6px; color:#312e81; }
-.article h3 { font-size:16px; margin:14px 0 6px; color:#4338ca; }
-.article p { margin:8px 0; font-size:14.5px; color:#2b3245; }
-.article pre { background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:8px; overflow-x:auto; margin:12px 0; font-size:13px; line-height:1.6; }
-.article blockquote { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; margin:12px 0; border-radius:6px; color:#166534; font-size:14px; }
-.article strong { color:#111827; }
+.meta { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; border-radius:6px; color:#166534; font-size:13px; margin-bottom:8px; }
+
+.toolbar { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:18px 0 6px; padding:12px 14px; background:#eef2ff; border-radius:10px; border:1px solid #dbe2fb; position:sticky; top:44px; z-index:8; }
+.toolbar button { font-family:inherit; font-size:13px; padding:7px 14px; border-radius:16px; border:1px solid #c7d2fe; background:#fff; color:#4338ca; cursor:pointer; }
+.toolbar button:hover { background:#e0e7ff; }
+.toolbar button.on { background:#4f46e5; color:#fff; border-color:#4f46e5; }
+.toolbar .count { font-size:12.5px; color:#4f46e5; margin-left:auto; font-weight:600; }
+
+.kp { border-bottom:1px dashed #dbe0ea; padding:22px 0 10px; }
+.kp:last-child { border-bottom:none; }
+.kp-head { display:flex; gap:10px; align-items:flex-start; margin-bottom:12px; }
+.kp-no { flex:none; width:26px; height:26px; border-radius:8px; background:#4f46e5; color:#fff; font-size:13px; display:flex; align-items:center; justify-content:center; font-weight:600; margin-top:3px; }
+.kp-head h2 { font-size:18px; color:#312e81; line-height:1.5; }
+.kp-head .h3sub { font-size:13px; color:#64748b; font-weight:400; display:block; margin-top:2px; }
+
+.concept { background:#f5f3ff; border-left:4px solid #8b5cf6; border-radius:8px; padding:12px 16px; margin:10px 0; }
+.tag { display:inline-block; font-size:11.5px; padding:2px 10px; border-radius:10px; margin-bottom:6px; font-weight:600; letter-spacing:.5px; }
+.tag-c { background:#ddd6fe; color:#4c1d95; }
+.tag-q { background:#fed7aa; color:#7c2d12; }
+.concept-body p { font-size:14.5px; color:#3b3355; margin:6px 0; }
+.concept-body p:first-child { margin-top:0; }
+.concept-body ul, .concept-body ol { margin:6px 0 6px 22px; }
+.concept-body li { font-size:14.5px; color:#3b3355; margin:4px 0; }
+
+.ask { background:#fffbeb; border-left:4px solid #f59e0b; border-radius:8px; padding:12px 16px; margin:10px 0 14px; }
+.ask-body ul, .ask-body ol { margin:4px 0 4px 22px; }
+.ask-body li { font-size:14.5px; color:#78350f; margin:5px 0; }
+.ask-body p { font-size:14.5px; color:#78350f; margin:5px 0; }
+
+details.ans { margin:6px 0 4px; }
+details.ans > summary { list-style:none; cursor:pointer; display:flex; align-items:center; gap:8px; background:#4f46e5; color:#fff; padding:11px 16px; border-radius:9px; font-size:14px; font-weight:600; user-select:none; }
+details.ans > summary::-webkit-details-marker { display:none; }
+details.ans > summary:hover { background:#4338ca; }
+.arrow { width:0; height:0; border-left:7px solid #fff; border-top:5px solid transparent; border-bottom:5px solid transparent; transition:transform .18s; }
+details.ans[open] > summary .arrow { transform:rotate(90deg); }
+details.ans[open] > summary .sum-text::after { content:" ▲"; font-size:11px; opacity:.7; }
+.ans-inner { border-left:3px solid #c7d2fe; margin:8px 0 0 14px; padding:6px 0 6px 18px; }
+.ans-body p { font-size:14.5px; margin:8px 0; }
+.ans-body h3 { font-size:15px; color:#1e293b; margin:16px 0 8px; padding-left:10px; border-left:3px solid #818cf8; }
+.ans-body h4 { font-size:14.5px; color:#334155; margin:14px 0 6px; }
+.ans-body ul, .ans-body ol { margin:8px 0 8px 24px; }
+.ans-body li { font-size:14.5px; margin:5px 0; }
+.ans-body strong { color:#111827; }
+.sec-h { font-size:12.5px; color:#0f766e; background:#ccfbf1; display:inline-block; padding:2px 12px; border-radius:10px; margin:18px 0 6px; font-weight:600; }
+.ext-body { border-left:3px solid #5eead4; padding-left:14px; margin-bottom:6px; }
+.ext-body p { font-size:14.5px; margin:8px 0; }
+.ext-body ul, .ext-body ol { margin:8px 0 8px 24px; }
+.ext-body li { font-size:14.5px; margin:5px 0; }
+details.sub { margin:12px 0 0; border:1px solid #e4e8f0; border-radius:9px; overflow:hidden; }
+details.sub > summary { list-style:none; cursor:pointer; padding:10px 14px; font-size:13.5px; background:#f8fafc; color:#334155; font-weight:600; user-select:none; }
+details.sub > summary::-webkit-details-marker { display:none; }
+details.sub > summary::before { content:"\25B8 "; color:#94a3b8; }
+details.sub[open] > summary::before { content:"\25BE "; }
+details.sub[open] > summary { border-bottom:1px solid #e4e8f0; }
+.sub-body { padding:12px 16px; }
+.sub-body p { font-size:14.5px; margin:7px 0; }
+.sub-body ul, .sub-body ol { margin:7px 0 7px 24px; }
+.sub-body li { font-size:14.5px; margin:5px 0; }
+details.sub-ask > summary { background:#fff7ed; color:#9a3412; }
+details.sub-anchor > summary { background:#f0fdf4; color:#166534; }
+details.sub-anchor .sub-body { background:#fafffb; }
+
 .article code { background:#f1f3fa; padding:1px 6px; border-radius:4px; font-size:13px; color:#be185d; }
-/* handbook-layout-fix */
+.article pre { background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:8px; overflow-x:auto; margin:12px 0; font-size:12.8px; line-height:1.65; }
+.article pre code { background:none; color:inherit; padding:0; font-size:12.8px; }
+.article table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; display:block; overflow-x:auto; }
+.article th { background:#f1f3fa; padding:8px 10px; text-align:left; color:#475569; font-size:12.5px; border:1px solid #e4e8f0; white-space:nowrap; }
+.article td { padding:8px 10px; border:1px solid #e4e8f0; vertical-align:top; }
+.article blockquote { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; margin:12px 0; border-radius:6px; color:#166534; font-size:14px; }
+.article blockquote strong { color:#14532d; }
+.article hr { border:none; border-top:1px dashed #d1d5db; margin:26px 0; }
 .article p.lead { background:#eef2ff; border-left:4px solid #6366f1; padding:10px 14px; border-radius:6px; color:#312e81; margin:10px 0 4px; }
 .article p.lbl { font-size:13px; color:#64748b; margin:14px 0 4px; }
 .article p.say { background:#fff7ed; border-left:4px solid #f97316; padding:10px 14px; border-radius:6px; color:#7c2d12; margin:12px 0 4px; }
@@ -26,6 +91,25 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 .article ol { margin:6px 0 6px 24px; }
 .article li { margin:5px 0; }
 .article ul ul { margin:4px 0 4px 20px; }
+
+body.quiz details.ans > summary { background:#94a3b8; }
+body.quiz details.ans:not([open]) .sum-text::after { content:"（自测中，先自己答）"; font-size:11.5px; font-weight:400; opacity:.9; }
+body.hide-ans details.ans { display:none; }
+
+.bottomnav { max-width:960px; margin:20px auto 0; padding:0 18px; display:flex; gap:10px; }
+.bottomnav a { flex:1; text-align:center; background:#4f46e5; color:#fff; text-decoration:none; padding:12px 10px; border-radius:10px; font-size:14px; }
+.bottomnav a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
+.totop { position:fixed; right:18px; bottom:22px; width:44px; height:44px; border-radius:50%; background:#4f46e5; color:#fff; display:flex; align-items:center; justify-content:center; font-size:18px; text-decoration:none; box-shadow:0 2px 10px rgba(79,70,229,.35); z-index:20; }
+@media (max-width:760px){
+  .article { padding:22px 16px 20px; }
+  .article h1 { font-size:21px; }
+  .kp-head h2 { font-size:16.5px; }
+  .toolbar { top:40px; padding:10px; }
+  .toolbar button { font-size:12.5px; padding:6px 11px; }
+  .toolbar .count { width:100%; margin:2px 0 0; }
+  .ans-inner { margin-left:4px; padding-left:12px; }
+  body { font-size:15px; }
+}
 </style></head>
 <body>
 <div class="topnav"><div class="inner">
@@ -34,307 +118,634 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 </div></div>
 <div class="wrap"><article class="article">
 <h1>学习手册_21_RRM无线资源管理_场景模式库.md</h1>
-<br>
-<blockquote>**来源**：D:\l32524\projects\rrmProject\ 源码 + 文档</blockquote>
-<blockquote>**炼化日期**：2026-09-04</blockquote>
-<blockquote>**对标**：学习手册_19_并发场景模式库</blockquote>
-<blockquote>**待确认**：⚠️ 部分代码细节需结合实际代码确认，以下为基于文档的炼化</blockquote>
-<br>
-<br>
+<div class="meta"><strong>来源</strong>：D:\l32524\projects\rrmProject\ 源码 + 文档</div>
+<div class="toolbar">
+  <button id="btnQuiz" type="button">自测模式</button>
+  <button id="btnOpen" type="button">全部展开</button>
+  <button id="btnClose" type="button">全部折叠</button>
+  <span class="count" id="cnt">已看 0 / 8</span>
+</div>
+<section class="kp" id="kp1">
+<div class="kp-head">
+<span class="kp-no">1</span>
 <h2>头部：材料清单</h2>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>头部：材料清单？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <br>
-<p><code>| 材料 | 路径 | 说明 |</code></p>
-<p><code>|------|------|------|</code></p>
-<p><code>| 云AP Netconf下发文档 | `docs/云AP调优Netconf下发格式.md` | v1.0, 2026-08-04 |</code></p>
-<p><code>| 分布式RRM同步工具 | `docs/syncDistributedRrm_进度报告.md` | 2026-07-10~13 |</code></p>
-<p><code>| 同步工具源码 | `rrmcontrol/src/controllers/AI-RRM/apis/syncDistributedRrm.js` | 核心同步逻辑~380行 |</code></p>
-<p><code>| 四分支对比文档 | `docs/四分支对比分析_以acceptance为准_20260817.md` | 分支管理经验 |</code></p>
+<table>
+<thead>
+<tr>
+<th>材料</th>
+<th>路径</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>云AP Netconf下发文档</td>
+<td>`docs/云AP调优Netconf下发格式.md`</td>
+<td>v1.0, 2026-08-04</td>
+</tr>
+<tr>
+<td>分布式RRM同步工具</td>
+<td>`docs/syncDistributedRrm_进度报告.md`</td>
+<td>2026-07-10~13</td>
+</tr>
+<tr>
+<td>同步工具源码</td>
+<td>`rrmcontrol/src/controllers/AI-RRM/apis/syncDistributedRrm.js`</td>
+<td>核心同步逻辑~380行</td>
+</tr>
+<tr>
+<td>四分支对比文档</td>
+<td>`docs/四分支对比分析_以acceptance为准_20260817.md`</td>
+<td>分支管理经验</td>
+</tr>
+</tbody>
+</table><br>
 <br>
-<br>
+</div></div></details>
+</section>
+<section class="kp" id="kp2">
+<div class="kp-head">
+<span class="kp-no">2</span>
 <h2>模式一：异步消息 → 同步RPC补偿（Kafka消费可靠性）</h2>
-<br>
-<h3>【一句话】</h3>
-<p>Kafka消费失败时如何保证消息不丢失且最终一致？</p>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>Kafka消费失败时如何保证消息不丢失且最终一致？</p>
+<br></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>Kafka怎么保证消息不丢？</li>
+<li>消费者自动提交offset的问题？</li>
+<li>重试导致重复消费怎么办？</li>
+<li>如果要保证 Exactly-Once 呢？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <br>
 <h3>【业务触发】</h3>
 <p>RRM系统中，设备侧调优结果通过Kafka消息（optType=45）上报到rrmserver。</p>
 <p>若消费失败（网络抖动/服务重启），调优结果丢失，用户看到的状态与实际不符。</p>
 <br>
-<p><strong>代码位置</strong>：<code>rrmserver/src/controllers/procKafka/procCRA.js</code></p>
-<br>
-<h3>【代码形态】</h3>
-<pre><code>javascript</code></pre>
-<code>// Kafka消费核心模式</code>
-<code>async function processMessage(msg) {</code>
-<code>    try {</code>
-<code>        const data = JSON.parse(msg.value.toString());</code>
-<code>        await processClbResult(data);</code>
-<code>        // 手动提交offset，确保处理后才提交</code>
-<code>        consumer.commitMessage(msg);</code>
-<code>    } catch (err) {</code>
-<code>        // 失败不走commit，消息不会被ack，会重新投递</code>
-<code>        log.error(`消费失败: ${err.message}, 将重试`);</code>
-<code>        // 可选：写入死信队列(DLQ)供后续人工处理</code>
-<code>        await sendToDLQ(msg, err);</code>
-<code>    }</code>
-<code>}</code>
-
-<br>
+<p><strong>代码位置</strong>：</p>
+<pre><code>rrmserver/src/controllers/procKafka/procCRA.js
+// Kafka消费核心模式
+async function processMessage(msg) {
+    try {
+        const data = JSON.parse(msg.value.toString());
+        await processClbResult(data);
+        // 手动提交offset，确保处理后才提交
+        consumer.commitMessage(msg);
+    } catch (err) {
+        // 失败不走commit，消息不会被ack，会重新投递
+        log.error(`消费失败: ${err.message}, 将重试`);
+        // 可选：写入死信队列(DLQ)供后续人工处理
+        await sendToDLQ(msg, err);
+    }
+}</code></pre><br>
 <h3>【知识点串】</h3>
-<p>• **At-Least-Once**：手动commit确保处理后才确认</p>
-<p>• **幂等消费**：数据库唯一索引防止重复处理</p>
-<p>• **DLQ设计**：死信队列兜底，避免消息积压</p>
-<p>• **重试策略**：指数退避，避免雪崩</p>
+<p>• <strong>At-Least-Once</strong>：手动commit确保处理后才确认</p>
+<p>• <strong>幂等消费</strong>：数据库唯一索引防止重复处理</p>
+<p>• <strong>DLQ设计</strong>：死信队列兜底，避免消息积压</p>
+<p>• <strong>重试策略</strong>：指数退避，避免雪崩</p>
 <br>
-<h3>【面试话术】</h3>
-<blockquote>"RRM的调优结果上报走Kafka，我接手时遇到过一个经典问题——消息消费失败后用户看到状态不对。后来我加了手动offset提交和死信队列：消费成功才commit，失败不commit会自动重投，重投3次还失败就进DLQ。同时在MongoDB的clbDetail表加了(taskId, apSN, RI)唯一索引，即使重复消费也不会写脏数据。"</blockquote>
-<br>
-<h3>【高频追问】</h3>
-<br>
-<p><code>| 层次 | 追问 | 答案要点 |</code></p>
-<p><code>|------|------|----------|</code></p>
-<p><code>| 表层 | Kafka怎么保证消息不丢？ | 生产者确认(acks=all) + 消费者手动commit + 分区副本 |</code></p>
-<p><code>| 原理 | 消费者自动提交offset的问题？ | 自动提交是按时间，不是按处理成功，可能丢消息 |</code></p>
-<p><code>| 陷阱 | 重试导致重复消费怎么办？ | 幂等设计：数据库唯一索引 / 消息去重表 / 业务状态机判断 |</code></p>
-<p><code>| 开放 | 如果要保证 Exactly-Once 呢？ | 事务性生产者 + 消费者幂等，或业务层去重 |</code></p>
-<br>
-<br>
+<div class="sec-h">追问与答案要点</div><table>
+<thead>
+<tr>
+<th>层次</th>
+<th>追问</th>
+<th>答案要点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>表层</td>
+<td>Kafka怎么保证消息不丢？</td>
+<td>生产者确认(acks=all) + 消费者手动commit + 分区副本</td>
+</tr>
+<tr>
+<td>原理</td>
+<td>消费者自动提交offset的问题？</td>
+<td>自动提交是按时间，不是按处理成功，可能丢消息</td>
+</tr>
+<tr>
+<td>陷阱</td>
+<td>重试导致重复消费怎么办？</td>
+<td>幂等设计：数据库唯一索引 / 消息去重表 / 业务状态机判断</td>
+</tr>
+<tr>
+<td>开放</td>
+<td>如果要保证 Exactly-Once 呢？</td>
+<td>事务性生产者 + 消费者幂等，或业务层去重</td>
+</tr>
+</tbody>
+</table>
+</div></div></details>
+</section>
+<section class="kp" id="kp3">
+<div class="kp-head">
+<span class="kp-no">3</span>
 <h2>模式二：分布式锁防竞态（定时任务并发控制）</h2>
-<br>
-<h3>【一句话】</h3>
-<p>分布式环境下定时任务如何防止多实例重复执行？</p>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>分布式环境下定时任务如何防止多实例重复执行？</p>
+<br></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>Redis分布式锁怎么实现？</li>
+<li>锁过期了业务还没执行完怎么办？</li>
+<li>Redis主从切换时锁丢了？</li>
+<li>如果不用Redis用什么？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <br>
 <h3>【业务触发】</h3>
 <p>新AP上线触发调优（newApUpScheduler每60秒扫描）。K8s部署了多副本pod，如果不做并发控制，同一个shop的调优可能被多个pod同时触发。</p>
 <br>
-<p><strong>代码位置</strong>：<code>rrmcontrol/src/controllers/AI-RRM/service/newApUpService.js</code> 的 <code>triggerClbForShop</code></p>
-<br>
-<h3>【代码形态】</h3>
-<pre><code>javascript</code></pre>
-<code>async function triggerClbForShop(shopId) {</code>
-<code>    // 1. 获取分布式锁（Redis setNX + 过期时间）</code>
-<code>    const lockKey = `newApClb:lock:${shopId}`;</code>
-<code>    const lockValue = Date.now().toString();</code>
-<code>    const acquired = await redis.set(lockKey, lockValue, 'EX', 300, 'NX');</code>
-<code>    </code>
-<code>    if (!acquired) {</code>
-<code>        log.info(`shop=${shopId} 已被其他实例锁定，跳过`);</code>
-<code>        return;</code>
-<code>    }</code>
-<code>    </code>
-<code>    try {</code>
-<code>        // 2. ⚠️ 关键：二次检查开关状态（防竞态）</code>
-<code>        const switchStatus = await judgeAutoSwitch(shopId);</code>
-<code>        if (!switchStatus) {</code>
-<code>            log.info(`shop=${shopId} 自动调优已关闭，跳过`);</code>
-<code>            return;</code>
-<code>        }</code>
-<code>        </code>
-<code>        // 3. 执行业务逻辑</code>
-<code>        await executeClbForShop(shopId);</code>
-<code>    } finally {</code>
-<code>        // 4. 释放锁</code>
-<code>        await redis.del(lockKey);</code>
-<code>    }</code>
-<code>}</code>
-
-<br>
+<p><strong>代码位置</strong>：</p>
+<pre><code>rrmcontrol/src/controllers/AI-RRM/service/newApUpService.js
+triggerClbForShop
+async function triggerClbForShop(shopId) {
+    // 1. 获取分布式锁（Redis setNX + 过期时间）
+    const lockKey = `newApClb:lock:${shopId}`;
+    const lockValue = Date.now().toString();
+    const acquired = await redis.set(lockKey, lockValue, 'EX', 300, 'NX');
+    if (!acquired) {
+        log.info(`shop=${shopId} 已被其他实例锁定，跳过`);
+        return;
+    }
+    try {
+        // 2. ⚠️ 关键：二次检查开关状态（防竞态）
+        const switchStatus = await judgeAutoSwitch(shopId);
+        if (!switchStatus) {
+            log.info(`shop=${shopId} 自动调优已关闭，跳过`);
+            return;
+        }
+        // 3. 执行业务逻辑
+        await executeClbForShop(shopId);
+    } finally {
+        // 4. 释放锁
+        await redis.del(lockKey);
+    }
+}</code></pre><br>
 <h3>【知识点串】</h3>
-<p>• **Redis分布式锁**：SET + NX + EX 原子性获取</p>
-<p>• **锁超时设计**：EX 300秒防止死锁（业务执行时间 < 300秒）</p>
-<p>• **竞态窗口**：入队→执行之间用户关闭开关的竞态</p>
-<p>• **二次检查**：获取锁后再次验证业务状态</p>
+<p>• <strong>Redis分布式锁</strong>：SET + NX + EX 原子性获取</p>
+<p>• <strong>锁超时设计</strong>：EX 300秒防止死锁（业务执行时间 < 300秒）</p>
+<p>• <strong>竞态窗口</strong>：入队→执行之间用户关闭开关的竞态</p>
+<p>• <strong>二次检查</strong>：获取锁后再次验证业务状态</p>
 <br>
-<h3>【面试话术】</h3>
-<blockquote>"K8s多副本部署时，定时任务会并发执行同一个逻辑。我用Redis分布式锁解决：set NX获取锁，设300秒过期防止死锁。但这里有个坑——锁住之后到真正执行之间，用户可能把开关关了，所以我又在锁内加了二次检查judgeAutoSwitch。这其实是一个经典的'检查-执行'竞态问题，单靠锁不够，还得业务层再验证一次。"</blockquote>
-<br>
-<h3>【高频追问】</h3>
-<br>
-<p><code>| 层次 | 追问 | 答案要点 |</code></p>
-<p><code>|------|------|----------|</code></p>
-<p><code>| 表层 | Redis分布式锁怎么实现？ | set key value NX EX 300，或 SETNX + EXPIRE |</code></p>
-<p><code>| 原理 | 锁过期了业务还没执行完怎么办？ | 看门狗续期 / 锁粒度细化 / 业务补偿 |</code></p>
-<p><code>| 陷阱 | Redis主从切换时锁丢了？ | Redlock算法 / Redisson实现 / 或接受最终一致性 |</code></p>
-<p><code>| 开放 | 如果不用Redis用什么？ | Zookeeper / etcd / 数据库唯一索引 |</code></p>
-<br>
-<br>
+<div class="sec-h">追问与答案要点</div><table>
+<thead>
+<tr>
+<th>层次</th>
+<th>追问</th>
+<th>答案要点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>表层</td>
+<td>Redis分布式锁怎么实现？</td>
+<td>set key value NX EX 300，或 SETNX + EXPIRE</td>
+</tr>
+<tr>
+<td>原理</td>
+<td>锁过期了业务还没执行完怎么办？</td>
+<td>看门狗续期 / 锁粒度细化 / 业务补偿</td>
+</tr>
+<tr>
+<td>陷阱</td>
+<td>Redis主从切换时锁丢了？</td>
+<td>Redlock算法 / Redisson实现 / 或接受最终一致性</td>
+</tr>
+<tr>
+<td>开放</td>
+<td>如果不用Redis用什么？</td>
+<td>Zookeeper / etcd / 数据库唯一索引</td>
+</tr>
+</tbody>
+</table>
+</div></div></details>
+</section>
+<section class="kp" id="kp4">
+<div class="kp-head">
+<span class="kp-no">4</span>
 <h2>模式三：跨库数据同步（配置一致性）</h2>
-<br>
-<h3>【一句话】</h3>
-<p>两个服务各自维护同一份配置时，如何做一次性全量同步？</p>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>两个服务各自维护同一份配置时，如何做一次性全量同步？</p>
+<br></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>怎么实现幂等更新？</li>
+<li>全量同步和增量同步的区别？</li>
+<li>同步过程中数据又被改了怎么办？</li>
+<li>如果要做实时同步呢？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <br>
 <h3>【业务触发】</h3>
 <p>AI RRM（我们）和 xmlconfmgr（另一个微服务）各自维护一份"分布式RRM开关"配置。需要把xmlconfmgr的配置同步到我们这边，统一管理。</p>
 <br>
-<p><strong>代码位置</strong>：<code>rrmcontrol/src/controllers/AI-RRM/apis/syncDistributedRrm.js</code></p>
-<br>
-<h3>【代码形态】</h3>
-<pre><code>javascript</code></pre>
-<code>async function syncDistributedRrm() {</code>
-<code>    // 1. 直连下游MongoDB（绕过HTTP网关权限问题）</code>
-<code>    const xmlconfmgrDB = await connectMongo('xmlconfmgr', 'xmlconfmgr');</code>
-<code>    const apgroupDB = await connectMongo('oasis-apgroup-manager', 'oasis-apgroup-manager');</code>
-<code>    </code>
-<code>    // 2. 场所级同步（shopId维度）</code>
-<code>    const shopConfigs = await xmlconfmgrDB</code>
-<code>        .collection('rrm_globalcfg_shop_config')</code>
-<code>        .find({ $or: [{ isActive: true }, { isActive: { $exists: false } }] })</code>
-<code>        .toArray();</code>
-<code>    </code>
-<code>    // 3. 逐条处理，按RRMStatus同步到autoSwitch/autoOptConfig</code>
-<code>    for (const config of shopConfigs) {</code>
-<code>        const { shopId, RRMStatus } = config;</code>
-<code>        </code>
-<code>        if (RRMStatus === 'true') {</code>
-<code>            // 全开配置</code>
-<code>            await upsertAutoSwitch(shopId, true);</code>
-<code>            await upsertAutoOptConfig(shopId, SELF_DEC_ALL_ON);</code>
-<code>        } else {</code>
-<code>            // 全关配置，检查其他模式是否开着</code>
-<code>            await upsertAutoOptConfig(shopId, SELF_DEC_ALL_OFF);</code>
-<code>            const shouldKeepOpen = await checkOtherModes(shopId);</code>
-<code>            if (!shouldKeepOpen) {</code>
-<code>                await updateSwitchStatus(shopId, false);</code>
-<code>            }</code>
-<code>        }</code>
-<code>    }</code>
-<code>    </code>
-<code>    // 4. 修改行数校验（幂等性保证）</code>
-<code>    const result = await autoSwitchDB.updateOne(filter, update);</code>
-<code>    if (result.modifiedCount === 0) {</code>
-<code>        throw new Error('配置更新失败，可能数据不存在');</code>
-<code>    }</code>
-<code>}</code>
-
-<br>
+<p><strong>代码位置</strong>：</p>
+<pre><code>rrmcontrol/src/controllers/AI-RRM/apis/syncDistributedRrm.js
+async function syncDistributedRrm() {
+    // 1. 直连下游MongoDB（绕过HTTP网关权限问题）
+    const xmlconfmgrDB = await connectMongo('xmlconfmgr', 'xmlconfmgr');
+    const apgroupDB = await connectMongo('oasis-apgroup-manager', 'oasis-apgroup-manager');
+    // 2. 场所级同步（shopId维度）
+    const shopConfigs = await xmlconfmgrDB
+        .collection('rrm_globalcfg_shop_config')
+        .find({ $or: [{ isActive: true }, { isActive: { $exists: false } }] })
+        .toArray();
+    // 3. 逐条处理，按RRMStatus同步到autoSwitch/autoOptConfig
+    for (const config of shopConfigs) {
+        const { shopId, RRMStatus } = config;
+        if (RRMStatus === 'true') {
+            // 全开配置
+            await upsertAutoSwitch(shopId, true);
+            await upsertAutoOptConfig(shopId, SELF_DEC_ALL_ON);
+        } else {
+            // 全关配置，检查其他模式是否开着
+            await upsertAutoOptConfig(shopId, SELF_DEC_ALL_OFF);
+            const shouldKeepOpen = await checkOtherModes(shopId);
+            if (!shouldKeepOpen) {
+                await updateSwitchStatus(shopId, false);
+            }
+        }
+    }
+    // 4. 修改行数校验（幂等性保证）
+    const result = await autoSwitchDB.updateOne(filter, update);
+    if (result.modifiedCount === 0) {
+        throw new Error('配置更新失败，可能数据不存在');
+    }
+}</code></pre><br>
 <h3>【知识点串】</h3>
-<p>• **直连MongoDB**：绕过HTTP网关的权限限制</p>
-<p>• **幂等设计**：$or 查询处理字段缺失的老数据 + modifiedCount校验</p>
-<p>• **Upsert模式**：存在则更新，不存在则创建</p>
-<p>• **全量扫描**：一次性同步，不依赖增量CDC</p>
+<p>• <strong>直连MongoDB</strong>：绕过HTTP网关的权限限制</p>
+<p>• <strong>幂等设计</strong>：$or 查询处理字段缺失的老数据 + modifiedCount校验</p>
+<p>• <strong>Upsert模式</strong>：存在则更新，不存在则创建</p>
+<p>• <strong>全量扫描</strong>：一次性同步，不依赖增量CDC</p>
 <br>
-<h3>【面试话术】</h3>
-<blockquote>"两个微服务各自维护同一个配置，数据不一致了。我的解法是做了一个一次性同步工具：直连下游的MongoDB扫全量数据，然后按配置状态更新我们这边的表。实现时有两个坑——第一是下游的HTTP接口有权限限制，改成直连MongoDB绕过；第二是幂等性，老数据没有isActive字段，查询条件要改成$or兼容。最后加了modifiedCount校验，确保真正更新了才认为成功。"</blockquote>
-<br>
-<h3>【高频追问】</h3>
-<br>
-<p><code>| 层次 | 追问 | 答案要点 |</code></p>
-<p><code>|------|------|----------|</code></p>
-<p><code>| 表层 | 怎么实现幂等更新？ | updateOne + modifiedCount校验 / 唯一索引冲突 |</code></p>
-<p><code>| 原理 | 全量同步和增量同步的区别？ | 全量：数据量大时资源占用高；增量：依赖CDC/时间戳 |</code></p>
-<p><code>| 陷阱 | 同步过程中数据又被改了怎么办？ | 乐观锁版本号 / 分布式事务 / 业务补偿 |</code></p>
-<p><code>| 开放 | 如果要做实时同步呢？ | Change Stream / 消息队列 / binlog订阅 |</code></p>
-<br>
-<br>
+<div class="sec-h">追问与答案要点</div><table>
+<thead>
+<tr>
+<th>层次</th>
+<th>追问</th>
+<th>答案要点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>表层</td>
+<td>怎么实现幂等更新？</td>
+<td>updateOne + modifiedCount校验 / 唯一索引冲突</td>
+</tr>
+<tr>
+<td>原理</td>
+<td>全量同步和增量同步的区别？</td>
+<td>全量：数据量大时资源占用高；增量：依赖CDC/时间戳</td>
+</tr>
+<tr>
+<td>陷阱</td>
+<td>同步过程中数据又被改了怎么办？</td>
+<td>乐观锁版本号 / 分布式事务 / 业务补偿</td>
+</tr>
+<tr>
+<td>开放</td>
+<td>如果要做实时同步呢？</td>
+<td>Change Stream / 消息队列 / binlog订阅</td>
+</tr>
+</tbody>
+</table>
+</div></div></details>
+</section>
+<section class="kp" id="kp5">
+<div class="kp-head">
+<span class="kp-no">5</span>
 <h2>模式四：位掩码状态压缩（多频段开关）</h2>
-<br>
-<h3>【一句话】</h3>
-<p>3个频段×3种开关，如何用1个数字表示所有组合？</p>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>3个频段×3种开关，如何用1个数字表示所有组合？</p>
+<br></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>位掩码有什么好处？</li>
+<li>怎么单独关闭某个频段？</li>
+<li>超过8种状态怎么办？</li>
+<li>还有什么场景适合位掩码？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <br>
 <h3>【业务触发】</h3>
 <p>云AP的实时调优开关（2.4G/5G/6G各有权道/功率/带宽开关）需要下发给设备。用位掩码将12个布尔压缩成3个数字。</p>
 <br>
-<p><strong>代码位置</strong>：<code>autoOptService.js:937-953</code></p>
-<br>
-<h3>【代码形态】</h3>
-<pre><code>javascript</code></pre>
-<code>// 位掩码计算</code>
-<code>const ChlClbMode = </code>
-<code>    (bandConfig['2.4GHz'].Ch ? 1 : 0) * 1 +   // 2.4G = 第0位 = 1</code>
-<code>    (bandConfig['5GHz'].Ch ? 1 : 0) * 2 +     // 5G   = 第1位 = 2</code>
-<code>    (bandConfig['6GHz'].Ch ? 1 : 0) * 4;      // 6G   = 第2位 = 4</code>
-<code></code>
-<code>// 例如：2.4G开+5G开+6G关 = 1 + 2 = 3</code>
-<code>// 例如：3个频段全开 = 1 + 2 + 4 = 7</code>
-
-<br>
+<p><strong>代码位置</strong>：</p>
+<pre><code>autoOptService.js:937-953
+// 位掩码计算
+const ChlClbMode =
+    (bandConfig['2.4GHz'].Ch ? 1 : 0) * 1 +   // 2.4G = 第0位 = 1
+    (bandConfig['5GHz'].Ch ? 1 : 0) * 2 +     // 5G   = 第1位 = 2
+    (bandConfig['6GHz'].Ch ? 1 : 0) * 4;      // 6G   = 第2位 = 4
+// 例如：2.4G开+5G开+6G关 = 1 + 2 = 3
+// 例如：3个频段全开 = 1 + 2 + 4 = 7</code></pre><br>
 <h3>【知识点串】</h3>
-<p>• **位运算**：或/与/移位</p>
-<p>• **状态压缩**：12个布尔 → 3个数字，网络传输量减少75%</p>
-<p>• **位掩码优点**：可单独开关某位，可用单一值表示所有组合</p>
+<p>• <strong>位运算</strong>：或/与/移位</p>
+<p>• <strong>状态压缩</strong>：12个布尔 → 3个数字，网络传输量减少75%</p>
+<p>• <strong>位掩码优点</strong>：可单独开关某位，可用单一值表示所有组合</p>
 <br>
-<h3>【面试话术】</h3>
-<blockquote>"云AP有3个频段，每个频段有3种调优开关，如果分别传要12个参数。我用位掩码压缩：2.4G占第0位(权重1)，5G占第1位(权重2)，6G占第2位(权重4)。三个全开就是7，一个都不开就是0。设备收到后用按位与就能判断每个频段是否开启。"</blockquote>
-<br>
-<h3>【高频追问】</h3>
-<br>
-<p><code>| 层次 | 追问 | 答案要点 |</code></p>
-<p><code>|------|------|----------|</code></p>
-<p><code>| 表层 | 位掩码有什么好处？ | 节省存储/传输、单一值表示多状态、位运算高效 |</code></p>
-<p><code>| 原理 | 怎么单独关闭某个频段？ | 与掩码取反做或运算，如 `mode | 2` 强制开5G |</code></p>
-<p><code>| 陷阱 | 超过8种状态怎么办？ | 扩展位数 / 改用字符串枚举 |</code></p>
-<p><code>| 开放 | 还有什么场景适合位掩码？ | 权限位图、配置标志、状态码压缩 |</code></p>
-<br>
-<br>
+<div class="sec-h">追问与答案要点</div><table>
+<thead>
+<tr>
+<th>层次</th>
+<th>追问</th>
+<th>答案要点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>表层</td>
+<td>位掩码有什么好处？</td>
+<td>节省存储/传输、单一值表示多状态、位运算高效</td>
+</tr>
+<tr>
+<td>原理</td>
+<td>怎么单独关闭某个频段？</td>
+<td>与掩码取反做或运算，如 `mode</td>
+</tr>
+<tr>
+<td>陷阱</td>
+<td>超过8种状态怎么办？</td>
+<td>扩展位数 / 改用字符串枚举</td>
+</tr>
+<tr>
+<td>开放</td>
+<td>还有什么场景适合位掩码？</td>
+<td>权限位图、配置标志、状态码压缩</td>
+</tr>
+</tbody>
+</table>
+</div></div></details>
+</section>
+<section class="kp" id="kp6">
+<div class="kp-head">
+<span class="kp-no">6</span>
 <h2>模式五：设备通信协议适配（云AP vs AC）</h2>
-<br>
-<h3>【一句话】</h3>
-<p>同一业务逻辑如何适配不同设备的不同协议？</p>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>同一业务逻辑如何适配不同设备的不同协议？</p>
+<br></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>怎么控制并发数？</li>
+<li>超时了怎么处理？</li>
+<li>500并发会不会打爆设备？</li>
+<li>如何监控下发成功率？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <br>
 <h3>【业务触发】</h3>
 <p>RRM需要同时支持AC设备和云AP，两者Netconf下发格式不同：</p>
 <p>• AC：一条netconf含多AP数据</p>
 <p>• 云AP：每AP单独一条netconf（并发500）</p>
 <br>
-<p><strong>代码位置</strong>：<code>autoOptService.js</code> 的 <code>cloudAPsetProConfig</code></p>
-<br>
-<h3>【代码形态】</h3>
-<pre><code>javascript</code></pre>
-<code>async function sendToDevice(deviceType, configs) {</code>
-<code>    if (deviceType === 'ac') {</code>
-<code>        // AC：批量下发，一条含多AP</code>
-<code>        await sendACConfig(configs);</code>
-<code>    } else if (deviceType === 'cloudap') {</code>
-<code>        // 云AP：每AP单独下发，并发控制</code>
-<code>        await async.mapLimit(configs, 500, async (config) => {</code>
-<code>            await sendCloudAPConfig(config);</code>
-<code>        });</code>
-<code>    }</code>
-<code>}</code>
-
-<br>
+<p><strong>代码位置</strong>：</p>
+<pre><code>autoOptService.js
+cloudAPsetProConfig
+async function sendToDevice(deviceType, configs) {
+    if (deviceType === 'ac') {
+        // AC：批量下发，一条含多AP
+        await sendACConfig(configs);
+    } else if (deviceType === 'cloudap') {
+        // 云AP：每AP单独下发，并发控制
+        await async.mapLimit(configs, 500, async (config) =&gt; {
+            await sendCloudAPConfig(config);
+        });
+    }
+}</code></pre><br>
 <h3>【知识点串】</h3>
-<p>• **适配器模式**：统一接口，不同实现</p>
-<p>• **并发控制**：async.mapLimit限制并发数</p>
-<p>• **超时熔断**：总超时20秒自动停止</p>
+<p>• <strong>适配器模式</strong>：统一接口，不同实现</p>
+<p>• <strong>并发控制</strong>：async.mapLimit限制并发数</p>
+<p>• <strong>超时熔断</strong>：总超时20秒自动停止</p>
 <br>
-<h3>【面试话术】</h3>
-<blockquote>"RRM要同时支持AC和云AP两种设备，但它们的netconf格式完全不同。AC是一批AP放一条消息，云AP是每AP单独一条。我用适配器模式封装了差异，上层业务代码不用关心设备类型。并发方面，云AP要并发下发500个，我用了async.mapLimit控制，同时加了总超时20秒的熔断保护，防止设备响应慢时资源耗尽。"</blockquote>
-<br>
-<h3>【高频追问】</h3>
-<br>
-<p><code>| 层次 | 追问 | 答案要点 |</code></p>
-<p><code>|------|------|----------|</code></p>
-<p><code>| 表层 | 怎么控制并发数？ | async.mapLimit / Promise池 / 信号量 |</code></p>
-<p><code>| 原理 | 超时了怎么处理？ | 记录超时AP、返回部分成功、触发告警 |</code></p>
-<p><code>| 陷阱 | 500并发会不会打爆设备？ | 分批下发 + 设备能力上报 + 降级策略 |</code></p>
-<p><code>| 开放 | 如何监控下发成功率？ | 埋点统计成功/失败/超时，告警通知 |</code></p>
-<br>
-<br>
+<div class="sec-h">追问与答案要点</div><table>
+<thead>
+<tr>
+<th>层次</th>
+<th>追问</th>
+<th>答案要点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>表层</td>
+<td>怎么控制并发数？</td>
+<td>async.mapLimit / Promise池 / 信号量</td>
+</tr>
+<tr>
+<td>原理</td>
+<td>超时了怎么处理？</td>
+<td>记录超时AP、返回部分成功、触发告警</td>
+</tr>
+<tr>
+<td>陷阱</td>
+<td>500并发会不会打爆设备？</td>
+<td>分批下发 + 设备能力上报 + 降级策略</td>
+</tr>
+<tr>
+<td>开放</td>
+<td>如何监控下发成功率？</td>
+<td>埋点统计成功/失败/超时，告警通知</td>
+</tr>
+</tbody>
+</table>
+</div></div></details>
+</section>
+<section class="kp" id="kp7">
+<div class="kp-head">
+<span class="kp-no">7</span>
 <h2>附录：RRM项目数字锚点表</h2>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>RRM项目数字锚点表？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <br>
-<p><code>| 数字 | 来源故事 |</code></p>
-<p><code>|------|----------|</code></p>
-<p><code>| 60秒 | newApUpScheduler扫描间隔，每分钟检查一次新AP |</code></p>
-<p><code>| 500 | 云AP并发下发上限，控制单批次请求量 |</code></p>
-<p><code>| 20秒 | 云AP下发总超时，熔断保护 |</code></p>
-<p><code>| 3频段 | 2.4G/5G/6G，WiFi7新增6GHz支持 |</code></p>
-<p><code>| 4微服务 | rrmcontrol/rrmserver/rrmcompute/aioptimize |</code></p>
-<p><code>| 289个 | AT环境扫描到的云AP autoSwitch记录 |</code></p>
-<p><code>| 239/25 | 开启/关闭实时调优的AP数量比例 |</code></p>
+<table>
+<thead>
+<tr>
+<th>数字</th>
+<th>来源故事</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>60秒</td>
+<td>newApUpScheduler扫描间隔，每分钟检查一次新AP</td>
+</tr>
+<tr>
+<td>500</td>
+<td>云AP并发下发上限，控制单批次请求量</td>
+</tr>
+<tr>
+<td>20秒</td>
+<td>云AP下发总超时，熔断保护</td>
+</tr>
+<tr>
+<td>3频段</td>
+<td>2.4G/5G/6G，WiFi7新增6GHz支持</td>
+</tr>
+<tr>
+<td>4微服务</td>
+<td>rrmcontrol/rrmserver/rrmcompute/aioptimize</td>
+</tr>
+<tr>
+<td>289个</td>
+<td>AT环境扫描到的云AP autoSwitch记录</td>
+</tr>
+<tr>
+<td>239/25</td>
+<td>开启/关闭实时调优的AP数量比例</td>
+</tr>
+</tbody>
+</table><br>
 <br>
-<br>
+</div></div></details>
+</section>
+<section class="kp" id="kp8">
+<div class="kp-head">
+<span class="kp-no">8</span>
 <h2>附录：技术债清单</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>*本手册基于 D:\l32524\projects\rrmProject\ 文档炼化，部分代码细节待结合源码确认*</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>技术债清单？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <br>
-<p><code>| # | 技术债 | 位置 | 改法 |</code></p>
-<p><code>|---|--------|------|------|</code></p>
-<p><code>| 1 | 下游MongoDB连接信息未同步更新 | syncDistributedRrm.js | 依赖wlanpub配置，需确认连接地址 |</code></p>
-<p><code>| 2 | 云AP功率范围硬编码上限 | RFservice.js | 应从设备能力上报获取 |</code></p>
-<p><code>| 3 | 四分支同步依赖人工cherry-pick | - | 考虑CI自动化同步流水线 |</code></p>
-<br>
-<br>
-<p>*本手册基于 D:\l32524\projects\rrmProject\ 文档炼化，部分代码细节待结合源码确认*</p>
-<br>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>技术债</th>
+<th>位置</th>
+<th>改法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>下游MongoDB连接信息未同步更新</td>
+<td>syncDistributedRrm.js</td>
+<td>依赖wlanpub配置，需确认连接地址</td>
+</tr>
+<tr>
+<td>2</td>
+<td>云AP功率范围硬编码上限</td>
+<td>RFservice.js</td>
+<td>应从设备能力上报获取</td>
+</tr>
+<tr>
+<td>3</td>
+<td>四分支同步依赖人工cherry-pick</td>
+<td>-</td>
+<td>考虑CI自动化同步流水线</td>
+</tr>
+</tbody>
+</table><br /></div></div></details>
+</section>
 </article></div>
-</body>
-</html>
+<a class="totop" href="#">↑</a>
+<script>
+(function(){
+  var KEY = '%s';
+  var boxes = [].slice.call(document.querySelectorAll('details.ans'));
+  var cnt = document.getElementById('cnt');
+  var read = {};
+  try { read = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch(e){ read = {}; }
+  function paint(){
+    var n = 0;
+    boxes.forEach(function(d, i){ if (read[i]) n++; });
+    cnt.textContent = '\u5df2\u770b ' + n + ' / ' + boxes.length;
+  }
+  boxes.forEach(function(d, i){
+    if (read[i]) d.open = true;
+    d.addEventListener('toggle', function(){
+      read[i] = d.open;
+      try { localStorage.setItem(KEY, JSON.stringify(read)); } catch(e){}
+      paint();
+    });
+  });
+  paint();
+  function ensureSaved(){
+    boxes.forEach(function(d, i){ read[i] = d.open; });
+    try { localStorage.setItem(KEY, JSON.stringify(read)); } catch(e){}
+    paint();
+  }
+  var btnQuiz = document.getElementById('btnQuiz');
+  btnQuiz.addEventListener('click', function(){
+    var on = document.body.classList.toggle('quiz');
+    btnQuiz.classList.toggle('on', on);
+    if (on) { boxes.forEach(function(d){ d.open = false; }); }
+    ensureSaved();
+  });
+  document.getElementById('btnOpen').addEventListener('click', function(){
+    document.body.classList.remove('quiz');
+    btnQuiz.classList.remove('on');
+    boxes.forEach(function(d){ d.open = true; });
+    ensureSaved();
+  });
+  document.getElementById('btnClose').addEventListener('click', function(){
+    document.body.classList.remove('quiz');
+    btnQuiz.classList.remove('on');
+    boxes.forEach(function(d){ d.open = false; });
+    ensureSaved();
+  });
+  document.querySelectorAll('a[href="#"]').forEach(function(a){
+    a.addEventListener('click', function(e){ e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); });
+  });
+})();
+</script>
+</body></html>
