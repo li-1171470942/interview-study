@@ -1,23 +1,88 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>22 RRM 讲述卡</title><style>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>学习手册_22_RRM无线资源管理_讲述卡.md</title><style>
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:60px; }
+body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:70px; -webkit-text-size-adjust:100%; }
 .topnav { position:sticky; top:0; z-index:9; background:#1f2937; color:#fff; padding:10px 0; }
 .topnav .inner { max-width:960px; margin:0 auto; padding:0 18px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; font-size:13px; }
 .topnav a { color:#c7d2fe; text-decoration:none; padding:3px 12px; border-radius:14px; background:rgba(255,255,255,.08); }
 .topnav a:hover { background:rgba(255,255,255,.2); color:#fff; }
+.topnav .sep { opacity:.4; }
 .wrap { max-width:960px; margin:0 auto; padding:0 18px; }
-.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px; margin-top:22px; }
+.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px 28px; margin-top:22px; box-shadow:0 1px 3px rgba(20,30,60,.05); }
 .article h1 { font-size:26px; color:#4f46e5; border-bottom:3px solid #4f46e5; padding-bottom:12px; margin-bottom:18px; }
-.article h2 { font-size:20px; margin:30px 0 12px; padding:10px 14px; background:#eef2ff; border-left:4px solid #4f46e5; border-radius:6px; color:#312e81; }
-.article h3 { font-size:16px; margin:14px 0 6px; color:#4338ca; }
-.article p { margin:8px 0; font-size:14.5px; color:#2b3245; }
-.article pre { background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:8px; overflow-x:auto; margin:12px 0; font-size:13px; line-height:1.6; }
-.article blockquote { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; margin:12px 0; border-radius:6px; color:#166534; font-size:14px; }
-.article strong { color:#111827; }
+.meta { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; border-radius:6px; color:#166534; font-size:13px; margin-bottom:8px; }
+
+.toolbar { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:18px 0 6px; padding:12px 14px; background:#eef2ff; border-radius:10px; border:1px solid #dbe2fb; position:sticky; top:44px; z-index:8; }
+.toolbar button { font-family:inherit; font-size:13px; padding:7px 14px; border-radius:16px; border:1px solid #c7d2fe; background:#fff; color:#4338ca; cursor:pointer; }
+.toolbar button:hover { background:#e0e7ff; }
+.toolbar button.on { background:#4f46e5; color:#fff; border-color:#4f46e5; }
+.toolbar .count { font-size:12.5px; color:#4f46e5; margin-left:auto; font-weight:600; }
+
+.kp { border-bottom:1px dashed #dbe0ea; padding:22px 0 10px; }
+.kp:last-child { border-bottom:none; }
+.kp-head { display:flex; gap:10px; align-items:flex-start; margin-bottom:12px; }
+.kp-no { flex:none; width:26px; height:26px; border-radius:8px; background:#4f46e5; color:#fff; font-size:13px; display:flex; align-items:center; justify-content:center; font-weight:600; margin-top:3px; }
+.kp-head h2 { font-size:18px; color:#312e81; line-height:1.5; }
+.kp-head .h3sub { font-size:13px; color:#64748b; font-weight:400; display:block; margin-top:2px; }
+
+.concept { background:#f5f3ff; border-left:4px solid #8b5cf6; border-radius:8px; padding:12px 16px; margin:10px 0; }
+.tag { display:inline-block; font-size:11.5px; padding:2px 10px; border-radius:10px; margin-bottom:6px; font-weight:600; letter-spacing:.5px; }
+.tag-c { background:#ddd6fe; color:#4c1d95; }
+.tag-q { background:#fed7aa; color:#7c2d12; }
+.concept-body p { font-size:14.5px; color:#3b3355; margin:6px 0; }
+.concept-body p:first-child { margin-top:0; }
+.concept-body ul, .concept-body ol { margin:6px 0 6px 22px; }
+.concept-body li { font-size:14.5px; color:#3b3355; margin:4px 0; }
+
+.ask { background:#fffbeb; border-left:4px solid #f59e0b; border-radius:8px; padding:12px 16px; margin:10px 0 14px; }
+.ask-body ul, .ask-body ol { margin:4px 0 4px 22px; }
+.ask-body li { font-size:14.5px; color:#78350f; margin:5px 0; }
+.ask-body p { font-size:14.5px; color:#78350f; margin:5px 0; }
+
+details.ans { margin:6px 0 4px; }
+details.ans > summary { list-style:none; cursor:pointer; display:flex; align-items:center; gap:8px; background:#4f46e5; color:#fff; padding:11px 16px; border-radius:9px; font-size:14px; font-weight:600; user-select:none; }
+details.ans > summary::-webkit-details-marker { display:none; }
+details.ans > summary:hover { background:#4338ca; }
+.arrow { width:0; height:0; border-left:7px solid #fff; border-top:5px solid transparent; border-bottom:5px solid transparent; transition:transform .18s; }
+details.ans[open] > summary .arrow { transform:rotate(90deg); }
+details.ans[open] > summary .sum-text::after { content:" ▲"; font-size:11px; opacity:.7; }
+.ans-inner { border-left:3px solid #c7d2fe; margin:8px 0 0 14px; padding:6px 0 6px 18px; }
+.ans-body p { font-size:14.5px; margin:8px 0; }
+.ans-body h3 { font-size:15px; color:#1e293b; margin:16px 0 8px; padding-left:10px; border-left:3px solid #818cf8; }
+.ans-body h4 { font-size:14.5px; color:#334155; margin:14px 0 6px; }
+.ans-body ul, .ans-body ol { margin:8px 0 8px 24px; }
+.ans-body li { font-size:14.5px; margin:5px 0; }
+.ans-body strong { color:#111827; }
+.sec-h { font-size:12.5px; color:#0f766e; background:#ccfbf1; display:inline-block; padding:2px 12px; border-radius:10px; margin:18px 0 6px; font-weight:600; }
+.ext-body { border-left:3px solid #5eead4; padding-left:14px; margin-bottom:6px; }
+.ext-body p { font-size:14.5px; margin:8px 0; }
+.ext-body ul, .ext-body ol { margin:8px 0 8px 24px; }
+.ext-body li { font-size:14.5px; margin:5px 0; }
+details.sub { margin:12px 0 0; border:1px solid #e4e8f0; border-radius:9px; overflow:hidden; }
+details.sub > summary { list-style:none; cursor:pointer; padding:10px 14px; font-size:13.5px; background:#f8fafc; color:#334155; font-weight:600; user-select:none; }
+details.sub > summary::-webkit-details-marker { display:none; }
+details.sub > summary::before { content:"\25B8 "; color:#94a3b8; }
+details.sub[open] > summary::before { content:"\25BE "; }
+details.sub[open] > summary { border-bottom:1px solid #e4e8f0; }
+.sub-body { padding:12px 16px; }
+.sub-body p { font-size:14.5px; margin:7px 0; }
+.sub-body ul, .sub-body ol { margin:7px 0 7px 24px; }
+.sub-body li { font-size:14.5px; margin:5px 0; }
+details.sub-ask > summary { background:#fff7ed; color:#9a3412; }
+details.sub-anchor > summary { background:#f0fdf4; color:#166534; }
+details.sub-anchor .sub-body { background:#fafffb; }
+
 .article code { background:#f1f3fa; padding:1px 6px; border-radius:4px; font-size:13px; color:#be185d; }
-/* handbook-layout-fix */
+.article pre { background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:8px; overflow-x:auto; margin:12px 0; font-size:12.8px; line-height:1.65; }
+.article pre code { background:none; color:inherit; padding:0; font-size:12.8px; }
+.article table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; display:block; overflow-x:auto; }
+.article th { background:#f1f3fa; padding:8px 10px; text-align:left; color:#475569; font-size:12.5px; border:1px solid #e4e8f0; white-space:nowrap; }
+.article td { padding:8px 10px; border:1px solid #e4e8f0; vertical-align:top; }
+.article blockquote { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; margin:12px 0; border-radius:6px; color:#166534; font-size:14px; }
+.article blockquote strong { color:#14532d; }
+.article hr { border:none; border-top:1px dashed #d1d5db; margin:26px 0; }
 .article p.lead { background:#eef2ff; border-left:4px solid #6366f1; padding:10px 14px; border-radius:6px; color:#312e81; margin:10px 0 4px; }
 .article p.lbl { font-size:13px; color:#64748b; margin:14px 0 4px; }
 .article p.say { background:#fff7ed; border-left:4px solid #f97316; padding:10px 14px; border-radius:6px; color:#7c2d12; margin:12px 0 4px; }
@@ -26,6 +91,25 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 .article ol { margin:6px 0 6px 24px; }
 .article li { margin:5px 0; }
 .article ul ul { margin:4px 0 4px 20px; }
+
+body.quiz details.ans > summary { background:#94a3b8; }
+body.quiz details.ans:not([open]) .sum-text::after { content:"（自测中，先自己答）"; font-size:11.5px; font-weight:400; opacity:.9; }
+body.hide-ans details.ans { display:none; }
+
+.bottomnav { max-width:960px; margin:20px auto 0; padding:0 18px; display:flex; gap:10px; }
+.bottomnav a { flex:1; text-align:center; background:#4f46e5; color:#fff; text-decoration:none; padding:12px 10px; border-radius:10px; font-size:14px; }
+.bottomnav a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
+.totop { position:fixed; right:18px; bottom:22px; width:44px; height:44px; border-radius:50%; background:#4f46e5; color:#fff; display:flex; align-items:center; justify-content:center; font-size:18px; text-decoration:none; box-shadow:0 2px 10px rgba(79,70,229,.35); z-index:20; }
+@media (max-width:760px){
+  .article { padding:22px 16px 20px; }
+  .article h1 { font-size:21px; }
+  .kp-head h2 { font-size:16.5px; }
+  .toolbar { top:40px; padding:10px; }
+  .toolbar button { font-size:12.5px; padding:6px 11px; }
+  .toolbar .count { width:100%; margin:2px 0 0; }
+  .ans-inner { margin-left:4px; padding-left:12px; }
+  body { font-size:15px; }
+}
 </style></head>
 <body>
 <div class="topnav"><div class="inner">
@@ -34,31 +118,53 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 </div></div>
 <div class="wrap"><article class="article">
 <h1>学习手册_22_RRM无线资源管理_讲述卡.md</h1>
-<br>
-<blockquote>**来源**：D:\l32524\projects\rrmProject\ 源码 + 文档</blockquote>
-<blockquote>**炼化日期**：2026-09-04</blockquote>
-<blockquote>**对标**：学习手册_20_项目讲述方法论（但只含RRM项目）</blockquote>
-<br>
-<br>
+<div class="meta"><strong>来源</strong>：D:\l32524\projects\rrmProject\ 源码 + 文档</div>
+<div class="toolbar">
+  <button id="btnQuiz" type="button">自测模式</button>
+  <button id="btnOpen" type="button">全部展开</button>
+  <button id="btnClose" type="button">全部折叠</button>
+  <span class="count" id="cnt">已看 0 / 7</span>
+</div>
+<section class="kp" id="kp1">
+<div class="kp-head">
+<span class="kp-no">1</span>
 <h2>一、60秒电梯陈述</h2>
-<br>
-<blockquote>"我做过3年的无线资源管理系统RRM，这是企业级WiFi网络的核心组件，负责信道的自动分配、功率调整、负载均衡。说白了就是让企业的无线网络'自己管自己'，网管不用天天盯着。</blockquote>
-<blockquote></blockquote>
-<blockquote>**技术亮点**：我主导了AI RRM的重构，核心解决一个问题——原来所有计算都在云端，海量数据传输压力大。后来改成'设备侧计算+云端管控'的架构，适配现网98%的组网类型，计算压力分流到AC设备上，云端只负责下发配置和收集结果。</blockquote>
-<blockquote></blockquote>
-<blockquote>**架构细节**：4个Node.js微服务（rrmcontrol/rrmserver/rrmcompute/aioptimize），用Kafka做数据上报，Redis做分布式锁，MongoDB分表存储。</blockquote>
-<blockquote></blockquote>
-<blockquote>**战场声明**：我熟悉微服务间的异步通信、分布式锁、消息可靠性这些面试高频考点，下面的场景都是我在代码里真实解决过的。"</blockquote>
-<br>
-<br>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>一、60秒电梯陈述？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
+<br />
+</div></div></details>
+</section>
+<section class="kp" id="kp2">
+<div class="kp-head">
+<span class="kp-no">2</span>
 <h2>二、简历钩子版</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>以下bullet可直接写进简历，每条附带面试官会追问什么：</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>二、简历钩子版？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <br>
-<p>以下bullet可直接写进简历，每条附带面试官会追问什么：</p>
+
 <br>
 <h3>1. "主导AI RRM系统重构，实现设备侧+云端双计算模式"</h3>
 <br>
 <p><strong>会引来的追问</strong>：为什么要设备侧计算？云端计算有什么问题？</p>
-<blockquote>"原系统所有AP数据先上传云端→云端计算→下发配置，但现网98%是AC+fitap组网，AC本身就能算，何必绕一圈？改成设备侧计算后，云端只下发开关配置，AC本地执行调优，云端压力降了90%以上。"</blockquote>
+
 <br>
 <p><strong>弹药位置</strong>：学习手册_21_RRM场景模式库_模式三</p>
 <br>
@@ -66,7 +172,7 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 <h3>2. "维护4个Node.js微服务，月均处理2000+调优任务，0生产事故"</h3>
 <br>
 <p><strong>会引来的追问</strong>：微服务之间怎么通信的？挂了怎么办？</p>
-<blockquote>"服务间走RabbitMQ异步通信，数据走Kafka上报。4个服务各有职责：rrmcontrol入口、rrmserver业务、rrmcompute计算、aioptimize AI调优。任一服务挂了只影响对应功能，不影响整体，我们有K8s健康检查和自动重启。"</blockquote>
+
 <br>
 <p><strong>弹药位置</strong>：学习手册_21_RRM场景模式库_模式一</p>
 <br>
@@ -74,7 +180,7 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 <h3>3. "开发分布式RRM开关同步工具，解决跨服务配置冲突问题"</h3>
 <br>
 <p><strong>会引来的追问</strong>：两个服务维护同一份配置？怎么同步的？</p>
-<blockquote>"AI RRM和xmlconfmgr各维护一份开关配置，数据不一致。我的方案是直连下游MongoDB扫全量，按配置状态更新到我们这边。实现时绕过了HTTP网关权限限制，加了幂等性保证。"</blockquote>
+
 <br>
 <p><strong>弹药位置</strong>：学习手册_21_RRM场景模式库_模式三</p>
 <br>
@@ -82,7 +188,7 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 <h3>4. "优化Kafka消费可靠性，引入死信队列+手动offset提交机制"</h3>
 <br>
 <p><strong>会引来的追问</strong>：Kafka消费失败怎么办？重复消费呢？</p>
-<blockquote>"消费失败不commit会自动重投，重投3次进死信队列。同时在MongoDB加唯一索引防重复消费。"</blockquote>
+
 <br>
 <p><strong>弹药位置</strong>：学习手册_21_RRM场景模式库_模式一</p>
 <br>
@@ -90,7 +196,7 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 <h3>5. "实现Redis分布式锁控制定时任务并发，解决K8s多副本竞态问题"</h3>
 <br>
 <p><strong>会引来的追问</strong>：分布式锁怎么实现？锁过期了业务没执行完呢？</p>
-<blockquote>"用set NX EX原子性获取锁，设300秒过期防止死锁。但锁住到执行之间还有竞态窗口，所以在锁内加了二次检查judgeAutoSwitch。"</blockquote>
+
 <br>
 <p><strong>弹药位置</strong>：学习手册_21_RRM场景模式库_模式二</p>
 <br>
@@ -98,65 +204,146 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 <h3>6. "适配WiFi7设备，新增6GHz频段全链路支持（采集→扫描→计算→调优）"</h3>
 <br>
 <p><strong>会引来的追问</strong>：6GHz和5G有什么区别？改动有多大？</p>
-<blockquote>"原来只支持2.4G/5G，WiFi7新增6GHz频段。需要4个微服务全链路改造：rrmcontrol新增接口适配、rrmserver扩展扫描、rrmcompute改算法、aioptimize适配调优，涉及代码量比较大。"</blockquote>
+
 <br>
 <p><strong>弹药位置</strong>：学习手册_19_并发场景模式库_综合</p>
 <br>
 <br>
+</div></div></details>
+</section>
+<section class="kp" id="kp3">
+<div class="kp-head">
+<span class="kp-no">3</span>
 <h2>三、数字锚点表</h2>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>三、数字锚点表？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <br>
-<p><code>| 数字 | 故事 |</code></p>
-<p><code>|------|------|</code></p>
-<p><code>| **60秒** | newApUpScheduler每60秒扫描新AP触发调优 |</code></p>
-<p><code>| **500** | 云AP并发下发上限，控制单批次请求量 |</code></p>
-<p><code>| **20秒** | 云AP下发总超时，熔断保护 |</code></p>
-<p><code>| **3频段** | 2.4G/5G/6G，WiFi7新增6GHz |</code></p>
-<p><code>| **4微服务** | rrmcontrol/rrmserver/rrmcompute/aioptimize |</code></p>
-<p><code>| **289个** | AT环境扫描到的云AP autoSwitch记录 |</code></p>
-<p><code>| **239/25** | 开启/关闭实时调优的AP数量比 |</code></p>
-<p><code>| **98%** | 现网AC+fitap组网占比（决定架构选型） |</code></p>
-<p><code>| **300秒** | 分布式锁过期时间（业务执行上限） |</code></p>
+<table>
+<thead>
+<tr>
+<th>数字</th>
+<th>故事</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>60秒</strong></td>
+<td>newApUpScheduler每60秒扫描新AP触发调优</td>
+</tr>
+<tr>
+<td><strong>500</strong></td>
+<td>云AP并发下发上限，控制单批次请求量</td>
+</tr>
+<tr>
+<td><strong>20秒</strong></td>
+<td>云AP下发总超时，熔断保护</td>
+</tr>
+<tr>
+<td><strong>3频段</strong></td>
+<td>2.4G/5G/6G，WiFi7新增6GHz</td>
+</tr>
+<tr>
+<td><strong>4微服务</strong></td>
+<td>rrmcontrol/rrmserver/rrmcompute/aioptimize</td>
+</tr>
+<tr>
+<td><strong>289个</strong></td>
+<td>AT环境扫描到的云AP autoSwitch记录</td>
+</tr>
+<tr>
+<td><strong>239/25</strong></td>
+<td>开启/关闭实时调优的AP数量比</td>
+</tr>
+<tr>
+<td><strong>98%</strong></td>
+<td>现网AC+fitap组网占比（决定架构选型）</td>
+</tr>
+<tr>
+<td><strong>300秒</strong></td>
+<td>分布式锁过期时间（业务执行上限）</td>
+</tr>
+</tbody>
+</table><br>
 <br>
-<br>
+</div></div></details>
+</section>
+<section class="kp" id="kp4">
+<div class="kp-head">
+<span class="kp-no">4</span>
 <h2>四、三类必死题预演</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p><strong>问题</strong>：Kafka消息消费失败了怎么处理？</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>四、三类必死题预演？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <br>
 <h3>必死题1：消息队列可靠性</h3>
-<p><strong>问题</strong>：Kafka消息消费失败了怎么处理？</p>
+
 <p><strong>标准回答骨架</strong>：</p>
 
-<code>1. 失败不commit → 自动重投（At-Least-Once）</code>
-<code>2. 重试次数用完 → 进死信队列(DLQ)人工处理</code>
-<code>3. 业务层加幂等 → 唯一索引防止重复处理</code>
-<code>4. 关键数据不丢失 → 落库后再commit</code>
-
-<br>
+</p>
+<pre><code>1. 失败不commit → 自动重投（At-Least-Once）
+2. 重试次数用完 → 进死信队列(DLQ)人工处理
+3. 业务层加幂等 → 唯一索引防止重复处理
+4. 关键数据不丢失 → 落库后再commit</code></pre><br>
 <br>
 <h3>必死题2：分布式锁原理</h3>
 <p><strong>问题</strong>：Redis分布式锁怎么实现？有什么坑？</p>
 <p><strong>标准回答骨架</strong>：</p>
 
-<code>1. 实现方式：SET key value NX EX 300（原子性）</code>
-<code>2. 过期问题：设长一点 or 看门狗续期</code>
-<code>3. 主从切换：可能丢锁，接受 or 用Redlock</code>
-<code>4. 业务层兜底：检查-执行竞态，锁内二次验证</code>
-
-<br>
+</p>
+<pre><code>1. 实现方式：SET key value NX EX 300（原子性）
+2. 过期问题：设长一点 or 看门狗续期
+3. 主从切换：可能丢锁，接受 or 用Redlock
+4. 业务层兜底：检查-执行竞态，锁内二次验证</code></pre><br>
 <br>
 <h3>必死题3：架构质疑</h3>
 <p><strong>问题</strong>：为什么要拆成4个微服务？不是一个服务不行吗？</p>
 <p><strong>标准回答骨架</strong>：</p>
 
-<code>1. 拆分原因：计算密集(rrmcompute) vs IO密集(rrmcontrol) vs 独立演进(aioptimize)</code>
-<code>2. 扩展性：各服务独立扩缩容</code>
-<code>3. 故障隔离：一个挂了不影响其他</code>
-<code>4. 代价：运维复杂度↑、事务一致性难、网络开销</code>
-
+</p>
+<pre><code>1. 拆分原因：计算密集(rrmcompute) vs IO密集(rrmcontrol) vs 独立演进(aioptimize)
+2. 扩展性：各服务独立扩缩容
+3. 故障隔离：一个挂了不影响其他
+4. 代价：运维复杂度↑、事务一致性难、网络开销</code></pre><br>
 <br>
-<br>
+</div></div></details>
+</section>
+<section class="kp" id="kp5">
+<div class="kp-head">
+<span class="kp-no">5</span>
 <h2>五、技术债清单（项目重来会改什么）</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p><strong>位置</strong>：<code>newApUpService.js</code> 的分布式锁</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>五、技术债清单（项目重来会改什么）？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <br>
 <h3>债1：分布式锁无看门狗续期</h3>
-<p><strong>位置</strong>：<code>newApUpService.js</code> 的分布式锁</p>
+
 <p><strong>改法</strong>：接入Redisson，它有看门狗自动续期机制，或者把锁粒度从shop级别细化到更小的维度</p>
 <br>
 <h3>债2：下游DB连接信息硬编码</h3>
@@ -168,37 +355,140 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 <p><strong>改法</strong>：CI流水线自动检测分支差异，触发cherry-pick或通知维护者</p>
 <br>
 <br>
+</div></div></details>
+</section>
+<section class="kp" id="kp6">
+<div class="kp-head">
+<span class="kp-no">6</span>
 <h2>六、印象最深的Bug（四段式）</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p><strong>现象</strong>：</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>六、印象最深的Bug（四段式）？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <br>
 <h3>Bug：设备上报"write after end"错误（fd4ed739）</h3>
 <br>
-<p><strong>现象</strong>：</p>
-<blockquote>国际环境Kafka消费日志出现大量错误，部分调优结果状态不对</blockquote>
+
+
 <br>
 <p><strong>定位</strong>：</p>
-<blockquote>查日志发现是rrmcompute OOM后重启，Kafka消费位点丢失，设备重复上报导致状态冲突</blockquote>
+
 <br>
 <p><strong>修复</strong>：</p>
-<blockquote>1. 增加内存限制（5Gi→5.5Gi）</blockquote>
-<blockquote>2. 消费端加幂等处理</blockquote>
-<blockquote>3. 硬编码功率上限绕过设备bug（临时方案）</blockquote>
+
+
+
 <br>
 <p><strong>反思</strong>：</p>
-<blockquote>"这个bug教会我两件事：一是消息消费要有幂等设计，不能假设消息只来一次；二是OOM不能只靠加内存，要分析是谁在用，为什么爆了——后来定位是rrmcompute的算法缓存没清理。"</blockquote>
+
 <br>
 <br>
+</div></div></details>
+</section>
+<section class="kp" id="kp7">
+<div class="kp-head">
+<span class="kp-no">7</span>
 <h2>七、相关手册</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>*本卡基于 D:\l32524\projects\rrmProject\ 文档炼化，可直接用于面试准备*</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>七、相关手册？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <br>
-<p><code>| 手册 | 关系 |</code></p>
-<p><code>|------|------|</code></p>
-<p><code>| 学习手册_19_并发场景模式库 | 通用并发/异步/锁模式，可与本项目串联 |</code></p>
-<p><code>| 学习手册_20_项目讲述方法论 | 通用讲述方法论，本卡为RRM专项版本 |</code></p>
-<p><code>| 学习手册_01_计算机网络 | WiFi/无线网络基础，本项目领域知识 |</code></p>
-<p><code>| 学习手册_15_无线网络 | 更系统的无线网络知识 |</code></p>
-<br>
-<br>
-<p>*本卡基于 D:\l32524\projects\rrmProject\ 文档炼化，可直接用于面试准备*</p>
-<br>
+<table>
+<thead>
+<tr>
+<th>手册</th>
+<th>关系</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>学习手册_19_并发场景模式库</td>
+<td>通用并发/异步/锁模式，可与本项目串联</td>
+</tr>
+<tr>
+<td>学习手册_20_项目讲述方法论</td>
+<td>通用讲述方法论，本卡为RRM专项版本</td>
+</tr>
+<tr>
+<td>学习手册_01_计算机网络</td>
+<td>WiFi/无线网络基础，本项目领域知识</td>
+</tr>
+<tr>
+<td>学习手册_15_无线网络</td>
+<td>更系统的无线网络知识</td>
+</tr>
+</tbody>
+</table><br /></div></div></details>
+</section>
 </article></div>
-</body>
-</html>
+<a class="totop" href="#">↑</a>
+<script>
+(function(){
+  var KEY = '%s';
+  var boxes = [].slice.call(document.querySelectorAll('details.ans'));
+  var cnt = document.getElementById('cnt');
+  var read = {};
+  try { read = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch(e){ read = {}; }
+  function paint(){
+    var n = 0;
+    boxes.forEach(function(d, i){ if (read[i]) n++; });
+    cnt.textContent = '\u5df2\u770b ' + n + ' / ' + boxes.length;
+  }
+  boxes.forEach(function(d, i){
+    if (read[i]) d.open = true;
+    d.addEventListener('toggle', function(){
+      read[i] = d.open;
+      try { localStorage.setItem(KEY, JSON.stringify(read)); } catch(e){}
+      paint();
+    });
+  });
+  paint();
+  function ensureSaved(){
+    boxes.forEach(function(d, i){ read[i] = d.open; });
+    try { localStorage.setItem(KEY, JSON.stringify(read)); } catch(e){}
+    paint();
+  }
+  var btnQuiz = document.getElementById('btnQuiz');
+  btnQuiz.addEventListener('click', function(){
+    var on = document.body.classList.toggle('quiz');
+    btnQuiz.classList.toggle('on', on);
+    if (on) { boxes.forEach(function(d){ d.open = false; }); }
+    ensureSaved();
+  });
+  document.getElementById('btnOpen').addEventListener('click', function(){
+    document.body.classList.remove('quiz');
+    btnQuiz.classList.remove('on');
+    boxes.forEach(function(d){ d.open = true; });
+    ensureSaved();
+  });
+  document.getElementById('btnClose').addEventListener('click', function(){
+    document.body.classList.remove('quiz');
+    btnQuiz.classList.remove('on');
+    boxes.forEach(function(d){ d.open = false; });
+    ensureSaved();
+  });
+  document.querySelectorAll('a[href="#"]').forEach(function(a){
+    a.addEventListener('click', function(e){ e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); });
+  });
+})();
+</script>
+</body></html>

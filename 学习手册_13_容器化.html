@@ -1,36 +1,88 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>13 容器化 · 学习手册</title><style>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📘 学习手册 13 · 容器化（Docker + K8s）</title><style>
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:60px; }
+body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:70px; -webkit-text-size-adjust:100%; }
 .topnav { position:sticky; top:0; z-index:9; background:#1f2937; color:#fff; padding:10px 0; }
 .topnav .inner { max-width:960px; margin:0 auto; padding:0 18px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; font-size:13px; }
 .topnav a { color:#c7d2fe; text-decoration:none; padding:3px 12px; border-radius:14px; background:rgba(255,255,255,.08); }
 .topnav a:hover { background:rgba(255,255,255,.2); color:#fff; }
 .topnav .sep { opacity:.4; }
 .wrap { max-width:960px; margin:0 auto; padding:0 18px; }
-.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px; margin-top:22px; box-shadow:0 1px 3px rgba(20,30,60,.05); }
+.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px 28px; margin-top:22px; box-shadow:0 1px 3px rgba(20,30,60,.05); }
 .article h1 { font-size:26px; color:#4f46e5; border-bottom:3px solid #4f46e5; padding-bottom:12px; margin-bottom:18px; }
-.article h2 { font-size:20px; margin:30px 0 12px; padding:10px 14px; background:#eef2ff; border-left:4px solid #4f46e5; border-radius:6px; color:#312e81; }
-.article h3 { font-size:14px; color:#475569; margin:14px 0 6px; }
-.article p { margin:8px 0; font-size:14.5px; color:#2b3245; }
-.article ul, .article ol { margin:8px 0 8px 24px; }
-.article li { font-size:14.5px; margin:4px 0; }
-.article strong { color:#111827; }
+.meta { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; border-radius:6px; color:#166534; font-size:13px; margin-bottom:8px; }
+
+.toolbar { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:18px 0 6px; padding:12px 14px; background:#eef2ff; border-radius:10px; border:1px solid #dbe2fb; position:sticky; top:44px; z-index:8; }
+.toolbar button { font-family:inherit; font-size:13px; padding:7px 14px; border-radius:16px; border:1px solid #c7d2fe; background:#fff; color:#4338ca; cursor:pointer; }
+.toolbar button:hover { background:#e0e7ff; }
+.toolbar button.on { background:#4f46e5; color:#fff; border-color:#4f46e5; }
+.toolbar .count { font-size:12.5px; color:#4f46e5; margin-left:auto; font-weight:600; }
+
+.kp { border-bottom:1px dashed #dbe0ea; padding:22px 0 10px; }
+.kp:last-child { border-bottom:none; }
+.kp-head { display:flex; gap:10px; align-items:flex-start; margin-bottom:12px; }
+.kp-no { flex:none; width:26px; height:26px; border-radius:8px; background:#4f46e5; color:#fff; font-size:13px; display:flex; align-items:center; justify-content:center; font-weight:600; margin-top:3px; }
+.kp-head h2 { font-size:18px; color:#312e81; line-height:1.5; }
+.kp-head .h3sub { font-size:13px; color:#64748b; font-weight:400; display:block; margin-top:2px; }
+
+.concept { background:#f5f3ff; border-left:4px solid #8b5cf6; border-radius:8px; padding:12px 16px; margin:10px 0; }
+.tag { display:inline-block; font-size:11.5px; padding:2px 10px; border-radius:10px; margin-bottom:6px; font-weight:600; letter-spacing:.5px; }
+.tag-c { background:#ddd6fe; color:#4c1d95; }
+.tag-q { background:#fed7aa; color:#7c2d12; }
+.concept-body p { font-size:14.5px; color:#3b3355; margin:6px 0; }
+.concept-body p:first-child { margin-top:0; }
+.concept-body ul, .concept-body ol { margin:6px 0 6px 22px; }
+.concept-body li { font-size:14.5px; color:#3b3355; margin:4px 0; }
+
+.ask { background:#fffbeb; border-left:4px solid #f59e0b; border-radius:8px; padding:12px 16px; margin:10px 0 14px; }
+.ask-body ul, .ask-body ol { margin:4px 0 4px 22px; }
+.ask-body li { font-size:14.5px; color:#78350f; margin:5px 0; }
+.ask-body p { font-size:14.5px; color:#78350f; margin:5px 0; }
+
+details.ans { margin:6px 0 4px; }
+details.ans > summary { list-style:none; cursor:pointer; display:flex; align-items:center; gap:8px; background:#4f46e5; color:#fff; padding:11px 16px; border-radius:9px; font-size:14px; font-weight:600; user-select:none; }
+details.ans > summary::-webkit-details-marker { display:none; }
+details.ans > summary:hover { background:#4338ca; }
+.arrow { width:0; height:0; border-left:7px solid #fff; border-top:5px solid transparent; border-bottom:5px solid transparent; transition:transform .18s; }
+details.ans[open] > summary .arrow { transform:rotate(90deg); }
+details.ans[open] > summary .sum-text::after { content:" ▲"; font-size:11px; opacity:.7; }
+.ans-inner { border-left:3px solid #c7d2fe; margin:8px 0 0 14px; padding:6px 0 6px 18px; }
+.ans-body p { font-size:14.5px; margin:8px 0; }
+.ans-body h3 { font-size:15px; color:#1e293b; margin:16px 0 8px; padding-left:10px; border-left:3px solid #818cf8; }
+.ans-body h4 { font-size:14.5px; color:#334155; margin:14px 0 6px; }
+.ans-body ul, .ans-body ol { margin:8px 0 8px 24px; }
+.ans-body li { font-size:14.5px; margin:5px 0; }
+.ans-body strong { color:#111827; }
+.sec-h { font-size:12.5px; color:#0f766e; background:#ccfbf1; display:inline-block; padding:2px 12px; border-radius:10px; margin:18px 0 6px; font-weight:600; }
+.ext-body { border-left:3px solid #5eead4; padding-left:14px; margin-bottom:6px; }
+.ext-body p { font-size:14.5px; margin:8px 0; }
+.ext-body ul, .ext-body ol { margin:8px 0 8px 24px; }
+.ext-body li { font-size:14.5px; margin:5px 0; }
+details.sub { margin:12px 0 0; border:1px solid #e4e8f0; border-radius:9px; overflow:hidden; }
+details.sub > summary { list-style:none; cursor:pointer; padding:10px 14px; font-size:13.5px; background:#f8fafc; color:#334155; font-weight:600; user-select:none; }
+details.sub > summary::-webkit-details-marker { display:none; }
+details.sub > summary::before { content:"\25B8 "; color:#94a3b8; }
+details.sub[open] > summary::before { content:"\25BE "; }
+details.sub[open] > summary { border-bottom:1px solid #e4e8f0; }
+.sub-body { padding:12px 16px; }
+.sub-body p { font-size:14.5px; margin:7px 0; }
+.sub-body ul, .sub-body ol { margin:7px 0 7px 24px; }
+.sub-body li { font-size:14.5px; margin:5px 0; }
+details.sub-ask > summary { background:#fff7ed; color:#9a3412; }
+details.sub-anchor > summary { background:#f0fdf4; color:#166534; }
+details.sub-anchor .sub-body { background:#fafffb; }
+
 .article code { background:#f1f3fa; padding:1px 6px; border-radius:4px; font-size:13px; color:#be185d; }
-.article pre { background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:8px; overflow-x:auto; margin:12px 0; font-size:13px; line-height:1.6; }
-.article pre code { background:none; color:inherit; padding:0; }
-.article table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13.5px; display:block; overflow-x:auto; }
-.article th { background:#f1f3fa; padding:8px 10px; text-align:left; color:#475569; font-size:12.5px; border:1px solid #e4e8f0; }
+.article pre { background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:8px; overflow-x:auto; margin:12px 0; font-size:12.8px; line-height:1.65; }
+.article pre code { background:none; color:inherit; padding:0; font-size:12.8px; }
+.article table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; display:block; overflow-x:auto; }
+.article th { background:#f1f3fa; padding:8px 10px; text-align:left; color:#475569; font-size:12.5px; border:1px solid #e4e8f0; white-space:nowrap; }
 .article td { padding:8px 10px; border:1px solid #e4e8f0; vertical-align:top; }
 .article blockquote { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; margin:12px 0; border-radius:6px; color:#166534; font-size:14px; }
 .article blockquote strong { color:#14532d; }
 .article hr { border:none; border-top:1px dashed #d1d5db; margin:26px 0; }
-.bottomnav { max-width:960px; margin:20px auto 0; padding:0 18px; display:flex; gap:10px; }
-.bottomnav a { flex:1; text-align:center; background:#4f46e5; color:#fff; text-decoration:none; padding:12px 10px; border-radius:10px; font-size:14px; }
-.bottomnav a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
-@media (max-width:760px){ .article{padding:22px 18px;} .article h1{font-size:21px;} }
-/* handbook-layout-fix */
 .article p.lead { background:#eef2ff; border-left:4px solid #6366f1; padding:10px 14px; border-radius:6px; color:#312e81; margin:10px 0 4px; }
 .article p.lbl { font-size:13px; color:#64748b; margin:14px 0 4px; }
 .article p.say { background:#fff7ed; border-left:4px solid #f97316; padding:10px 14px; border-radius:6px; color:#7c2d12; margin:12px 0 4px; }
@@ -39,21 +91,54 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 .article ol { margin:6px 0 6px 24px; }
 .article li { margin:5px 0; }
 .article ul ul { margin:4px 0 4px 20px; }
+
+body.quiz details.ans > summary { background:#94a3b8; }
+body.quiz details.ans:not([open]) .sum-text::after { content:"（自测中，先自己答）"; font-size:11.5px; font-weight:400; opacity:.9; }
+body.hide-ans details.ans { display:none; }
+
+.bottomnav { max-width:960px; margin:20px auto 0; padding:0 18px; display:flex; gap:10px; }
+.bottomnav a { flex:1; text-align:center; background:#4f46e5; color:#fff; text-decoration:none; padding:12px 10px; border-radius:10px; font-size:14px; }
+.bottomnav a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
+.totop { position:fixed; right:18px; bottom:22px; width:44px; height:44px; border-radius:50%; background:#4f46e5; color:#fff; display:flex; align-items:center; justify-content:center; font-size:18px; text-decoration:none; box-shadow:0 2px 10px rgba(79,70,229,.35); z-index:20; }
+@media (max-width:760px){
+  .article { padding:22px 16px 20px; }
+  .article h1 { font-size:21px; }
+  .kp-head h2 { font-size:16.5px; }
+  .toolbar { top:40px; padding:10px; }
+  .toolbar button { font-size:12.5px; padding:6px 11px; }
+  .toolbar .count { width:100%; margin:2px 0 0; }
+  .ans-inner { margin-left:4px; padding-left:12px; }
+  body { font-size:15px; }
+}
 </style></head>
 <body>
 <div class="topnav"><div class="inner"><a href="学习中心.html">🏠 学习中心</a> <span class="sep">|</span> <a href="学习手册索引.html">📚 手册索引</a> <span class="sep">|</span> <a href="学习手册_12_MySQL与PG兼容.html">◀ 12 MySQL/PG</a> <span class="sep">|</span> <a href="学习手册_14_网络进阶.html">14 网络进阶 ▶</a></div></div>
-<div class="wrap"><article class="article"><h1>📘 学习手册 13 · 容器化（Docker + K8s）</h1>
-<blockquote>
-<p>专题补充：Docker 基础 + Kubernetes 深度<br />
-这是你的<strong>差异化王牌</strong>——新华三 3 年 K8s 实战（4 微服务部署/滚动更新/OOM 排查/配置中心），要能讲成体系<br />
-模板：<strong>一句话结论 → 详细解释 → 面试话术/例题</strong><br />
-大厂 80% 岗位 JD 都写 K8s，投字节/腾讯云智/美团/小米前必过</p>
-</blockquote>
-<hr />
-<h2>第一部分：Docker 基础（1-9 题）</h2>
-<h3>1. 容器 vs 虚拟机</h3>
-<p class="lead"><strong>一句话结论</strong>：容器共享宿主机内核（进程隔离，秒级启动、GB 级小），虚拟机有独立内核（硬件虚拟化，分钟级启动、GB 级重）。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+<div class="wrap"><article class="article">
+<h1>📘 学习手册 13 · 容器化（Docker + K8s）</h1>
+<div class="meta"><p>专题补充：Docker 基础 + Kubernetes 深度<br /><br />这是你的<strong>差异化王牌</strong>——新华三 3 年 K8s 实战（4 微服务部署/滚动更新/OOM 排查/配置中心），要能讲成体系<br /><br />模板：<strong>一句话结论 → 详细解释 → 面试话术/例题</strong><br /><br />大厂 80% 岗位 JD 都写 K8s，投字节/腾讯云智/美团/小米前必过</p></div>
+<div class="toolbar">
+  <button id="btnQuiz" type="button">自测模式</button>
+  <button id="btnOpen" type="button">全部展开</button>
+  <button id="btnClose" type="button">全部折叠</button>
+  <span class="count" id="cnt">已看 0 / 23</span>
+</div>
+<section class="kp" id="kp1">
+<div class="kp-head">
+<span class="kp-no">1</span>
+<h2>容器 vs 虚拟机</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>容器共享宿主机内核（进程隔离，秒级启动、GB 级小），虚拟机有独立内核（硬件虚拟化，分钟级启动、GB 级重）。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>容器 vs 虚拟机？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <table>
 <thead>
 <tr>
@@ -105,13 +190,46 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 </tr>
 </tbody>
 </table>
-<h3>2. 镜像分层与 UnionFS</h3>
-<p class="lead"><strong>一句话结论</strong>：镜像由只读层叠加（UnionFS 合并视图），每层 = Dockerfile 一条指令；层可复用缓存，删除文件是加一层"白化"记录。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+</div></div></details>
+</section>
+<section class="kp" id="kp2">
+<div class="kp-head">
+<span class="kp-no">2</span>
+<h2>镜像分层与 UnionFS</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>镜像由只读层叠加（UnionFS 合并视图），每层 = Dockerfile 一条指令；层可复用缓存，删除文件是加一层"白化"记录。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>为什么 RUN 放前面 COPY 放后面能加速构建？→ 代码变化只影响 COPY 之后的层，前面的层走缓存</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li>Dockerfile：<code>FROM base</code>（基础层）→ <code>RUN apt install</code>（加层）→ <code>COPY</code>（加层）→ <code>CMD</code>（配置层）</li><li>层特性：<strong>只读、可复用</strong>（多个镜像共享基础层）、变更产生新层不修改旧层</li><li>容器层：运行时可写层（最上层），删除 = 写标记遮蔽底层，镜像本身不变</li><li>好处：构建缓存（未变层直接复用）、镜像传输只传差异层、省磁盘</li></ul>
-<p class="say"><strong>话术/例题</strong>："分层 + 缓存复用"两个词。追问：为什么 RUN 放前面 COPY 放后面能加速构建？→ 代码变化只影响 COPY 之后的层，前面的层走缓存。</p>
-<h3>3. Dockerfile 最佳实践 + 多阶段构建</h3>
-<p class="lead"><strong>一句话结论</strong>：多阶段构建（builder 装依赖 → 产物拷进精简镜像）+ 非 root + 最小基础镜像，镜像又小又安全。</p>
+<div class="sec-h">拓展</div><div class="ext-body">"分层 + 缓存复用"两个词。追问：为什么 RUN 放前面 COPY 放后面能加速构建？→ 代码变化只影响 COPY 之后的层，前面的层走缓存。</div>
+</div></div></details>
+</section>
+<section class="kp" id="kp3">
+<div class="kp-head">
+<span class="kp-no">3</span>
+<h2>Dockerfile 最佳实践 + 多阶段构建</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>多阶段构建（builder 装依赖 → 产物拷进精简镜像）+ 非 root + 最小基础镜像，镜像又小又安全。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>Dockerfile 最佳实践 + 多阶段构建？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>详细解释</strong>（Node.js 示例）：</p>
 <pre><code class="language-dockerfile"># 阶段1：构建
 FROM node:20-alpine AS builder
@@ -132,90 +250,363 @@ CMD [&quot;node&quot;, &quot;dist/main.js&quot;]
 <li>镜像大小：node:20-alpine ~50MB vs node:20 ~350MB
 <strong>话术/例题</strong>："多阶段 + alpine + 非 root"是标准答案。追问：npm ci 和 npm install 区别？→ ci 按 lockfile 精确安装，构建可复现。</li>
 </ul>
-<h3>4. 容器隔离原理：namespace + cgroup</h3>
-<p class="lead"><strong>一句话结论</strong>：namespace 隔离"看得见"（进程/网络/文件系统/主机名），cgroup 限制"用得了"（CPU/内存/IO）——容器的一切隔离基于这两个内核机制。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+</div></div></details>
+</section>
+<section class="kp" id="kp4">
+<div class="kp-head">
+<span class="kp-no">4</span>
+<h2>容器隔离原理：namespace + cgroup</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>namespace 隔离"看得见"（进程/网络/文件系统/主机名），cgroup 限制"用得了"（CPU/内存/IO）——容器的一切隔离基于这两个内核机制。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>容器内存超限会怎样？→ OOM，可能被内核 kill（这就是你 rrmcompute OOM 重启的底层机制）</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li><strong>namespace</strong>（隔离视图）：PID（进程号独立）、Network（独立网络栈）、Mount（独立文件系统）、UTS（主机名）、User（用户隔离）、IPC</li><li><strong>cgroup</strong>（资源限制）：cpu（份额/配额）、memory（上限，超限 OOM kill）、blkio（磁盘）、pids（进程数）</li><li>所以容器 = 进程 + 一组 namespace + 挂到 cgroup</li></ul>
-<p class="say"><strong>话术/例题</strong>："namespace 管视角、cgroup 管资源"一句本质。追问：容器内存超限会怎样？→ OOM，可能被内核 kill（这就是你 rrmcompute OOM 重启的底层机制）。</p>
-<h3>5. Docker 网络模式</h3>
-<p class="lead"><strong>一句话结论</strong>：bridge（默认，NAT 隔离）、host（共享宿主机网络）、none（无网络）、overlay（跨主机，K8s 用）。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+<div class="sec-h">拓展</div><div class="ext-body">"namespace 管视角、cgroup 管资源"一句本质。追问：容器内存超限会怎样？→ OOM，可能被内核 kill（这就是你 rrmcompute OOM 重启的底层机制）。</div>
+</div></div></details>
+</section>
+<section class="kp" id="kp5">
+<div class="kp-head">
+<span class="kp-no">5</span>
+<h2>Docker 网络模式</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>bridge（默认，NAT 隔离）、host（共享宿主机网络）、none（无网络）、overlay（跨主机，K8s 用）。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>K8s 里 Pod 之间怎么通信？→ CNI（Calico/Flannel）实现 overlay/路由网络，Pod IP 全局可路由</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li><strong>bridge</strong>：默认，容器虚拟网卡 + NAT，容器间互访，外部要端口映射 -p</li><li><strong>host</strong>：直接用宿主机网络栈，无隔离（性能好但端口冲突）</li><li><strong>none</strong>：无网络（安全/离线任务）</li><li><strong>overlay</strong>：跨多主机容器互通（VXLAN），K8s Pod 网络就是 overlay（CNI 实现）</li><li>还有 macvlan（容器直接拿物理 IP）</li></ul>
-<p class="say"><strong>话术/例题</strong>：bridge 默认 + overlay 跨机。追问：K8s 里 Pod 之间怎么通信？→ CNI（Calico/Flannel）实现 overlay/路由网络，Pod IP 全局可路由。</p>
-<h3>6. 数据管理：Volume vs Bind Mount</h3>
-<p class="lead"><strong>一句话结论</strong>：volume 由 Docker 管理（推荐，可备份迁移），bind mount 挂宿主目录（开发调试方便）；容器删除数据不丢。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+<div class="sec-h">拓展</div><div class="ext-body">bridge 默认 + overlay 跨机。追问：K8s 里 Pod 之间怎么通信？→ CNI（Calico/Flannel）实现 overlay/路由网络，Pod IP 全局可路由。</div>
+</div></div></details>
+</section>
+<section class="kp" id="kp6">
+<div class="kp-head">
+<span class="kp-no">6</span>
+<h2>数据管理：Volume vs Bind Mount</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>volume 由 Docker 管理（推荐，可备份迁移），bind mount 挂宿主目录（开发调试方便）；容器删除数据不丢。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>数据库容器怎么存数据？→ 挂 volume + 备份策略</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li>volume：<code>docker volume create</code> / -v myvol:/data；存在 /var/lib/docker/volumes，docker 管理生命周期</li><li>bind mount：<code>-v /host/path:/data</code>，直接挂宿主目录，文件即时同步（开发改代码不用进容器）</li><li>tmpfs：内存挂载（临时）</li><li>容器层数据：容器删除即丢 → 持久化必须用 volume/bind</li></ul>
-<p class="say"><strong>话术/例题</strong>：一句"要持久化必须挂卷"。追问：数据库容器怎么存数据？→ 挂 volume + 备份策略。</p>
-<h3>7. Docker Compose</h3>
-<p class="lead"><strong>一句话结论</strong>：Compose 用 YAML 编排多容器应用（服务/网络/卷），一条 <code>docker compose up</code> 拉起整套。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+<div class="sec-h">拓展</div><div class="ext-body">一句"要持久化必须挂卷"。追问：数据库容器怎么存数据？→ 挂 volume + 备份策略。</div>
+</div></div></details>
+</section>
+<section class="kp" id="kp7">
+<div class="kp-head">
+<span class="kp-no">7</span>
+<h2>Docker Compose</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>Compose 用 YAML 编排多容器应用（服务/网络/卷），一条 <code>docker compose up</code> 拉起整套。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>本地联调你项目依赖怎么起？→ compose 一把梭</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li>compose.yaml：services（各容器镜像/端口/环境/卷）、networks、volumes</li><li>常用命令：up/down/ps/logs/exec/config</li><li>场景：本地开发环境（应用+DB+Redis+MQ 一键起）、CI 测试环境</li><li>对比 K8s：Compose 单机编排（开发级），K8s 集群编排（生产级）</li></ul>
-<p class="say"><strong>话术/例题</strong>："Compose 管单机多容器，K8s 管集群"。追问：本地联调你项目依赖怎么起？→ compose 一把梭。</p>
-<h3>8. 镜像仓库与镜像大小优化</h3>
-<p class="lead"><strong>一句话结论</strong>：镜像推私有仓库（Harbor）分发，优化从"小基础镜像 + 多阶段 + 层合并 + 清理缓存"入手。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+<div class="sec-h">拓展</div><div class="ext-body">"Compose 管单机多容器，K8s 管集群"。追问：本地联调你项目依赖怎么起？→ compose 一把梭。</div>
+</div></div></details>
+</section>
+<section class="kp" id="kp8">
+<div class="kp-head">
+<span class="kp-no">8</span>
+<h2>镜像仓库与镜像大小优化</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>镜像推私有仓库（Harbor）分发，优化从"小基础镜像 + 多阶段 + 层合并 + 清理缓存"入手。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>你们 RRM 镜像多大？→ 多阶段 + alpine 可压到 100MB 内（结合实战）</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li>仓库：Docker Hub 公有 / Harbor（私有，含镜像扫描）/ 云厂商（ACR/ECR）</li><li>优化手段：alpine/slim 基础镜像、多阶段构建、RUN 合并（&amp;&amp; 减少层）、清理包缓存（rm -rf /var/lib/apt/lists）、.dockerignore（排除 node_modules/dist）</li><li>安全：镜像扫描（Trivy/Clair）、签名（cosign）、最小权限</li></ul>
-<p class="say"><strong>话术/例题</strong>：镜像瘦身 4 招背住。追问：你们 RRM 镜像多大？→ 多阶段 + alpine 可压到 100MB 内（结合实战）。</p>
-<h3>9. 容器安全</h3>
-<p class="lead"><strong>一句话结论</strong>：非 root 运行、只读文件系统、镜像扫描、资源限制（防逃逸/DoS）、最小权限——生产容器安全五件套。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+<div class="sec-h">拓展</div><div class="ext-body">镜像瘦身 4 招背住。追问：你们 RRM 镜像多大？→ 多阶段 + alpine 可压到 100MB 内（结合实战）。</div>
+</div></div></details>
+</section>
+<section class="kp" id="kp9">
+<div class="kp-head">
+<span class="kp-no">9</span>
+<h2>容器安全</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>非 root 运行、只读文件系统、镜像扫描、资源限制（防逃逸/DoS）、最小权限——生产容器安全五件套。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>K8s 里怎么配？→ securityContext（runAsNonRoot/readOnlyRootFilesystem）+ ResourceQuota</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li>非 root：USER node（root 容器被攻破 = 宿主机 root）</li><li>只读：--read-only + tmpfs 写临时（防止写入恶意文件）</li><li>镜像扫描：Trivy 扫 CVE</li><li>资源限制：--memory/--cpus（防一个容器打爆整机）</li><li>能力裁剪：--cap-drop ALL --cap-add 必要（去掉高危 capabilities）</li><li>运行时安全：seccomp/AppArmor、K8s 安全上下文（securityContext）</li></ul>
-<p class="say"><strong>话术/例题</strong>："非 root + 只读 + 限资源"是面试标准答案。追问：K8s 里怎么配？→ securityContext（runAsNonRoot/readOnlyRootFilesystem）+ ResourceQuota。</p>
+
 <hr />
-<h2>第二部分：Kubernetes 深度（10-22 题）</h2>
-<h3>10. K8s 整体架构</h3>
-<p class="lead"><strong>一句话结论</strong>：Master（控制面：API Server/etcd/Scheduler/Controller-Manager）+ Node（数据面：kubelet/kube-proxy/容器运行时）；声明式 API 驱动。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+<div class="sec-h">拓展</div><div class="ext-body">"非 root + 只读 + 限资源"是面试标准答案。追问：K8s 里怎么配？→ securityContext（runAsNonRoot/readOnlyRootFilesystem）+ ResourceQuota。</div>
+</div></div></details>
+</section>
+<section class="kp" id="kp10">
+<div class="kp-head">
+<span class="kp-no">10</span>
+<h2>K8s 整体架构</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>Master（控制面：API Server/etcd/Scheduler/Controller-Manager）+ Node（数据面：kubelet/kube-proxy/容器运行时）；声明式 API 驱动。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>etcd 挂了会怎样？→ 控制面不可用（不能调度/变更），存量 Pod 继续跑（数据面不依赖 etcd）</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li><strong>API Server</strong>：所有操作的唯一入口（REST），认证鉴权</li><li><strong>etcd</strong>：集群状态存储（强一致键值库）</li><li><strong>Scheduler</strong>：决定 Pod 调度到哪个 Node</li><li><strong>Controller-Manager</strong>：各种控制器（Deployment/ReplicaSet 等）确保实际状态 = 期望状态</li><li><strong>kubelet</strong>：Node 上执行（创建/管理 Pod）</li><li><strong>kube-proxy</strong>：Service 负载均衡实现（iptables/IPVS）</li><li><strong>容器运行时</strong>：containerd/docker（现在默认 containerd）</li><li>核心思想：<strong>声明式</strong>——你声明期望状态（Deployment 3 副本），控制器持续调和（reconcile）</li></ul>
-<p class="say"><strong>话术/例题</strong>：画出"Master 四组件 + Node 三组件"是基础。追问：etcd 挂了会怎样？→ 控制面不可用（不能调度/变更），存量 Pod 继续跑（数据面不依赖 etcd）。</p>
-<h3>11. 核心对象：Pod / Deployment / Service / Ingress</h3>
-<p class="lead"><strong>一句话结论</strong>：Pod 最小调度单位、Deployment 管副本与滚动更新、Service 提供稳定访问入口、Ingress 七层路由进集群。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+<div class="sec-h">拓展</div><div class="ext-body">画出"Master 四组件 + Node 三组件"是基础。追问：etcd 挂了会怎样？→ 控制面不可用（不能调度/变更），存量 Pod 继续跑（数据面不依赖 etcd）。</div>
+</div></div></details>
+</section>
+<section class="kp" id="kp11">
+<div class="kp-head">
+<span class="kp-no">11</span>
+<h2>核心对象：Pod / Deployment / Service / Ingress</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>Pod 最小调度单位、Deployment 管副本与滚动更新、Service 提供稳定访问入口、Ingress 七层路由进集群。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>为什么需要 Service 不直接访问 Pod？→ Pod IP 会变、多副本要负载均衡</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li><strong>Pod</strong>：一个或多个容器共享网络/存储卷/命名空间；Pod 是临时实体（IP 会变）</li><li><strong>Deployment</strong>：声明副本数 → 管 ReplicaSet → 滚动升级/回滚（maxUnavailable/maxSurge 控制）</li><li><strong>Service</strong>：给一组 Pod 提供稳定虚拟 IP + DNS 负载均衡；类型 ClusterIP（集群内）/ NodePort（节点端口）/ LoadBalancer（云 LB）</li><li><strong>Ingress</strong>：七层（域名/路径 → Service），nginx-ingress 实现；TLS 证书挂载</li><li>链路：用户 → Ingress（域名）→ Service（ClusterIP）→ Pod（容器）</li></ul>
-<p class="say"><strong>话术/例题</strong>：把访问链路画出来（这就是你 RRM 服务对外暴露路径）。追问：为什么需要 Service 不直接访问 Pod？→ Pod IP 会变、多副本要负载均衡。</p>
-<h3>12. 其他控制器：StatefulSet / DaemonSet / Job</h3>
-<p class="lead"><strong>一句话结论</strong>：StatefulSet 有状态（稳定网络标识/顺序部署，数据库用）、DaemonSet 每个 Node 都跑一个（日志/监控）、Job 一次性任务（CronJob 定时）。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+<div class="sec-h">拓展</div><div class="ext-body">把访问链路画出来（这就是你 RRM 服务对外暴露路径）。追问：为什么需要 Service 不直接访问 Pod？→ Pod IP 会变、多副本要负载均衡。</div>
+</div></div></details>
+</section>
+<section class="kp" id="kp12">
+<div class="kp-head">
+<span class="kp-no">12</span>
+<h2>其他控制器：StatefulSet / DaemonSet / Job</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>StatefulSet 有状态（稳定网络标识/顺序部署，数据库用）、DaemonSet 每个 Node 都跑一个（日志/监控）、Job 一次性任务（CronJob 定时）。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>为什么数据库一般不用 Deployment？→ 数据要持久化+稳定标识，StatefulSet 的 PVC 和固定名称合适</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li><strong>StatefulSet</strong>：Pod 名称固定（mysql-0/1/2）、稳定存储（PVC 绑定）、顺序启停；适合数据库/Redis 集群</li><li><strong>DaemonSet</strong>：每个 Node 一个 Pod（flannel/calico 网络插件、filebeat 日志采集、node-exporter 监控）</li><li><strong>Job</strong>：跑完即完成（数据迁移）；<strong>CronJob</strong>：定时任务（备份/清理）</li><li>对比：Deployment 无状态、StatefulSet 有状态、DaemonSet 全节点、Job 一次</li></ul>
-<p class="say"><strong>话术/例题</strong>：四种控制器一句话各一个场景。追问：为什么数据库一般不用 Deployment？→ 数据要持久化+稳定标识，StatefulSet 的 PVC 和固定名称合适。</p>
-<h3>13. ConfigMap / Secret</h3>
-<p class="lead"><strong>一句话结论</strong>：ConfigMap 存非敏感配置（明文），Secret 存敏感信息（base64，可配加密），注入方式：环境变量 / 文件挂载。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+<div class="sec-h">拓展</div><div class="ext-body">四种控制器一句话各一个场景。追问：为什么数据库一般不用 Deployment？→ 数据要持久化+稳定标识，StatefulSet 的 PVC 和固定名称合适。</div>
+</div></div></details>
+</section>
+<section class="kp" id="kp13">
+<div class="kp-head">
+<span class="kp-no">13</span>
+<h2>ConfigMap / Secret</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>ConfigMap 存非敏感配置（明文），Secret 存敏感信息（base64，可配加密），注入方式：环境变量 / 文件挂载。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>配置中心一键部署怎么实现？→ 动态生成 ConfigMap → kubectl apply → 触发滚动更新（结合实战讲）</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li>ConfigMap：<code>kubectl create cm app-config --from-literal=key=value</code>；注入 env / volume 挂载（挂载可热更新）</li><li>Secret：类型 Opaque（通用）/ tls / docker-registry；base64 只是编码不是加密，敏感数据要外部加密方案（SOPS/云 KMS）</li><li>更新注意：环境变量注入不会自动更新（重启才生效），文件挂载方式可以热更新（kubelet 定期同步）</li><li>结合你 RRM：你们的配置中心本质上就是"ConfigMap 管理平台"（统一管理 → 生成 → 校验 → 下发 → 回滚）</li></ul>
-<p class="say"><strong>话术/例题</strong>："明文 ConfigMap、敏感 Secret、挂载可热更"。追问：配置中心一键部署怎么实现？→ 动态生成 ConfigMap → kubectl apply → 触发滚动更新（结合实战讲）。</p>
-<h3>14. 存储：PV / PVC / StorageClass</h3>
-<p class="lead"><strong>一句话结论</strong>：PV 是存储资源（管理员提供），PVC 是使用声明（应用申请），StorageClass 动态供给（按需自动创建 PV）。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+<div class="sec-h">拓展</div><div class="ext-body">"明文 ConfigMap、敏感 Secret、挂载可热更"。追问：配置中心一键部署怎么实现？→ 动态生成 ConfigMap → kubectl apply → 触发滚动更新（结合实战讲）。</div>
+</div></div></details>
+</section>
+<section class="kp" id="kp14">
+<div class="kp-head">
+<span class="kp-no">14</span>
+<h2>存储：PV / PVC / StorageClass</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>PV 是存储资源（管理员提供），PVC 是使用声明（应用申请），StorageClass 动态供给（按需自动创建 PV）。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>MongoDB 在 K8s 怎么存？→ StatefulSet + PVC + StorageClass 动态云盘</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li>PV：独立于 Pod 的存储资源（NFS/云盘/本地卷），生命周期独立</li><li>PVC：应用声明需要多大/什么类型 → 绑定匹配的 PV</li><li>StorageClass：动态供给（云厂商自动建云盘 + 创建 PV），reclaimPolicy（保留/删除）</li><li>访问模式：ReadWriteOnce（单节点读写）/ ReadWriteMany（多节点共享）</li></ul>
-<p class="say"><strong>话术/例题</strong>："PV 供资源、PVC 声明需求、SC 自动创建"。追问：MongoDB 在 K8s 怎么存？→ StatefulSet + PVC + StorageClass 动态云盘。</p>
-<h3>15. K8s 网络与服务发现</h3>
-<p class="lead"><strong>一句话结论</strong>：每个 Pod 有独立 IP（CNI 实现 overlay/路由），Service 提供 DNS 名（my-svc.ns.svc.cluster.local）自动负载均衡。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+<div class="sec-h">拓展</div><div class="ext-body">"PV 供资源、PVC 声明需求、SC 自动创建"。追问：MongoDB 在 K8s 怎么存？→ StatefulSet + PVC + StorageClass 动态云盘。</div>
+</div></div></details>
+</section>
+<section class="kp" id="kp15">
+<div class="kp-head">
+<span class="kp-no">15</span>
+<h2>K8s 网络与服务发现</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>每个 Pod 有独立 IP（CNI 实现 overlay/路由），Service 提供 DNS 名（my-svc.ns.svc.cluster.local）自动负载均衡。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>Pod 重启 IP 变了服务怎么找到？→ Service 的 selector 按标签匹配，永远指向存活 Pod</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li>CNI：Calico（BGP 路由，性能好）/ Flannel（VXLAN overlay）/ Cilium（eBPF）</li><li>服务发现：同命名空间直接用服务名，跨命名空间用完整 DNS</li><li>kube-proxy 实现：iptables（规则多时慢）/ IPVS（性能好）</li><li>Service 会话保持：sessionAffinity</li><li>你的场景：rrmcontrol → rrmserver 内部调用用 Service DNS</li></ul>
-<p class="say"><strong>话术/例题</strong>："Pod 有 IP、Service 有名字"一句。追问：Pod 重启 IP 变了服务怎么找到？→ Service 的 selector 按标签匹配，永远指向存活 Pod。</p>
-<h3>16. 滚动更新与回滚</h3>
-<p class="lead"><strong>一句话结论</strong>：Deployment 更新镜像触发滚动更新（逐个替换 Pod，maxUnavailable/maxSurge 控节奏），<code>kubectl rollout undo</code> 一键回滚。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+<div class="sec-h">拓展</div><div class="ext-body">"Pod 有 IP、Service 有名字"一句。追问：Pod 重启 IP 变了服务怎么找到？→ Service 的 selector 按标签匹配，永远指向存活 Pod。</div>
+</div></div></details>
+</section>
+<section class="kp" id="kp16">
+<div class="kp-head">
+<span class="kp-no">16</span>
+<h2>滚动更新与回滚</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>Deployment 更新镜像触发滚动更新（逐个替换 Pod，maxUnavailable/maxSurge 控节奏），<code>kubectl rollout undo</code> 一键回滚。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>滚动更新卡住了怎么办？→ kubectl rollout status 看进度 → 查新 Pod 事件（CrashLoopBackOff/ImagePullBackOff）→ 回滚</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li>更新：新 ReplicaSet 起新 Pod → 就绪后旧 Pod 逐步减少（默认 maxUnavailable=25%）</li><li>参数：maxSurge（最多多起几个新 Pod）、maxUnavailable（最多允许几个旧 Pod 不可用）</li><li>就绪门控：readinessProbe 通过才继续滚动（新 Pod 起不来会卡住回滚）</li><li>回滚：<code>kubectl rollout undo deployment/rrmcontrol</code>；<code>kubectl rollout history</code> 看版本</li><li>你踩过的坑：滚动更新卡住 = 新 Pod 探针失败/镜像拉取失败/启动超时</li></ul>
-<p class="say"><strong>话术/例题</strong>："滚动逐个替换 + readiness 门控 + undo 回滚"。追问：滚动更新卡住了怎么办？→ kubectl rollout status 看进度 → 查新 Pod 事件（CrashLoopBackOff/ImagePullBackOff）→ 回滚。</p>
-<h3>17. HPA 与资源配额</h3>
-<p class="lead"><strong>一句话结论</strong>：HPA 按指标（CPU/自定义）自动调副本数；requests 是调度保证、limits 是上限，超出会 OOM/节流。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+<div class="sec-h">拓展</div><div class="ext-body">"滚动逐个替换 + readiness 门控 + undo 回滚"。追问：滚动更新卡住了怎么办？→ kubectl rollout status 看进度 → 查新 Pod 事件（CrashLoopBackOff/ImagePullBackOff）→ 回滚。</div>
+</div></div></details>
+</section>
+<section class="kp" id="kp17">
+<div class="kp-head">
+<span class="kp-no">17</span>
+<h2>HPA 与资源配额</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>HPA 按指标（CPU/自定义）自动调副本数；requests 是调度保证、limits 是上限，超出会 OOM/节流。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>为什么你项目把内存从 5Gi 调到 5.5Gi？→ 高量任务 OOM 重启，分析堆/内存峰值后调优（结合实战讲）</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li>HPA：<code>kubectl autoscale deployment x --cpu-percent=70 --min=2 --max=10</code>；指标源 metrics-server/Prometheus 自定义指标</li><li>requests/limits：requests 决定调度位置（Node 满足才调度）、limits 限制使用（CPU 节流、内存 OOM kill）</li><li><strong>生产坑</strong>：只设 limits 不设 requests 会被调度器高估负载；内存超 limits 直接 OOM（这就是你 rrmcompute 调内存的实战点：requests=3Gi、总 5.5GiB）</li><li>ResourceQuota：命名空间资源总量限制；LimitRange：默认值</li></ul>
-<p class="say"><strong>话术/例题</strong>："requests 调度、limits 上限、内存超限 OOM"是重点。追问：为什么你项目把内存从 5Gi 调到 5.5Gi？→ 高量任务 OOM 重启，分析堆/内存峰值后调优（结合实战讲）。</p>
-<h3>18. 探针：liveness / readiness / startup</h3>
-<p class="lead"><strong>一句话结论</strong>：liveness 决定是否重启（救活）、readiness 决定是否接流量（摘除）、startup 保护慢启动（防误杀）。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+<div class="sec-h">拓展</div><div class="ext-body">"requests 调度、limits 上限、内存超限 OOM"是重点。追问：为什么你项目把内存从 5Gi 调到 5.5Gi？→ 高量任务 OOM 重启，分析堆/内存峰值后调优（结合实战讲）。</div>
+</div></div></details>
+</section>
+<section class="kp" id="kp18">
+<div class="kp-head">
+<span class="kp-no">18</span>
+<h2>探针：liveness / readiness / startup</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>liveness 决定是否重启（救活）、readiness 决定是否接流量（摘除）、startup 保护慢启动（防误杀）。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>只配 liveness 不配 readiness 会怎样？→ 启动中 Pod 也接流量，请求全失败</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li>livenessProbe：失败 → 重启容器（卡死/死锁场景）</li><li>readinessProbe：失败 → 从 Service 摘除（不接新流量，依赖未就绪/启动加载）</li><li>startupProbe：启动阶段专用（慢启动应用，避免 liveness 在启动期反复失败重启）</li><li>探测方式：httpGet / exec / tcpSocket；参数 initialDelaySeconds/failureThreshold</li><li>结合你 RRM：启动时加载配置/连接 Mongo/Kafka 慢 → 用 startupProbe 避免误杀</li></ul>
-<p class="say"><strong>话术/例题</strong>："liveness 管死活、readiness 管流量、startup 管慢启动"。追问：只配 liveness 不配 readiness 会怎样？→ 启动中 Pod 也接流量，请求全失败。</p>
-<h3>19. 调度：nodeSelector / 亲和 / 污点容忍</h3>
-<p class="lead"><strong>一句话结论</strong>：nodeSelector 简单标签选择、nodeAffinity 复杂匹配（硬/软要求）、taint/toleration 是"污点拒入 + 容忍进入"。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+<div class="sec-h">拓展</div><div class="ext-body">"liveness 管死活、readiness 管流量、startup 管慢启动"。追问：只配 liveness 不配 readiness 会怎样？→ 启动中 Pod 也接流量，请求全失败。</div>
+</div></div></details>
+</section>
+<section class="kp" id="kp19">
+<div class="kp-head">
+<span class="kp-no">19</span>
+<h2>调度：nodeSelector / 亲和 / 污点容忍</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>nodeSelector 简单标签选择、nodeAffinity 复杂匹配（硬/软要求）、taint/toleration 是"污点拒入 + 容忍进入"。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>为什么 master 不调度业务 Pod？→ master 默认打了 NoSchedule 污点</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li>nodeSelector：<code>nodeSelector: {disktype: ssd}</code> 精确匹配标签</li><li>nodeAffinity：requiredDuringScheduling（硬）/ preferredDuringScheduling（软），支持 In/NotIn 等操作符</li><li><strong>污点 Taint + 容忍 Toleration</strong>：Node 打污点（NoSchedule/PreferNoSchedule/NoExecute）拒绝大部分 Pod，特定 Pod 加容忍才调度——用于专用节点（GPU 节点、master 隔离）</li><li>场景：把计算密集型（rrmcompute）调度到高配节点</li></ul>
-<p class="say"><strong>话术/例题</strong>："nodeSelector 精确选、亲和灵活选、污点主动拒绝"。追问：为什么 master 不调度业务 Pod？→ master 默认打了 NoSchedule 污点。</p>
-<h3>20. 故障排查：kubectl 命令全家桶</h3>
-<p class="lead"><strong>一句话结论</strong>：get/describe/logs/exec/events 五件套定位一切问题，再加 rollout/port-forward/top。</p>
+<div class="sec-h">拓展</div><div class="ext-body">"nodeSelector 精确选、亲和灵活选、污点主动拒绝"。追问：为什么 master 不调度业务 Pod？→ master 默认打了 NoSchedule 污点。</div>
+</div></div></details>
+</section>
+<section class="kp" id="kp20">
+<div class="kp-head">
+<span class="kp-no">20</span>
+<h2>故障排查：kubectl 命令全家桶</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>get/describe/logs/exec/events 五件套定位一切问题，再加 rollout/port-forward/top。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>故障排查：kubectl 命令全家桶？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>详细解释</strong>（背熟，面试+实战都用）：</p>
 <table>
 <thead>
@@ -267,18 +658,65 @@ CMD [&quot;node&quot;, &quot;dist/main.js&quot;]
 </tr>
 </tbody>
 </table>
-<h3>21. RBAC 与命名空间</h3>
-<p class="lead"><strong>一句话结论</strong>：Namespace 逻辑隔离（多环境/多团队），RBAC（Role/ClusterRole + RoleBinding）控制谁能对什么资源做什么操作。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+</div></div></details>
+</section>
+<section class="kp" id="kp21">
+<div class="kp-head">
+<span class="kp-no">21</span>
+<h2>RBAC 与命名空间</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>Namespace 逻辑隔离（多环境/多团队），RBAC（Role/ClusterRole + RoleBinding）控制谁能对什么资源做什么操作。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>Pod 怎么访问集群 API？→ ServiceAccount + RBAC 授权</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li>Namespace：资源分组隔离（dev/prod）、资源配额独立、网络策略可隔离；kubectl -n 指定</li><li>RBAC：Role（命名空间内权限）/ ClusterRole（集群级）→ RoleBinding/ClusterRoleBinding 绑定到用户/ServiceAccount</li><li>ServiceAccount：Pod 身份（访问 API 用）</li><li>最小权限原则：应用只给需要的权限</li></ul>
-<p class="say"><strong>话术/例题</strong>："Namespace 隔离空间、RBAC 隔离权限"。追问：Pod 怎么访问集群 API？→ ServiceAccount + RBAC 授权。</p>
-<h3>22. 日志与监控</h3>
-<p class="lead"><strong>一句话结论</strong>：日志用 EFK/ELK 或 Loki 采集（容器日志到 stdout → DaemonSet 采集），监控用 Prometheus + Grafana，告警 Alertmanager。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+<div class="sec-h">拓展</div><div class="ext-body">"Namespace 隔离空间、RBAC 隔离权限"。追问：Pod 怎么访问集群 API？→ ServiceAccount + RBAC 授权。</div>
+</div></div></details>
+</section>
+<section class="kp" id="kp22">
+<div class="kp-head">
+<span class="kp-no">22</span>
+<h2>日志与监控</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>日志用 EFK/ELK 或 Loki 采集（容器日志到 stdout → DaemonSet 采集），监控用 Prometheus + Grafana，告警 Alertmanager。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>Kafka 积压怎么监控？→ Prometheus exporter 暴露 lag 指标 + 告警阈值</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li>日志：容器输出到 stdout（12-factor）→ filebeat/fluentd（DaemonSet）→ ES/Loki → Kibana/Grafana 查询；日志文件在 /var/log/containers</li><li>监控：Prometheus（指标抓取）→ 采集 node-exporter/kube-state-metrics/业务指标 → Grafana 面板；Alertmanager 告警</li><li>指标：CPU/内存/网络/自定义业务指标（你的调优成功率、Kafka 积压）</li><li>结合你 RRM：现网排查靠日志 grep traceId 串联 4 微服务（无链路系统时的土办法），未来可上 OTel</li></ul>
-<p class="say"><strong>话术/例题</strong>："日志 stdout + EFK 采集，指标 Prometheus + Grafana"。追问：Kafka 积压怎么监控？→ Prometheus exporter 暴露 lag 指标 + 告警阈值。</p>
+
 <hr />
+<div class="sec-h">拓展</div><div class="ext-body">"日志 stdout + EFK 采集，指标 Prometheus + Grafana"。追问：Kafka 积压怎么监控？→ Prometheus exporter 暴露 lag 指标 + 告警阈值。</div>
+</div></div></details>
+</section>
+<section class="kp" id="kp23">
+<div class="kp-head">
+<span class="kp-no">23</span>
 <h2>📝 本章自测（闭卷）</h2>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>📝 本章自测（闭卷）？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ol>
 <li>容器 vs 虚拟机三差异</li>
 <li>镜像分层原理 + 多阶段构建好处</li>
@@ -291,10 +729,62 @@ CMD [&quot;node&quot;, &quot;dist/main.js&quot;]
 <li>滚动更新卡住排查流程（命令顺序）</li>
 <li>ImagePullBackOff / CrashLoopBackOff 分别什么原因</li>
 </ol>
-<blockquote>
-<p>完成自测后回《面试八股复习计划》勾选 K8s/Docker 相关题（第 3 节 22-25）</p>
-</blockquote></article></div>
+</div></div></details>
+</section>
+</article></div>
 <div class="bottomnav"><a href="学习手册_12_MySQL与PG兼容.html">◀ 上一本：12 MySQL/PG</a>
 <a class="ghost" href="面试八股复习计划_李鑫.html">📖 回复习计划勾选</a>
 <a href="学习手册_14_网络进阶.html">下一本：14 网络进阶 ▶</a></div>
+</body>
+<a class="totop" href="#">↑</a>
+<script>
+(function(){
+  var KEY = '%s';
+  var boxes = [].slice.call(document.querySelectorAll('details.ans'));
+  var cnt = document.getElementById('cnt');
+  var read = {};
+  try { read = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch(e){ read = {}; }
+  function paint(){
+    var n = 0;
+    boxes.forEach(function(d, i){ if (read[i]) n++; });
+    cnt.textContent = '\u5df2\u770b ' + n + ' / ' + boxes.length;
+  }
+  boxes.forEach(function(d, i){
+    if (read[i]) d.open = true;
+    d.addEventListener('toggle', function(){
+      read[i] = d.open;
+      try { localStorage.setItem(KEY, JSON.stringify(read)); } catch(e){}
+      paint();
+    });
+  });
+  paint();
+  function ensureSaved(){
+    boxes.forEach(function(d, i){ read[i] = d.open; });
+    try { localStorage.setItem(KEY, JSON.stringify(read)); } catch(e){}
+    paint();
+  }
+  var btnQuiz = document.getElementById('btnQuiz');
+  btnQuiz.addEventListener('click', function(){
+    var on = document.body.classList.toggle('quiz');
+    btnQuiz.classList.toggle('on', on);
+    if (on) { boxes.forEach(function(d){ d.open = false; }); }
+    ensureSaved();
+  });
+  document.getElementById('btnOpen').addEventListener('click', function(){
+    document.body.classList.remove('quiz');
+    btnQuiz.classList.remove('on');
+    boxes.forEach(function(d){ d.open = true; });
+    ensureSaved();
+  });
+  document.getElementById('btnClose').addEventListener('click', function(){
+    document.body.classList.remove('quiz');
+    btnQuiz.classList.remove('on');
+    boxes.forEach(function(d){ d.open = false; });
+    ensureSaved();
+  });
+  document.querySelectorAll('a[href="#"]').forEach(function(a){
+    a.addEventListener('click', function(e){ e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); });
+  });
+})();
+</script>
 </body></html>

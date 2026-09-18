@@ -1,34 +1,88 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>17 SpringCloud · 学习手册</title><style>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📘 学习手册 17 · Spring Cloud 微服务（Java 岗硬门槛）</title><style>
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:60px; }
+body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:70px; -webkit-text-size-adjust:100%; }
 .topnav { position:sticky; top:0; z-index:9; background:#1f2937; color:#fff; padding:10px 0; }
 .topnav .inner { max-width:960px; margin:0 auto; padding:0 18px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; font-size:13px; }
 .topnav a { color:#c7d2fe; text-decoration:none; padding:3px 12px; border-radius:14px; background:rgba(255,255,255,.08); }
 .topnav a:hover { background:rgba(255,255,255,.2); color:#fff; }
 .topnav .sep { opacity:.4; }
 .wrap { max-width:960px; margin:0 auto; padding:0 18px; }
-.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px; margin-top:22px; box-shadow:0 1px 3px rgba(20,30,60,.05); }
+.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px 28px; margin-top:22px; box-shadow:0 1px 3px rgba(20,30,60,.05); }
 .article h1 { font-size:26px; color:#4f46e5; border-bottom:3px solid #4f46e5; padding-bottom:12px; margin-bottom:18px; }
-.article h2 { font-size:20px; margin:30px 0 12px; padding:10px 14px; background:#eef2ff; border-left:4px solid #4f46e5; border-radius:6px; color:#312e81; }
-.article h3 { font-size:14px; color:#475569; margin:14px 0 6px; }
-.article p { margin:8px 0; font-size:14.5px; color:#2b3245; }
-.article ul, .article ol { margin:8px 0 8px 24px; }
-.article li { font-size:14.5px; margin:4px 0; }
-.article strong { color:#111827; }
+.meta { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; border-radius:6px; color:#166534; font-size:13px; margin-bottom:8px; }
+
+.toolbar { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:18px 0 6px; padding:12px 14px; background:#eef2ff; border-radius:10px; border:1px solid #dbe2fb; position:sticky; top:44px; z-index:8; }
+.toolbar button { font-family:inherit; font-size:13px; padding:7px 14px; border-radius:16px; border:1px solid #c7d2fe; background:#fff; color:#4338ca; cursor:pointer; }
+.toolbar button:hover { background:#e0e7ff; }
+.toolbar button.on { background:#4f46e5; color:#fff; border-color:#4f46e5; }
+.toolbar .count { font-size:12.5px; color:#4f46e5; margin-left:auto; font-weight:600; }
+
+.kp { border-bottom:1px dashed #dbe0ea; padding:22px 0 10px; }
+.kp:last-child { border-bottom:none; }
+.kp-head { display:flex; gap:10px; align-items:flex-start; margin-bottom:12px; }
+.kp-no { flex:none; width:26px; height:26px; border-radius:8px; background:#4f46e5; color:#fff; font-size:13px; display:flex; align-items:center; justify-content:center; font-weight:600; margin-top:3px; }
+.kp-head h2 { font-size:18px; color:#312e81; line-height:1.5; }
+.kp-head .h3sub { font-size:13px; color:#64748b; font-weight:400; display:block; margin-top:2px; }
+
+.concept { background:#f5f3ff; border-left:4px solid #8b5cf6; border-radius:8px; padding:12px 16px; margin:10px 0; }
+.tag { display:inline-block; font-size:11.5px; padding:2px 10px; border-radius:10px; margin-bottom:6px; font-weight:600; letter-spacing:.5px; }
+.tag-c { background:#ddd6fe; color:#4c1d95; }
+.tag-q { background:#fed7aa; color:#7c2d12; }
+.concept-body p { font-size:14.5px; color:#3b3355; margin:6px 0; }
+.concept-body p:first-child { margin-top:0; }
+.concept-body ul, .concept-body ol { margin:6px 0 6px 22px; }
+.concept-body li { font-size:14.5px; color:#3b3355; margin:4px 0; }
+
+.ask { background:#fffbeb; border-left:4px solid #f59e0b; border-radius:8px; padding:12px 16px; margin:10px 0 14px; }
+.ask-body ul, .ask-body ol { margin:4px 0 4px 22px; }
+.ask-body li { font-size:14.5px; color:#78350f; margin:5px 0; }
+.ask-body p { font-size:14.5px; color:#78350f; margin:5px 0; }
+
+details.ans { margin:6px 0 4px; }
+details.ans > summary { list-style:none; cursor:pointer; display:flex; align-items:center; gap:8px; background:#4f46e5; color:#fff; padding:11px 16px; border-radius:9px; font-size:14px; font-weight:600; user-select:none; }
+details.ans > summary::-webkit-details-marker { display:none; }
+details.ans > summary:hover { background:#4338ca; }
+.arrow { width:0; height:0; border-left:7px solid #fff; border-top:5px solid transparent; border-bottom:5px solid transparent; transition:transform .18s; }
+details.ans[open] > summary .arrow { transform:rotate(90deg); }
+details.ans[open] > summary .sum-text::after { content:" ▲"; font-size:11px; opacity:.7; }
+.ans-inner { border-left:3px solid #c7d2fe; margin:8px 0 0 14px; padding:6px 0 6px 18px; }
+.ans-body p { font-size:14.5px; margin:8px 0; }
+.ans-body h3 { font-size:15px; color:#1e293b; margin:16px 0 8px; padding-left:10px; border-left:3px solid #818cf8; }
+.ans-body h4 { font-size:14.5px; color:#334155; margin:14px 0 6px; }
+.ans-body ul, .ans-body ol { margin:8px 0 8px 24px; }
+.ans-body li { font-size:14.5px; margin:5px 0; }
+.ans-body strong { color:#111827; }
+.sec-h { font-size:12.5px; color:#0f766e; background:#ccfbf1; display:inline-block; padding:2px 12px; border-radius:10px; margin:18px 0 6px; font-weight:600; }
+.ext-body { border-left:3px solid #5eead4; padding-left:14px; margin-bottom:6px; }
+.ext-body p { font-size:14.5px; margin:8px 0; }
+.ext-body ul, .ext-body ol { margin:8px 0 8px 24px; }
+.ext-body li { font-size:14.5px; margin:5px 0; }
+details.sub { margin:12px 0 0; border:1px solid #e4e8f0; border-radius:9px; overflow:hidden; }
+details.sub > summary { list-style:none; cursor:pointer; padding:10px 14px; font-size:13.5px; background:#f8fafc; color:#334155; font-weight:600; user-select:none; }
+details.sub > summary::-webkit-details-marker { display:none; }
+details.sub > summary::before { content:"\25B8 "; color:#94a3b8; }
+details.sub[open] > summary::before { content:"\25BE "; }
+details.sub[open] > summary { border-bottom:1px solid #e4e8f0; }
+.sub-body { padding:12px 16px; }
+.sub-body p { font-size:14.5px; margin:7px 0; }
+.sub-body ul, .sub-body ol { margin:7px 0 7px 24px; }
+.sub-body li { font-size:14.5px; margin:5px 0; }
+details.sub-ask > summary { background:#fff7ed; color:#9a3412; }
+details.sub-anchor > summary { background:#f0fdf4; color:#166534; }
+details.sub-anchor .sub-body { background:#fafffb; }
+
 .article code { background:#f1f3fa; padding:1px 6px; border-radius:4px; font-size:13px; color:#be185d; }
-.article table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13.5px; display:block; overflow-x:auto; }
-.article th { background:#f1f3fa; padding:8px 10px; text-align:left; color:#475569; font-size:12.5px; border:1px solid #e4e8f0; }
+.article pre { background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:8px; overflow-x:auto; margin:12px 0; font-size:12.8px; line-height:1.65; }
+.article pre code { background:none; color:inherit; padding:0; font-size:12.8px; }
+.article table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; display:block; overflow-x:auto; }
+.article th { background:#f1f3fa; padding:8px 10px; text-align:left; color:#475569; font-size:12.5px; border:1px solid #e4e8f0; white-space:nowrap; }
 .article td { padding:8px 10px; border:1px solid #e4e8f0; vertical-align:top; }
 .article blockquote { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; margin:12px 0; border-radius:6px; color:#166534; font-size:14px; }
 .article blockquote strong { color:#14532d; }
 .article hr { border:none; border-top:1px dashed #d1d5db; margin:26px 0; }
-.bottomnav { max-width:960px; margin:20px auto 0; padding:0 18px; display:flex; gap:10px; }
-.bottomnav a { flex:1; text-align:center; background:#4f46e5; color:#fff; text-decoration:none; padding:12px 10px; border-radius:10px; font-size:14px; }
-.bottomnav a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
-@media (max-width:760px){ .article{padding:22px 18px;} .article h1{font-size:21px;} }
-/* handbook-layout-fix */
 .article p.lead { background:#eef2ff; border-left:4px solid #6366f1; padding:10px 14px; border-radius:6px; color:#312e81; margin:10px 0 4px; }
 .article p.lbl { font-size:13px; color:#64748b; margin:14px 0 4px; }
 .article p.say { background:#fff7ed; border-left:4px solid #f97316; padding:10px 14px; border-radius:6px; color:#7c2d12; margin:12px 0 4px; }
@@ -37,19 +91,54 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 .article ol { margin:6px 0 6px 24px; }
 .article li { margin:5px 0; }
 .article ul ul { margin:4px 0 4px 20px; }
+
+body.quiz details.ans > summary { background:#94a3b8; }
+body.quiz details.ans:not([open]) .sum-text::after { content:"（自测中，先自己答）"; font-size:11.5px; font-weight:400; opacity:.9; }
+body.hide-ans details.ans { display:none; }
+
+.bottomnav { max-width:960px; margin:20px auto 0; padding:0 18px; display:flex; gap:10px; }
+.bottomnav a { flex:1; text-align:center; background:#4f46e5; color:#fff; text-decoration:none; padding:12px 10px; border-radius:10px; font-size:14px; }
+.bottomnav a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
+.totop { position:fixed; right:18px; bottom:22px; width:44px; height:44px; border-radius:50%; background:#4f46e5; color:#fff; display:flex; align-items:center; justify-content:center; font-size:18px; text-decoration:none; box-shadow:0 2px 10px rgba(79,70,229,.35); z-index:20; }
+@media (max-width:760px){
+  .article { padding:22px 16px 20px; }
+  .article h1 { font-size:21px; }
+  .kp-head h2 { font-size:16.5px; }
+  .toolbar { top:40px; padding:10px; }
+  .toolbar button { font-size:12.5px; padding:6px 11px; }
+  .toolbar .count { width:100%; margin:2px 0 0; }
+  .ans-inner { margin-left:4px; padding-left:12px; }
+  body { font-size:15px; }
+}
 </style></head>
 <body>
 <div class="topnav"><div class="inner"><a href="学习中心.html">🏠 学习中心</a> <span class="sep">|</span> <a href="学习手册索引.html">📚 手册索引</a> <span class="sep">|</span> <a href="学习手册_16_AI应用工程.html">◀ 16 AI 应用工程</a> <span class="sep">|</span> <a href="学习手册_18_性能优化实战.html">18 性能优化 ▶</a></div></div>
-<div class="wrap"><article class="article"><h1>📘 学习手册 17 · Spring Cloud 微服务（Java 岗硬门槛）</h1>
-<blockquote>
-<p>来源：同事 Java 面试侧重点——"<strong>微服务框架必须有使用经验</strong>"<br />
-⚠️ 你的情况：微服务经验是 <strong>Node.js 自研架构</strong>，不是 Spring Cloud。本册两手抓：① 补 Spring Cloud 全家桶知识 ② 学会把 Node 经验"转译"成 Java 面试官听得懂的话<br />
-模板：<strong>一句话结论 → 详细解释 → 面试话术/例题</strong></p>
-</blockquote>
-<hr />
-<h2>1. Spring Cloud 全家桶总览</h2>
-<p class="lead"><strong>一句话结论</strong>：注册中心（Nacos/Eureka）+ 网关（Gateway）+ 远程调用（OpenFeign）+ 负载均衡（LoadBalancer）+ 熔断限流（Sentinel）+ 配置中心（Nacos Config）+ 链路追踪（Micrometer）+ 分布式事务（Seata）。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+<div class="wrap"><article class="article">
+<h1>📘 学习手册 17 · Spring Cloud 微服务（Java 岗硬门槛）</h1>
+<div class="meta"><p>来源：同事 Java 面试侧重点——"<strong>微服务框架必须有使用经验</strong>"<br /><br />⚠️ 你的情况：微服务经验是 <strong>Node.js 自研架构</strong>，不是 Spring Cloud。本册两手抓：① 补 Spring Cloud 全家桶知识 ② 学会把 Node 经验"转译"成 Java 面试官听得懂的话<br /><br />模板：<strong>一句话结论 → 详细解释 → 面试话术/例题</strong></p></div>
+<div class="toolbar">
+  <button id="btnQuiz" type="button">自测模式</button>
+  <button id="btnOpen" type="button">全部展开</button>
+  <button id="btnClose" type="button">全部折叠</button>
+  <span class="count" id="cnt">已看 0 / 13</span>
+</div>
+<section class="kp" id="kp1">
+<div class="kp-head">
+<span class="kp-no">1</span>
+<h2>Spring Cloud 全家桶总览</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>注册中心（Nacos/Eureka）+ 网关（Gateway）+ 远程调用（OpenFeign）+ 负载均衡（LoadBalancer）+ 熔断限流（Sentinel）+ 配置中心（Nacos Config）+ 链路追踪（Micrometer）+ 分布式事务（Seata）。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>Spring Cloud 全家桶总览？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <table>
 <thead>
 <tr>
@@ -101,57 +190,216 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 </tr>
 </tbody>
 </table>
-<p class="say"><strong>话术/例题</strong>："Spring Cloud 是 Java 微服务全家桶，组件职责我在 Node.js 微服务里都有对等实践"——这句话是你的通关钥匙。</p>
-<h2>2. 注册中心：Nacos vs Eureka</h2>
-<p class="lead"><strong>一句话结论</strong>：Nacos 支持 AP（临时实例）+ CP（持久实例）双模型、自带配置中心，国产主流；Eureka 纯 AP、已停更。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+<div class="sec-h">拓展</div><div class="ext-body">"Spring Cloud 是 Java 微服务全家桶，组件职责我在 Node.js 微服务里都有对等实践"——这句话是你的通关钥匙。</div>
+</div></div></details>
+</section>
+<section class="kp" id="kp2">
+<div class="kp-head">
+<span class="kp-no">2</span>
+<h2>注册中心：Nacos vs Eureka</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>Nacos 支持 AP（临时实例）+ CP（持久实例）双模型、自带配置中心，国产主流；Eureka 纯 AP、已停更。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>注册中心挂了服务还能调吗？→ 消费方有本地缓存列表，短暂可用（AP 的意义）</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li><strong>服务注册</strong>：服务启动向注册中心注册 IP:端口，心跳续约，下线摘除</li><li><strong>服务发现</strong>：消费方从注册中心拉取服务列表（定时拉取 + 订阅推送）</li><li><strong>Nacos</strong>：阿里巴巴开源，<strong>注册+配置二合一</strong>，支持临时/持久实例，控制台好用 → 国内新项目主流</li><li><strong>Eureka</strong>：Netflix，AP 模型（可用性优先，允许短暂不一致），2.0 停更 → 老项目</li><li>对比：ZooKeeper/etcd 是 CP（一致性优先，leader 选举）</li></ul>
-<p class="say"><strong>话术/例题</strong>：背"Nacos=注册+配置、AP/CP 双模型"。追问：注册中心挂了服务还能调吗？→ 消费方有本地缓存列表，短暂可用（AP 的意义）。</p>
-<h2>3. 配置中心（Nacos Config）</h2>
-<p class="lead"><strong>一句话结论</strong>：配置统一管理 + 动态刷新（不用重启），本地缓存兜底。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+<div class="sec-h">拓展</div><div class="ext-body">背"Nacos=注册+配置、AP/CP 双模型"。追问：注册中心挂了服务还能调吗？→ 消费方有本地缓存列表，短暂可用（AP 的意义）。</div>
+</div></div></details>
+</section>
+<section class="kp" id="kp3">
+<div class="kp-head">
+<span class="kp-no">3</span>
+<h2>配置中心（Nacos Config）</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>配置统一管理 + 动态刷新（不用重启），本地缓存兜底。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>配置中心（Nacos Config）？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li>流程：配置存 Nacos → 客户端启动拉全量 + 长轮询监听变更 → 配置变更推送/客户端拉取 → 动态刷新（@RefreshScope）</li><li>环境隔离：namespace（环境）+ group + dataId（服务粒度）</li><li><strong>这是你的强项</strong>：你主导过 RRM 配置中心（统一管理→一键部署生成 ConfigMap→自动校验→回滚）——<strong>Spring Cloud 面试官问配置中心，你直接讲你真实做过的</strong>，把 ConfigMap 换成 Nacos 说即可</li></ul>
-<p class="say"><strong>话术/例题</strong>："配置中心我做过生产级的"——展开讲你的设计（版本/校验/回滚），这是全场的差异点。</p>
-<h2>4. 服务调用与负载均衡：OpenFeign</h2>
-<p class="lead"><strong>一句话结论</strong>：OpenFeign 声明式接口调用（像调本地方法），内置负载均衡（Spring Cloud LoadBalancer）。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+<div class="sec-h">拓展</div><div class="ext-body">"配置中心我做过生产级的"——展开讲你的设计（版本/校验/回滚），这是全场的差异点。</div>
+</div></div></details>
+</section>
+<section class="kp" id="kp4">
+<div class="kp-head">
+<span class="kp-no">4</span>
+<h2>服务调用与负载均衡：OpenFeign</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>OpenFeign 声明式接口调用（像调本地方法），内置负载均衡（Spring Cloud LoadBalancer）。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>Feign 底层用什么 HTTP 客户端？→ 默认 OkHttp/HttpClient 可切换</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li>Feign 流程：定义接口 + 注解 → 动态代理生成 HTTP 调用 → 结合注册中心拿实例列表 → 负载均衡选实例</li><li>对比 RestTemplate：Feign 声明式（写接口就行），RestTemplate 手动拼 URL</li><li>负载均衡策略：轮询/权重/最小连接/一致性哈希（可配）</li><li>超时与重试：connectTimeout/readTimeout、重试策略（幂等才重试）</li></ul>
-<p class="say"><strong>话术/例题</strong>：一句"声明式 HTTP 客户端 + 客户端负载均衡"。追问：Feign 底层用什么 HTTP 客户端？→ 默认 OkHttp/HttpClient 可切换。</p>
-<h2>5. 网关：Spring Cloud Gateway</h2>
-<p class="lead"><strong>一句话结论</strong>：统一流量入口，路由转发 + 过滤器（鉴权/日志/限流/灰度），基于 WebFlux 响应式。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+<div class="sec-h">拓展</div><div class="ext-body">一句"声明式 HTTP 客户端 + 客户端负载均衡"。追问：Feign 底层用什么 HTTP 客户端？→ 默认 OkHttp/HttpClient 可切换。</div>
+</div></div></details>
+</section>
+<section class="kp" id="kp5">
+<div class="kp-head">
+<span class="kp-no">5</span>
+<h2>网关：Spring Cloud Gateway</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>统一流量入口，路由转发 + 过滤器（鉴权/日志/限流/灰度），基于 WebFlux 响应式。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>网关和 nginx 区别？→ nginx 七层转发到网关/直接服务，网关做业务级路由鉴权限流，可 nginx→Gateway→微服务三层</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li>路由：断言（Path/Host/Method）→ 转发到下游服务</li><li>过滤器：Global Filter（全局，鉴权）、Gateway Filter（路由级）</li><li>对比 Zuul 1.x：Gateway 非阻塞（WebFlux/Netty），Zuul1 是 Servlet 阻塞式 → 新项目用 Gateway</li><li>能力：限流（Redis RateLimiter 令牌桶）、跨域、统一异常、灰度发布（权重路由）</li></ul>
-<p class="say"><strong>话术/例题</strong>：一句"网关 = 路由 + 过滤器链"。追问：网关和 nginx 区别？→ nginx 七层转发到网关/直接服务，网关做业务级路由鉴权限流，可 nginx→Gateway→微服务三层。</p>
-<h2>6. 熔断限流降级：Sentinel vs Hystrix</h2>
-<p class="lead"><strong>一句话结论</strong>：Sentinel（阿里）资源级控制、控制台可视化、主流；Hystrix（Netflix）线程池隔离、已停更。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+<div class="sec-h">拓展</div><div class="ext-body">一句"网关 = 路由 + 过滤器链"。追问：网关和 nginx 区别？→ nginx 七层转发到网关/直接服务，网关做业务级路由鉴权限流，可 nginx→Gateway→微服务三层。</div>
+</div></div></details>
+</section>
+<section class="kp" id="kp6">
+<div class="kp-head">
+<span class="kp-no">6</span>
+<h2>熔断限流降级：Sentinel vs Hystrix</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>Sentinel（阿里）资源级控制、控制台可视化、主流；Hystrix（Netflix）线程池隔离、已停更。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>Sentinel 和 Hystrix 区别？→ Sentinel 基于滑动窗口、支持实时监控控制台、规则可动态推送；Hystrix 线程池隔离、代码侵入大</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li>熔断：连续失败/慢调用超阈值 → 熔断（快速失败）→ 半开试探 → 恢复</li><li>限流：QPS 阈值、并发线程数；算法：计数器/滑动窗口/令牌桶/漏桶（Sentinel 默认滑动窗口）</li><li>降级：异常比例/RT 超阈值 → 走 fallback（返回兜底）</li><li>规则持久化：推送到 Nacos</li><li>关联：你手册 04 第 28 题（熔断限流降级）讲的通用概念完全适用</li></ul>
-<p class="say"><strong>话术/例题</strong>："Sentinel 资源 + 规则 + 控制台"。追问：Sentinel 和 Hystrix 区别？→ Sentinel 基于滑动窗口、支持实时监控控制台、规则可动态推送；Hystrix 线程池隔离、代码侵入大。</p>
-<h2>7. 链路追踪（Spring Cloud Sleuth/Micrometer Tracing）</h2>
-<p class="lead"><strong>一句话结论</strong>：traceId 贯穿全链路 + span 记录每跳，上报 Zipkin/Jaeger 展示调用拓扑和耗时。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+<div class="sec-h">拓展</div><div class="ext-body">"Sentinel 资源 + 规则 + 控制台"。追问：Sentinel 和 Hystrix 区别？→ Sentinel 基于滑动窗口、支持实时监控控制台、规则可动态推送；Hystrix 线程池隔离、代码侵入大。</div>
+</div></div></details>
+</section>
+<section class="kp" id="kp7">
+<div class="kp-head">
+<span class="kp-no">7</span>
+<h2>链路追踪（Spring Cloud Sleuth/Micrometer Tracing）</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>traceId 贯穿全链路 + span 记录每跳，上报 Zipkin/Jaeger 展示调用拓扑和耗时。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>链路追踪（Spring Cloud Sleuth/Micrometer Tracing）？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li>集成：引入依赖 → 日志自动带 traceId → 上报 Zipkin</li><li>结合你：你 Node.js 4 微服务排查靠日志 grep traceId 串联（手册 04 第 29 题），Java 侧就是 Sleuth+Zipkin 自动化版</li></ul>
-<p class="say"><strong>话术/例题</strong>：能讲"traceId 透传原理 + 你们实际排查方式"即可，自动化工具是锦上添花。</p>
-<h2>8. 分布式事务：Seata</h2>
-<p class="lead"><strong>一句话结论</strong>：Seata AT 模式（自动补偿，默认推荐）/TCC（手动）/Saga（长事务），解决跨服务数据一致。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+<div class="sec-h">拓展</div><div class="ext-body">能讲"traceId 透传原理 + 你们实际排查方式"即可，自动化工具是锦上添花。</div>
+</div></div></details>
+</section>
+<section class="kp" id="kp8">
+<div class="kp-head">
+<span class="kp-no">8</span>
+<h2>分布式事务：Seata</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>Seata AT 模式（自动补偿，默认推荐）/TCC（手动）/Saga（长事务），解决跨服务数据一致。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>什么时候不需要分布式事务？→ 能通过最终一致性/消息补偿解决的场景，避免过度设计</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li>AT：一阶段本地事务+undo log 记录，二阶段全局提交/回滚（自动反向 SQL 补偿）——对业务无侵入</li><li>TCC：Try-Confirm-Cancel 手动三段（强一致场景）</li><li>Saga：长事务拆步 + 逆向补偿（你 Node 经验里的 Saga/最终一致性思想一致）</li><li>使用场景：订单+库存+账户跨服务</li></ul>
-<p class="say"><strong>话术/例题</strong>：结合手册 04 第 27 题（分布式事务方案）一起答——AT 像"自动版本地消息表+Saga 组合"。追问：什么时候不需要分布式事务？→ 能通过最终一致性/消息补偿解决的场景，避免过度设计。</p>
-<h2>9. 微服务拆分与踩坑（结合你的真实经验）</h2>
-<p class="lead"><strong>一句话结论</strong>：按业务域拆 + 数据独立 + 独立部署；坑：分布式事务、链路排查、配置管理、版本兼容。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+<div class="sec-h">拓展</div><div class="ext-body">结合手册 04 第 27 题（分布式事务方案）一起答——AT 像"自动版本地消息表+Saga 组合"。追问：什么时候不需要分布式事务？→ 能通过最终一致性/消息补偿解决的场景，避免过度设计。</div>
+</div></div></details>
+</section>
+<section class="kp" id="kp9">
+<div class="kp-head">
+<span class="kp-no">9</span>
+<h2>微服务拆分与踩坑（结合你的真实经验）</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>按业务域拆 + 数据独立 + 独立部署；坑：分布式事务、链路排查、配置管理、版本兼容。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>微服务拆分与踩坑（结合你的真实经验）？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li>拆分原则你做过（RRM 按职责拆 4 服务），Java 面试可直接复用你的拆分解读</li><li>Java 微服务踩坑：服务间调用超时链式放大（A 调 B 超时拖垮 A）→ 超时+熔断；配置散落 → 配置中心；日志无 traceId → 链路追踪</li><li>版本兼容：接口加字段不删字段、灰度发布</li></ul>
-<p class="say"><strong>话术/例题</strong>："拆服务我做过、坑我也踩过（超时放大/配置散落/排查难）"——用真实经验讲，Java 面试官认架构思路。</p>
-<h2>10. 【关键】"你有没有微服务框架使用经验？"怎么答</h2>
-<p class="lead"><strong>一句话结论</strong>：诚实说主力是 Node.js 自研微服务 + Spring Cloud 已系统学习，然后<strong>把架构通用性讲透</strong>。</p>
+<div class="sec-h">拓展</div><div class="ext-body">"拆服务我做过、坑我也踩过（超时放大/配置散落/排查难）"——用真实经验讲，Java 面试官认架构思路。</div>
+</div></div></details>
+</section>
+<section class="kp" id="kp10">
+<div class="kp-head">
+<span class="kp-no">10</span>
+<h2>【关键】"你有没有微服务框架使用经验？"怎么答</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>诚实说主力是 Node.js 自研微服务 + Spring Cloud 已系统学习，然后<strong>把架构通用性讲透</strong>。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>【关键】"你有没有微服务框架使用经验？"怎么答？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>回答模板</strong>：</p>
-<blockquote>
-<p>"我的微服务生产经验主要建立在自研 Node.js 架构上——主导过 4 个微服务的拆分与重构（调度/查询/计算/AI 优化），覆盖了注册发现（K8s Service/DNS）、消息解耦（Kafka）、配置中心（自研，支持版本/回滚/热更）、熔断限流（手动实现+Redis 分布式锁）这些核心问题，<strong>微服务的拆分原则、分布式一致性、运维体系是语言无关的</strong>。<br />
-Spring Cloud 我系统学过（Nacos/Gateway/OpenFeign/Sentinel），它解决的问题我在生产里都真实处理过，只是落地语言不同。给我 2-4 周我能直接上手业务。"</p>
-</blockquote>
+
 <p><strong>追问应对</strong>："具体用过 Nacos 吗？"→ 诚实："生产用的是 K8s+DNS 服务发现，Nacos 是同类方案的 Java 实现，我在学习环境完整跑通过注册+配置中心"——<strong>不要编生产经验</strong>，用"概念对等 + 学习验证"表述。</p>
-<h2>11. Node.js 微服务 vs Spring Cloud 对照速查</h2>
-<p class="lead"><strong>一句话结论</strong>：概念全同构，把"你干过的"翻译成"Java 词"，就是你的经验证明。</p>
+</div></div></details>
+</section>
+<section class="kp" id="kp11">
+<div class="kp-head">
+<span class="kp-no">11</span>
+<h2>Node.js 微服务 vs Spring Cloud 对照速查</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>概念全同构，把"你干过的"翻译成"Java 词"，就是你的经验证明。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>Node.js 微服务 vs Spring Cloud 对照速查？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>对照表（背熟）</strong>：</p>
 <table>
 <thead>
@@ -210,12 +458,43 @@ Spring Cloud 我系统学过（Nacos/Gateway/OpenFeign/Sentinel），它解决�
 </tbody>
 </table>
 <p><strong>话术</strong>：面试官问任何一个组件，先答组件职责，再补"这个能力我在 Node 生产里有对等实践（举一个具体场景）"，最后说"Spring Cloud 具体 API 我已学习，上手快"。</p>
-<h2>12. 软素质问题（H3C 培训文化：勤奋 / 迎难而上 / 客户第一）</h2>
-<p class="lead"><strong>一句话结论</strong>：每个价值观准备一个真实小故事，套用"背景-行动-结果"。</p>
+</div></div></details>
+</section>
+<section class="kp" id="kp12">
+<div class="kp-head">
+<span class="kp-no">12</span>
+<h2>软素质问题（H3C 培训文化：勤奋 / 迎难而上 / 客户第一）</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>每个价值观准备一个真实小故事，套用"背景-行动-结果"。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>软素质问题（H3C 培训文化：勤奋 / 迎难而上 / 客户第一）？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>故事模板</strong>：</p>
 <ul><li><strong>勤奋</strong>："RRM WiFi7 项目时间紧，我连续 3 周每天加班到 10 点梳理 4 个微服务调用链，提前一周完成 6GHz 全链路改造方案"</li><li><strong>迎难而上</strong>："接手无文档的遗留系统，1 个月从零理清逻辑并独立维护，每周处理 1+ 线上问题没出过大事故"（这就是你真实经历）</li><li><strong>客户第一</strong>："客户反馈 AI 调优结果不信任，我主导重构为设备侧计算模式提升实时性，最终适配现网 98% 组网，解决了客户核心痛点"</li><li>如果对方是 H3C/华为系：强调奋斗者文化、结果导向、团队协作</li></ul>
 <p><strong>话术</strong>：每个故事 30-45 秒，数据结尾（98%、每周1+、提前 1 周）。</p>
+</div></div></details>
+</section>
+<section class="kp" id="kp13">
+<div class="kp-head">
+<span class="kp-no">13</span>
 <h2>📝 本章自测（闭卷）</h2>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>📝 本章自测（闭卷）？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ol>
 <li>说出 Spring Cloud 八大组件一句话职责</li>
 <li>Nacos vs Eureka（AP/CP、是否含配置中心）</li>
@@ -227,10 +506,62 @@ Spring Cloud 我系统学过（Nacos/Gateway/OpenFeign/Sentinel），它解决�
 <li>把"配置中心/K8s 服务发现/Redis 锁"翻译成 Spring Cloud 词汇</li>
 <li>三个软素质故事各 30 秒</li>
 </ol>
-<blockquote>
-<p>完成自测后，把第 10、11 题的回答练到脱稿——这是 Java 岗通关关键</p>
-</blockquote></article></div>
+</div></div></details>
+</section>
+</article></div>
 <div class="bottomnav"><a href="学习手册_16_AI应用工程.html">◀ 上一本：16 AI 应用工程</a>
 <a class="ghost" href="面试八股复习计划_李鑫.html">📖 回复习计划勾选</a>
 <a href="学习手册_18_性能优化实战.html">下一本：18 性能优化 ▶</a></div>
+</body>
+<a class="totop" href="#">↑</a>
+<script>
+(function(){
+  var KEY = '%s';
+  var boxes = [].slice.call(document.querySelectorAll('details.ans'));
+  var cnt = document.getElementById('cnt');
+  var read = {};
+  try { read = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch(e){ read = {}; }
+  function paint(){
+    var n = 0;
+    boxes.forEach(function(d, i){ if (read[i]) n++; });
+    cnt.textContent = '\u5df2\u770b ' + n + ' / ' + boxes.length;
+  }
+  boxes.forEach(function(d, i){
+    if (read[i]) d.open = true;
+    d.addEventListener('toggle', function(){
+      read[i] = d.open;
+      try { localStorage.setItem(KEY, JSON.stringify(read)); } catch(e){}
+      paint();
+    });
+  });
+  paint();
+  function ensureSaved(){
+    boxes.forEach(function(d, i){ read[i] = d.open; });
+    try { localStorage.setItem(KEY, JSON.stringify(read)); } catch(e){}
+    paint();
+  }
+  var btnQuiz = document.getElementById('btnQuiz');
+  btnQuiz.addEventListener('click', function(){
+    var on = document.body.classList.toggle('quiz');
+    btnQuiz.classList.toggle('on', on);
+    if (on) { boxes.forEach(function(d){ d.open = false; }); }
+    ensureSaved();
+  });
+  document.getElementById('btnOpen').addEventListener('click', function(){
+    document.body.classList.remove('quiz');
+    btnQuiz.classList.remove('on');
+    boxes.forEach(function(d){ d.open = true; });
+    ensureSaved();
+  });
+  document.getElementById('btnClose').addEventListener('click', function(){
+    document.body.classList.remove('quiz');
+    btnQuiz.classList.remove('on');
+    boxes.forEach(function(d){ d.open = false; });
+    ensureSaved();
+  });
+  document.querySelectorAll('a[href="#"]').forEach(function(a){
+    a.addEventListener('click', function(e){ e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); });
+  });
+})();
+</script>
 </body></html>

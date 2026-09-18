@@ -1,36 +1,88 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>10 算法项目 · 学习手册</title><style>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📘 学习手册 10 · 算法与项目深挖</title><style>
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:60px; }
+body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:70px; -webkit-text-size-adjust:100%; }
 .topnav { position:sticky; top:0; z-index:9; background:#1f2937; color:#fff; padding:10px 0; }
 .topnav .inner { max-width:960px; margin:0 auto; padding:0 18px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; font-size:13px; }
 .topnav a { color:#c7d2fe; text-decoration:none; padding:3px 12px; border-radius:14px; background:rgba(255,255,255,.08); }
 .topnav a:hover { background:rgba(255,255,255,.2); color:#fff; }
 .topnav .sep { opacity:.4; }
 .wrap { max-width:960px; margin:0 auto; padding:0 18px; }
-.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px; margin-top:22px; box-shadow:0 1px 3px rgba(20,30,60,.05); }
+.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px 28px; margin-top:22px; box-shadow:0 1px 3px rgba(20,30,60,.05); }
 .article h1 { font-size:26px; color:#4f46e5; border-bottom:3px solid #4f46e5; padding-bottom:12px; margin-bottom:18px; }
-.article h2 { font-size:20px; margin:30px 0 12px; padding:10px 14px; background:#eef2ff; border-left:4px solid #4f46e5; border-radius:6px; color:#312e81; }
-.article h3 { font-size:14px; color:#475569; margin:14px 0 6px; }
-.article p { margin:8px 0; font-size:14.5px; color:#2b3245; }
-.article ul, .article ol { margin:8px 0 8px 24px; }
-.article li { font-size:14.5px; margin:4px 0; }
-.article strong { color:#111827; }
+.meta { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; border-radius:6px; color:#166534; font-size:13px; margin-bottom:8px; }
+
+.toolbar { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:18px 0 6px; padding:12px 14px; background:#eef2ff; border-radius:10px; border:1px solid #dbe2fb; position:sticky; top:44px; z-index:8; }
+.toolbar button { font-family:inherit; font-size:13px; padding:7px 14px; border-radius:16px; border:1px solid #c7d2fe; background:#fff; color:#4338ca; cursor:pointer; }
+.toolbar button:hover { background:#e0e7ff; }
+.toolbar button.on { background:#4f46e5; color:#fff; border-color:#4f46e5; }
+.toolbar .count { font-size:12.5px; color:#4f46e5; margin-left:auto; font-weight:600; }
+
+.kp { border-bottom:1px dashed #dbe0ea; padding:22px 0 10px; }
+.kp:last-child { border-bottom:none; }
+.kp-head { display:flex; gap:10px; align-items:flex-start; margin-bottom:12px; }
+.kp-no { flex:none; width:26px; height:26px; border-radius:8px; background:#4f46e5; color:#fff; font-size:13px; display:flex; align-items:center; justify-content:center; font-weight:600; margin-top:3px; }
+.kp-head h2 { font-size:18px; color:#312e81; line-height:1.5; }
+.kp-head .h3sub { font-size:13px; color:#64748b; font-weight:400; display:block; margin-top:2px; }
+
+.concept { background:#f5f3ff; border-left:4px solid #8b5cf6; border-radius:8px; padding:12px 16px; margin:10px 0; }
+.tag { display:inline-block; font-size:11.5px; padding:2px 10px; border-radius:10px; margin-bottom:6px; font-weight:600; letter-spacing:.5px; }
+.tag-c { background:#ddd6fe; color:#4c1d95; }
+.tag-q { background:#fed7aa; color:#7c2d12; }
+.concept-body p { font-size:14.5px; color:#3b3355; margin:6px 0; }
+.concept-body p:first-child { margin-top:0; }
+.concept-body ul, .concept-body ol { margin:6px 0 6px 22px; }
+.concept-body li { font-size:14.5px; color:#3b3355; margin:4px 0; }
+
+.ask { background:#fffbeb; border-left:4px solid #f59e0b; border-radius:8px; padding:12px 16px; margin:10px 0 14px; }
+.ask-body ul, .ask-body ol { margin:4px 0 4px 22px; }
+.ask-body li { font-size:14.5px; color:#78350f; margin:5px 0; }
+.ask-body p { font-size:14.5px; color:#78350f; margin:5px 0; }
+
+details.ans { margin:6px 0 4px; }
+details.ans > summary { list-style:none; cursor:pointer; display:flex; align-items:center; gap:8px; background:#4f46e5; color:#fff; padding:11px 16px; border-radius:9px; font-size:14px; font-weight:600; user-select:none; }
+details.ans > summary::-webkit-details-marker { display:none; }
+details.ans > summary:hover { background:#4338ca; }
+.arrow { width:0; height:0; border-left:7px solid #fff; border-top:5px solid transparent; border-bottom:5px solid transparent; transition:transform .18s; }
+details.ans[open] > summary .arrow { transform:rotate(90deg); }
+details.ans[open] > summary .sum-text::after { content:" ▲"; font-size:11px; opacity:.7; }
+.ans-inner { border-left:3px solid #c7d2fe; margin:8px 0 0 14px; padding:6px 0 6px 18px; }
+.ans-body p { font-size:14.5px; margin:8px 0; }
+.ans-body h3 { font-size:15px; color:#1e293b; margin:16px 0 8px; padding-left:10px; border-left:3px solid #818cf8; }
+.ans-body h4 { font-size:14.5px; color:#334155; margin:14px 0 6px; }
+.ans-body ul, .ans-body ol { margin:8px 0 8px 24px; }
+.ans-body li { font-size:14.5px; margin:5px 0; }
+.ans-body strong { color:#111827; }
+.sec-h { font-size:12.5px; color:#0f766e; background:#ccfbf1; display:inline-block; padding:2px 12px; border-radius:10px; margin:18px 0 6px; font-weight:600; }
+.ext-body { border-left:3px solid #5eead4; padding-left:14px; margin-bottom:6px; }
+.ext-body p { font-size:14.5px; margin:8px 0; }
+.ext-body ul, .ext-body ol { margin:8px 0 8px 24px; }
+.ext-body li { font-size:14.5px; margin:5px 0; }
+details.sub { margin:12px 0 0; border:1px solid #e4e8f0; border-radius:9px; overflow:hidden; }
+details.sub > summary { list-style:none; cursor:pointer; padding:10px 14px; font-size:13.5px; background:#f8fafc; color:#334155; font-weight:600; user-select:none; }
+details.sub > summary::-webkit-details-marker { display:none; }
+details.sub > summary::before { content:"\25B8 "; color:#94a3b8; }
+details.sub[open] > summary::before { content:"\25BE "; }
+details.sub[open] > summary { border-bottom:1px solid #e4e8f0; }
+.sub-body { padding:12px 16px; }
+.sub-body p { font-size:14.5px; margin:7px 0; }
+.sub-body ul, .sub-body ol { margin:7px 0 7px 24px; }
+.sub-body li { font-size:14.5px; margin:5px 0; }
+details.sub-ask > summary { background:#fff7ed; color:#9a3412; }
+details.sub-anchor > summary { background:#f0fdf4; color:#166534; }
+details.sub-anchor .sub-body { background:#fafffb; }
+
 .article code { background:#f1f3fa; padding:1px 6px; border-radius:4px; font-size:13px; color:#be185d; }
-.article pre { background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:8px; overflow-x:auto; margin:12px 0; font-size:13px; line-height:1.6; }
-.article pre code { background:none; color:inherit; padding:0; }
-.article table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13.5px; display:block; overflow-x:auto; }
-.article th { background:#f1f3fa; padding:8px 10px; text-align:left; color:#475569; font-size:12.5px; border:1px solid #e4e8f0; }
+.article pre { background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:8px; overflow-x:auto; margin:12px 0; font-size:12.8px; line-height:1.65; }
+.article pre code { background:none; color:inherit; padding:0; font-size:12.8px; }
+.article table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; display:block; overflow-x:auto; }
+.article th { background:#f1f3fa; padding:8px 10px; text-align:left; color:#475569; font-size:12.5px; border:1px solid #e4e8f0; white-space:nowrap; }
 .article td { padding:8px 10px; border:1px solid #e4e8f0; vertical-align:top; }
 .article blockquote { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; margin:12px 0; border-radius:6px; color:#166534; font-size:14px; }
 .article blockquote strong { color:#14532d; }
 .article hr { border:none; border-top:1px dashed #d1d5db; margin:26px 0; }
-.bottomnav { max-width:960px; margin:20px auto 0; padding:0 18px; display:flex; gap:10px; }
-.bottomnav a { flex:1; text-align:center; background:#4f46e5; color:#fff; text-decoration:none; padding:12px 10px; border-radius:10px; font-size:14px; }
-.bottomnav a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
-@media (max-width:760px){ .article{padding:22px 18px;} .article h1{font-size:21px;} }
-/* handbook-layout-fix */
 .article p.lead { background:#eef2ff; border-left:4px solid #6366f1; padding:10px 14px; border-radius:6px; color:#312e81; margin:10px 0 4px; }
 .article p.lbl { font-size:13px; color:#64748b; margin:14px 0 4px; }
 .article p.say { background:#fff7ed; border-left:4px solid #f97316; padding:10px 14px; border-radius:6px; color:#7c2d12; margin:12px 0 4px; }
@@ -39,22 +91,54 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 .article ol { margin:6px 0 6px 24px; }
 .article li { margin:5px 0; }
 .article ul ul { margin:4px 0 4px 20px; }
+
+body.quiz details.ans > summary { background:#94a3b8; }
+body.quiz details.ans:not([open]) .sum-text::after { content:"（自测中，先自己答）"; font-size:11.5px; font-weight:400; opacity:.9; }
+body.hide-ans details.ans { display:none; }
+
+.bottomnav { max-width:960px; margin:20px auto 0; padding:0 18px; display:flex; gap:10px; }
+.bottomnav a { flex:1; text-align:center; background:#4f46e5; color:#fff; text-decoration:none; padding:12px 10px; border-radius:10px; font-size:14px; }
+.bottomnav a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
+.totop { position:fixed; right:18px; bottom:22px; width:44px; height:44px; border-radius:50%; background:#4f46e5; color:#fff; display:flex; align-items:center; justify-content:center; font-size:18px; text-decoration:none; box-shadow:0 2px 10px rgba(79,70,229,.35); z-index:20; }
+@media (max-width:760px){
+  .article { padding:22px 16px 20px; }
+  .article h1 { font-size:21px; }
+  .kp-head h2 { font-size:16.5px; }
+  .toolbar { top:40px; padding:10px; }
+  .toolbar button { font-size:12.5px; padding:6px 11px; }
+  .toolbar .count { width:100%; margin:2px 0 0; }
+  .ans-inner { margin-left:4px; padding-left:12px; }
+  body { font-size:15px; }
+}
 </style></head>
 <body>
 <div class="topnav"><div class="inner"><a href="学习中心.html">🏠 学习中心</a> <span class="sep">|</span> <a href="学习手册索引.html">📚 手册索引</a> <span class="sep">|</span> <a href="学习手册_09_SSM框架.html">◀ 09 SSM</a> <span class="sep">|</span> <a href="学习手册_11_设计模式.html">11 设计模式 ▶</a></div></div>
-<div class="wrap"><article class="article"><h1>📘 学习手册 10 · 算法与项目深挖</h1>
-<blockquote>
-<p>配套《面试八股复习计划》第 4、5 节<br />
-模板：<strong>一句话结论 → 详细解释 → 手写模板/话术</strong><br />
-算法：大厂笔试/手写必考；项目：所有面试 60% 时间都在这里——决胜盘</p>
-</blockquote>
-<hr />
-<h2>第一部分：高频算法（手写模板）</h2>
-<blockquote>
-<p>算法建议：每天 20 分钟，手写以下 8 个模板到肌肉记忆。LeetCode 按"链表→树→数组→动态规划"顺序刷。</p>
-</blockquote>
-<h3>1. 两数之和</h3>
-<p class="lead"><strong>一句话结论</strong>：哈希表存"值→下标"，遍历一遍 O(n)。</p>
+<div class="wrap"><article class="article">
+<h1>📘 学习手册 10 · 算法与项目深挖</h1>
+<div class="meta"><p>配套《面试八股复习计划》第 4、5 节<br /><br />模板：<strong>一句话结论 → 详细解释 → 手写模板/话术</strong><br /><br />算法：大厂笔试/手写必考；项目：所有面试 60% 时间都在这里——决胜盘</p></div>
+<div class="toolbar">
+  <button id="btnQuiz" type="button">自测模式</button>
+  <button id="btnOpen" type="button">全部展开</button>
+  <button id="btnClose" type="button">全部折叠</button>
+  <span class="count" id="cnt">已看 0 / 15</span>
+</div>
+<section class="kp" id="kp1">
+<div class="kp-head">
+<span class="kp-no">1</span>
+<h2>两数之和</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>哈希表存"值→下标"，遍历一遍 O(n)。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>两数之和？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>模板</strong>：</p>
 <pre><code class="language-java">int[] twoSum(int[] nums, int target) {
     Map&lt;Integer,Integer&gt; map = new HashMap&lt;&gt;();
@@ -67,8 +151,25 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 }
 </code></pre>
 <p><strong>追问</strong>：要求不重复用自己/排序数组变体（双指针）。</p>
-<h3>2. 反转链表</h3>
-<p class="lead"><strong>一句话结论</strong>：三指针（prev/cur/next）遍历翻转。</p>
+</div></div></details>
+</section>
+<section class="kp" id="kp2">
+<div class="kp-head">
+<span class="kp-no">2</span>
+<h2>反转链表</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>三指针（prev/cur/next）遍历翻转。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>反转链表？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>模板</strong>：</p>
 <pre><code class="language-java">ListNode reverseList(ListNode head) {
     ListNode prev = null, cur = head;
@@ -81,8 +182,25 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 }
 </code></pre>
 <p><strong>追问</strong>：K 个一组翻转（先写"翻转一段"子函数）。</p>
-<h3>3. 手写快速排序</h3>
-<p class="lead"><strong>一句话结论</strong>：选基准 → 分区 → 递归；平均 O(n log n)。</p>
+</div></div></details>
+</section>
+<section class="kp" id="kp3">
+<div class="kp-head">
+<span class="kp-no">3</span>
+<h2>手写快速排序</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>选基准 → 分区 → 递归；平均 O(n log n)。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>手写快速排序？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>模板</strong>：</p>
 <pre><code class="language-java">void quickSort(int[] a, int l, int r) {
     if (l &gt;= r) return;
@@ -97,8 +215,25 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 }
 </code></pre>
 <p><strong>追问</strong>：复杂度、最坏情况（已有序）、怎么优化（三数取中/随机）。</p>
-<h3>4. 二叉树遍历（前/中/后 + 层序）</h3>
-<p class="lead"><strong>一句话结论</strong>：递归三行；层序用队列。</p>
+</div></div></details>
+</section>
+<section class="kp" id="kp4">
+<div class="kp-head">
+<span class="kp-no">4</span>
+<h2>二叉树遍历（前/中/后 + 层序）</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>递归三行；层序用队列。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>二叉树遍历（前/中/后 + 层序）？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>模板</strong>（前序递归）：</p>
 <pre><code class="language-java">void preorder(TreeNode r) {
     if (r == null) return;
@@ -108,12 +243,46 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 </code></pre>
 <p>层序：<code>Queue</code> + while 循环 + 每层 size 记录。<br />
 <strong>追问</strong>：迭代版（栈模拟）；"树的深度"= 递归 max(left,right)+1。</p>
-<h3>5. LRU 缓存</h3>
-<p class="lead"><strong>一句话结论</strong>：哈希表 + 双向链表，get/put 都 O(1)。</p>
+</div></div></details>
+</section>
+<section class="kp" id="kp5">
+<div class="kp-head">
+<span class="kp-no">5</span>
+<h2>LRU 缓存</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>哈希表 + 双向链表，get/put 都 O(1)。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>LRU 缓存？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>思路</strong>：Map<key,Node> + 链表头插尾删；命中移到头部；满时删尾部。<br />
 <strong>追问</strong>：为什么必须双向链表？→ 删除节点要 O(1) 拿到前驱。</p>
-<h3>6. 二分查找</h3>
-<p class="lead"><strong>一句话结论</strong>：有序数组，每次砍半 O(log n)；注意边界（left&lt;=right 或 left&lt;right）。</p>
+</div></div></details>
+</section>
+<section class="kp" id="kp6">
+<div class="kp-head">
+<span class="kp-no">6</span>
+<h2>二分查找</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>有序数组，每次砍半 O(log n)；注意边界（left&lt;=right 或 left&lt;right）。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>二分查找？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>模板</strong>：</p>
 <pre><code class="language-java">int binarySearch(int[] a, int target) {
     int l = 0, r = a.length - 1;
@@ -127,11 +296,45 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 }
 </code></pre>
 <p><strong>追问</strong>：旋转数组找目标 / 找第一个等于 target 的位置。</p>
-<h3>7. 合并两个有序链表</h3>
-<p class="lead"><strong>一句话结论</strong>：双指针归并，虚拟头节点简化。</p>
+</div></div></details>
+</section>
+<section class="kp" id="kp7">
+<div class="kp-head">
+<span class="kp-no">7</span>
+<h2>合并两个有序链表</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>双指针归并，虚拟头节点简化。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>合并两个有序链表？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>追问</strong>：合并 K 个有序链表（优先队列）。</p>
-<h3>8. 动态规划入门：爬楼梯</h3>
-<p class="lead"><strong>一句话结论</strong>：dp[i] = dp[i-1] + dp[i-2]，从底向上。</p>
+</div></div></details>
+</section>
+<section class="kp" id="kp8">
+<div class="kp-head">
+<span class="kp-no">8</span>
+<h2>动态规划入门：爬楼梯</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>dp[i] = dp[i-1] + dp[i-2]，从底向上。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>动态规划入门：爬楼梯？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <pre><code class="language-java">int climb(int n) {
     if (n &lt;= 2) return n;
     int a = 1, b = 2;
@@ -141,45 +344,131 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 </code></pre>
 <p><strong>追问</strong>：最大子数组和（dp[i]=max(a[i], dp[i-1]+a[i])）。</p>
 <hr />
-<h2>第二部分：项目深挖（决胜盘）</h2>
-<blockquote>
-<p>原则：<strong>每个项目准备 3 层</strong>——① 30 秒概述（做了什么+结果）② 技术细节（架构/难点）③ 一个可深挖的追问（数据/原理）。<br />
-每句话都要带"为什么 + 数据"。</p>
-</blockquote>
-<h3>项目 ① AI RRM 系统重构与规模化落地（主打，2024.08-至今）</h3>
+</div></div></details>
+</section>
+<section class="kp" id="kp9">
+<div class="kp-head">
+<span class="kp-no">9</span>
+<h2>项目 ① AI RRM 系统重构与规模化落地（主打，2024.08-至今）</h2>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>项目 ① AI RRM 系统重构与规模化落地（主打，2024.08-至今）？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>30 秒概述</strong>：原 RRM"云端收集-云端计算-下发"运维压力大、只开白名单。我主导重构为"AC+fitap 设备侧计算、云 AP 云端计算"的双计算架构，实现"下发-计算-上报-展示"闭环，二期做配置中心和规模化落地，<strong>适配现网 98%+ 组网、RRM 计算压力分流到设备侧</strong>。</p>
 <p><strong>技术细节准备</strong>：</p>
 <ul><li>为什么双计算？→ 云端集中算力压力大（全量 AP 上报计算），设备侧算力闲置；按组网类型分流</li><li>下发链路？→ WebSocket + netconf 下发调优参数，Kafka 上报结果，Redis 分布式锁防并发触发</li><li>数据一致性？→ MongoDB 分库分表（按任务维度分片，索引 {taskId,apSN,RI}），Kafka 消息不丢（消费后提交 offset）</li><li>配置中心？→ 配置统一管理 → 生成 ConfigMap → 一键部署 → 自动校验 → 异常回滚</li><li>98% 怎么算的？→ 现网 AC+fitap 组网占比统计</li></ul>
 <p><strong>高频追问应对</strong>：</p>
 <ul><li>"线上出过什么问题？" → 准备 1 个故障复盘：现象 → 根因（如 Kafka 消费积压/内存 OOM）→ 定位（日志 grep/指标）→ 修复（内存调 5Gi→5.5Gi、批次限流）→ 预防（监控告警）</li><li>"怎么保证调优下发不失败？" → 超时重试 + 幂等（taskId 去重）+ 失败告警</li></ul>
-<h3>项目 ② RRM 支持 WiFi7（2024.01-2024.12）</h3>
+</div></div></details>
+</section>
+<section class="kp" id="kp10">
+<div class="kp-head">
+<span class="kp-no">10</span>
+<h2>项目 ② RRM 支持 WiFi7（2024.01-2024.12）</h2>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>项目 ② RRM 支持 WiFi7（2024.01-2024.12）？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>30 秒概述</strong>：RRM 原只支持 2.4G/5G，我主导新增 6GHz 频段全链路改造（采集/扫描/计算/调优/部署），用 node-ffi 调 C 算法库，<strong>从 2 频段扩展到 3 频段，支持 WiFi7 商用</strong>。</p>
 <p><strong>技术细节准备</strong>：</p>
 <ul><li>4 个微服务链路？→ rrmcontrol 调度 / rrmserver 查询 / rrmcompute 计算 / aioptimize AI 优化</li><li>node-ffi 细节？→ 动态库加载、Buffer 传参、内存释放、C 函数签名映射</li><li>6GHz 新增影响面？→ 频段参数、信道扫描范围、功率上限、页面展示全链路适配</li></ul>
-<h3>项目 ③ WBC IoT 2.0 解耦（2023.07-2024.06）</h3>
+</div></div></details>
+</section>
+<section class="kp" id="kp11">
+<div class="kp-head">
+<span class="kp-no">11</span>
+<h2>项目 ③ WBC IoT 2.0 解耦（2023.07-2024.06）</h2>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>项目 ③ WBC IoT 2.0 解耦（2023.07-2024.06）？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>30 秒概述</strong>：WBC 云简与物联网模块高度耦合（出版本困难、内存紧张），我主导用虚拟化方案解耦，支持"一体机+虚拟机"双镜像，<strong>实现进程级隔离、独立版本生命周期</strong>。</p>
 <p><strong>技术细节准备</strong>：</p>
 <ul><li>为什么用虚拟机？→ 进程级解耦不彻底，虚拟机隔离更彻底且不互相影响</li><li>VNC 通道？→ 安全通道建立、资源分配（内存紧张怎么分）</li></ul>
 <hr />
-<h2>第三部分：行为面试与话术</h2>
-<h3>自我介绍（1 分钟版）</h3>
-<blockquote>
-<p>重邮硕士 → 新华三 3 年 Node.js 后端 → 主导 AI RRM 重构（双计算+微服务+K8s）→ 期望 30-35 万，可接受 Go/Java。</p>
-</blockquote>
+</div></div></details>
+</section>
+<section class="kp" id="kp12">
+<div class="kp-head">
+<span class="kp-no">12</span>
+<h2>自我介绍（1 分钟版）</h2>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>自我介绍（1 分钟版）？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>模板</strong>："面试官好，我叫李鑫，重邮电子信息硕士，在新华三云简网络做了 3 年 Node.js 后端。主要负责 RRM 无线资源管理，主导过 AI RRM 系统重构——把它从云端集中计算改成设备侧+云端双计算架构，适配了现网 98% 的组网，同时我负责 4 个微服务的 K8s 部署和 Kafka/Redis/MongoDB 的日常运维。我的优势是：有完整的微服务架构设计经验、对分布式中间件有实战、网络通信背景扎实。期待能加入贵司贡献价值。"</p>
-<h3>离职原因（安全版）</h3>
-<blockquote>
-<p>不吐槽前东家；讲成长诉求。</p>
-</blockquote>
+</div></div></details>
+</section>
+<section class="kp" id="kp13">
+<div class="kp-head">
+<span class="kp-no">13</span>
+<h2>离职原因（安全版）</h2>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>离职原因（安全版）？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>模板</strong>："在新华三三年成长很快，独立扛过多个重构项目。但现在是验证/测试为主的工作内容，我希望回到纯开发主线，在更大平台、更高并发场景下继续打磨架构能力。"</p>
-<h3>谈薪话术</h3>
+</div></div></details>
+</section>
+<section class="kp" id="kp14">
+<div class="kp-head">
+<span class="kp-no">14</span>
+<h2>谈薪话术</h2>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>谈薪话术？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul>
 <li>锚点：现年包 24.5 万 → 期望 30-35 万（涨幅 22-43%）</li>
 <li>有 offer 在手："贵司是我很倾向的选择，不过目前手里有个 offer 给到 33 万左右，如果贵司能到 32-35 万这个区间，我今天就能确认。"</li>
 <li>被压价："我理解预算，但我现在的工作稳定性也不错，跳槽的成本和风险是实打实的，希望薪资上能体现诚意。"</li>
 </ul>
 <hr />
+</div></div></details>
+</section>
+<section class="kp" id="kp15">
+<div class="kp-head">
+<span class="kp-no">15</span>
 <h2>📝 本章自测（闭卷）</h2>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>📝 本章自测（闭卷）？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ol>
 <li>手写：反转链表 / 快排 / 两数之和（5 分钟内）</li>
 <li>30 秒讲完 AI RRM 重构（带数据）</li>
@@ -187,10 +476,62 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 <li>自我介绍 1 分钟脱稿</li>
 <li>为什么离职？（3 句版）</li>
 </ol>
-<blockquote>
-<p>完成自测后回《面试八股复习计划》勾选算法与项目相关</p>
-</blockquote></article></div>
+</div></div></details>
+</section>
+</article></div>
 <div class="bottomnav"><a href="学习手册_09_SSM框架.html">◀ 上一本：09 SSM</a>
 <a class="ghost" href="面试八股复习计划_李鑫.html">📖 回复习计划勾选</a>
 <a href="学习手册_11_设计模式.html">下一本：11 设计模式 ▶</a></div>
+</body>
+<a class="totop" href="#">↑</a>
+<script>
+(function(){
+  var KEY = '%s';
+  var boxes = [].slice.call(document.querySelectorAll('details.ans'));
+  var cnt = document.getElementById('cnt');
+  var read = {};
+  try { read = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch(e){ read = {}; }
+  function paint(){
+    var n = 0;
+    boxes.forEach(function(d, i){ if (read[i]) n++; });
+    cnt.textContent = '\u5df2\u770b ' + n + ' / ' + boxes.length;
+  }
+  boxes.forEach(function(d, i){
+    if (read[i]) d.open = true;
+    d.addEventListener('toggle', function(){
+      read[i] = d.open;
+      try { localStorage.setItem(KEY, JSON.stringify(read)); } catch(e){}
+      paint();
+    });
+  });
+  paint();
+  function ensureSaved(){
+    boxes.forEach(function(d, i){ read[i] = d.open; });
+    try { localStorage.setItem(KEY, JSON.stringify(read)); } catch(e){}
+    paint();
+  }
+  var btnQuiz = document.getElementById('btnQuiz');
+  btnQuiz.addEventListener('click', function(){
+    var on = document.body.classList.toggle('quiz');
+    btnQuiz.classList.toggle('on', on);
+    if (on) { boxes.forEach(function(d){ d.open = false; }); }
+    ensureSaved();
+  });
+  document.getElementById('btnOpen').addEventListener('click', function(){
+    document.body.classList.remove('quiz');
+    btnQuiz.classList.remove('on');
+    boxes.forEach(function(d){ d.open = true; });
+    ensureSaved();
+  });
+  document.getElementById('btnClose').addEventListener('click', function(){
+    document.body.classList.remove('quiz');
+    btnQuiz.classList.remove('on');
+    boxes.forEach(function(d){ d.open = false; });
+    ensureSaved();
+  });
+  document.querySelectorAll('a[href="#"]').forEach(function(a){
+    a.addEventListener('click', function(e){ e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); });
+  });
+})();
+</script>
 </body></html>

@@ -1,36 +1,88 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>20 项目讲述方法论 · 学习手册</title><style>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📘 学习手册 20 · 项目讲述方法论（把 RRM 讲成"面试官想听的样子"）</title><style>
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:60px; }
+body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:70px; -webkit-text-size-adjust:100%; }
 .topnav { position:sticky; top:0; z-index:9; background:#1f2937; color:#fff; padding:10px 0; }
 .topnav .inner { max-width:960px; margin:0 auto; padding:0 18px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; font-size:13px; }
 .topnav a { color:#c7d2fe; text-decoration:none; padding:3px 12px; border-radius:14px; background:rgba(255,255,255,.08); }
 .topnav a:hover { background:rgba(255,255,255,.2); color:#fff; }
 .topnav .sep { opacity:.4; }
 .wrap { max-width:960px; margin:0 auto; padding:0 18px; }
-.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px; margin-top:22px; box-shadow:0 1px 3px rgba(20,30,60,.05); }
+.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px 28px; margin-top:22px; box-shadow:0 1px 3px rgba(20,30,60,.05); }
 .article h1 { font-size:26px; color:#4f46e5; border-bottom:3px solid #4f46e5; padding-bottom:12px; margin-bottom:18px; }
-.article h2 { font-size:20px; margin:30px 0 12px; padding:10px 14px; background:#eef2ff; border-left:4px solid #4f46e5; border-radius:6px; color:#312e81; }
-.article h3 { font-size:14px; color:#475569; margin:14px 0 6px; }
-.article p { margin:8px 0; font-size:14.5px; color:#2b3245; }
-.article ul, .article ol { margin:8px 0 8px 24px; }
-.article li { font-size:14.5px; margin:4px 0; }
-.article strong { color:#111827; }
+.meta { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; border-radius:6px; color:#166534; font-size:13px; margin-bottom:8px; }
+
+.toolbar { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:18px 0 6px; padding:12px 14px; background:#eef2ff; border-radius:10px; border:1px solid #dbe2fb; position:sticky; top:44px; z-index:8; }
+.toolbar button { font-family:inherit; font-size:13px; padding:7px 14px; border-radius:16px; border:1px solid #c7d2fe; background:#fff; color:#4338ca; cursor:pointer; }
+.toolbar button:hover { background:#e0e7ff; }
+.toolbar button.on { background:#4f46e5; color:#fff; border-color:#4f46e5; }
+.toolbar .count { font-size:12.5px; color:#4f46e5; margin-left:auto; font-weight:600; }
+
+.kp { border-bottom:1px dashed #dbe0ea; padding:22px 0 10px; }
+.kp:last-child { border-bottom:none; }
+.kp-head { display:flex; gap:10px; align-items:flex-start; margin-bottom:12px; }
+.kp-no { flex:none; width:26px; height:26px; border-radius:8px; background:#4f46e5; color:#fff; font-size:13px; display:flex; align-items:center; justify-content:center; font-weight:600; margin-top:3px; }
+.kp-head h2 { font-size:18px; color:#312e81; line-height:1.5; }
+.kp-head .h3sub { font-size:13px; color:#64748b; font-weight:400; display:block; margin-top:2px; }
+
+.concept { background:#f5f3ff; border-left:4px solid #8b5cf6; border-radius:8px; padding:12px 16px; margin:10px 0; }
+.tag { display:inline-block; font-size:11.5px; padding:2px 10px; border-radius:10px; margin-bottom:6px; font-weight:600; letter-spacing:.5px; }
+.tag-c { background:#ddd6fe; color:#4c1d95; }
+.tag-q { background:#fed7aa; color:#7c2d12; }
+.concept-body p { font-size:14.5px; color:#3b3355; margin:6px 0; }
+.concept-body p:first-child { margin-top:0; }
+.concept-body ul, .concept-body ol { margin:6px 0 6px 22px; }
+.concept-body li { font-size:14.5px; color:#3b3355; margin:4px 0; }
+
+.ask { background:#fffbeb; border-left:4px solid #f59e0b; border-radius:8px; padding:12px 16px; margin:10px 0 14px; }
+.ask-body ul, .ask-body ol { margin:4px 0 4px 22px; }
+.ask-body li { font-size:14.5px; color:#78350f; margin:5px 0; }
+.ask-body p { font-size:14.5px; color:#78350f; margin:5px 0; }
+
+details.ans { margin:6px 0 4px; }
+details.ans > summary { list-style:none; cursor:pointer; display:flex; align-items:center; gap:8px; background:#4f46e5; color:#fff; padding:11px 16px; border-radius:9px; font-size:14px; font-weight:600; user-select:none; }
+details.ans > summary::-webkit-details-marker { display:none; }
+details.ans > summary:hover { background:#4338ca; }
+.arrow { width:0; height:0; border-left:7px solid #fff; border-top:5px solid transparent; border-bottom:5px solid transparent; transition:transform .18s; }
+details.ans[open] > summary .arrow { transform:rotate(90deg); }
+details.ans[open] > summary .sum-text::after { content:" ▲"; font-size:11px; opacity:.7; }
+.ans-inner { border-left:3px solid #c7d2fe; margin:8px 0 0 14px; padding:6px 0 6px 18px; }
+.ans-body p { font-size:14.5px; margin:8px 0; }
+.ans-body h3 { font-size:15px; color:#1e293b; margin:16px 0 8px; padding-left:10px; border-left:3px solid #818cf8; }
+.ans-body h4 { font-size:14.5px; color:#334155; margin:14px 0 6px; }
+.ans-body ul, .ans-body ol { margin:8px 0 8px 24px; }
+.ans-body li { font-size:14.5px; margin:5px 0; }
+.ans-body strong { color:#111827; }
+.sec-h { font-size:12.5px; color:#0f766e; background:#ccfbf1; display:inline-block; padding:2px 12px; border-radius:10px; margin:18px 0 6px; font-weight:600; }
+.ext-body { border-left:3px solid #5eead4; padding-left:14px; margin-bottom:6px; }
+.ext-body p { font-size:14.5px; margin:8px 0; }
+.ext-body ul, .ext-body ol { margin:8px 0 8px 24px; }
+.ext-body li { font-size:14.5px; margin:5px 0; }
+details.sub { margin:12px 0 0; border:1px solid #e4e8f0; border-radius:9px; overflow:hidden; }
+details.sub > summary { list-style:none; cursor:pointer; padding:10px 14px; font-size:13.5px; background:#f8fafc; color:#334155; font-weight:600; user-select:none; }
+details.sub > summary::-webkit-details-marker { display:none; }
+details.sub > summary::before { content:"\25B8 "; color:#94a3b8; }
+details.sub[open] > summary::before { content:"\25BE "; }
+details.sub[open] > summary { border-bottom:1px solid #e4e8f0; }
+.sub-body { padding:12px 16px; }
+.sub-body p { font-size:14.5px; margin:7px 0; }
+.sub-body ul, .sub-body ol { margin:7px 0 7px 24px; }
+.sub-body li { font-size:14.5px; margin:5px 0; }
+details.sub-ask > summary { background:#fff7ed; color:#9a3412; }
+details.sub-anchor > summary { background:#f0fdf4; color:#166534; }
+details.sub-anchor .sub-body { background:#fafffb; }
+
 .article code { background:#f1f3fa; padding:1px 6px; border-radius:4px; font-size:13px; color:#be185d; }
-.article pre { background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:8px; overflow-x:auto; margin:12px 0; font-size:13px; line-height:1.6; }
-.article pre code { background:none; color:inherit; padding:0; }
-.article table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13.5px; display:block; overflow-x:auto; }
-.article th { background:#f1f3fa; padding:8px 10px; text-align:left; color:#475569; font-size:12.5px; border:1px solid #e4e8f0; }
+.article pre { background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:8px; overflow-x:auto; margin:12px 0; font-size:12.8px; line-height:1.65; }
+.article pre code { background:none; color:inherit; padding:0; font-size:12.8px; }
+.article table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; display:block; overflow-x:auto; }
+.article th { background:#f1f3fa; padding:8px 10px; text-align:left; color:#475569; font-size:12.5px; border:1px solid #e4e8f0; white-space:nowrap; }
 .article td { padding:8px 10px; border:1px solid #e4e8f0; vertical-align:top; }
 .article blockquote { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; margin:12px 0; border-radius:6px; color:#166534; font-size:14px; }
 .article blockquote strong { color:#14532d; }
 .article hr { border:none; border-top:1px dashed #d1d5db; margin:26px 0; }
-.bottomnav { max-width:960px; margin:20px auto 0; padding:0 18px; display:flex; gap:10px; }
-.bottomnav a { flex:1; text-align:center; background:#4f46e5; color:#fff; text-decoration:none; padding:12px 10px; border-radius:10px; font-size:14px; }
-.bottomnav a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
-@media (max-width:760px){ .article{padding:22px 18px;} .article h1{font-size:21px;} }
-/* handbook-layout-fix */
 .article p.lead { background:#eef2ff; border-left:4px solid #6366f1; padding:10px 14px; border-radius:6px; color:#312e81; margin:10px 0 4px; }
 .article p.lbl { font-size:13px; color:#64748b; margin:14px 0 4px; }
 .article p.say { background:#fff7ed; border-left:4px solid #f97316; padding:10px 14px; border-radius:6px; color:#7c2d12; margin:12px 0 4px; }
@@ -39,18 +91,54 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 .article ol { margin:6px 0 6px 24px; }
 .article li { margin:5px 0; }
 .article ul ul { margin:4px 0 4px 20px; }
+
+body.quiz details.ans > summary { background:#94a3b8; }
+body.quiz details.ans:not([open]) .sum-text::after { content:"（自测中，先自己答）"; font-size:11.5px; font-weight:400; opacity:.9; }
+body.hide-ans details.ans { display:none; }
+
+.bottomnav { max-width:960px; margin:20px auto 0; padding:0 18px; display:flex; gap:10px; }
+.bottomnav a { flex:1; text-align:center; background:#4f46e5; color:#fff; text-decoration:none; padding:12px 10px; border-radius:10px; font-size:14px; }
+.bottomnav a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
+.totop { position:fixed; right:18px; bottom:22px; width:44px; height:44px; border-radius:50%; background:#4f46e5; color:#fff; display:flex; align-items:center; justify-content:center; font-size:18px; text-decoration:none; box-shadow:0 2px 10px rgba(79,70,229,.35); z-index:20; }
+@media (max-width:760px){
+  .article { padding:22px 16px 20px; }
+  .article h1 { font-size:21px; }
+  .kp-head h2 { font-size:16.5px; }
+  .toolbar { top:40px; padding:10px; }
+  .toolbar button { font-size:12.5px; padding:6px 11px; }
+  .toolbar .count { width:100%; margin:2px 0 0; }
+  .ans-inner { margin-left:4px; padding-left:12px; }
+  body { font-size:15px; }
+}
 </style></head>
 <body>
 <div class="topnav"><div class="inner"><a href="学习中心.html">🏠 学习中心</a> <span class="sep">|</span> <a href="学习手册索引.html">📚 手册索引</a> <span class="sep">|</span> <a href="学习手册_19_并发场景模式库.html">◀ 19 场景模式</a></div></div>
-<div class="wrap"><article class="article"><h1>📘 学习手册 20 · 项目讲述方法论（把 RRM 讲成"面试官想听的样子"）</h1>
-<blockquote>
-<p><strong>来源</strong>：WA6666.zip 项目八股（罗振耘 2026-09-04），提炼自同事材料的"方法论层"——不含任何同事项目业务细节，全部是<strong>可迁移的面试技术</strong>。<br />
-<strong>一句话</strong>：面试的胜负手不是"知道多少八股"，是<strong>能不能把简历每个字都变成你准备好的问题的钩子</strong>。本手册教你三件事：① 简历怎么埋钩子 ② 项目怎么讲（电梯陈述/开场/收尾）③ 追问怎么接（连环追问模式 + 必死题预演）。<br />
-使用方式：每节留了 RRM 专属的"填空位"，请用你真实的项目数据填满并背熟——<strong>只有你自己的数字和故事才站得住</strong>。</p>
-</blockquote>
-<hr />
+<div class="wrap"><article class="article">
+<h1>📘 学习手册 20 · 项目讲述方法论（把 RRM 讲成"面试官想听的样子"）</h1>
+<div class="meta"><p><strong>来源</strong>：WA6666.zip 项目八股（罗振耘 2026-09-04），提炼自同事材料的"方法论层"——不含任何同事项目业务细节，全部是<strong>可迁移的面试技术</strong>。<br /><br /><strong>一句话</strong>：面试的胜负手不是"知道多少八股"，是<strong>能不能把简历每个字都变成你准备好的问题的钩子</strong>。本手册教你三件事：① 简历怎么埋钩子 ② 项目怎么讲（电梯陈述/开场/收尾）③ 追问怎么接（连环追问模式 + 必死题预演）。<br /><br />使用方式：每节留了 RRM 专属的"填空位"，请用你真实的项目数据填满并背熟——<strong>只有你自己的数字和故事才站得住</strong>。</p></div>
+<div class="toolbar">
+  <button id="btnQuiz" type="button">自测模式</button>
+  <button id="btnOpen" type="button">全部展开</button>
+  <button id="btnClose" type="button">全部折叠</button>
+  <span class="count" id="cnt">已看 0 / 7</span>
+</div>
+<section class="kp" id="kp1">
+<div class="kp-head">
+<span class="kp-no">1</span>
 <h2>一、核心心法：简历 = 给面试官的提问提纲</h2>
-<p>面试官不读你的项目文档，他读的是简历。<strong>简历每条 bullet 都会引来一个问题</strong>——所以写简历的最高境界是：面试官问的每个问题，都是你准备过的。</p>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>面试官不读你的项目文档，他读的是简历。<strong>简历每条 bullet 都会引来一个问题</strong>——所以写简历的最高境界是：面试官问的每个问题，都是你准备过的。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>一、核心心法：简历 = 给面试官的提问提纲？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <h3>1.1 简历写作五原则（从同事材料提炼）</h3>
 <ol>
 <li><strong>动词开头，业务动作 + 技术手段双层结构</strong>："设计/实现/主导 + 业务干了什么 + 用了什么技术"。
@@ -88,9 +176,7 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 </tr>
 </tbody>
 </table>
-<blockquote>
-<p>正确的自信来自<strong>把能力主张只落在真实存在的东西上</strong>——你的 AI RRM 双计算、配置中心、OOM 调优都是真的，够用。</p>
-</blockquote>
+
 <h3>1.3 把你的 4 个项目写成"钩子版"（作业：逐条预判问题）</h3>
 <p>用现有简历 4 项目（① AI RRM 重构与规模化落地 ② RRM WiFi7 ③ WBC IoT 2.0）+ Node.js 微服务日常，按表格填：</p>
 <table>
@@ -136,22 +222,42 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 </tbody>
 </table>
 <hr />
+</div></div></details>
+</section>
+<section class="kp" id="kp2">
+<div class="kp-head">
+<span class="kp-no">2</span>
 <h2>二、电梯陈述（30-60 秒，背熟这段）</h2>
-<blockquote>
-<p>结构：<strong>业务是什么 → 解决什么问题 → 我的角色 → 两个技术亮点 → 我的战场声明</strong>。</p>
-</blockquote>
-<p><strong>RRM 版模板（请用你的话填实）</strong>：</p>
-<blockquote>
-<p>"我做的是新华三 Oasis 云平台的无线资源管理（RRM），解决 Wi-Fi 调优"谁来算、算完怎么推给设备、推错了怎么收敛"的问题。云平台上有 4 个微服务（rrmcontrol/rrmserver/rrmcompute/aioptimize），Kafka + MongoDB + K8s 这套底座。<br />
-技术亮点两个：一是 <strong>AI RRM 重构</strong>，把"云端收集-云端计算-下发生效"改成"AC+fitap 设备侧计算、云 AP 云端计算"的双计算分流——适配了 98%+ 组网，把云端运维压力和单点风险降下来；二是<strong>调优任务从触发到设备生效的可靠性链路</strong>——调度器触发、消息驱动结果上报、失败补偿、状态收敛，配合配置中心一键部署和回滚。<br />
-我的战场是<strong>异步链路的正确性和工程化落地</strong>——消息不丢不重、任务不重复执行、发版能回滚，这些在真实无线环境里错的代价很高。"</p>
-</blockquote>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p><strong>RRM 版模板（请用你的话填实）</strong>：</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>二、电梯陈述（30-60 秒，背熟这段）？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p>讲完这段，面试官的问题基本落在：双计算架构怎么分 / 一致性怎么保 / 消息可靠性 / 配置中心回滚 / K8s——<strong>全部是你有代码级答案的主场</strong>。</p>
 <hr />
+</div></div></details>
+</section>
+<section class="kp" id="kp3">
+<div class="kp-head">
+<span class="kp-no">3</span>
 <h2>三、数字锚点表（可信度全靠它，背到条件反射）</h2>
-<blockquote>
-<p>面试时提到某个设计，顺手报出它的数字参数——这是"我真的做过"的最强信号。以下是你已知的真实数字，缺的补上你的真实值：</p>
-</blockquote>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>三、数字锚点表（可信度全靠它，背到条件反射）？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <table>
 <thead>
 <tr>
@@ -198,12 +304,27 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 </tr>
 </tbody>
 </table>
-<blockquote>
-<p>用法：不背数字表本身，而是<strong>每个数字藏在一个可讲的案例里</strong>。被追问"你怎么定位线上问题"，用"OOM 案例：现象 pod 反复重启 → 看内存监控 → 定位高量任务 → 调 5Gi→5.5Gi → 观察稳定"——数字自然带出。</p>
-</blockquote>
+
 <hr />
+</div></div></details>
+</section>
+<section class="kp" id="kp4">
+<div class="kp-head">
+<span class="kp-no">4</span>
 <h2>四、面试官连环追问模式（每个主题都这么被问）</h2>
-<p>资深面试官的问题路径几乎固定：<strong>表层 → 原理 → 边界/陷阱 → 开放</strong>。你可以提前按这四层给自己出题：</p>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>资深面试官的问题路径几乎固定：<strong>表层 → 原理 → 边界/陷阱 → 开放</strong>。你可以提前按这四层给自己出题：</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>四、面试官连环追问模式（每个主题都这么被问）？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <table>
 <thead>
 <tr>
@@ -236,22 +357,33 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 </tbody>
 </table>
 <p><strong>陷阱层的黄金公式</strong>（同事材料的核心示范）：</p>
-<blockquote>
-<p>"对，严格讲有窗口。三层缓解：① 触发源频率低、概率小；② 重复执行设备侧幂等（结果收敛）；③ 真要严谨应该改成 XXX（给出正确做法），当时权衡了实现成本，这是我认可的债。"</p>
-<p>🎯 练习：给你自己项目出 3 道"陷阱题"并预演。参考方向：① newApUpScheduler 每 60s 扫 + 状态标记去重——两个副本同时扫怎么办（Redis 锁/DB 唯一键）？② Kafka 消费"先处理后提交"——提交前宕机重复消费怎么办（幂等收敛）？③ 配置中心发布中有人改配置——版本冲突怎么办（校验+回滚）？</p>
-</blockquote>
+
 <hr />
+</div></div></details>
+</section>
+<section class="kp" id="kp5">
+<div class="kp-head">
+<span class="kp-no">5</span>
 <h2>五、软性题与"必死题"预演</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p><strong>你的弹药库</strong>（从真实经历选一）：</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>五、软性题与"必死题"预演？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <h3>5.1 项目里印象最深的 bug / 难点？（选有完整闭环的）</h3>
-<blockquote>
-<p>首选标准：<strong>现象 → 定位 → 修复 → 反思</strong>四段式，真实发生过。</p>
-</blockquote>
-<p><strong>你的弹药库</strong>（从真实经历选一）：</p>
+
+
 <ul><li><strong>国际环境 MQ bug</strong>：现象=pod 因 'write after end' 反复重启 → 定位=硬编码功率上限场景下连接生命周期管理缺陷 → 修复=commit fd4ed739 → 反思="对异步写连接的关闭时机要有统一收口，不能散落各处"。</li><li><strong>rrmcompute OOM</strong>：现象=高量任务下 pod OOMKilled 重启 → 定位=内存监控 + 任务量分析 → 修复=5Gi→5.5Gi + requests/limits 明确 → 反思="K8s 里内存问题先看 limits/requests 配置和实际画像，再谈代码优化"。</li><li><strong>WBC 解耦</strong>（如适配）：现象/定位/修复/反思自己填。</li></ul>
 <h3>5.2 项目重来一次你会改什么？（答 3 条，别贪多）</h3>
-<blockquote>
-<p>每条都要"指得出位置 + 讲得清为什么 + 给得出改法"——反思的具体度=可信度。</p>
-</blockquote>
+
 <p>模板：</p>
 <ol><li>（设计债）"调度器 60s 全量轮询 → 会改成事件驱动即时触发 + 递归调度兜底，减少空转和实时性损失"；</li><li>（工程债）"日志和监控体系 → 关键链路加 traceId 贯穿 + 指标上报，现在排查靠日志 grep，可观测性是我接下来想补的方向"；</li><li>（技术债）"当时 XXX 用了简单方案（如硬编码超时）→ 会改成配置中心可调"。</li></ol>
 <h3>5.3 三个必死题预演（RRM 版，先自己填答案再背）</h3>
@@ -284,7 +416,21 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 <li>不问薪资福利加班（留给 HR）。</li>
 </ul>
 <hr />
+</div></div></details>
+</section>
+<section class="kp" id="kp6">
+<div class="kp-head">
+<span class="kp-no">6</span>
 <h2>六、讲项目时的节奏控制（答题节奏）</h2>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>六、讲项目时的节奏控制（答题节奏）？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ol>
 <li><strong>八股题</strong>：先背标准答案，再补一句"项目里我们当时是这么处理的"——<strong>一句就够</strong>，别展开成业务汇报。</li>
 <li><strong>场景题</strong>：先给方案梯度（单机 → 分布式 → 高级组件），再说选型理由和取舍——别一上来就上最强方案。</li>
@@ -292,7 +438,21 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 <li><strong>主动暴露</strong>：陷阱题主动讲"我复盘时发现这里有个竞态/隐患"，比等面试官戳破强十倍——<strong>会自我怀疑的工程师才可信</strong>。</li>
 </ol>
 <hr />
+</div></div></details>
+</section>
+<section class="kp" id="kp7">
+<div class="kp-head">
+<span class="kp-no">7</span>
 <h2>七、掌握热力图（面试前自测，答不出 3 秒内开口的模块要补）</h2>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>七、掌握热力图（面试前自测，答不出 3 秒内开口的模块要补）？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <table>
 <thead>
 <tr>
@@ -344,9 +504,61 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 </tr>
 </tbody>
 </table>
-<blockquote>
-<p><strong>核心策略</strong>：你不需要全知全能——把简历每条 bullet 都变成钩子，面试官问到的每个问题都是你主场，就赢了。</p>
-</blockquote></article></div>
+</div></div></details>
+</section>
+</article></div>
 <div class="bottomnav"><a href="学习手册_19_并发场景模式库.html">◀ 上一本：19 场景模式</a>
 <a class="ghost" href="面试八股复习计划_李鑫.html">📖 回复习计划勾选</a></div>
+</body>
+<a class="totop" href="#">↑</a>
+<script>
+(function(){
+  var KEY = '%s';
+  var boxes = [].slice.call(document.querySelectorAll('details.ans'));
+  var cnt = document.getElementById('cnt');
+  var read = {};
+  try { read = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch(e){ read = {}; }
+  function paint(){
+    var n = 0;
+    boxes.forEach(function(d, i){ if (read[i]) n++; });
+    cnt.textContent = '\u5df2\u770b ' + n + ' / ' + boxes.length;
+  }
+  boxes.forEach(function(d, i){
+    if (read[i]) d.open = true;
+    d.addEventListener('toggle', function(){
+      read[i] = d.open;
+      try { localStorage.setItem(KEY, JSON.stringify(read)); } catch(e){}
+      paint();
+    });
+  });
+  paint();
+  function ensureSaved(){
+    boxes.forEach(function(d, i){ read[i] = d.open; });
+    try { localStorage.setItem(KEY, JSON.stringify(read)); } catch(e){}
+    paint();
+  }
+  var btnQuiz = document.getElementById('btnQuiz');
+  btnQuiz.addEventListener('click', function(){
+    var on = document.body.classList.toggle('quiz');
+    btnQuiz.classList.toggle('on', on);
+    if (on) { boxes.forEach(function(d){ d.open = false; }); }
+    ensureSaved();
+  });
+  document.getElementById('btnOpen').addEventListener('click', function(){
+    document.body.classList.remove('quiz');
+    btnQuiz.classList.remove('on');
+    boxes.forEach(function(d){ d.open = true; });
+    ensureSaved();
+  });
+  document.getElementById('btnClose').addEventListener('click', function(){
+    document.body.classList.remove('quiz');
+    btnQuiz.classList.remove('on');
+    boxes.forEach(function(d){ d.open = false; });
+    ensureSaved();
+  });
+  document.querySelectorAll('a[href="#"]').forEach(function(a){
+    a.addEventListener('click', function(e){ e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); });
+  });
+})();
+</script>
 </body></html>

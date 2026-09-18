@@ -1,36 +1,88 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>12 MySQL/PG · 学习手册</title><style>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📘 学习手册 12 · MySQL 与 PostgreSQL 兼容</title><style>
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:60px; }
+body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:70px; -webkit-text-size-adjust:100%; }
 .topnav { position:sticky; top:0; z-index:9; background:#1f2937; color:#fff; padding:10px 0; }
 .topnav .inner { max-width:960px; margin:0 auto; padding:0 18px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; font-size:13px; }
 .topnav a { color:#c7d2fe; text-decoration:none; padding:3px 12px; border-radius:14px; background:rgba(255,255,255,.08); }
 .topnav a:hover { background:rgba(255,255,255,.2); color:#fff; }
 .topnav .sep { opacity:.4; }
 .wrap { max-width:960px; margin:0 auto; padding:0 18px; }
-.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px; margin-top:22px; box-shadow:0 1px 3px rgba(20,30,60,.05); }
+.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px 28px; margin-top:22px; box-shadow:0 1px 3px rgba(20,30,60,.05); }
 .article h1 { font-size:26px; color:#4f46e5; border-bottom:3px solid #4f46e5; padding-bottom:12px; margin-bottom:18px; }
-.article h2 { font-size:20px; margin:30px 0 12px; padding:10px 14px; background:#eef2ff; border-left:4px solid #4f46e5; border-radius:6px; color:#312e81; }
-.article h3 { font-size:14px; color:#475569; margin:14px 0 6px; }
-.article p { margin:8px 0; font-size:14.5px; color:#2b3245; }
-.article ul, .article ol { margin:8px 0 8px 24px; }
-.article li { font-size:14.5px; margin:4px 0; }
-.article strong { color:#111827; }
+.meta { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; border-radius:6px; color:#166534; font-size:13px; margin-bottom:8px; }
+
+.toolbar { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:18px 0 6px; padding:12px 14px; background:#eef2ff; border-radius:10px; border:1px solid #dbe2fb; position:sticky; top:44px; z-index:8; }
+.toolbar button { font-family:inherit; font-size:13px; padding:7px 14px; border-radius:16px; border:1px solid #c7d2fe; background:#fff; color:#4338ca; cursor:pointer; }
+.toolbar button:hover { background:#e0e7ff; }
+.toolbar button.on { background:#4f46e5; color:#fff; border-color:#4f46e5; }
+.toolbar .count { font-size:12.5px; color:#4f46e5; margin-left:auto; font-weight:600; }
+
+.kp { border-bottom:1px dashed #dbe0ea; padding:22px 0 10px; }
+.kp:last-child { border-bottom:none; }
+.kp-head { display:flex; gap:10px; align-items:flex-start; margin-bottom:12px; }
+.kp-no { flex:none; width:26px; height:26px; border-radius:8px; background:#4f46e5; color:#fff; font-size:13px; display:flex; align-items:center; justify-content:center; font-weight:600; margin-top:3px; }
+.kp-head h2 { font-size:18px; color:#312e81; line-height:1.5; }
+.kp-head .h3sub { font-size:13px; color:#64748b; font-weight:400; display:block; margin-top:2px; }
+
+.concept { background:#f5f3ff; border-left:4px solid #8b5cf6; border-radius:8px; padding:12px 16px; margin:10px 0; }
+.tag { display:inline-block; font-size:11.5px; padding:2px 10px; border-radius:10px; margin-bottom:6px; font-weight:600; letter-spacing:.5px; }
+.tag-c { background:#ddd6fe; color:#4c1d95; }
+.tag-q { background:#fed7aa; color:#7c2d12; }
+.concept-body p { font-size:14.5px; color:#3b3355; margin:6px 0; }
+.concept-body p:first-child { margin-top:0; }
+.concept-body ul, .concept-body ol { margin:6px 0 6px 22px; }
+.concept-body li { font-size:14.5px; color:#3b3355; margin:4px 0; }
+
+.ask { background:#fffbeb; border-left:4px solid #f59e0b; border-radius:8px; padding:12px 16px; margin:10px 0 14px; }
+.ask-body ul, .ask-body ol { margin:4px 0 4px 22px; }
+.ask-body li { font-size:14.5px; color:#78350f; margin:5px 0; }
+.ask-body p { font-size:14.5px; color:#78350f; margin:5px 0; }
+
+details.ans { margin:6px 0 4px; }
+details.ans > summary { list-style:none; cursor:pointer; display:flex; align-items:center; gap:8px; background:#4f46e5; color:#fff; padding:11px 16px; border-radius:9px; font-size:14px; font-weight:600; user-select:none; }
+details.ans > summary::-webkit-details-marker { display:none; }
+details.ans > summary:hover { background:#4338ca; }
+.arrow { width:0; height:0; border-left:7px solid #fff; border-top:5px solid transparent; border-bottom:5px solid transparent; transition:transform .18s; }
+details.ans[open] > summary .arrow { transform:rotate(90deg); }
+details.ans[open] > summary .sum-text::after { content:" ▲"; font-size:11px; opacity:.7; }
+.ans-inner { border-left:3px solid #c7d2fe; margin:8px 0 0 14px; padding:6px 0 6px 18px; }
+.ans-body p { font-size:14.5px; margin:8px 0; }
+.ans-body h3 { font-size:15px; color:#1e293b; margin:16px 0 8px; padding-left:10px; border-left:3px solid #818cf8; }
+.ans-body h4 { font-size:14.5px; color:#334155; margin:14px 0 6px; }
+.ans-body ul, .ans-body ol { margin:8px 0 8px 24px; }
+.ans-body li { font-size:14.5px; margin:5px 0; }
+.ans-body strong { color:#111827; }
+.sec-h { font-size:12.5px; color:#0f766e; background:#ccfbf1; display:inline-block; padding:2px 12px; border-radius:10px; margin:18px 0 6px; font-weight:600; }
+.ext-body { border-left:3px solid #5eead4; padding-left:14px; margin-bottom:6px; }
+.ext-body p { font-size:14.5px; margin:8px 0; }
+.ext-body ul, .ext-body ol { margin:8px 0 8px 24px; }
+.ext-body li { font-size:14.5px; margin:5px 0; }
+details.sub { margin:12px 0 0; border:1px solid #e4e8f0; border-radius:9px; overflow:hidden; }
+details.sub > summary { list-style:none; cursor:pointer; padding:10px 14px; font-size:13.5px; background:#f8fafc; color:#334155; font-weight:600; user-select:none; }
+details.sub > summary::-webkit-details-marker { display:none; }
+details.sub > summary::before { content:"\25B8 "; color:#94a3b8; }
+details.sub[open] > summary::before { content:"\25BE "; }
+details.sub[open] > summary { border-bottom:1px solid #e4e8f0; }
+.sub-body { padding:12px 16px; }
+.sub-body p { font-size:14.5px; margin:7px 0; }
+.sub-body ul, .sub-body ol { margin:7px 0 7px 24px; }
+.sub-body li { font-size:14.5px; margin:5px 0; }
+details.sub-ask > summary { background:#fff7ed; color:#9a3412; }
+details.sub-anchor > summary { background:#f0fdf4; color:#166534; }
+details.sub-anchor .sub-body { background:#fafffb; }
+
 .article code { background:#f1f3fa; padding:1px 6px; border-radius:4px; font-size:13px; color:#be185d; }
-.article pre { background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:8px; overflow-x:auto; margin:12px 0; font-size:13px; line-height:1.6; }
-.article pre code { background:none; color:inherit; padding:0; }
-.article table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13.5px; display:block; overflow-x:auto; }
-.article th { background:#f1f3fa; padding:8px 10px; text-align:left; color:#475569; font-size:12.5px; border:1px solid #e4e8f0; }
+.article pre { background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:8px; overflow-x:auto; margin:12px 0; font-size:12.8px; line-height:1.65; }
+.article pre code { background:none; color:inherit; padding:0; font-size:12.8px; }
+.article table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; display:block; overflow-x:auto; }
+.article th { background:#f1f3fa; padding:8px 10px; text-align:left; color:#475569; font-size:12.5px; border:1px solid #e4e8f0; white-space:nowrap; }
 .article td { padding:8px 10px; border:1px solid #e4e8f0; vertical-align:top; }
 .article blockquote { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; margin:12px 0; border-radius:6px; color:#166534; font-size:14px; }
 .article blockquote strong { color:#14532d; }
 .article hr { border:none; border-top:1px dashed #d1d5db; margin:26px 0; }
-.bottomnav { max-width:960px; margin:20px auto 0; padding:0 18px; display:flex; gap:10px; }
-.bottomnav a { flex:1; text-align:center; background:#4f46e5; color:#fff; text-decoration:none; padding:12px 10px; border-radius:10px; font-size:14px; }
-.bottomnav a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
-@media (max-width:760px){ .article{padding:22px 18px;} .article h1{font-size:21px;} }
-/* handbook-layout-fix */
 .article p.lead { background:#eef2ff; border-left:4px solid #6366f1; padding:10px 14px; border-radius:6px; color:#312e81; margin:10px 0 4px; }
 .article p.lbl { font-size:13px; color:#64748b; margin:14px 0 4px; }
 .article p.say { background:#fff7ed; border-left:4px solid #f97316; padding:10px 14px; border-radius:6px; color:#7c2d12; margin:12px 0 4px; }
@@ -39,19 +91,54 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 .article ol { margin:6px 0 6px 24px; }
 .article li { margin:5px 0; }
 .article ul ul { margin:4px 0 4px 20px; }
+
+body.quiz details.ans > summary { background:#94a3b8; }
+body.quiz details.ans:not([open]) .sum-text::after { content:"（自测中，先自己答）"; font-size:11.5px; font-weight:400; opacity:.9; }
+body.hide-ans details.ans { display:none; }
+
+.bottomnav { max-width:960px; margin:20px auto 0; padding:0 18px; display:flex; gap:10px; }
+.bottomnav a { flex:1; text-align:center; background:#4f46e5; color:#fff; text-decoration:none; padding:12px 10px; border-radius:10px; font-size:14px; }
+.bottomnav a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
+.totop { position:fixed; right:18px; bottom:22px; width:44px; height:44px; border-radius:50%; background:#4f46e5; color:#fff; display:flex; align-items:center; justify-content:center; font-size:18px; text-decoration:none; box-shadow:0 2px 10px rgba(79,70,229,.35); z-index:20; }
+@media (max-width:760px){
+  .article { padding:22px 16px 20px; }
+  .article h1 { font-size:21px; }
+  .kp-head h2 { font-size:16.5px; }
+  .toolbar { top:40px; padding:10px; }
+  .toolbar button { font-size:12.5px; padding:6px 11px; }
+  .toolbar .count { width:100%; margin:2px 0 0; }
+  .ans-inner { margin-left:4px; padding-left:12px; }
+  body { font-size:15px; }
+}
 </style></head>
 <body>
 <div class="topnav"><div class="inner"><a href="学习中心.html">🏠 学习中心</a> <span class="sep">|</span> <a href="学习手册索引.html">📚 手册索引</a> <span class="sep">|</span> <a href="学习手册_11_设计模式.html">◀ 11 设计模式</a> <span class="sep">|</span> <a href="学习手册_13_容器化.html">13 容器化 ▶</a></div></div>
-<div class="wrap"><article class="article"><h1>📘 学习手册 12 · MySQL 与 PostgreSQL 兼容</h1>
-<blockquote>
-<p>补充：MySQL 手册之外的数据库对比专题<br />
-背景：你日常用 PostgreSQL 16.8（代码质量扫描），投的岗位多是 MySQL 生态——面试官问"MySQL 和 PG 区别"正是你差异化机会<br />
-模板：<strong>一句话结论 → 详细解释 → 面试话术/例题</strong></p>
-</blockquote>
-<hr />
-<h2>1. MySQL 和 PostgreSQL 选型</h2>
-<p class="lead"><strong>一句话结论</strong>：MySQL 简单生态大（互联网标配），PG 功能强合规全（JSON/数组/窗口函数/分区完善）；读多写少互联网场景 MySQL，复杂查询/数据分析/合规要求 PG。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+<div class="wrap"><article class="article">
+<h1>📘 学习手册 12 · MySQL 与 PostgreSQL 兼容</h1>
+<div class="meta"><p>补充：MySQL 手册之外的数据库对比专题<br /><br />背景：你日常用 PostgreSQL 16.8（代码质量扫描），投的岗位多是 MySQL 生态——面试官问"MySQL 和 PG 区别"正是你差异化机会<br /><br />模板：<strong>一句话结论 → 详细解释 → 面试话术/例题</strong></p></div>
+<div class="toolbar">
+  <button id="btnQuiz" type="button">自测模式</button>
+  <button id="btnOpen" type="button">全部展开</button>
+  <button id="btnClose" type="button">全部折叠</button>
+  <span class="count" id="cnt">已看 0 / 11</span>
+</div>
+<section class="kp" id="kp1">
+<div class="kp-head">
+<span class="kp-no">1</span>
+<h2>MySQL 和 PostgreSQL 选型</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>MySQL 简单生态大（互联网标配），PG 功能强合规全（JSON/数组/窗口函数/分区完善）；读多写少互联网场景 MySQL，复杂查询/数据分析/合规要求 PG。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>MySQL 和 PostgreSQL 选型？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <table>
 <thead>
 <tr>
@@ -108,19 +195,67 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 </tr>
 </tbody>
 </table>
-<h2>2. 架构差异：存储引擎与数据组织</h2>
-<p class="lead"><strong>一句话结论</strong>：MySQL 分层引擎（InnoDB 表空间+聚簇索引），PG 每张表一堆文件（堆表组织，MVCC 靠元组版本）。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+</div></div></details>
+</section>
+<section class="kp" id="kp2">
+<div class="kp-head">
+<span class="kp-no">2</span>
+<h2>架构差异：存储引擎与数据组织</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>MySQL 分层引擎（InnoDB 表空间+聚簇索引），PG 每张表一堆文件（堆表组织，MVCC 靠元组版本）。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>PG 为什么更新慢？→ 新版本元组 + vacuum 负担（见第 6 题）</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li>MySQL InnoDB：<strong>聚簇索引</strong>（主键即数据），数据和索引一体；引擎可选</li><li>PG：<strong>堆表</strong>（heap），索引是独立结构指向行（类似 MyISAM 的非聚簇）；无引擎概念，统一存储管理器</li><li>含义：MySQL 主键查找极快（一次定位），PG 二级索引查询可能回表；PG 顺序扫描+bitmap 扫描优化更强</li><li>MySQL 一行即一条记录；PG 更新产生新版本元组（旧版本留 undo/vacuum 清理）</li></ul>
-<p class="say"><strong>话术/例题</strong>："MySQL 聚簇索引管数据，PG 堆表+独立索引"一句话。追问：PG 为什么更新慢？→ 新版本元组 + vacuum 负担（见第 6 题）。</p>
-<h2>3. 自增 vs 序列（AUTO_INCREMENT / SERIAL）</h2>
-<p class="lead"><strong>一句话结论</strong>：MySQL 用 AUTO_INCREMENT，PG 用序列（SERIAL / IDENTITY），本质都是"取号器"但 PG 更灵活。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+<div class="sec-h">拓展</div><div class="ext-body">"MySQL 聚簇索引管数据，PG 堆表+独立索引"一句话。追问：PG 为什么更新慢？→ 新版本元组 + vacuum 负担（见第 6 题）。</div>
+</div></div></details>
+</section>
+<section class="kp" id="kp3">
+<div class="kp-head">
+<span class="kp-no">3</span>
+<h2>自增 vs 序列（AUTO_INCREMENT / SERIAL）</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>MySQL 用 AUTO_INCREMENT，PG 用序列（SERIAL / IDENTITY），本质都是"取号器"但 PG 更灵活。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>序列会重复吗？→ 回滚不回收，保证不重复但可能有空洞</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li>MySQL：<code>id INT AUTO_INCREMENT PRIMARY KEY</code>，表级计数器；重启后按 max+1 续（有历史跳过问题）</li><li>PG：<code>id SERIAL PRIMARY KEY</code>（内部建序列）；<code>id BIGINT GENERATED ALWAYS AS IDENTITY</code>（现代推荐）</li><li>序列特点：独立对象，可多个表共享/批量取 nextval；不随事务回滚（有空洞正常）</li><li>迁移注意：MySQL 自增迁移到 PG 要建序列并 setval 到当前最大值</li></ul>
-<p class="say"><strong>话术/例题</strong>：一句"都是自增取号，PG 是独立序列对象"。追问：序列会重复吗？→ 回滚不回收，保证不重复但可能有空洞。</p>
-<h2>4. SQL 语法兼容差异（高频对比）</h2>
-<p class="lead"><strong>一句话结论</strong>：LIMIT/ON CONFLICT/COALESCE/类型转换/字符串拼接/日期函数 6 处最常见差异，迁移必踩。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+<div class="sec-h">拓展</div><div class="ext-body">一句"都是自增取号，PG 是独立序列对象"。追问：序列会重复吗？→ 回滚不回收，保证不重复但可能有空洞。</div>
+</div></div></details>
+</section>
+<section class="kp" id="kp4">
+<div class="kp-head">
+<span class="kp-no">4</span>
+<h2>SQL 语法兼容差异（高频对比）</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>LIMIT/ON CONFLICT/COALESCE/类型转换/字符串拼接/日期函数 6 处最常见差异，迁移必踩。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>SQL 语法兼容差异（高频对比）？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <table>
 <thead>
 <tr>
@@ -177,9 +312,25 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 </tr>
 </tbody>
 </table>
-<h2>5. 数据类型差异</h2>
-<p class="lead"><strong>一句话结论</strong>：PG 类型更丰富（数组/JSONB/枚举/几何/网络类型），MySQL 简单；JSON 是最大差异点。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+</div></div></details>
+</section>
+<section class="kp" id="kp5">
+<div class="kp-head">
+<span class="kp-no">5</span>
+<h2>数据类型差异</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>PG 类型更丰富（数组/JSONB/枚举/几何/网络类型），MySQL 简单；JSON 是最大差异点。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>数据类型差异？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <table>
 <thead>
 <tr>
@@ -236,32 +387,126 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 </tr>
 </tbody>
 </table>
-<h2>6. MVCC 与并发控制差异</h2>
-<p class="lead"><strong>一句话结论</strong>：两者都用 MVCC 实现读不阻塞写，但机制不同：MySQL 靠 undo log 版本链，PG 靠元组新旧版本 + vacuum 清理。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+</div></div></details>
+</section>
+<section class="kp" id="kp6">
+<div class="kp-head">
+<span class="kp-no">6</span>
+<h2>MVCC 与并发控制差异</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>两者都用 MVCC 实现读不阻塞写，但机制不同：MySQL 靠 undo log 版本链，PG 靠元组新旧版本 + vacuum 清理。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>PG 为什么有 vacuum？→ 旧版本元组不清理表会膨胀，autovacuum 自动处理</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li>MySQL：更新时旧版本进 <strong>undo log</strong> 版本链，新版本原地写（InnoDB）；隔离级别默认<strong>可重复读（RR）</strong></li><li>PG：更新生成<strong>新版本元组</strong>（堆里新增一行），旧版本保留，靠 <strong>vacuum</strong> 清理过期元组；隔离级别默认<strong>读已提交（RC）</strong>；PG 的 RR 用 SSI（可串行化快照隔离）更强</li><li>PG 特点：DDL 可以事务化（建表改表可回滚）、锁更细（行锁+谓词锁）</li><li>MySQL 的 RR 靠 MVCC+间隙锁基本防幻读；PG 的 RR 防幻读靠 SSI 或序列化</li></ul>
-<p class="say"><strong>话术/例题</strong>："MySQL undo 版本链 vs PG 新版本元组"是深度题。追问：PG 为什么有 vacuum？→ 旧版本元组不清理表会膨胀，autovacuum 自动处理。</p>
-<h2>7. 索引差异</h2>
-<p class="lead"><strong>一句话结论</strong>：MySQL 主打 B+树（+哈希/全文），PG 有 B-tree/GIN/GiST/BRIN/部分索引/表达式索引，类型丰富得多。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+<div class="sec-h">拓展</div><div class="ext-body">"MySQL undo 版本链 vs PG 新版本元组"是深度题。追问：PG 为什么有 vacuum？→ 旧版本元组不清理表会膨胀，autovacuum 自动处理。</div>
+</div></div></details>
+</section>
+<section class="kp" id="kp7">
+<div class="kp-head">
+<span class="kp-no">7</span>
+<h2>索引差异</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>MySQL 主打 B+树（+哈希/全文），PG 有 B-tree/GIN/GiST/BRIN/部分索引/表达式索引，类型丰富得多。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>什么时候用部分索引？→ 只查活跃状态的数据，索引只含 WHERE 子句匹配的行，小且快</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li>MySQL：B+树（默认）、Hash（MEMORY 引擎）、全文（InnoDB 5.6+）</li><li>PG：<strong>B-tree</strong>（默认）、<strong>GIN</strong>（倒排，JSONB/全文搜索）、<strong>GiST</strong>（地理/范围）、BRIN（大数据量顺序）、<strong>部分索引</strong>（WHERE 条件索引）、<strong>表达式索引</strong>（函数索引）</li><li>实战：JSONB 字段查用 GIN 索引；地理查询 PostGIS 用 GiST；大数据量日志按时间用 BRIN</li></ul>
-<p class="say"><strong>话术/例题</strong>："MySQL 一种打天下，PG 索引武器库"——你能讲 GIN/部分索引就是懂 PG。追问：什么时候用部分索引？→ 只查活跃状态的数据，索引只含 WHERE 子句匹配的行，小且快。</p>
-<h2>8. 复制与高可用</h2>
-<p class="lead"><strong>一句话结论</strong>：MySQL 用 binlog 逻辑复制（半同步可配），PG 用 WAL 物理流复制（同步/异步），PG 高可用生态更严谨。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+<div class="sec-h">拓展</div><div class="ext-body">"MySQL 一种打天下，PG 索引武器库"——你能讲 GIN/部分索引就是懂 PG。追问：什么时候用部分索引？→ 只查活跃状态的数据，索引只含 WHERE 子句匹配的行，小且快。</div>
+</div></div></details>
+</section>
+<section class="kp" id="kp8">
+<div class="kp-head">
+<span class="kp-no">8</span>
+<h2>复制与高可用</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>MySQL 用 binlog 逻辑复制（半同步可配），PG 用 WAL 物理流复制（同步/异步），PG 高可用生态更严谨。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>为什么 PG 同步复制能保证不丢？→ 主库等从库 WAL 落盘才提交（synchronous_commit）</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li>MySQL：binlog 复制（GTID 增强），读写分离常见；半同步需插件；MGR 组复制</li><li>PG：<strong>WAL 流复制</strong>（物理复制，从库只读）+ 逻辑复制（表级，跨版本）；同步复制可配置同步级别（remote_apply）；主从切换用 Patroni/repmgr</li><li>PG 优势：复制延迟低（流式）、支持同步复制保证不丢（类似半同步加强版）</li><li>监控：MySQL 主从延迟 SHOW SLAVE STATUS；PG pg_stat_replication</li></ul>
-<p class="say"><strong>话术/例题</strong>："MySQL 逻辑复制 vs PG 物理流复制"一句话。追问：为什么 PG 同步复制能保证不丢？→ 主库等从库 WAL 落盘才提交（synchronous_commit）。</p>
-<h2>9. MySQL → PG 迁移注意点</h2>
-<p class="lead"><strong>一句话结论</strong>：语法（ON DUPLICATE→ON CONFLICT）、类型（自增→序列、JSON→JSONB）、大小写、驱动/ORM 方言，四类改造点。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+<div class="sec-h">拓展</div><div class="ext-body">"MySQL 逻辑复制 vs PG 物理流复制"一句话。追问：为什么 PG 同步复制能保证不丢？→ 主库等从库 WAL 落盘才提交（synchronous_commit）。</div>
+</div></div></details>
+</section>
+<section class="kp" id="kp9">
+<div class="kp-head">
+<span class="kp-no">9</span>
+<h2>MySQL → PG 迁移注意点</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>语法（ON DUPLICATE→ON CONFLICT）、类型（自增→序列、JSON→JSONB）、大小写、驱动/ORM 方言，四类改造点。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>为什么有的公司从 MySQL 迁 PG？→ 需要 PG 的高级特性（JSONB/地理/合规）或替代 Oracle</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ol><li><strong>SQL 方言</strong>：IFNULL→COALESCE、ON DUPLICATE→ON CONFLICT、DATE_FORMAT→TO_CHAR、<code>||</code> 拼接</li><li><strong>类型</strong>：AUTO_INCREMENT→SERIAL/IDENTITY（setval 续号）、JSON→JSONB、ENUM→自定义类型</li><li><strong>大小写</strong>：MySQL 表名不敏感 vs PG 折叠小写——统一小写命名</li><li><strong>ORM/驱动</strong>：MySQL 驱动 mysql2/MySQLDialect vs PG pg/pg-promise/Dialect 切换；SQL 里反引号 → 双引号/标准</li><li><strong>工具</strong>：pgloader 自动迁移（MySQL→PG 开源工具）、AWS DMS</li><li><strong>行为差异</strong>：PG 事务中 DDL 可回滚、GROUP BY 更严格（要列全）、默认 RC 隔离</li></ol>
-<p class="say"><strong>话术/例题</strong>：你能讲"迁移 4 类改造点"就是真做过跨库。追问：为什么有的公司从 MySQL 迁 PG？→ 需要 PG 的高级特性（JSONB/地理/合规）或替代 Oracle。</p>
-<h2>10. PostgreSQL 运维要点（加分）</h2>
-<p class="lead"><strong>一句话结论</strong>：vacuum 防膨胀、checkpoint 控落盘、WAL 归档做备份、参数调优（shared_buffers/work_mem）——PG 运维三板斧。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+<div class="sec-h">拓展</div><div class="ext-body">你能讲"迁移 4 类改造点"就是真做过跨库。追问：为什么有的公司从 MySQL 迁 PG？→ 需要 PG 的高级特性（JSONB/地理/合规）或替代 Oracle。</div>
+</div></div></details>
+</section>
+<section class="kp" id="kp10">
+<div class="kp-head">
+<span class="kp-no">10</span>
+<h2>PostgreSQL 运维要点（加分）</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>vacuum 防膨胀、checkpoint 控落盘、WAL 归档做备份、参数调优（shared_buffers/work_mem）——PG 运维三板斧。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>表膨胀了怎么处理？→ 手动 VACUUM FULL（重建表，锁表，低峰做）</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li><strong>vacuum/autovacuum</strong>：清理死元组防表膨胀（膨胀影响查询性能）；<code>VACUUM ANALYZE</code> 更新统计信息</li><li><strong>checkpoint</strong>：WAL 落盘时机，checkpoint 间隔影响恢复时间（-XX: checkpoint_completion_target）</li><li><strong>备份</strong>：pg_basebackup（物理）/ pg_dump（逻辑）+ WAL 归档（PITR 时间点恢复）</li><li><strong>参数</strong>：shared_buffers（建议内存 25%）、work_mem（排序/哈希内存）、maintenance_work_mem（vacuum/索引）</li><li><strong>监控</strong>：pg_stat_activity（活动会话/慢查询）、pg_stat_statements（SQL 统计）</li></ul>
-<p class="say"><strong>话术/例题</strong>：能说出"autovacuum 防膨胀 + pg_stat_statements 看慢 SQL"就是有生产经验。追问：表膨胀了怎么处理？→ 手动 VACUUM FULL（重建表，锁表，低峰做）。</p>
+<div class="sec-h">拓展</div><div class="ext-body">能说出"autovacuum 防膨胀 + pg_stat_statements 看慢 SQL"就是有生产经验。追问：表膨胀了怎么处理？→ 手动 VACUUM FULL（重建表，锁表，低峰做）。</div>
+</div></div></details>
+</section>
+<section class="kp" id="kp11">
+<div class="kp-head">
+<span class="kp-no">11</span>
 <h2>📝 本章自测（闭卷）</h2>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>📝 本章自测（闭卷）？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ol>
 <li>MySQL vs PG 选型一句话 + 三个核心差异</li>
 <li>AUTO_INCREMENT 和 SERIAL 迁移怎么做</li>
@@ -271,10 +516,62 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 <li>PG 迁移四大改造点</li>
 <li>PG 表膨胀原因和解决</li>
 </ol>
-<blockquote>
-<p>完成自测后可回《面试八股复习计划》勾选 MySQL 相关题</p>
-</blockquote></article></div>
+</div></div></details>
+</section>
+</article></div>
 <div class="bottomnav"><a href="学习手册_11_设计模式.html">◀ 上一本：11 设计模式</a>
 <a class="ghost" href="面试八股复习计划_李鑫.html">📖 回复习计划勾选</a>
 <a href="学习手册_13_容器化.html">下一本：13 容器化 ▶</a></div>
+</body>
+<a class="totop" href="#">↑</a>
+<script>
+(function(){
+  var KEY = '%s';
+  var boxes = [].slice.call(document.querySelectorAll('details.ans'));
+  var cnt = document.getElementById('cnt');
+  var read = {};
+  try { read = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch(e){ read = {}; }
+  function paint(){
+    var n = 0;
+    boxes.forEach(function(d, i){ if (read[i]) n++; });
+    cnt.textContent = '\u5df2\u770b ' + n + ' / ' + boxes.length;
+  }
+  boxes.forEach(function(d, i){
+    if (read[i]) d.open = true;
+    d.addEventListener('toggle', function(){
+      read[i] = d.open;
+      try { localStorage.setItem(KEY, JSON.stringify(read)); } catch(e){}
+      paint();
+    });
+  });
+  paint();
+  function ensureSaved(){
+    boxes.forEach(function(d, i){ read[i] = d.open; });
+    try { localStorage.setItem(KEY, JSON.stringify(read)); } catch(e){}
+    paint();
+  }
+  var btnQuiz = document.getElementById('btnQuiz');
+  btnQuiz.addEventListener('click', function(){
+    var on = document.body.classList.toggle('quiz');
+    btnQuiz.classList.toggle('on', on);
+    if (on) { boxes.forEach(function(d){ d.open = false; }); }
+    ensureSaved();
+  });
+  document.getElementById('btnOpen').addEventListener('click', function(){
+    document.body.classList.remove('quiz');
+    btnQuiz.classList.remove('on');
+    boxes.forEach(function(d){ d.open = true; });
+    ensureSaved();
+  });
+  document.getElementById('btnClose').addEventListener('click', function(){
+    document.body.classList.remove('quiz');
+    btnQuiz.classList.remove('on');
+    boxes.forEach(function(d){ d.open = false; });
+    ensureSaved();
+  });
+  document.querySelectorAll('a[href="#"]').forEach(function(a){
+    a.addEventListener('click', function(e){ e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); });
+  });
+})();
+</script>
 </body></html>

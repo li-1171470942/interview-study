@@ -1,28 +1,88 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>24 23种设计模式精讲 · 学习手册</title><style>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📘 学习手册 24 · 23 种设计模式精讲（系统教程版）</title><style>
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:60px; }
+body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:70px; -webkit-text-size-adjust:100%; }
 .topnav { position:sticky; top:0; z-index:9; background:#1f2937; color:#fff; padding:10px 0; }
 .topnav .inner { max-width:960px; margin:0 auto; padding:0 18px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; font-size:13px; }
 .topnav a { color:#c7d2fe; text-decoration:none; padding:3px 12px; border-radius:14px; background:rgba(255,255,255,.08); }
 .topnav a:hover { background:rgba(255,255,255,.2); color:#fff; }
+.topnav .sep { opacity:.4; }
 .wrap { max-width:960px; margin:0 auto; padding:0 18px; }
-.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px; margin-top:22px; }
-.article h1 { font-size:24px; color:#4f46e5; border-bottom:3px solid #4f46e5; padding-bottom:12px; margin-bottom:18px; }
-.article h2 { font-size:20px; margin:32px 0 14px; padding:10px 14px; background:#eef2ff; border-left:4px solid #4f46e5; border-radius:6px; color:#312e81; }
-.article h3 { font-size:17px; margin:22px 0 8px; color:#4338ca; }
-.article h4 { font-size:15px; margin:16px 0 6px; color:#475569; }
-.article p { margin:8px 0; font-size:14.5px; color:#2b3245; }
-.article p.li { margin:4px 0 4px 18px; }
-.article strong { color:#111827; }
+.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px 28px; margin-top:22px; box-shadow:0 1px 3px rgba(20,30,60,.05); }
+.article h1 { font-size:26px; color:#4f46e5; border-bottom:3px solid #4f46e5; padding-bottom:12px; margin-bottom:18px; }
+.meta { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; border-radius:6px; color:#166534; font-size:13px; margin-bottom:8px; }
+
+.toolbar { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:18px 0 6px; padding:12px 14px; background:#eef2ff; border-radius:10px; border:1px solid #dbe2fb; position:sticky; top:44px; z-index:8; }
+.toolbar button { font-family:inherit; font-size:13px; padding:7px 14px; border-radius:16px; border:1px solid #c7d2fe; background:#fff; color:#4338ca; cursor:pointer; }
+.toolbar button:hover { background:#e0e7ff; }
+.toolbar button.on { background:#4f46e5; color:#fff; border-color:#4f46e5; }
+.toolbar .count { font-size:12.5px; color:#4f46e5; margin-left:auto; font-weight:600; }
+
+.kp { border-bottom:1px dashed #dbe0ea; padding:22px 0 10px; }
+.kp:last-child { border-bottom:none; }
+.kp-head { display:flex; gap:10px; align-items:flex-start; margin-bottom:12px; }
+.kp-no { flex:none; width:26px; height:26px; border-radius:8px; background:#4f46e5; color:#fff; font-size:13px; display:flex; align-items:center; justify-content:center; font-weight:600; margin-top:3px; }
+.kp-head h2 { font-size:18px; color:#312e81; line-height:1.5; }
+.kp-head .h3sub { font-size:13px; color:#64748b; font-weight:400; display:block; margin-top:2px; }
+
+.concept { background:#f5f3ff; border-left:4px solid #8b5cf6; border-radius:8px; padding:12px 16px; margin:10px 0; }
+.tag { display:inline-block; font-size:11.5px; padding:2px 10px; border-radius:10px; margin-bottom:6px; font-weight:600; letter-spacing:.5px; }
+.tag-c { background:#ddd6fe; color:#4c1d95; }
+.tag-q { background:#fed7aa; color:#7c2d12; }
+.concept-body p { font-size:14.5px; color:#3b3355; margin:6px 0; }
+.concept-body p:first-child { margin-top:0; }
+.concept-body ul, .concept-body ol { margin:6px 0 6px 22px; }
+.concept-body li { font-size:14.5px; color:#3b3355; margin:4px 0; }
+
+.ask { background:#fffbeb; border-left:4px solid #f59e0b; border-radius:8px; padding:12px 16px; margin:10px 0 14px; }
+.ask-body ul, .ask-body ol { margin:4px 0 4px 22px; }
+.ask-body li { font-size:14.5px; color:#78350f; margin:5px 0; }
+.ask-body p { font-size:14.5px; color:#78350f; margin:5px 0; }
+
+details.ans { margin:6px 0 4px; }
+details.ans > summary { list-style:none; cursor:pointer; display:flex; align-items:center; gap:8px; background:#4f46e5; color:#fff; padding:11px 16px; border-radius:9px; font-size:14px; font-weight:600; user-select:none; }
+details.ans > summary::-webkit-details-marker { display:none; }
+details.ans > summary:hover { background:#4338ca; }
+.arrow { width:0; height:0; border-left:7px solid #fff; border-top:5px solid transparent; border-bottom:5px solid transparent; transition:transform .18s; }
+details.ans[open] > summary .arrow { transform:rotate(90deg); }
+details.ans[open] > summary .sum-text::after { content:" ▲"; font-size:11px; opacity:.7; }
+.ans-inner { border-left:3px solid #c7d2fe; margin:8px 0 0 14px; padding:6px 0 6px 18px; }
+.ans-body p { font-size:14.5px; margin:8px 0; }
+.ans-body h3 { font-size:15px; color:#1e293b; margin:16px 0 8px; padding-left:10px; border-left:3px solid #818cf8; }
+.ans-body h4 { font-size:14.5px; color:#334155; margin:14px 0 6px; }
+.ans-body ul, .ans-body ol { margin:8px 0 8px 24px; }
+.ans-body li { font-size:14.5px; margin:5px 0; }
+.ans-body strong { color:#111827; }
+.sec-h { font-size:12.5px; color:#0f766e; background:#ccfbf1; display:inline-block; padding:2px 12px; border-radius:10px; margin:18px 0 6px; font-weight:600; }
+.ext-body { border-left:3px solid #5eead4; padding-left:14px; margin-bottom:6px; }
+.ext-body p { font-size:14.5px; margin:8px 0; }
+.ext-body ul, .ext-body ol { margin:8px 0 8px 24px; }
+.ext-body li { font-size:14.5px; margin:5px 0; }
+details.sub { margin:12px 0 0; border:1px solid #e4e8f0; border-radius:9px; overflow:hidden; }
+details.sub > summary { list-style:none; cursor:pointer; padding:10px 14px; font-size:13.5px; background:#f8fafc; color:#334155; font-weight:600; user-select:none; }
+details.sub > summary::-webkit-details-marker { display:none; }
+details.sub > summary::before { content:"\25B8 "; color:#94a3b8; }
+details.sub[open] > summary::before { content:"\25BE "; }
+details.sub[open] > summary { border-bottom:1px solid #e4e8f0; }
+.sub-body { padding:12px 16px; }
+.sub-body p { font-size:14.5px; margin:7px 0; }
+.sub-body ul, .sub-body ol { margin:7px 0 7px 24px; }
+.sub-body li { font-size:14.5px; margin:5px 0; }
+details.sub-ask > summary { background:#fff7ed; color:#9a3412; }
+details.sub-anchor > summary { background:#f0fdf4; color:#166534; }
+details.sub-anchor .sub-body { background:#fafffb; }
+
 .article code { background:#f1f3fa; padding:1px 6px; border-radius:4px; font-size:13px; color:#be185d; }
-.article pre { background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:8px; overflow-x:auto; margin:12px 0; font-size:12.5px; line-height:1.6; }
-.article pre code { background:none; color:inherit; padding:0; }
-.article blockquote { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; margin:12px 0; border-radius:6px; color:#166534; font-size:13.5px; }
+.article pre { background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:8px; overflow-x:auto; margin:12px 0; font-size:12.8px; line-height:1.65; }
+.article pre code { background:none; color:inherit; padding:0; font-size:12.8px; }
+.article table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; display:block; overflow-x:auto; }
+.article th { background:#f1f3fa; padding:8px 10px; text-align:left; color:#475569; font-size:12.5px; border:1px solid #e4e8f0; white-space:nowrap; }
+.article td { padding:8px 10px; border:1px solid #e4e8f0; vertical-align:top; }
+.article blockquote { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; margin:12px 0; border-radius:6px; color:#166534; font-size:14px; }
+.article blockquote strong { color:#14532d; }
 .article hr { border:none; border-top:1px dashed #d1d5db; margin:26px 0; }
-.footer { text-align:center; color:#9aa3b5; font-size:12px; margin-top:26px; }
-/* handbook-layout-fix */
 .article p.lead { background:#eef2ff; border-left:4px solid #6366f1; padding:10px 14px; border-radius:6px; color:#312e81; margin:10px 0 4px; }
 .article p.lbl { font-size:13px; color:#64748b; margin:14px 0 4px; }
 .article p.say { background:#fff7ed; border-left:4px solid #f97316; padding:10px 14px; border-radius:6px; color:#7c2d12; margin:12px 0 4px; }
@@ -31,6 +91,25 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 .article ol { margin:6px 0 6px 24px; }
 .article li { margin:5px 0; }
 .article ul ul { margin:4px 0 4px 20px; }
+
+body.quiz details.ans > summary { background:#94a3b8; }
+body.quiz details.ans:not([open]) .sum-text::after { content:"（自测中，先自己答）"; font-size:11.5px; font-weight:400; opacity:.9; }
+body.hide-ans details.ans { display:none; }
+
+.bottomnav { max-width:960px; margin:20px auto 0; padding:0 18px; display:flex; gap:10px; }
+.bottomnav a { flex:1; text-align:center; background:#4f46e5; color:#fff; text-decoration:none; padding:12px 10px; border-radius:10px; font-size:14px; }
+.bottomnav a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
+.totop { position:fixed; right:18px; bottom:22px; width:44px; height:44px; border-radius:50%; background:#4f46e5; color:#fff; display:flex; align-items:center; justify-content:center; font-size:18px; text-decoration:none; box-shadow:0 2px 10px rgba(79,70,229,.35); z-index:20; }
+@media (max-width:760px){
+  .article { padding:22px 16px 20px; }
+  .article h1 { font-size:21px; }
+  .kp-head h2 { font-size:16.5px; }
+  .toolbar { top:40px; padding:10px; }
+  .toolbar button { font-size:12.5px; padding:6px 11px; }
+  .toolbar .count { width:100%; margin:2px 0 0; }
+  .ans-inner { margin-left:4px; padding-left:12px; }
+  body { font-size:15px; }
+}
 </style></head>
 <body>
 <div class="topnav"><div class="inner">
@@ -40,110 +119,131 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 </div></div>
 <div class="wrap"><article class="article">
 <h1>📘 学习手册 24 · 23 种设计模式精讲（系统教程版）</h1>
-<blockquote><strong>来源</strong>：《23种设计模式精讲_v2.pdf》（240 页 · 23.4 万字）</blockquote>
-<blockquote><strong>定位</strong>：手册 11《设计模式》是<strong>面试速答版</strong>（20 题），本手册是<strong>系统精讲版</strong>——讲透每种模式的问题背景、UML 结构、代码实现与适用场景。</blockquote>
-<blockquote><strong>章节</strong>：① 设计模式概述 ② UML 图 ③ 六大设计原则(SOLID) ④ 创建型(5 种) ⑤ 结构型(7 种) ⑥ 行为型(11 种) ⑦ 开源实战（Spring / MyBatis）</blockquote>
-<blockquote><strong>用法</strong>：面试前用手册 11 快速过题；要深入理解某个模式时查本手册对应章节。</blockquote>
-<blockquote>⚠️ <strong>说明</strong>：原 PDF 中代码注释为图片格式，文本提取后注释内容丢失（代码逻辑与结构完整）。如需带注释的原始代码，请对照原 PDF 查看。</blockquote>
-<hr>
+<div class="meta"><strong>来源</strong>：《23种设计模式精讲_v2.pdf》（240 页 · 23.4 万字）</div>
+<div class="toolbar">
+  <button id="btnQuiz" type="button">自测模式</button>
+  <button id="btnOpen" type="button">全部展开</button>
+  <button id="btnClose" type="button">全部折叠</button>
+  <span class="count" id="cnt">已看 0 / 7</span>
+</div>
+<section class="kp" id="kp1">
+<div class="kp-head">
+<span class="kp-no">1</span>
 <h2>第一章 设计模式概述</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>要想学习设计模式呢 我们就必须搞清楚设计模式到底在我们的编程过程中起到了怎样的作用,在编程世界中它处在一个什么样的位置,它到底是一种抽象的设计思想,还是一套具体的落地方案.在学习设计模式之前呢 我们需要了解一下 代码质量的评价标准和编程的方法论我们经常会听到有人对项目代码进行评价,一般就会说：“代码写得很烂”或者“代码写得很好”。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>1.1 代码质量好坏如何评价?</li>
+<li>1.2 编程方法论</li>
+<li>1.3 设计模式概述</li>
+<li>1.4 产生背景</li>
+<li>1.5 设计模式分类</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <h3>1.1 代码质量好坏如何评价?</h3>
-<p>要想学习设计模式呢 我们就必须搞清楚设计模式到底在我们的编程过程中起到了怎样的作用,在编程世界中它处在一个什么样的位置,它到底是一种抽象的设计思想,还是一套具体的落地方案.在学习设计模式之前呢 我们需要了解一下 代码质量的评价标准和编程的方法论我们经常会听到有人对项目代码进行评价,一般就会说：“代码写得很烂”或者“代码写得很好”。</p>
+
 <p>用“好”“烂”这样的词汇来描述代码质量，非常地笼统。</p>
 <p>对于程序员来说，辨别代码写得“好”还是“烂”，是一个非常重要的能力。这也是我们写出好代码的前提。</p>
 <p>代码质量的评价标准非常之多,我这里就给大家介绍一下最常用的几个标准</p>
 <p><strong>评价代码的质量,有以下几个常用标准</strong></p>
 <p><strong>1 ) 可维护性</strong></p>
 <p>可维护性强的代码指的是:在不去破坏原有的代码设计以及不引入新的BUG的前提下,能够快速的修改或者新增代码.不易维护的代码指的是:在添加或者修改一些功能逻辑的时候,存在极大的引入新的BUG的风险,并且需要花费的时间也很长.</p>
-<blockquote>代码可维护性的评判标准比较模糊,</blockquote>
+
 <p>因为是否易维护是针对维护的人员来说的,不同水平的人对于同一份代码的维护能力是不同的. 所谓''难者不会 会者不难''. 对于同样的系统,熟悉它的资深工程师会觉得代码可维护性还可以,而新人则会因为能力不足、了解不够深入等原因觉得代码的可维护性不是很好.</p>
 <p><strong>2 ) 可读性</strong></p>
 <p>软件开发教父，Martin Fowler曾经说过一句话:"任何傻瓜都能够编写计算机能理解的代码，而优秀的程序员能够编写人类能理解的代码。" 这句话的意思非常容易理解,就是要求我们写出的代码是易读的、易理解的,因为代码的可读性会在很大程度上影响代码的可维护行性.</p>
-<blockquote>code review ( 代码审查,一种测试代码可读性的手段 )</blockquote>
-<blockquote>1.检查代码风格和编程规范:</blockquote>
+
+
 <p>代码是否符合编码规范、命名是否达意、注释是否详尽、模块划分是否清晰等</p>
-<blockquote>2.检查常规的 bad smell 和代码 bug: 是否存在重复代码、过长函数、过大类、过于亲密的两个</blockquote>
+
 <p>classes等</p>
 <p><strong>3 ) 可扩展性</strong></p>
 <p>代码的可扩展性表示，我们在不修改或少量修改原有代码的情况下，通过扩展的方式添加新的功能代码。</p>
-<blockquote>可扩展性的背后其实就是: "对修改关闭,对扩展开放" 这条设计原则,后面我们会详细的讲解</blockquote>
+
 <p><strong>4 ) 灵活性</strong></p>
 <p>"灵活" 是指在添加新代码的时候，已有代码能够不受影响，不产生冲突，不出现排斥，在保证自身不遭到破坏的前提下灵活地接纳新代码。</p>
-<blockquote>下面的几个场景,可以体现代码的灵活性</blockquote>
-<blockquote>1.添加新的功能代码时,原有代码已经预留了扩展点,我们不需要修改 直接在扩展点上新增代码即可.</blockquote>
-<blockquote>2.当我们想实现一个功能模块时,发现原有代码中,已经抽象出了很多底层可以复用的模块、类等代码,我们</blockquote>
+
+
+
 <p>可以直接拿来使用</p>
-<blockquote>3.当我们使用某组接口时,这组接口可以应对各种使用场景,满足不同需求,这个接口设计的十分的灵活易用.</blockquote>
+
 <p><strong>5 ) 简洁性</strong></p>
 <p>我们要遵从KISS ( Keep It Simple Stupid) 原则，代码要尽可能的简单；但是思从深而行从简，真正的高手能云淡风轻地用最简单的方法解决最复杂的问题。这也是一个编程老手跟编程新手的本质区别之一。</p>
-<blockquote>代码的写法应当使别人理解它所需的时间最小化.</blockquote>
+
 <p><strong>6 ) 可复用性</strong></p>
 <p>代码的可复用性可以简单地理解为，尽量减少重复代码的编写，复用已有的代码.</p>
-<blockquote>可复用性也是一个非常重要的代码评价标准，是很多设计原则、思想、模式等所 要达到的最终效果</blockquote>
-<blockquote>可复用性与DRY(Don't Repeat Yourself) 避免编写重复的代码逻辑.</blockquote>
+
+
 <p>原则关系紧密,后面我们会介绍有哪些编程方法可以提高代码复用性.</p>
 <p><strong>7 ) 可测试性</strong></p>
 <p>单元测试在一个完整的软件开发流程中是必不可少的、非常重要的一个环节。通常写单元测试并不难，但有的时候，有的代码和功能难以测试，导致写起测试来困难重重。所以写出的代码具有可测试性，具有很重要的作用。</p>
-<blockquote>代码可测试性的好坏，能从侧面上非常准确地反应代码质量的好坏</blockquote>
+
 <h3>1.2 编程方法论</h3>
 <p>想要拥有编写高质量代码的能力,我们就要学习一些编程的方法论.其中就包含面向对象（我们可以把它看成一种设计思想）、设计原则、设计模式、编程规范、重构技巧等等</p>
-<blockquote>接下来我就给大家介绍一下这几个概念和他们之间的联系,介绍这些呢</blockquote>
+
 <p>有助于大家对于整个课程中包含的知识点,有一个全局的了解,将我们学到的知识有序的组织在头脑中,方便大家记忆.</p>
 <p><strong>代码重构的工具就是面向对象设计思想、设计原则、设计模式、编码规范。</strong></p>
 <p><strong>1 ) 面向对象</strong></p>
 <p>面向对象是一种编程思想,也是一种编程范式. 现在比较流行的编程语言大部分都是面向对象编程语言.而大部分项目也都是基于面向对象编程风格进行开发的.</p>
-<blockquote>作为一名Java程序员,相信同学们对于面向对象的特点,以及面向对象思想在实际工作中的应用,都有一定深</blockquote>
+
 <p>度的了解,这里边关于面向对象的一些相关知识点我们就不做赘述了.</p>
 <p><strong>2 ) 设计原则 (本次课程重点讲解)</strong></p>
 <p>设计原则是指导我们代码设计的一些经验总结。在软件开发中，为了提高软件系统的可维护性和可复用性，增加软件的可扩展性和灵活性，程序员要尽量根据设计原则来开发程序，从而提高软件开发效率、节约软件开发成本和维护成本。</p>
 <p>常用的设计原则单一职责原则开闭原则里氏代换原则依赖倒转原则接口隔离原则迪米特法则</p>
-<blockquote>设计原则的特点就是比较的抽象,大家不需要死记硬背.每个人根据自己所积累的经验和所处的业务场景,</blockquote>
+
 <p>去灵活的运用这些原则即可</p>
 <p><strong>3 ) 设计模式 (本次课程重点讲解)</strong></p>
 <p>设计模式是针对软件开发中经常遇到的一些设计问题，总结出来的一套解决方案或者设计思路。大部分设计模式要解决的都是代码的可扩展性问题。</p>
-<blockquote>设计模式是遵循设计原则的, 设计模式相对于设计原则来说，没有那么抽象，而且大部分都不难理解，代</blockquote>
+
 <p>码实现也并不复杂。这一块的学习难点是了解它们都能解决哪些问题，掌握典型的应用场景，并且懂得不过度应用。</p>
 <p><strong>4 ) 编程规范</strong></p>
 <p>编程规范主要解决的是代码的可读性问题。编码规范相对于设计原则、设计模式，更加具体、更加偏重代码细节。</p>
-<blockquote>对于编码规范，考虑到很多书籍已经讲得很好了（比如《编写可读性代码的艺术》《代码大全》《代码</blockquote>
+
 <p>整洁之 道》等）。而且，每条编码规范都非常简单、非常明确，比较偏向于记忆，你只要照着来做 可以。</p>
 <p><strong>5 ) 重构</strong></p>
 <p>维基百科: 在软件工程学里，<strong>重构</strong>代码一词通常是指在不改变代码的外部行为情况下而修改源代码，有时非正式地称为“清理干净”。在极限编程或其他敏捷方法学中，重构常常是软件开发循环的一部分：开发者轮流增加新的测试和功能，并重构代码来增进内部的清晰性和一致性。</p>
-<blockquote>在软件开发中，只要软件在不停地迭代，就没有一劳永逸的设计。随着需求的变化，代码的 不停堆砌，</blockquote>
+
 <p>原有的设计必定会存在这样那样的问题。针对这些问题，我们就需要进行代码重构。重构是软件开发中非常重要的一个环节。持续重构是保持代码质量不下降的有效手段，能有效避免代码腐化到无可救药的地步。</p>
 <p><strong>6 ) 总结</strong></p>
 <p>提高代码质量的方法论包含:面向对象思想 (基础)设计原则 (指导方针)设计模式 (设计原则的具体实现)编程规范 (提高代码可读性)重构 (面向对象设计思想、设计原则、设计模式、编码规范的融合贯通)</p>
-<blockquote>设计原则是高手的内功，设计模式是少林，武当，峨眉派的武术套路，规范是招式 出拳还</blockquote>
+
 <p>是横扫，重构是组合拳 融汇贯通各种组合，而想练好这些武功还要有扎实的基本功 面向对 象,在这里呢 也提醒同学们一句,不要一味的去追求最新的技术(并不是说这样做不好,但是千万不要本末倒置),而忘记了一个程序员最重要的能力 是写出高质量的代码.</p>
 <h3>1.3 设计模式概述</h3>
 <p><strong>设计模式（Design pattern）</strong>是一套被反复使用、多数人知晓的、经过分类编目的、代码设计经验的总结</p>
-<blockquote>在GOF编写的设计模式(可复用面向对象软件的基础)一书中说道: 本书涉及的设计模式**并不描述新的或</blockquote>
-<p>未经证实的设计<strong>，我们只</strong>收录那些在不同系统中多次使用过的成功设计**。</p>
+
+<p>未经证实的设计<strong>，我们只</strong>收录那些在不同系统中多次使用过的成功设计<strong>。</p>
 <p>大部分设计模式要解决的都是代码的可重用性、可扩展性问题</p>
-<blockquote>如果说数据结构和算法是教你如何写出高效代码，那设计模式讲的是如何写出可扩展、可读、可维护的</blockquote>
+
 <p>高质量代码，所以，它们跟平时的编码会有直接的关系，也会直接影响到你的开发能力。</p>
 <p>学习设计模式的好处能够从容应对面试中的设计模式相关问题</p>
-<blockquote>我们学习技术从最功利的角度讲,就是为了拿到心仪的offer,得到想要的薪资.所以在面试时特别是面试一</blockquote>
+
 <p>些BAT大厂时,如果被问到设计模式的问题, 因为我们学了本次课程,就不会再惧怕这些问题,设计模式反而会成为你面试中的亮点.不再编写 bullshit-code</p>
-<blockquote>代码能力是一个程序员最基础的能力，是基本功，是展示一个程序员基础素养的最直接的衡量标准。你</blockquote>
+
 <p>写的代码，实 际上就是你名片。我们通过学习设计模式,告别烂代码的编写,避免比如类设计不合理,代码结构混乱,分层不清晰 等等这样的代码问题. 让我们编写的代码成为团队中的标杆.提高复杂代码的设计和开发能力</p>
-<blockquote>不再只是根据业务需求翻译代码,填充代码. 而是能够通过所学习的设计模式的相关知识写出高质量的代码</blockquote>
+
 <p>.即使面对复杂代码功能或者系统的设计开发也能得心应手.有助于我们读懂源码,学习框架更加事半功倍</p>
-<blockquote>对于一个有追求的程序员来说，对技术的积累，既要有广度，也要有深度。所以我们需要更多的去学习</blockquote>
+
 <p>研究各种框架,中间件的底层原理,而这些优秀的框架 中间件的源码中会使用到很多设计思想 设计原则设计模式 ,所以为了更好的独懂这些开源项目,我们必须好设计模式相关知识.</p>
 <h3>1.4 产生背景</h3>
 <p><strong>"设计模式"</strong> 最初并不是出现在软件设计中，而是被用于建筑领域的设计中。</p>
 <p>1977年美国著名建筑大师、加利福尼亚大学伯克利分校环境结构中心主任<code>克里斯托夫·亚历山大（Christop her Alexander）</code>在他的著作《建筑模式语言：城镇、建筑、构造》中描述了一些常见的建筑设计问题，并提出了 253 种关于对城镇、邻里、住宅、花园和房间等进行设计的基本模式。</p>
 <p><strong>四人帮（GOF）</strong></p>
 <p>1990年软件工程界开始研讨设计模式的话题，后来召开了多次关于设计模式的研讨会。</p>
-<blockquote>在之前设计模式的<strong>绝大部分以往并无文本记录</strong>，它们或是来源于面向对象设计者圈子里的非正式交流</blockquote>
+
 <p>，或是来源于某些成功的面向对象系统的某些部分，但对<strong>设计新手</strong>来说，这些东西是很难学得到的。尽管这些设计<strong>不包括新的思路</strong>，但我们<strong>用一种新的、便于理解的方式将其展现给读者</strong>，即：具有统一格式的、已分类编目的若干组设计模式。</p>
 <p>1994 年，艾瑞克·伽马（ErichGamma）、理査德·海尔姆（Richard Helm）、拉尔夫·约翰森（Ralph Johnson）、约翰·威利斯迪斯（John Vlissides）等 4位作者合作出版了《设计模式：可复用面向对象软件的基础》一书，在此书中收录了 23个设计模式，这是设计模式领域里程碑的事件，导致了软件设计模式的突破。</p>
 <p>备注：由于书名太长， 人们将其简称为 "四人组 （Gang of Four， GoF） 的书"， 并且很快进一步简化为"GoF 的书"。</p>
 <h3>1.5 设计模式分类</h3>
-<blockquote>按照不同的业务领域和场景的复杂程度，以及选择不同的设计模式，在整个系统建设落地中都会有不同</blockquote>
+
 <p>的呈现形式。</p>
-<blockquote>就像出行可以选择不同的交通工具一样，如近距离骑自行车、中短程驾车、远程乘坐高铁或飞机等</blockquote>
+
 <p>GoF设计模式只有23个，但是它们各具特色，每个模式都为某一个可重复的设计问题提供了一套解决方案。</p>
 <p>根据它们的用途，设计模式可分为 <strong>创建型(Creational) </strong>，<strong>结构型(Structural)</strong>和<strong>行为型(Behavioral)</strong></p>
 <p><strong>创建型模式(5种)：提供创建对象的机制，提升已有代码的灵活性和可复用性</strong></p>
@@ -155,11 +255,31 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 <p><strong>行为模式(11种)：负责对象间的高效沟通和职责传递委派</strong></p>
 <p>常用的有：观察者模式、模板模式、策略模式、职责链模式、迭代器模式、状态模式。</p>
 <p>不常用的有：访问者模式、备忘录模式、命令模式、解释器模式、中介模式。</p>
+</div></div></details>
+</section>
+<section class="kp" id="kp2">
+<div class="kp-head">
+<span class="kp-no">2</span>
 <h2>第二章 UML图</h2>
-<p>统一建模语言（Unified Modeling Language，UML）是用来设计软件的可视化建模语言。它的特点是简单、统一、图形化、能表达软件设计中的动态与静态信息。</p>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>统一建模语言（Unified Modeling Language，UML）是用来设计软件的可视化建模语言。它的特点是简单、统一、图形化、能表达软件设计中的动态与静态信息。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>2.1 类图概述</li>
+<li>2.2 类图的作用</li>
+<li>2.3 类图表示法</li>
+<li>2.4 UML类图总结</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p>UML 从目标系统的不同角度出发，定义了用例图、类图、对象图、状态图、活动图、时序图、协作图、构件图、部署图等 9 种图。</p>
 <p>这里我们只介绍类图.</p>
-<blockquote>我们要去研究一个设计模式的时候,是需要借助UML类图更加准确的描述所使用的设计模式,和设计模式下</blockquote>
+
 <p>类与类之间的关系</p>
 <h3>2.1 类图概述</h3>
 <p>类图(Class diagram)是显示了模型的静态结构，特别是模型中存在的类、类的内部结构以及它们与其他类的关系等。类图不显示暂时性的信息。类图是面向对象建模的主要组成部分。</p>
@@ -178,8 +298,8 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 <p>抽象类在UML类图中同样用矩形框表示，但是抽象类的类名以及抽象方法的名字都用斜体字表示，如图所示。</p>
 <h4>2.3.3 在UML类图中表示接口</h4>
 <p>接口在类图中也是用矩形框表示，但是与类的表示法不同的是，接口在类图中的第一层顶端用构造型</p>
-<blockquote>表示，下面是接口的名字，第二层是方法。</blockquote>
-<blockquote>此外，接口还有另一种表示法，俗称棒棒糖表示法，就是类上面的一根棒棒糖（圆圈+实线）。圆圈旁为</blockquote>
+
+
 <p>接口名称，接口方法在实现类中出现。</p>
 <h4>2.3.4 在类图中表示关系</h4>
 <p>类和类、类和接口、接口和接口之间存在一定关系，UML类图中一般会有连线指明它们之间的关系。</p>
@@ -203,7 +323,7 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 <p><strong>3) 自关联</strong></p>
 <p>自关联在UML类图中用一个带有箭头且指向自身的线表示。上图的意思就是Node类包含类型为Node的成员变量，也就是“自己包含自己”。</p>
 <p>##### 2.3.4.4 聚合关系聚合关系是关联关系的一种，表示一种弱的‘拥有’关系，体现的是A对象可以包含B对象，但是B对象不是A对象的一部分</p>
-<blockquote>在代码中: 比如A 类对象包含 B 类对象，B 类对象的生命周期可以不依赖 A</blockquote>
+
 <p>类对象的生命周期，也就是说可以单独销毁 A 类对象而不影响 B 对象</p>
 <pre><code>
     public class A{
@@ -218,7 +338,7 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 <p>在 UML 类图中，聚合关系可以用带空心菱形的实线来表示，菱形指向整体。</p>
 <p>下图所示是大学和教师的关系图：</p>
 <p>##### 2.3.4.5 组合关系组合关系是一种强‘拥有’关系，体现了严格的部分和整体的关系，部分和整体的声明周期一样</p>
-<blockquote>在代码中: 比如A 类对象包含 B 类对象，B 类对象的生命周期依赖A 类对象的生命周期，B</blockquote>
+
 <p>类对象不可以单独存在</p>
 <pre><code>
     public class A{
@@ -237,13 +357,34 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 <p>下图所示是司机和汽车的关系图，司机驾驶汽车：</p>
 <h3>2.4 UML类图总结</h3>
 <p>之前我们一共学习了六种类关系的表示方式实现关系泛化关系关联关系聚合关系组合关系依赖关系为了节省学习成本, 方便记忆,我们可以将类和类之间的关系重新调整一下,使其更加贴近编程的角度:实现关系泛化关系依赖关系组合关系 (组合关系+关联关系+聚合关系)</p>
-<blockquote>我们也没有必要去区分组合与聚合这两个概念,只需要记住一点就是: 多用组合少用继承</blockquote>
-<blockquote>也就是说只要 B 类对象是 A 类对象的成员变量，那我们就称，A 类跟 B 类是组合关 系.</blockquote>
+</div></div></details>
+</section>
+<section class="kp" id="kp3">
+<div class="kp-head">
+<span class="kp-no">3</span>
 <h2>第三章 六大设计原则 (SOLID)</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>则是设计要求，设计模式是设计方案，使用设计模式的代码则是具体的实现。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>3.1 设计原则概述</li>
+<li>3.2 单一职责原则</li>
+<li>3.3 开闭原则</li>
+<li>3.4 里氏替换原则</li>
+<li>3.5 接口隔离原则</li>
+<li>3.6 依赖倒置原则</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <h3>3.1 设计原则概述</h3>
-<blockquote>古人云: 有道无术,术可求.有术无道,止于术.</blockquote>
-<blockquote>而设计模式通常需要遵循一些设计原则，在设计原则的基础之上衍生出了各种各样的设计模式。设计原</blockquote>
-<p>则是设计要求，设计模式是设计方案，使用设计模式的代码则是具体的实现。</p>
+
+
+
 <p>设计模式中主要有六大设计原则，简称为SOLID，是由于各个原则的首字母简称合并的来(两个L算一个,solid 稳定的)，六大设计原则分别如下：</p>
 <p><strong>1、单一职责原则（Single Responsibitity Principle）</strong></p>
 <p><strong>2、开放封闭原则（Open Close Principle）</strong></p>
@@ -258,14 +399,14 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 <p>在 &gt;一书中 关于这个原则的英文描述是这样的：A class or module should have a single responsibility。如果我们把它翻译成中文，那就是<strong>：一个类或者模块只负责完成一个职责（或者功能）</strong>。</p>
 <h4>3.2.2 通俗解释</h4>
 <p>单一职责原则的定义描述非常简单，也不难理解。<strong>一个类只负责完成一个职责或者功能。</strong>也就是说在类的设计中 我们不要设计大而全的类,而是要设计粒度小、功能单一的类.</p>
-<blockquote>比如 我们设计一个类里面既包含了用户的一些操作,又包含了支付的一些操作,那这个类的职责就不够单一</blockquote>
+
 <p>,应该将该类进行拆分,拆分成多个功能更加单一的,粒度更细的类.</p>
 <h4>3.2.3 场景示例</h4>
 <p>那么该如何判断一个类的职责是否单一 ?</p>
-<blockquote>其实在软件设计中，要真正用好单一职责原则并不简单，因为遵循这一原则最关键的地方在于职责的划</blockquote>
+
 <p>分，而职责的划分是根据需求定的，同一个类（接口）的设计，在不同的需求里面，可能职责的划分并不一样.我们来看下面这个例子:在一个社交媒体产品中,我们使用UserInfo去记录用户的信息,包括如下的属性.请问上面的UserInfo类是否满足单一职责原则呢 ?观点1: 满足,因为记录的都是跟用户相关的信息观点2: 不满足,因为地址信息应该被拆分出来,单独放到地址表中保存.</p>
 <p>正确答案: 根据实际业务场景选择是否拆分该社交产品的有用户信息只是用来展示的,那么这个类这样设计就没有问题假设后面这个社交产品又添加了电商模块, 那就需要将地址信息提取出来,单独设计一个类<strong>总结: 不同的应用场景、不同阶段的需求背景下，对同一个类的职责是否单一的判定，可能都是不一样的,最好的方式就是: </strong></p>
-<blockquote>我们可以先写一个粗粒度的类，满足业务需求。随着业务的发展，如果粗粒度的类越来越庞大，代码越</blockquote>
+
 <p>来越多，这个时候，我们就可以将这个粗粒度的类，拆分成几个更细粒度的类。这就是所谓的持续重构</p>
 <p><strong>如何判断一个类的职责是否单一?</strong></p>
 <p>这里没有一个具体的金科玉律，但从实际代码开发经验上，有一些可执行性的侧面判断指标，可供参考：</p>
@@ -276,9 +417,9 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 <p>一般认为最早提出开闭原则（Open-Close Principle，OCP）的是伯特兰·迈耶。他在1988年发表的《面向对象软件构造》中给出的。在面向对象编程领域中，开闭原则规定软件中的对象、类、模块和函数对扩展应该是开放的，但对于修改是封闭的。这意味着应该用抽象定义结构，用具体实现扩展细节，以此确保软件系统开发和维护过程的可靠性。</p>
 <h4>3.3.2 通俗解释</h4>
 <p>定义：<strong>对扩展开放，对修改关闭</strong></p>
-<blockquote>对扩展开放和对修改关闭表示当一个类或一个方法有新需求或者需求发生改变时应该采用扩展的方式而</blockquote>
+
 <p>不应该采用修改原有逻辑的方式来实现。因为扩展了新的逻辑如果有问题只会影响新的业务，不会影响老业务；而如果采用修改的方式，很有可能就会影响到老业务受影响。</p>
-<blockquote>开闭原则是所有设计模式的最核心目标，也是最难实现的目标，但是所有的软件设计模式都应该以开闭</blockquote>
+
 <p>原则当作标准，才能使软件更加的稳定和健壮。</p>
 <p>优点：</p>
 <p>新老逻辑解耦，需求发生改变不会影响老业务的逻辑改动成本最小，只需要追加新逻辑，不需要改的老逻辑提供代码的稳定性和可扩展性</p>
@@ -287,13 +428,13 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 <p>设计时应该考虑的数据传输协议的可变性，抽象出具有报文解译、编制、校验等所有版本协议使用的通用方法，调用方针对接口进行编程即可，如上述示例设计类图如下调用方依赖于报文接口，报文接口是稳定的，而不针对具体的427协议或427修正协议。利用接口多态技术，实现了开闭原则。</p>
 <p><strong>顶层设计思维</strong></p>
 <p>抽象意识封装意识扩展意识</p>
-<blockquote>在写代码的时候后，我们要多花点时间往前多思考一下，这段代码未来可能有哪些需求变</blockquote>
+
 <p>更、如何设计代码结构，事先留好扩展点，以便在未来需求变更的时候，不需要改动代码整体结构、做到最小代码改动的情况下，新的代码能够很灵活地插入到扩展点上，做到“对扩展开放、对修改关闭”。</p>
 <h3>3.4 里氏替换原则</h3>
 <h4>3.4.1 官方定义</h4>
 <p>里氏替换原则（Liskov Substitution Principle，LSP）是由麻省理工学院计算机科学系教授芭芭拉·利斯科夫于 1987</p>
 <p>年在“面向对象技术的高峰会议”（OOPSLA）上发表的一篇论文《数据抽象和层次》（Data Abstractionand Hierarchy）里提出的.她在论文中提到：如果S是T的子类型，对于S类型的任意对象，如果将他们看作是T类型的对象，则对象的行为也理应与期望的行为一致。</p>
-<blockquote>子类对象能够替换程序中父类对象出现的任何地方，并且保证原来程序的逻辑行为不变及正确性不被破</blockquote>
+
 <p>坏。</p>
 <h4>3.4.2 通俗解释</h4>
 <p><strong>如何理解里氏替换原则？</strong></p>
@@ -302,13 +443,13 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 <p>什么是与期望行为一致的替换（Robert Martin所说的“必须能够替换”）？</p>
 <p><strong>1 ) 什么是替换 ?</strong></p>
 <p>替换的前提是面向对象语言所支持的多态特性，同一个行为具有多个不同表现形式或形态的能力。</p>
-<blockquote>以JDK的集合框架为例，<code>List</code>接口的定义为有序集合，<code>List</code>接口有多个派生类，比如大家耳熟能详的`Ar</blockquote>
+
 <p>rayList<code>, </code>LinkedList<code>。那当某个方法参数或变量是</code>List<code>接口类型时，既可以是</code>ArrayList<code>的实现,也可以是</code>LinkedList`的实现，这就是替换。</p>
 <p><strong>2 ) 什么是与期望行为一致的替换？</strong></p>
 <p>在不了解派生类的情况下，仅通过接口或基类的方法，即可清楚的知道方法的行为，而不管哪种派生类的实现，都与接口或基类方法的期望行为一致。</p>
-<blockquote>不需要关心是哪个类对接口进行了实现,因为不管底层如何实现,最终的结果都会符合接口中关于方法的描</blockquote>
+
 <p>述(也就是与接口中方法的期望行为一致).</p>
-<blockquote>或者说接口或基类的方法是一种契约，使用方按照这个契约来使用，派生类也按照这个契约来实现。这</blockquote>
+
 <p>就是与期望行为一致的替换。</p>
 <h4>3.4.3 场景示例</h4>
 <p>里氏替换原则要求我们在编码时使用基类或接口去定义对象变量，使用时可以由具体实现对象进行赋值，实现变化的多样性，完成代码对修改的封闭，扩展的开放。</p>
@@ -377,12 +518,12 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 </code></pre>
 <p>Context 中代码使用接口定义对象变量，这个对象变量可以是实现了lStrategy接口的PromotionalStrateg y、RebateStrategy 、 ReduceStrategy任意一个。</p>
 <p>里氏代换原则与多态的区别 ?</p>
-<blockquote>虽然从定义描述和代码实现上</blockquote>
+
 <p>来看，多态和里式替换有点类似，但它们关注的角度是不一样的。多态是面向对象编程的一大特性，也是面向对象编程语言的一种语法。它是一种代码实现的思路。而里式替换是一种设计原则，用来指导继承关系中子类该如何设计，子类的设计要保证在替换父类的时候，不改变原有程序的逻辑及不破坏原有程序的正确性。</p>
 <p>里氏替换原则和依赖倒置原则，构成了面向接口编程的基础，正因为里氏替换原则，才使得程序呈现多样性。</p>
 <h3>3.5 接口隔离原则</h3>
 <h4>3.5.1 官方定义</h4>
-<blockquote>作者<strong>罗伯特 C·马丁</strong> 为 “接口隔离原则”</blockquote>
+
 <p>的定义是：客户端不应该被迫依赖于它不使用的方法（Clients should not be forced to depend on methods they do not use）。</p>
 <p>该原则还有另外一个定义：一<strong>个类对另一个类的依赖应该建立在最小的接口上</strong></p>
 <h4>3.5.2 通俗解释</h4>
@@ -403,9 +544,9 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
         //... }
 </code></pre>
 <p>需求: 后台管理系统要实现删除用户的功能，希望用户系统提供一个删除用户的接口,应该如何设计这个接口(假设这里我们不去考虑使用鉴权框架).方案1: 直接在UserService接口中添加一个删除用户的接口</p>
-<blockquote>这个方法可以解决问题，但是也隐藏了一些安全隐患。删除用户是一个非常慎重的操作，我们只希望通</blockquote>
+
 <p>过后台管理系统来执行，所以这个接口只限于给后台管理系统使用。如果我们把它放到 UserService中，那所有使用到 UserService</p>
-<blockquote>的系统，都可以调用这个接口。不加限制地被其他业务系统调用，就有可能导致误删用户。</blockquote>
+
 <p>方案2: 遵照接口隔离原则,为依赖接口的类定制服务。只提供调用者需要的方法，屏蔽不需要的方法。</p>
 <p>将删除接口单独放到另外 一个接口 RestrictedUserService 中, 然后将 RestrictedUserService只打包提供给后台管理系统来 使用。</p>
 <pre><code>
@@ -431,22 +572,22 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 <p>High level modules should not depend upon low level modules. Both should depend upon abstractions.Abstractions should not depend upon details. Details should depend upon abstractions依赖倒置原则（Dependence Inversion Principle，DIP）是指在设计代码架构时，高层模块不应该依赖于底层模块，二者都应该依赖于抽象。抽象不应该依赖于细节，细节应该依赖于抽象。</p>
 <h4>3.6.2 通俗解释</h4>
 <p>依赖倒置原则是实现开闭原则的重要途径之一，它降低了客户与实现模块之间的耦合。</p>
-<blockquote>1. 高层级的模块应该依赖的是低层级的模块的行为的抽象，取决于具体编程语言，可以是抽象类或者接</blockquote>
+
 <p>口等技术；</p>
-<blockquote>2. 第2句话其实很简单，只有一个意思：只要依赖了实现，就是耦合了代码，所以我们需要始终依赖的是</blockquote>
+
 <p>抽象，而不是实现。</p>
 <p><strong>传统的自定向下的设计</strong></p>
-<blockquote>传统设计方式采用自顶向下的原则， 逐级依赖，中层模块和高层模块的耦合度很高，如果需要修改其中</blockquote>
+
 <p>的一个模块，则可能会导致其它很多模块也需要修改，牵一发动全身，不易于维护。</p>
-<blockquote>不使用依赖反转的系统构架，控制流和依赖关系流的依赖箭头是一个方向的，由高层指向底层，也就是</blockquote>
+
 <p>高层依赖底层</p>
 <p>依赖倒置原则</p>
-<blockquote>依赖倒置原则的好处:</blockquote>
-<blockquote>- 减少类间的耦合性，提高系统的稳定性 . (根据类与类之间的耦合度从弱到强排列：依赖关系、关联关系</blockquote>
+
+
 <p>、聚合关系、组合关系、泛化关系和实现关系 )</p>
-<blockquote>- 降低并行开发引起的风险</blockquote>
+
 <p>(两个类之间有依赖关系，只要制定出两者之间的接口（或抽象类）就可以独立开发了)</p>
-<blockquote>- 提高代码的可读性和可维护性</blockquote>
+
 <h4>3.6.3 场景示例</h4>
 <p>假设我们现在要组装一台电脑,需要的配件有 cpu，硬盘，内存条。只有这些配置都有了，计算机才能正常的运行。选择cpu有很多选择，如Intel，AMD等，硬盘可以选择希捷，西数等，内存条可以选择金士顿，海盗船等。</p>
 <p>代码如下：</p>
@@ -559,17 +700,17 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 </code></pre>
 <p><strong>关于依赖倒置、依赖注入、控制反转这三者之间的区别与联系</strong></p>
 <p>1 ) 依赖倒置原则依赖倒置是一种通用的软件设计原则, 主要用来指导框架层面的设计。</p>
-<blockquote>高层模块不依赖低层模块，它们共同依赖同一个抽象。抽象不要依赖具体实现细节，具体实现细节依赖</blockquote>
+
 <p>抽象。</p>
 <p>2 ) 控制反转控制反转与依赖倒置有一些相似, 它也是一种框架设计常用的模式,但并不是具体的方法。</p>
-<blockquote>“控制”指的是对程序执行流程的控制，而“反转”指的是在没有使用框架之前，程序员自己控制整个</blockquote>
+
 <p>程序的执行。在使用框架之后，整个程序的执行流程通过框架来控制。流程的控制权从程序员“反转”给了框架。</p>
-<blockquote>Spring框架，核心模块IoC容器,就是通过控制反转这一种思想进行设计的</blockquote>
+
 <p>3 ) 依赖注入依赖注入是实现控制反转的一个手段，它是一种具体的编码技巧。</p>
-<blockquote>我们不通过 new</blockquote>
+
 <p>的方式在类内部创建依赖的对象，而是将依赖的对象在外部创建好之后，通过构造函数等</p>
-<blockquote>方式传递（或注入）进来, 给类来使用。</blockquote>
-<blockquote>依赖注入真正实现了面向接口编程的愿景，可以很方便地替换同一接口的不同实现，而不会影响到依赖</blockquote>
+
+
 <p>这个接口的客户端。</p>
 <h3>3.7 迪米特法则</h3>
 <h4>3.7.1 官方定义</h4>
@@ -579,13 +720,13 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 <p>大部分设计原则和思想都非常抽象，有各种各样的解读，要想灵活地应用到实际的开发中，需要有实战经验的积累。迪米特法则也不例外。</p>
 <p>简单来说迪米特法则想要表达的思想就是:</p>
 <p><strong>不该有直接依赖关系的类之间，不要有依赖；有依赖关系的类之间，尽量只依赖必要的接口。</strong></p>
-<blockquote>如果两个软件实体无须直接通信，那么就不应当发生直接的相互调用，可以通过第三方转发该调用。其</blockquote>
+
 <p>目的是降低类之间的耦合度，提高模块的相对独立性。</p>
 <h4>3.7.3 场景示例</h4>
 <p>我们一起来看下面这个例子:明星由于全身心投入艺术，所以许多日常事务由经纪人负责处理，如和粉丝的见面会，和媒体公司的业务洽淡等。这里的经纪人是明星的朋友，而粉丝和媒体公司是陌生人，所以适合使用迪米特法则。</p>
-<blockquote>迪米特法则的独特之处在于它简洁而准确的定义，它允许在编写代码时直接应用，几乎自动地应用了适</blockquote>
+
 <p>当的封装、高内聚和低耦合。</p>
-<blockquote>但是，过度使用迪米特法则会使系统产生大量的中介类，从而增加系统的复杂性，使模块之间的通信效</blockquote>
+
 <p>率降低。所以，在釆用迪米特法则时需要反复权衡，确保高内聚和低耦合的同时，保证系统的结构清晰。</p>
 <p>代码如下：</p>
 <p><strong>明星类（Star）</strong></p>
@@ -676,18 +817,36 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 <p>迪米特法则 (LKP)这里我们只需要重点关注三个常用的原则即可:</p>
 <p><strong>1 ) 单一职责原则</strong></p>
 <p>单一职责原则是类职责划分的重要参考依据，是保证代码”高内聚“的有效手段，是我们在进行面向对象设计时的主要指导原则。</p>
-<blockquote>单一职责原则的难点在于，对代码职责是否足够单一的判定。这要根据具体的场景来具体分析。同一个</blockquote>
+
 <p>类的设计，在不同的场景下，对职责是否单一的判定，可能是不同的。</p>
 <p><strong>2 ) 开闭原则</strong></p>
 <p>开闭原则是保证代码可扩展性的重要指导原则，是对代码扩展性的具体解读。很多设计模式诞生的初衷都是为了提高代码的扩展性，都是以满足开闭原则为设计目的的。</p>
-<blockquote>开闭原则是所有设计模式的最核心目标，也是最难实现的目标，但是所有的软件设计模式都应该以开闭</blockquote>
+
 <p>原则当作标准，才能使软件更加的稳定和健壮。</p>
 <p><strong>3 ) 依赖倒置原则</strong></p>
 <p>依赖倒置原则主要用来指导框架层面的设计。高层模块不依赖低层模块，它们共同依赖同一个抽象。</p>
-<blockquote>依赖倒置原则其实也是实现开闭原则的重要途径之一，它降低了类之间的耦合，提高了系统的稳定性和</blockquote>
+
 <p>可维护性，同时这样的代码一般更易读，且便于传承。</p>
+</div></div></details>
+</section>
+<section class="kp" id="kp4">
+<div class="kp-head">
+<span class="kp-no">4</span>
 <h2>第四章 创建型模式(5种)</h2>
-<p>创建型模式提供创建对象的机制,能够提升已有代码的灵活性和复用性常用的有：单例模式、工厂模式（工厂方法和抽象工厂）、建造者模式。</p>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>创建型模式提供创建对象的机制,能够提升已有代码的灵活性和复用性常用的有：单例模式、工厂模式（工厂方法和抽象工厂）、建造者模式。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>4.1 单例模式</li>
+<li>4.2 工厂方法模式</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p>不常用的有：原型模式。</p>
 <h3>4.1 单例模式</h3>
 <p>创建型模式提供创建对象的机制,能够提升已有代码的灵活性和复用性常用的有：单例模式、工厂模式（工厂方法和抽象工厂）、建造者模式。</p>
@@ -695,7 +854,7 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 <h4>4.1.1 单例模式介绍</h4>
 <p><strong>1 ) 定义</strong></p>
 <p>单例模式（Singleton Pattern）是 Java 中最简单的设计模式之一，此模式保证某个类在运行期间，只有一个实例对外提供服务，而这个类被称为单例类。</p>
-<blockquote>单例模式也比较好理解，比如一个人一生当中只能有一个真实的身份证号，一个国家只有一个政府，类</blockquote>
+
 <p>似的场景都是属于单例模式。</p>
 <p><strong>2 ) 使用单例模式要做的两件事</strong></p>
 <p>保证一个类只有一个实例为该实例提供一个全局访问节点</p>
@@ -735,7 +894,6 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
         }
     }
 </code></pre>
-<blockquote>假设在单例类被实例化之前，有两个线程同时在获取单例对象，线程A在执行完if (instance == null)</blockquote>
 <p>后，线程调度机制将 CPU 资源分配给线程B，此时线程B在执行 if (instance == null)时也发现单例类还没有被实例化，这样就会导致单例类被实例化两次。为了防止这种情况发生，需要对 getInstance()方法同步处理。改进后的懒汉模式.</p>
 <h4>4.1.4 懒汉式(线程安全)</h4>
 <p>原理: 使用同步锁 <code>synchronized</code>锁住 创建单例的方法，防止多个线程同时调用，从而避免造成单例被多次创建即，<code>getInstance（）</code>方法块只能运行在1个线程中若该段代码已在1个线程中运行，另外1个线程试图运行该块代码，则 <strong>会被阻塞而一直等待</strong>而在这个线程安全的方法里我们实现了单例的创建，保证了多线程模式下 单例对象的唯一性</p>
@@ -755,7 +913,6 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
         }
     }
 </code></pre>
-<blockquote>懒汉式的缺点也很明显，我们给 getInstance()</blockquote>
 <p>这个方法加了一把大锁（synchronzed），导致这个函数的并发度很低。量化一下的话，并发度是 1，也就相当于串行操作了。而这个函数是在单例使用期间，一直会被调用。如果这个单例类偶尔会被用到，那这种实现方式还可以接受。但是，如果频繁地用到，那频繁加锁、释放锁及并发度低等问题，会导致性能瓶颈，这种实现方式就不可取了。</p>
 <h4>4.1.5 双重校验</h4>
 <p>饿汉式不支持延迟加载，懒汉式有性能问题，不支持高并发。那我们再来看一种既支持延迟加载、又支持高并发的单例实现方式，也就是双重检测实现方式。</p>
@@ -765,7 +922,7 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 <pre><code>
     /**
 </code></pre>
-<p class="li">• - * @author spikeCong* @date 2022/9/5**/</p>
+<p>• - <em> @author spikeCong</em> @date 2022/9/5</strong>/</p>
 <pre><code>
     public class Singleton_04 {
         // volatile private volatile static Singleton_04 instance = null;
@@ -797,8 +954,6 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 <p>使用了 volatile 之后，相当于是表明了该字段的更新可能是在其他线程中发生的，因此应确保在读取另一个线程写入的值时，可以顺利执行接下来所需的操作。在 JDK 5 以及后续版本所使用的 JMM中，在使用了 volatile 后，会一定程度禁止相关语句的重排序，从而避免了上述由于重排序所导致的读取到不完整对象的问题的发生。</p>
 <h4>4.1.6 静态内部类</h4>
 <p>原理根据 <strong>静态内部类</strong>的特性(外部类的加载不影响内部类)，同时解决了按需加载、线程安全的问题，同时实现简洁</p>
-<blockquote>1. 在静态内部类里创建单例，在装载该内部类时才会去创建单例</blockquote>
-<blockquote>2. 线程安全：类是由 <code>JVM</code>加载，而<code>JVM</code>只会加载1遍，保证只有1个单例</blockquote>
 <pre><code>
     public class Singleton_05 {
         private static class SingletonHandler{
@@ -812,7 +967,7 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
     }
 </code></pre>
 <h4>4.1.7 反射对于单例的破坏</h4>
-<blockquote>反射的概念: JAVA反射机制是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；</blockquote>
+
 <p>对于任意一个对象，都能够调用它的任意方法和属性；这种动态获取信息以及动态调用对象方法的功能称为java语言的反射机制。</p>
 <p>反射技术过于强大，它可以通过<code>setAccessible()</code>来修改构造器，字段，方法的可见性。单例模式的构造方法是私有的，如果将其可见性设为<code>public</code>，那么将无法控制对象的创建。</p>
 <pre><code>
@@ -855,10 +1010,11 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 </code></pre>
 <p>上面的这种方式使代码简洁性遭到破坏,设计不够优雅.</p>
 <h4>4.1.8 序列化对于单例的破坏</h4>
+</p>
 <pre><code>
     /**
 </code></pre>
-<p class="li">• * @author spikeCong* @date 2022/9/6**/</p>
+<p>• <em> @author spikeCong</em> @date 2022/9/6<strong>/</p>
 <pre><code>
     public class Test_Serializable {
 </code></pre>
@@ -882,7 +1038,7 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
     }
     /**
 </code></pre>
-<p class="li">• */</p>
+<p>• */</p>
 <pre><code>
     class Singleton implements Serializable {
         private volatile static Singleton singleton;
@@ -908,7 +1064,7 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 <pre><code>
     /**
 </code></pre>
-<p class="li">• : Singleton readResolve * readResolve , , -- */</p>
+<p>• : Singleton readResolve <em> readResolve , , -- </em>/</p>
 <pre><code>
     private Object readResolve() {
         return singleton;
@@ -988,7 +1144,7 @@ case TC_OBJECT: // ```java
 <p><strong>总结: Singleton中定义readResolve方法，并在该方法中指定要返回的对象的生成策略，就可以防止单例被破坏。</strong></p>
 <h4>4.1.9 枚举(推荐方式)</h4>
 <p>枚举单例方式是<code> &gt;</code>作者推荐的使用方式,这种方式</p>
-<blockquote>在使用枚举时，构造方法会被自动调用，利用这一特性也可以实现单例；默认枚举实例的创建是线程安</blockquote>
+
 <p>全的，即使反序列化也不会生成新的实例，任何情况下都是一个单例(暴力反射对枚举方式无效)。</p>
 <p>特点: 满足单例模式所需的 <strong>创建单例、线程安全、实现简洁的需求</strong></p>
 <pre><code>
@@ -1013,7 +1169,7 @@ case TC_OBJECT: // ```java
 <p><strong>问题1: 为什么枚举类可以阻止反射的破坏?</strong></p>
 <p>首先枚举类中是没有空参构造方法的,只有一个带两个参数的构造方法.</p>
 <p>真正原因是: 反射方法中不予许使用反射创建枚举对象</p>
-<blockquote>异常: 不能使用反射方式创建enum对象</blockquote>
+
 <p><strong>问题2: 为什么枚举类可以阻止序列化的破坏?</strong></p>
 <p>Java规范字规定，每个枚举类型及其定义的枚举变量在JVM中都是唯一的，因此在枚举类型的序列化和反序列化上，Java做了特殊的规定。</p>
 <p>在序列化的时候Java仅仅是将枚举对象的name属性输到结果中，反序列化的时候则是通过java.lang.Enum的valueOf()方法来根据名字查找枚举对象。</p>
@@ -1077,7 +1233,7 @@ case TC_OBJECT: // ```java
 <p>// }</p>
 <pre><code>
 
-**2) 服务层**
+<strong>2) 服务层</strong>
 
 | 名称 | 功能 | 描述 || ------------------ | ----------------------------------------------------- | -------------------- || DiscountService | DiscountResult sendDiscount(String uid,String number) | 模拟打折券服务 || YouKuMemberService | void openMember(String bindMobile , String number) |模拟赠送优酷会员服务 || SmallGiftService | Boolean giveSmallGift(SmallGiftInfo smallGiftInfo) | 模拟礼品服务 |
 
@@ -1113,14 +1269,14 @@ System.out.println(" , ! " + JSON.toJSON(smallGiftInfo));
 <p>}</p>
 <pre><code>
 
-**3) 控制层**
+<strong>3) 控制层</strong>
 
 | 名称 | 功能 | 描述 |
 | ----------------- | ----------------------------------------------- |------------------------------------------------------------ || DeliverController | ResponseResult awardToUser(AwardInfo awardInfo) | 按照类型的不同发放商品奖品类型: 1 打折券 ,2 优酷会员,3 小礼品 |
 
 </code></pre>
 <p>public class DeliverController {</p>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * * : 1 ,2 ,3 */
@@ -1171,7 +1327,7 @@ Boolean isSuccess = smallGiftService.giveSmallGift(smallGiftInfo);System.out.pri
 <p>}</p>
 <pre><code>
 
-**4) 测试**
+<strong>4) 测试</strong>
 
 通过单元测试,来对上面的接口进行测试,验证代码质量.
 
@@ -1230,11 +1386,11 @@ map2.put("username"," ");map2.put("phone","13512341234");map2.put("address"," ")
 
 简单工厂不是一种设计模式，反而比较像是一种编程习惯。简单工厂模式又叫做静态工厂方法模式（static Factory Method pattern）,它是通过使用静态方法接收不同的参数来返回不同的实例对象.
 
-**实现方式**
+<strong>实现方式</strong>
 
-定义**一个**工厂类，根据传入的参数不同返回不同的实例，被创建的实例具有共同的父类或接口。
+定义<strong>一个</strong>工厂类，根据传入的参数不同返回不同的实例，被创建的实例具有共同的父类或接口。
 
-**适用场景**
+<strong>适用场景</strong>
 
 （1）需要创建的对象较少。
 （2）客户端不关心对象的创建过程。
@@ -1247,10 +1403,10 @@ map2.put("username"," ");map2.put("phone","13512341234");map2.put("address"," ")
 
 #### 4.2.3.3 简单工厂模式重构代码
 
-**1) service**
+<strong>1) service</strong>
 
 </code></pre>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/9/8**/
@@ -1263,7 +1419,7 @@ ResponseResult sendFreeGoods(AwardInfo awardInfo);
 
 </code></pre>
 <p>}</p>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/9/8**/
@@ -1284,7 +1440,7 @@ System.out.println(" : " + awardInfo.getUid() + " , " +awardInfo.getAwardNumber(
 <p>return new ResponseResult("200"," !");</p>
 <p>}</p>
 <p>}</p>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/9/8**/
@@ -1306,7 +1462,7 @@ smallGiftInfo.setUserPhone(awardInfo.getExtMap().get("phone"));smallGiftInfo.set
 <p>return new ResponseResult("200"," ",smallGiftInfo);</p>
 <p>}</p>
 <p>}</p>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 *  * @author spikeCong* @date 2022/9/8**/
@@ -1329,10 +1485,10 @@ String phone = awardInfo.getExtMap().get("phone");System.out.println(" , : " + p
 <p>}</p>
 <pre><code>
 
-**2) factory**
+<strong>2) factory</strong>
 
 </code></pre>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * : * @author spikeCong* @date 2022/9/9**/
@@ -1359,7 +1515,7 @@ IFreeGoods iFreeGoods = null;
 <p>}</p>
 <pre><code>
 
-**3）controller**
+<strong>3）controller</strong>
 
 </code></pre>
 <p>public class DeliverController {</p>
@@ -1381,7 +1537,7 @@ try {IFreeGoods freeGoods = FreeGoodsFactory.getInstance(awardInfo.getAwardTypes
 <p>}</p>
 <pre><code>
 
-**4) 测试**
+<strong>4) 测试</strong>
 
 通过单元测试,来对上面的接口进行测试,验证代码质量.
 
@@ -1447,11 +1603,11 @@ map2.put("username"," ");map2.put("phone","13512341234");map2.put("address"," ")
 
 #### 4.2.3.4 简单工厂模式总结
 
-**优点**
+<strong>优点</strong>
 
 封装了创建对象的过程，可以通过参数直接获取对象。把对象的创建和业务逻辑层分开，这样以后就避免了修改客户代码，如果要实现新产品直接修改工厂类，而不需要在原代码中修改，这样就降低了客户代码修改的可能性，更加容易扩展。
 
-**缺点**
+<strong>缺点</strong>
 
 增加新产品时还是需要修改工厂类的代码，违背了“开闭原则”。
 
@@ -1463,7 +1619,7 @@ map2.put("username"," ");map2.put("phone","13512341234");map2.put("address"," ")
 
 #### 4.2.4.2 工厂方法模式原理
 
-工厂方法模式的目的很简单，就是**封装对象创建的过程，提升创建对象方法的可复用性**。
+工厂方法模式的目的很简单，就是<strong>封装对象创建的过程，提升创建对象方法的可复用性</strong>。
 工厂方法模式的主要角色：
 抽象工厂：提供了创建产品的接口，调用者通过它访问具体工厂的工厂方法来创建产品。
 具体工厂：主要是实现抽象工厂中的抽象方法，完成具体产品的创建。
@@ -1473,9 +1629,9 @@ map2.put("username"," ");map2.put("phone","13512341234");map2.put("address"," ")
 
 #### 4.2.4.3 工厂方法模式重构代码
 
-为了提高代码扩展性,我们需要将简单工厂中的if分支逻辑去掉,通过增加抽象工厂(**生产工厂的工厂**)的方式,让具体工厂去进行实现,由具体工厂来决定实例化哪一个具体的产品对象.
+为了提高代码扩展性,我们需要将简单工厂中的if分支逻辑去掉,通过增加抽象工厂(<strong>生产工厂的工厂</strong>)的方式,让具体工厂去进行实现,由具体工厂来决定实例化哪一个具体的产品对象.
 
-**抽象工厂**
+<strong>抽象工厂</strong>
 
 </code></pre>
 <p>public interface FreeGoodsFactory {</p>
@@ -1487,7 +1643,7 @@ IFreeGoods getInstance();
 <p>}</p>
 <pre><code>
 
-**具体工厂**
+<strong>具体工厂</strong>
 
 </code></pre>
 <p>public class DiscountFreeGoodsFactory implements FreeGoodsFactory {</p>
@@ -1512,11 +1668,11 @@ IFreeGoods getInstance();
 <p>}</p>
 <pre><code>
 
-**Controller**
+<strong>Controller</strong>
 
 </code></pre>
 <p>public class DeliverController {</p>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * */
@@ -1549,7 +1705,7 @@ IFreeGoods freeGoods = freeGoodsFactory.getInstance();System.out.println("===== 
 我们可以为工厂类再创建一个简单工厂，也就是工厂的工厂，用来创建工厂类对象。
 
 </code></pre>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * : , * @author spikeCong* @date 2022/9/9**/
@@ -1587,10 +1743,10 @@ FreeGoodsFactory freeGoodsFactory = cachedFactories.get(2);
 <p>}</p>
 <pre><code>
 
-**Controller**
+<strong>Controller</strong>
 
 </code></pre>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * * @author spikeCong
@@ -1598,7 +1754,7 @@ FreeGoodsFactory freeGoodsFactory = cachedFactories.get(2);
 
 </code></pre>
 <p>public class DeliverController {</p>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * */
@@ -1626,18 +1782,18 @@ IFreeGoods freeGoods = goodsFactory.getInstance();System.out.println("===== ====
 
 #### 4.2.4.4 工厂方法模式总结
 
-**工厂方法模优缺点**
+<strong>工厂方法模优缺点</strong>
 
-**优点**
+<strong>优点</strong>
 
 用户只需要知道具体工厂的名称就可得到所要的产品，无须知道产品的具体创建过程；
 在系统增加新的产品时只需要添加具体产品类和对应的具体工厂类，无须对原工厂进行任何修改，满足开闭原则；
 
-**缺点**
+<strong>缺点</strong>
 
 每增加一个产品就要增加一个具体产品类和一个对应的具体工厂类，这增加了系统的复杂度。
 
-**什么时候使用工厂方法模式**
+<strong>什么时候使用工厂方法模式</strong>
 
 需要使用很多重复代码创建对象时，比如，DAO 层的数据对象、API 层的 VO 对象等。
 创建对象要访问外部信息或资源时，比如，读取数据库字段，获取访问授权 token信息，配置文件等。
@@ -1652,16 +1808,16 @@ IFreeGoods freeGoods = goodsFactory.getInstance();System.out.println("===== ====
 &gt; 抽象工厂模式比工厂方法模式的抽象程度更高. 在工厂方法模式中每一个具体工厂只需要生产一种具体产
 品,但是在抽象工厂模式中一个具体工厂可以生产一组相关的具体产品,这样一组产品被称为产品族.产品族中的每一个产品都分属于某一个产品继承等级结构.
 
-**1) 产品等级结构与产品族**
+<strong>1) 产品等级结构与产品族</strong>
 
-为了更好的理解抽象工厂, 我们这里先引入两个概念:**产品等级结构** ：产品等级结构即产品的继承结构，如一个抽象类是电视机，其子类有海尔电视机、海信电视机、TCL电视机，则抽象电视机与具体品牌的电视机之间构成了一个产品等级结构，抽象电视机是父类，而具体品牌的电视机是其子类。
-**产品族** ：在抽象工厂模式中，产品族是指由同一个工厂生产的，位于不同产品等级结构中的一组产品，如海尔电器工厂生产的海尔电视机、海尔电冰箱，海尔电视机位于电视机产品等级结构中，海尔电冰箱位于电冰箱产品等级结构中。
+为了更好的理解抽象工厂, 我们这里先引入两个概念:<strong>产品等级结构</strong> ：产品等级结构即产品的继承结构，如一个抽象类是电视机，其子类有海尔电视机、海信电视机、TCL电视机，则抽象电视机与具体品牌的电视机之间构成了一个产品等级结构，抽象电视机是父类，而具体品牌的电视机是其子类。
+<strong>产品族</strong> ：在抽象工厂模式中，产品族是指由同一个工厂生产的，位于不同产品等级结构中的一组产品，如海尔电器工厂生产的海尔电视机、海尔电冰箱，海尔电视机位于电视机产品等级结构中，海尔电冰箱位于电冰箱产品等级结构中。
 &gt; 在上图中,每一个具体工厂可以生产属于一个产品族的所有产品,例如海尔工厂生产海尔电视机、海尔空调
 和海尔冰箱,所生产的产品又位于不同的产品等级结构中. 如果使用工厂方法模式,上图所示的结构需要提供9个具体工厂,而使用抽象工厂模式只需要提供3个具体工厂,极大减少了系统中类的个数.
 
-**2) 抽象工厂模式概述**
+<strong>2) 抽象工厂模式概述</strong>
 
-抽象工厂模式(Abstract Factory Pattern)原始定义：**提供一个创建一系列相关或相互依赖对象的接口，而无须指定它们具体的类。**抽象工厂模式为创建一组对象提供了解决方案.与工厂方法模式相比,**抽象工厂模式中的具体工厂不只是创建一种产品,而是负责创建一个产品族**.如下图:
+抽象工厂模式(Abstract Factory Pattern)原始定义：<strong>提供一个创建一系列相关或相互依赖对象的接口，而无须指定它们具体的类。</strong>抽象工厂模式为创建一组对象提供了解决方案.与工厂方法模式相比,<strong>抽象工厂模式中的具体工厂不只是创建一种产品,而是负责创建一个产品族</strong>.如下图:
 
 #### 4.3.2 抽象工厂模式原理
 
@@ -1674,7 +1830,7 @@ IFreeGoods freeGoods = goodsFactory.getInstance();System.out.println("===== ====
 抽象工厂
 
 </code></pre>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * : , * @author spikeCong* @date 2022/9/15**/
@@ -1808,11 +1964,11 @@ AbstractTV tv = client.getTv();System.out.println(tv);AbstractFreezer freezer = 
 在任意给定时刻被实例化的具体类型；
 所以说，在理解抽象工厂模式原理时，你一定要牢牢记住“如何找到某一个类产品的正确共性功能”这个重点。
 
-**抽象工厂模式优点**
+<strong>抽象工厂模式优点</strong>
 
 1) 对于不同产品系列有比较多共性特征时，可以使用抽象工厂模式，有助于提升组件的复用性.2) 当需要提升代码的扩展性并降低维护成本时，把对象的创建和使用过程分开，能有效地将代码统一到一个级别上解决跨平台带来的兼容性问题
 
-**抽象工厂模式缺点**
+<strong>抽象工厂模式缺点</strong>
 
 增加新的产品等级结构麻烦,需要对原有结构进行较大的修改,甚至需要修改抽象层代码,这显然会带来较大不变,违背了开闭原则.
 
@@ -1820,9 +1976,9 @@ AbstractTV tv = client.getTv();System.out.println(tv);AbstractFreezer freezer = 
 
 #### 4.4.1 建造者模式介绍
 
-**建造者模式** (builder pattern), 也被称为**生成器模式** , 是一种创建型设计模式.定义: 将一个复杂对象的构建与表示分离，使得同样的构建过程可以创建不同的表示。
+<strong>建造者模式</strong> (builder pattern), 也被称为<strong>生成器模式</strong> , 是一种创建型设计模式.定义: 将一个复杂对象的构建与表示分离，使得同样的构建过程可以创建不同的表示。
 
-**建造者模式要解决的问题 **
+<strong>建造者模式要解决的问题 </strong>
 
 建造者模式可以将部件和其组装过程分开，一步一步创建一个复杂的对象。用户只需要指定复杂对象的类型就可以得到该对象，而无须知道其内部的具体构造细节。
 &gt; 比如: 一辆汽车是由多个部件组成的,包括了车轮、方向盘、发动机等等.对于大多数用户而言,并不需要知
@@ -1837,7 +1993,7 @@ AbstractTV tv = client.getTv();System.out.println(tv);AbstractFreezer freezer = 
 
 #### 4.4.3 建造者模式实现方式1
 
-**创建共享单车**
+<strong>创建共享单车</strong>
 
 生产自行车是一个复杂的过程，它包含了车架，车座等组件的生产。而车架又有碳纤维，铝合金等材质的，车座有橡胶，真皮等材质。对于自行车的生产就可以使用建造者模式。
 这里Bike是产品，包含车架，车座等组件；Builder是抽象建造者，MobikeBuilder和HelloBuilder是具体的建造者；Director是指挥者。类图如下：
@@ -1998,13 +2154,13 @@ Bike bike = director.construct();System.out.println(bike.getFrame());System.out.
 
 建造者模式除了上面的用途外，在开发中还有一个常用的使用方式，就是当一个类构造器需要传入很多参数时，如果创建这个类的实例，代码可读性会非常差，而且很容易引入错误，此时就可以利用建造者模式进行重构。
 
-**1 ) 构造方法创建复杂对象的问题**
+<strong>1 ) 构造方法创建复杂对象的问题</strong>
 
 构造方法如果参数过多,代码的可读性和易用性都会变差.在使用构造函数时,很容易搞错参数的顺序,传递进去错误的参数值,导致很有隐蔽的BUG出现.
 
 </code></pre>
 <p>package com.mashibing.example02;</p>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * MQ * @author spikeCong* @date 2022/9/19**/
@@ -2069,7 +2225,7 @@ RabbitMQClient1 client1 = new RabbitMQClient1("192.168.52.123",5672, 2,"sample-e
 <p>}</p>
 <pre><code>
 
-**2) set方法创建复杂对象的问题**
+<strong>2) set方法创建复杂对象的问题</strong>
 
 set方式设置对象属性时,存在中间状态,并且属性校验时有前后顺序约束,逻辑校验的代码找不到合适的地方放置.
 &gt; 比如下面的代码, 创建对象后使用set 的方式，那就会导致在第一个 set 之后，对象处于无效状态
@@ -2085,7 +2241,7 @@ set方法还破坏了"不可变对象"的密闭性 .
 
 </code></pre>
 <p>package com.mashibing.example02;</p>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * MQ * @author spikeCong* @date 2022/9/19**/
@@ -2227,7 +2383,7 @@ System.out.println(" ......");
 
 </code></pre>
 <p>}</p>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * set , set , ( ),* .* ? : */
@@ -2244,7 +2400,7 @@ client2.setHost("192.168.52.123");client2.setQueue("queue");client2.setMode(1);c
 <p>}</p>
 <pre><code>
 
-**3) 建造者方式实现**
+<strong>3) 建造者方式实现</strong>
 
 建造者使用步骤如下:目标类的构造方法要传入Builder对象Builder建造者类位于目标类内部,并且使用static修饰Builder建造者对象提供内置的各种set方法,注意set方法返回的是builder对象本身Builder建造者类提供build()方法实现目标对象的创建
 
@@ -2275,10 +2431,10 @@ this.xxx = xxx;
 <p>}</p>
 <pre><code>
 
-**重写案例代码**
+<strong>重写案例代码</strong>
 
 </code></pre>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/9/19**/
@@ -2408,7 +2564,7 @@ RabbitMQClient client = new RabbitMQClient.Builder().setHost("192.168.52.123").s
 
 #### 4.4.5 建造者模式总结
 
-**1) 建造者模式与工厂模式区别**
+<strong>1) 建造者模式与工厂模式区别</strong>
 
 工厂模式是用来创建不同但是相关类型的对象（继承同一父类或者接口的一组子类），由给定的参数来决定创建哪种类型的对象。
 建造者模式是用来创建一种类型的复杂对象，通过设置不同的可选参数，“定制化”地创建不同的对象。
@@ -2416,7 +2572,7 @@ RabbitMQClient client = new RabbitMQClient.Builder().setHost("192.168.52.123").s
 &gt; 如披萨、汉堡、沙拉。对于披萨来说，用户又有各种配料可以定制，比如奶酪、西红柿、起
 &gt; 司，我们通过建造者模式根据用户选择的不同配料来制作披萨。
 
-**2) 建造者模式的优缺点**
+<strong>2) 建造者模式的优缺点</strong>
 
 优点建造者模式的封装性很好。使用建造者模式可以有效的封装变化，在使用建造者模式的场景中，一般产品类和建造者类是比较稳定的，因此，将主要的业务逻辑封装在指挥者类中对整体而言可以取得比较好的稳定性。
 在建造者模式中，客户端不必知道产品内部组成的细节，将产品本身与产品的创建过程解耦，使得相同的创建过程可以创建不同的产品对象。
@@ -2424,7 +2580,7 @@ RabbitMQClient client = new RabbitMQClient.Builder().setHost("192.168.52.123").s
 建造者模式很容易进行扩展。如果有新的需求，通过实现一个新的建造者类就可以完成，基本上不用修改之前已经测试通过的代码，因此也就不会对原有功能引入风险。符合开闭原则。
 缺点建造者模式所创建的产品一般具有较多的共同点，其组成部分相似，如果产品之间的差异性很大，则不适合使用建造者模式，因此其使用范围受到一定的限制。
 
-**3) 应用场景**
+<strong>3) 应用场景</strong>
 
 建造者（Builder）模式创建的是复杂对象，其产品的各个部分经常面临着剧烈的变化，但将它们组合在一起的算法却相对稳定，所以它通常在以下场合使用。
 创建的对象较复杂，由多个部件构成，各部件面临着复杂的变化，但构件间的建造顺序是稳定的。
@@ -2438,7 +2594,7 @@ RabbitMQClient client = new RabbitMQClient.Builder().setHost("192.168.52.123").s
 &gt; 西游记中的孙悟空 拔毛变小猴,孙悟空这种根据自己的形状复制出多个身外化身的技巧,在面向对象软件设
 计领域被称为原型模式.孙悟空就是原型对象.
 
-**原型模式主要解决的问题**
+<strong>原型模式主要解决的问题</strong>
 
 如果创建对象的成本比较大,比如对象中的数据是经过复杂计算才能得到,或者需要从RPC接口或者数据库等比较慢的IO中获取,这种情况我们就可以使用原型模式,从其他已有的对象中进行拷贝,而不是每次都创建新对象,进行一些耗时的操作.
 
@@ -2449,19 +2605,19 @@ RabbitMQClient client = new RabbitMQClient.Builder().setHost("192.168.52.123").s
 
 #### 4.5.3 深克隆与浅克隆
 
-根据在**复制原型对象的同时是否复制包含在原型对象中引用类型的成员变量**这个条件,原型模式的克隆机制分为两种,即浅克隆(Shallow Clone)和深克隆(Deep Clone)
+根据在<strong>复制原型对象的同时是否复制包含在原型对象中引用类型的成员变量</strong>这个条件,原型模式的克隆机制分为两种,即浅克隆(Shallow Clone)和深克隆(Deep Clone)
 
-**1) 什么是浅克隆**
+<strong>1) 什么是浅克隆</strong>
 
 被复制对象的所有变量都含有与原来的对象相同的值，而所有的对其他对象的引用仍然指向原来的对象(克隆对象与原型对象共享引用数据类型变量)。
 
-**2) 什么是深克隆**
+<strong>2) 什么是深克隆</strong>
 
 除去那些引用其他对象的变量，被复制对象的所有变量都含有与原来的对象相同的值。那些引用其他对象的变量将指向被复制过的新对象，而不再是原有的那些被引用的对象。换言之，深复制把要复制的对象所引用的对象都复制了一遍。
-Java中的Object类中提供了 `clone()`方法来实现**浅克隆**。需要注意的是要想实现克隆的Java类必须实现一个标识接口 Cloneable
+Java中的Object类中提供了 `clone()`方法来实现<strong>浅克隆</strong>。需要注意的是要想实现克隆的Java类必须实现一个标识接口 Cloneable
 ,来表示这个Java类支持被复制.Cloneable接口是上面的类图中的抽象原型类，而实现了Cloneable接口的子实现类就是具体的原型类。代码如下：
 
-**3) 浅克隆代码实现**
+<strong>3) 浅克隆代码实现</strong>
 
 </code></pre>
 <p>public class ConcretePrototype implements Cloneable {</p>
@@ -2501,7 +2657,7 @@ ConcretePrototype c2 = c1.clone();System.out.println(" c1 c2 " + (c1 == c2));
 <p>}</p>
 <pre><code>
 
-**4) 深克隆代码实现**
+<strong>4) 深克隆代码实现</strong>
 
 在ConcretePrototype类中添加一个对象属性为Person类型
 
@@ -2605,7 +2761,7 @@ System.out.println("p1 p2 " + (p1 == p2));c1.show();c2.show();
 <p>}</p>
 <pre><code>
 
-打印结果**说明:p1与p2是同一对象,这是浅克隆的效果,也就是对具体原型类中的引用数据类型的属性进行引用的复制.**如果有需求场景中不允许共享同一对象,那么就需要使用**深拷贝**,如果想要进行深拷贝需要使用到对象序列化流 (对象序列化之后,再进行反序列化获取到的是不同对象). 代码如下:@Test
+打印结果<strong>说明:p1与p2是同一对象,这是浅克隆的效果,也就是对具体原型类中的引用数据类型的属性进行引用的复制.</strong>如果有需求场景中不允许共享同一对象,那么就需要使用<strong>深拷贝</strong>,如果想要进行深拷贝需要使用到对象序列化流 (对象序列化之后,再进行反序列化获取到的是不同对象). 代码如下:@Test
 
 </code></pre>
 <p>public void test03() throws Exception {</p>
@@ -2650,14 +2806,14 @@ SerializationUtils.clone()就是使用我们的前面讲的序列化实现深克
 
 模拟某银行电子账单系统的广告信发送功能,广告信的发送都是有一个模板的,从数据库查出客户的信息,然后放到模板中生成一份完整的邮件,然后交给发送机进行发送处理.
 
-**发送广告信邮件UML类图**
+<strong>发送广告信邮件UML类图</strong>
 
-**代码实现**
+<strong>代码实现</strong>
 
-**广告模板代码**
+<strong>广告模板代码</strong>
 
 </code></pre>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/9/20**/
@@ -2675,11 +2831,11 @@ SerializationUtils.clone()就是使用我们的前面讲的序列化实现深克
 <p>}</p>
 <pre><code>
 
-**邮件类代码**
+<strong>邮件类代码</strong>
 
 </code></pre>
 <p>package com.mashibing.example01;</p>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/9/20**/
@@ -2752,10 +2908,10 @@ this.tail = tail;
 <p>}</p>
 <pre><code>
 
-**客户类**
+<strong>客户类</strong>
 
 </code></pre>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/9/20**/
@@ -2806,16 +2962,16 @@ sendMail(mail);i++;
 <p>}</p>
 <pre><code>
 
-**运行结果**
+<strong>运行结果</strong>
 
 上面的代码存在的问题:发送邮件需要重复创建Mail类对象,而且Mail类的不同对象之间差别非常小,这样重复的创建操作十分的浪费资源.这种情况我们就可以使用原型模式,从其他已有的对象中进行拷贝,而不是每次都创建新对象,进行一些耗时的操作.
 
-**代码重构**
+<strong>代码重构</strong>
 
 Mail类
 
 </code></pre>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 *  Cloneable , * @author spikeCong* @date 2022/9/20**/
@@ -2907,7 +3063,7 @@ Mail mail = null;try {mail = (Mail)super.clone();} catch (CloneNotSupportedExcep
 Client类
 
 </code></pre>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/9/20**/
@@ -2960,7 +3116,7 @@ sendMail(cloneMail);i++;
 
 #### 4.5.5 原型模式总结
 
-**原型模式的优点**
+<strong>原型模式的优点</strong>
 
 当创建新的对象实例较为复杂时,使用原型模式可以简化对象的创建过程,通过复制一个已有实例可以提高新实例的创建效率.
 &gt; 比如，在 AI 系统中，我们经常需要频繁使用大量不同分类的数据模型文件，在对这一类文件建立对象模
@@ -2968,11 +3124,11 @@ sendMail(cloneMail);i++;
 &gt; 在某些需要保存历史状态的场景中，比如，聊天消息、上线发布流程、需要撤销操作的程序等，原型模
 式能快速地复制现有对象的状态并留存副本，方便快速地回滚到上一次保存或最初的状态，避免因网络延迟、误操作等原因而造成数据的不可恢复。
 
-**原型模式缺点**
+<strong>原型模式缺点</strong>
 
 需要为每一个类配备一个克隆方法,而且该克隆方法位于一个类的内部,当对已有的类进行改造时需要修改源代码,违背了开闭原则.
 
-**使用场景**
+<strong>使用场景</strong>
 
 原型模式常见的使用场景有以下六种。
 资源优化场景。也就是当进行对象初始化需要使用很多外部资源时，比如，IO资源、数据文件、CPU、网络和内存等。
@@ -2980,17 +3136,34 @@ sendMail(cloneMail);i++;
 性能和安全要求的场景。 比如，同一个用户在一个会话周期里，可能会反复登录平台或使用某些受限的功能，每一次访问请求都会访问授权服务器进行授权，但如果每次都通过 new产生一个对象会非常烦琐，这时则可以使用原型模式。
 同一个对象可能被多个修改者使用的场景。 比如，一个商品对象需要提供给物流、会员、订单等多个服务访问，而且各个调用者可能都需要修改其值时，就可以考虑使用原型模式。
 需要保存原始对象状态的场景。 比如，记录历史操作的场景中，就可以通过原型模式快速保存记录。
-
-## 第五章 结构型模式(7种)
-
-我们已经学习过了设计模式中的创建型模式.创建型模式主要解决**对象的创建问题**,封装复杂的创建过程,解耦对象的创建代码和使用代码.单例模式用来创建全局唯一对象工厂模式用来创建不同但是相关类型的对象(继承同一父类或者接口的一组子类),由给定的参数来决定创建哪种类型的对象.建造者模式是用来创建复杂对象,可以通过设置不同的可选参数,定制化地创建不同的对象.原型模式针对创建成本比较大的对象,利用对已有对象进行复制的方式进行创建,以达到节省创建时间的目的.从本节课开始我们来学习结构型设计模式,结构型模式主要总结了一些类和对象组合在一起的经典结构,这些经典结构可以解决对应特定场景的问题.一共包括七种：代理模式、桥接模式、装饰者模式、适配器模式、门面(外观)模式、组合模式、和享元模式。
+</div></div></details>
+</section>
+<section class="kp" id="kp5">
+<div class="kp-head">
+<span class="kp-no">5</span>
+<h2>第五章 结构型模式(7种)</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>// IUserDao public interface IUserDao {</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>5.2 桥接模式</li>
+<li>5.3 装饰器模式</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
+我们已经学习过了设计模式中的创建型模式.创建型模式主要解决<strong>对象的创建问题</strong>,封装复杂的创建过程,解耦对象的创建代码和使用代码.单例模式用来创建全局唯一对象工厂模式用来创建不同但是相关类型的对象(继承同一父类或者接口的一组子类),由给定的参数来决定创建哪种类型的对象.建造者模式是用来创建复杂对象,可以通过设置不同的可选参数,定制化地创建不同的对象.原型模式针对创建成本比较大的对象,利用对已有对象进行复制的方式进行创建,以达到节省创建时间的目的.从本节课开始我们来学习结构型设计模式,结构型模式主要总结了一些类和对象组合在一起的经典结构,这些经典结构可以解决对应特定场景的问题.一共包括七种：代理模式、桥接模式、装饰者模式、适配器模式、门面(外观)模式、组合模式、和享元模式。
 
 ### 5.1 代理模式
 
 #### 5.1.1 代理模式介绍
 
 在软件开发中,由于一些原因,客户端不想或不能直接访问一个对象,此时可以通过一个称为"代理"的第三者来实现间接访问.该方案对应的设计模式被称为代理模式.代理模式(Proxy Design Pattern ) 原始定义是：让你能够提供对象的替代品或其占位符。代理控制着对于原对象的访问，并允许将请求提交给对象前后进行一些处理。
-现实生活中的代理: **海外代购**软件开发中的代理代理模式中引入了一个新的代理对象,代理对象在客户端对象和目标对象之间起到了中介的作用,它去掉客户不能看到的内容和服务或者增加客户需要的额外的新服务.
+现实生活中的代理: <strong>海外代购</strong>软件开发中的代理代理模式中引入了一个新的代理对象,代理对象在客户端对象和目标对象之间起到了中介的作用,它去掉客户不能看到的内容和服务或者增加客户需要的额外的新服务.
 
 #### 5.1.2 代理模式原理
 
@@ -3010,7 +3183,7 @@ sendMail(cloneMail);i++;
 &gt; 举例：保存用户功能的静态代理实现
 
 </code></pre>
-<p>// IUserDao public interface IUserDao {</p>
+
 <p>void save();</p>
 <p>}</p>
 <p>// UserDaoImpl public class UserDaoImpl implements IUserDao {</p>
@@ -3086,7 +3259,7 @@ java.lang.reflect InvocationHandler，主要方法为Object invoke(Object proxy,
 &gt; 举例：保存用户功能的静态代理实现
 
 </code></pre>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * - * @author spikeCong* @date 2022/9/22**/
@@ -3112,7 +3285,7 @@ return Proxy.newProxyInstance(target.getClass().getClassLoader(), // target.getC
     new InvocationHandler(){
         // /**
 </code></pre>
-<p class="li">• invoke * @param proxy * @param method Method * @param args * @return: java.lang.Object , null*/@Override</p>
+<p>• invoke <em> @param proxy </em> @param method Method <em> @param args </em> @return: java.lang.Object , null*/@Override</p>
 <pre><code>
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 </code></pre>
@@ -3348,7 +3521,7 @@ System.out.println(proxy.getClass()); // proxy.save(); // ```java
     }
     /**
 </code></pre>
-<p class="li">• * @param o * @param method Method * @param args * @param methodProxy method * @return: java.lang.Object*/@Override public Object intercept(Object o, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {Calendar calendar = Calendar.getInstance();</p>
+<p>• <em> @param o </em> @param method Method <em> @param args </em> @param methodProxy method <em> @return: java.lang.Object</em>/@Override public Object intercept(Object o, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {Calendar calendar = Calendar.getInstance();</p>
 <pre><code>
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 </code></pre>
@@ -3392,7 +3565,7 @@ System.out.println(proxy.getClass()); // proxy.save(); // ```java
 <h3>5.2 桥接模式</h3>
 <h4>5.2.1 桥接模式介绍</h4>
 <p>桥接模式(bridge pattern) 的定义是：将抽象部分与它的实现部分分离，使它们都可以独立地变化。</p>
-<blockquote>桥接模式用一种巧妙的方式处理多层继承存在的问题,用抽象关联来取代传统的多层继承,将类之间的静态</blockquote>
+
 <p>继承关系转变为动态的组合关系,使得系统更加灵活,并易于扩展,有效的控制了系统中类的个数(避免了继承层次的指数级爆炸).</p>
 <h4>5.2.2 桥接模式原理</h4>
 <p>桥接（Bridge）模式包含以下主要角色：</p>
@@ -3408,7 +3581,7 @@ System.out.println(proxy.getClass()); // proxy.save(); // ```java
     public class PayController {
         /**
 </code></pre>
-<p class="li">• @param uId id* @param tradeId * @param amount * @param channelType 1 , 2 * @param modeType 1 ,2 ,3 * @return: boolean*/public boolean doPay(String uId, String tradeId, BigDecimal amount,int channelType,int modeType){</p>
+<p>• @param uId id* @param tradeId <em> @param amount </em> @param channelType 1 , 2 <em> @param modeType 1 ,2 ,3 </em> @return: boolean*/public boolean doPay(String uId, String tradeId, BigDecimal amount,int channelType,int modeType){</p>
 <pre><code>
     // if(1 == channelType){
 </code></pre>
@@ -3475,7 +3648,7 @@ System.out.println(proxy.getClass()); // proxy.save(); // ```java
 <pre><code>
     /**
 </code></pre>
-<p class="li">• * @author spikeCong* @date 2022/9/26**/</p>
+<p>• <em> @author spikeCong</em> @date 2022/9/26<strong>/</p>
 <pre><code>
     public interface IPayMode {
         // :
@@ -3536,7 +3709,7 @@ System.out.println(proxy.getClass()); // proxy.save(); // ```java
 <pre><code>
     /**
 </code></pre>
-<p class="li">• - * @author spikeCong* @date 2022/9/26**/</p>
+<p>• - <em> @author spikeCong</em> @date 2022/9/26</strong>/</p>
 <pre><code>
     public class WxPay extends Pay {
         public WxPay(IPayMode payMode) {
@@ -3565,7 +3738,7 @@ System.out.println(proxy.getClass()); // proxy.save(); // ```java
     }
     /**
 </code></pre>
-<p class="li">• - * @author spikeCong* @date 2022/9/26**/</p>
+<p>• - <em> @author spikeCong</em> @date 2022/9/26<strong>/</p>
 <pre><code>
     public class ZfbPay extends Pay {
         public ZfbPay(IPayMode payMode) {
@@ -3624,7 +3797,7 @@ System.out.println(proxy.getClass()); // proxy.save(); // ```java
 <h3>5.3 装饰器模式</h3>
 <h4>5.3.1 装饰器模式介绍</h4>
 <p>装饰模式(decorator pattern) 的原始定义是：动态的给一个对象添加一些额外的职责.就扩展功能而言,装饰器模式提供了一种比使用子类更加灵活的替代方案.</p>
-<blockquote>假设现在有有一块蛋糕,如果只有涂上奶油那这个蛋糕就是普通的<strong>奶油蛋糕</strong>,</blockquote>
+
 <p>这时如果我们添加上一些蓝莓,那这个蛋糕就是<strong>蓝莓蛋糕</strong>.如果我们再拿一块黑巧克力然后写上姓名、插上代表年龄的蜡烛, 这就是变成了一块生日蛋糕在软件设计中,装饰器模式是一种用于替代继承的技术,它通过一种无须定义子类的方式给对象动态的增加职责,使用对象之间的关联关系取代类之间的继承关系.</p>
 <h4>5.3.2 装饰器模式原理</h4>
 <p>装饰（Decorator）模式中的角色：</p>
@@ -3633,14 +3806,14 @@ System.out.println(proxy.getClass()); // proxy.save(); // ```java
 <pre><code>
     /**
 </code></pre>
-<p class="li">• * @author spikeCong* @date 2022/9/27**/</p>
+<p>• <em> @author spikeCong</em> @date 2022/9/27</strong>/</p>
 <pre><code>
     public abstract class Component {
         // public abstract void operation();
     }
     /**
 </code></pre>
-<p class="li">• * @author spikeCong* @date 2022/9/27**/</p>
+<p>• <em> @author spikeCong</em> @date 2022/9/27<strong>/</p>
 <pre><code>
     public class ConcreteComponent extends Component {
 </code></pre>
@@ -3651,7 +3824,7 @@ System.out.println(proxy.getClass()); // proxy.save(); // ```java
     }
     /**
 </code></pre>
-<p class="li">• - * @author spikeCong* @date 2022/9/27**/</p>
+<p>• - <em> @author spikeCong</em> @date 2022/9/27</strong>/</p>
 <pre><code>
     public class Decorator extends Component{
         // private Component component;
@@ -3674,7 +3847,7 @@ System.out.println(proxy.getClass()); // proxy.save(); // ```java
     }
     /**
 </code></pre>
-<p class="li">• * @author spikeCong* @date 2022/9/27**/</p>
+<p>• <em> @author spikeCong</em> @date 2022/9/27<strong>/</p>
 <pre><code>
     public class ConcreteDecorator extends Decorator {
         public ConcreteDecorator(Component component) {
@@ -3698,24 +3871,24 @@ System.out.println(proxy.getClass()); // proxy.save(); // ```java
 
 我们以一个文件读写器程序为例, 演示一下装饰者模式的使用,下面是该程序的UML类图
 
-**DataLoader**
+<strong>DataLoader</strong>
 
 抽象的文件读取接口DataLoader
 
-**BaseFileDataLoader**
+<strong>BaseFileDataLoader</strong>
 
 具体组件BaseFileDataLoader，重写组件 DataLoader 的读写方法
 
-**DataLoaderDecorator**
+<strong>DataLoaderDecorator</strong>
 
 装饰器DataLoaderDecorator，这里要包含一个引用 DataLoader 的对象实例 wrapper，同样是重写DataLoader 方法，不过这里使用 wrapper 来读写,并不进行扩展
 
-**EncryptionDataDecorator**
+<strong>EncryptionDataDecorator</strong>
 
 读写时有加解密功能的具体装饰器EncryptionDataDecorator，它继承了装饰器DataLoaderDecorator 重写读写方法导入IO工具类&lt;dependencies&gt;&lt;dependency&gt;&lt;groupId&gt;commons-io&lt;/groupId&gt;&lt;artifactId&gt;commons-io&lt;/artifactId&gt;&lt;version&gt;2.6&lt;/version&gt;&lt;/dependency&gt;&lt;/dependencies&gt;1 ) DataLoader
 
 </code></pre>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * DataLoader* @author spikeCong* @date 2022/9/27**/
@@ -3734,7 +3907,7 @@ String read();
 2 ) BaseFileDataLoader
 
 </code></pre>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * , * @author spikeCong* @date 2022/9/27**/
@@ -3795,7 +3968,7 @@ try{
 3 ) DataLoaderDecorator
 
 </code></pre>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/9/27**/
@@ -3836,7 +4009,7 @@ wrapper.write(data);
 4 ) EncryptionDataDecorator
 
 </code></pre>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * - * @author spikeCong* @date 2022/9/27**/
@@ -3920,15 +4093,15 @@ String info = "name:tom,age:15";DataLoaderDecorator decorator = new EncryptionDa
 
 #### 5.3.4 装饰器模式总结
 
-**装饰器模式的优点**
+<strong>装饰器模式的优点</strong>
 
 对于扩展一个对象的功能,装饰模式比继承更加灵活,不会导致类的个数急剧增加可以通过一种动态的方式来扩展一个对象的功能,通过配置文件可以在运行时选择不同的具体装饰类,从而实现不同的行为.可以对一个对象进行多次装饰,通过使用不同的具体装饰类以及这些装饰类的排列组合可以创造出很多不同行为的组合,得到更加强大的对象.具体构建类与具体装饰类可以独立变化,用户可以根据需要增加新的具体构建类和具体装饰类,原有类库代码无序改变,符合开闭原则.
 
-**装饰器模式的缺点**
+<strong>装饰器模式的缺点</strong>
 
 在使用装饰模式进行系统设计时将产生很多小对象,这些对象的区别在于它们之间相互连接的方式有所不同,而不是它们的类或者属性值不同,大量的小对象的产生势必会占用更多的系统资源,在一定程度上影响程序的性能.装饰器模式提供了一种比继承更加灵活、机动的解决方案,但同时也意味着比继承更加易于出错,排错也更加困难,对于多次装饰的对象,在调试寻找错误时可能需要逐级排查,较为烦琐.
 
-**装饰器模式的适用场景**
+<strong>装饰器模式的适用场景</strong>
 
 快速动态扩展和撤销一个类的功能场景。 比如，有的场景下对 API 接口的安全性要求较高，那么就可以使用装饰模式对传输的字符串数据进行压缩或加密。如果安全性要求不高，则可以不使用。
 不支持继承扩展类的场景。 比如，使用 final 关键字的类，或者系统中存在大量通过继承产生的子类。
@@ -3959,7 +4132,7 @@ String info = "name:tom,age:15";DataLoaderDecorator decorator = new EncryptionDa
 代码如下:
 
 </code></pre>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * SD * @author spikeCong* @date 2022/9/28**/
@@ -3977,7 +4150,7 @@ String readSD();
 <pre><code>
 
 </code></pre>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * SD * @author spikeCong* @date 2022/9/28**/
@@ -4010,7 +4183,7 @@ System.out.println("sd card write data : " + msg);
 </code></pre>
 <p>}</p>
 <p>}</p>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * TF * @author spikeCong* @date 2022/9/28**/
@@ -4025,7 +4198,7 @@ String readTF();
 </code></pre>
 <p>// TF void writeTF(String msg);</p>
 <p>}</p>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * TF * @author spikeCong* @date 2022/9/28**/
@@ -4058,7 +4231,7 @@ System.out.println("tf card write data : " + msg);
 </code></pre>
 <p>}</p>
 <p>}</p>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * (SD TF)* @author spikeCong* @date 2022/9/28**/
@@ -4177,15 +4350,15 @@ System.out.println(computer.read(adapterTF));
 
 #### 5.4.3 适配器模式总结
 
-**适配器模式的优点**
+<strong>适配器模式的优点</strong>
 
 将目标类和适配者类解耦,通过引入一个适配器类来重用现有的适配者类,无序修改原有结构增加了类的透明性和复用性,将具体业务实现过程封装在适配者类中,对于客户端类而言是透明的,而且提高了适配者的复用性,同一个适配者类可以在多个不同的系统中复用.灵活性和扩展性都非常好,通过使用配置文件可以很方便的更换适配器,也可以在不修改原有代码的基础上增加新的适配器类,符合开闭原则.
 
-**适配器模式的缺点**
+<strong>适配器模式的缺点</strong>
 
 类适配器的缺点对于Java等不支持多重继承的语言,一次最多只能适配一个适配者类,不能同时适配多个适配者适配者类不能为最终类对象适配器的缺点与类适配器模式相比较,在该模式下要在适配器中置换适配者类的某些方法比较麻烦.
 
-**适配器模式适用的场景**
+<strong>适配器模式适用的场景</strong>
 
 统一多个类的接口设计时
 &gt; 
@@ -4196,7 +4369,7 @@ System.out.println(computer.read(adapterTF));
 类，并将其实现替换为直接调用 Itertor.适配不同数据格式时；
 &gt; Slf4j 日志框架,定义打印日志的统一接口,提供针对不同日志框架的适配器
 
-**代理、桥接、装饰器、适配器 4 种设计模式的区别**
+<strong>代理、桥接、装饰器、适配器 4 种设计模式的区别</strong>
 
 代理、桥接、装饰器、适配器，这 4 种模式是比较常用的结构型设计模式。它们的代码结构非常相似.但其各自的用意却不同,简单说一下它们之间的关系代理模式：代理模式在不改变原始类接口的条件下，为原始类定义一个代理类，主要目的是控制访问，而非加强功能，这是它跟装饰器模式最大的不同。
 桥接模式：桥接模式的目的是将接口部分和实现部分分离，从而让它们可以较为容易、也相对独立地加以改变。
@@ -4370,15 +4543,15 @@ facade.say(" ");facade.say(" ");
 
 #### 5.5.4 外观模式总结
 
-**外观模式的优点**
+<strong>外观模式的优点</strong>
 
 它对客户端屏蔽了子系统组件,减少了客户端所需要处理的对象数目,并使子系统使用起来更加的容易.通过引入外观模式,客户端代码将变得很简单,与之关联的对象也很少.它实现了子系统与客户端之间的松耦合关系,这使得子系统的变化不会影响到调用它的客户端,只需要调整外观类即可一个子系统的修改对其他子系统没有任何影响,而子系统内部变化也不会影响到外观对象.
 
-**外观模式缺点**
+<strong>外观模式缺点</strong>
 
 不能很好的控制客户端直接使用子系统类,如果客户端访问子系统类做太多的限制则减少了可变性和灵活性.如果设计不当,增加新的子系统可能需要修改外观类的源代码,违背了开闭原则.
 
-**使用场景分析**
+<strong>使用场景分析</strong>
 
 简化复杂系统。 比如，当我们开发了一整套的电商系统后（包括订单、商品、支付、会员等系统），我们不能让用户依次使用这些系统后才能完成商品的购买，而是需要一个门户网站或手机 App这样简化过的门面系统来提供在线的购物功能。
 减少客户端处理的系统数量。 比如，在 Web 应用中，系统与系统之间的调用可能需要处理 Database数据库、Model 业务对象等，其中使用 Database对象就需要处理打开数据库、关闭连接等操作，然后转换为 Model业务对象，实在是太麻烦了。如果能够创建一个数据库使用的门面（其实就是常说的 DAO层），那么实现以上过程将变得容易很多。
@@ -4394,7 +4567,7 @@ facade.say(" ");facade.say(" ");
 #### 5.6.1 组合模式介绍
 
 组合模式(Composite Pattern) 的定义是：将对象组合成树形结构以表示整个部分的层次结构.组合模式可以让用户统一对待单个对象和对象的组合.比如: windows操作系统中的目录结构,其实就是树形目录结构,通过tree命令实现树形结构展示.
-在上图中包含了文件夹和文件两类不同元素,其中在文件夹中可以包含文件,还可以继续包含子文件夹.子文件夹中可以放入文件,也可以放入子文件夹. 文件夹形成了一种容器结构(树形结构),递归结构.接着我们再来思考虽然文件夹和文件是不同类型的对象,但是他们有一个共性,就是**都可以被放入文件夹中**. 其实文件和文件夹可以被当做是同一种对象看待.组合模式其实就是将一组对象(文件夹和文件)组织成树形结构,以表示一种'部分-整体'的层次结构,(目录与子目录的嵌套结构).组合模式让客户端可以统一单个对象(文件)和组合对象(文件夹)的处理逻辑(递归遍历).组合模式更像是一种数据结构和算法的抽象,其中数据可以表示成树这种数据结构,业务需求可以通过在树上的递归遍历算法来实现.
+在上图中包含了文件夹和文件两类不同元素,其中在文件夹中可以包含文件,还可以继续包含子文件夹.子文件夹中可以放入文件,也可以放入子文件夹. 文件夹形成了一种容器结构(树形结构),递归结构.接着我们再来思考虽然文件夹和文件是不同类型的对象,但是他们有一个共性,就是<strong>都可以被放入文件夹中</strong>. 其实文件和文件夹可以被当做是同一种对象看待.组合模式其实就是将一组对象(文件夹和文件)组织成树形结构,以表示一种'部分-整体'的层次结构,(目录与子目录的嵌套结构).组合模式让客户端可以统一单个对象(文件)和组合对象(文件夹)的处理逻辑(递归遍历).组合模式更像是一种数据结构和算法的抽象,其中数据可以表示成树这种数据结构,业务需求可以通过在树上的递归遍历算法来实现.
 
 #### 5.6.2 组合模式原理
 
@@ -4411,7 +4584,7 @@ facade.say(" ");facade.say(" ");
 组合模式的关键在于定义一个抽象根节点类,它既可以代表叶子,又可以代表树枝节点,客户端就是针对该抽象类进行编程,不需要知道它到底表示的是叶子还是容器,可以对其进行统一处理.树枝节点对象和抽象根节点类之间建立了一个聚合关联关系,在树枝节点对象中既可以包含叶子节点,还可以继续包含树枝节点,以此实现递归组合,形成一个树形结构.代码实现
 
 </code></pre>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * * , .* @author spikeCong* @date 2022/10/6**/
@@ -4427,7 +4600,7 @@ facade.say(" ");facade.say(" ");
 <p>// public abstract Component getChild(int i);</p>
 <p>// public abstract void operation();</p>
 <p>// }</p>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * * * @author spikeCong* @date 2022/10/6**/
@@ -4464,7 +4637,7 @@ facade.say(" ");facade.say(" ");
 <p>public void operation() {</p>
 <p>// }</p>
 <p>}</p>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * * , * @author spikeCong* @date 2022/10/6**/
@@ -4526,7 +4699,7 @@ component.operation();
 下面我们通过一段程序来演示一下组合模式的使用.程序的功能是列出某一目录下所有的文件和文件夹.类图如下:我们按照下图的表示,进行文件和文件夹的构建.Entry类: 抽象类,用来定义File类和Directory类的共性内容
 
 </code></pre>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * Entry , ( + ) * @author spikeCong* @date 2022/10/6**/
@@ -4551,7 +4724,7 @@ component.operation();
 File类,叶子节点,表示文件.
 
 </code></pre>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * File  * @author spikeCong* @date 2022/10/6**/
@@ -4609,7 +4782,7 @@ System.out.println(prefix + "/" + this);
 Directory类,树枝节点,表示文件
 
 </code></pre>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * Directory * @author spikeCong* @date 2022/10/6**/
@@ -4634,7 +4807,7 @@ this.name = name;
 <p>public String getName() {</p>
 <p>return this.name;</p>
 <p>}</p>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * * 1. entry File , getSize * 2. entry Directory , getSize , .*/@Override
@@ -4716,24 +4889,24 @@ usrDir.add(mysqlDir);rootDir.add(binDir);rootDir.add(tmpDir);rootDir.add(mysqlDi
 
 #### 5.6.5 组合模式总结
 
-**1 ) 组合模式的分类**
+<strong>1 ) 组合模式的分类</strong>
 
 透明组合模式透明组合模式中，抽象根节点角色中声明了所有用于管理成员对象的方法，比如在示例中 `Component`声明了 `add`、`remove` 、`getChild`方法，这样做的好处是确保所有的构件类都有相同的接口。透明组合模式也是组合模式的标准形式。
 透明组合模式的缺点是不够安全，因为叶子对象和容器对象在本质上是有区别的，叶子对象不可能有下一个层次的对象，即不可能包含成员对象，因此为其提供 add()、remove() 等方法是没有意义的，这在编译阶段不会出错，但在运行阶段如果调用这些方法可能会出错（如果没有提供相应的错误处理代码）
 在安全组合模式中，在抽象构件角色中没有声明任何用于管理成员对象的方法，而是在树枝节点类中声明并实现这些方法。安全组合模式的缺点是不够透明，因为叶子构件和容器构件具有不同的方法，且容器构件中那些用于管理成员对象的方法没有在抽象构件类中定义，因此客户端不能完全针对抽象编程，必须有区别地对待叶子构件和容器构件。
 
-**2 ) 组合模式优点**
+<strong>2 ) 组合模式优点</strong>
 
 组合模式可以清楚地定义分层次的复杂对象，表示对象的全部或部分层次，它让客户端忽略了层次的差异，方便对整个层次结构进行控制。
 客户端可以一致地使用一个组合结构或其中单个对象，不必关心处理的是单个对象还是整个组合结构，简化了客户端代码。
 在组合模式中增加新的树枝节点和叶子节点都很方便，无须对现有类库进行任何修改，符合“开闭原则”。
 组合模式为树形结构的面向对象实现提供了一种灵活的解决方案，通过叶子节点和树枝节点的递归组合，可以形成复杂的树形结构，但对树形结构的控制却非常简单。
 
-**3 ) 组合模式的缺点**
+<strong>3 ) 组合模式的缺点</strong>
 
 使用组合模式的前提在于，你的业务场景必须能够表示成树形结构。所以，组合模式的应用场景也比较局限，它并不是一种很常用的设计模式。
 
-**4 ) 组合模式使用场景分析**
+<strong>4 ) 组合模式使用场景分析</strong>
 
 处理一个树形结构，比如，公司人员组织架构、订单信息等；
 跨越多个层次结构聚合数据，比如，统计文件夹下文件总数；
@@ -4764,7 +4937,7 @@ usrDir.add(mysqlDir);rootDir.add(binDir);rootDir.add(tmpDir);rootDir.add(mysqlDi
 抽象享元类可以是一个接口也可以是一个抽象类,作为所有享元类的公共父类,主要作用是提高系统的可扩展性.
 
 </code></pre>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/10/10**/
@@ -4778,7 +4951,7 @@ usrDir.add(mysqlDir);rootDir.add(binDir);rootDir.add(tmpDir);rootDir.add(mysqlDi
 具体享元类,具体享元类中要将内部状态和外部状态分开处理,内部状态作为具体享元类的成员变量,而外部状态通过注入的方式添加到具体享元类中.
 
 </code></pre>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * - * @author spikeCong* @date 2022/10/10**/
@@ -4793,7 +4966,7 @@ this.intrinsicState = intrinsicState;
 
 </code></pre>
 <p>}</p>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * , , * @param extrinsicState , */@Override
@@ -4813,7 +4986,7 @@ System.out.println("=== " + intrinsicState +", :" + extrinsicState);
 非共享享元类,不复用享元工厂内部状态,但是是抽象享元类的子类或实现类
 
 </code></pre>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/10/10**/
@@ -4846,7 +5019,7 @@ System.out.println("=== , : " + intrinsicState +", : " + extrinsicState);
 享元工厂类, 管理一个享元对象类的缓存池。它会存储享元对象之间需要传递的共有状态，比如，按照大写英文字母来作为状态标识，这种只在享元对象之间传递的方式就叫内部状态。同时，它还提供了一个通用方法 getFlyweight()，主要通过内部状态标识来获取享元对象。
 
 </code></pre>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * * : . , , * , .* @author spikeCong* @date 2022/10/10**/
@@ -4896,7 +5069,7 @@ pool.put(key,fw);
 类图如下代码如下
 
 </code></pre>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * : * @author spikeCong* @date 2022/10/10**/
@@ -4912,7 +5085,7 @@ System.out.println(" : " + this.getColor());
 </code></pre>
 <p>}</p>
 <p>}</p>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * - * @author spikeCong* @date 2022/10/10**/
@@ -4928,7 +5101,7 @@ System.out.println(" : " + this.getColor());
 <p>return " ";</p>
 <p>}</p>
 <p>}</p>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * - * @author spikeCong* @date 2022/10/10
@@ -4945,7 +5118,7 @@ System.out.println(" : " + this.getColor());
 <p>return " ";</p>
 <p>}</p>
 <p>}</p>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * - , * @author spikeCong* @date 2022/10/10**/
@@ -5009,18 +5182,18 @@ b1.display();b2.display();b3.display();w1.display();w2.display();
 
 #### 5.7.5 享元模式总结
 
-**1) 享元模式的优点**
+<strong>1) 享元模式的优点</strong>
 
 极大减少内存中相似或相同对象数量，节约系统资源，提供系统性能
 &gt; 比如，当大量商家的商品图片、固定文字（如商品介绍、商品属性）在不同的网页进行展示时，通常不
 需要重复创建对象，而是可以使用同一个对象，以避免重复存储而浪费内存空间。由于通过享元模式构建的对象是共享的，所以当程序在运行时不仅不用重复创建，还能减少程序与操作系统的 IO交互次数，大大提升了读写性能。
 享元模式中的外部状态相对独立，且不影响内部状态
 
-**2) 享元模式的缺点**
+<strong>2) 享元模式的缺点</strong>
 
 为了使对象可以共享，需要将享元对象的部分状态外部化，分离内部状态和外部状态，使程序逻辑复杂
 
-**3) 使用场景**
+<strong>3) 使用场景</strong>
 
 一个系统有大量相同或者相似的对象，造成内存的大量耗费。
 注意: 在使用享元模式时需要维护一个存储享元对象的享元池，而这需要耗费一定的系统资源，因此，应当在需要多次重复使用享元对象时才值得使用享元模式。
@@ -5049,9 +5222,27 @@ if (i &gt;= IntegerCache.low &amp;&amp; i &lt;= IntegerCache.high)
 
 可以看到 `Integer` 默认先创建并缓存 `-128 ~ 127` 之间数的 `Integer` 对象，当调用 `valueOf`时如果参数在 `-128 ~ 127` 之间则计算下标并从缓存中返回，否则创建一个新的 `Integer` 对象。
 其实享元模式本质上就是找到对象的不可变特征，并缓存起来，当类似对象使用时从缓存中读取，以达到节省内存空间的目的。
-
-## 第六章 行为型模式(11种)
-
+</div></div></details>
+</section>
+<section class="kp" id="kp6">
+<div class="kp-head">
+<span class="kp-no">6</span>
+<h2>第六章 行为型模式(11种)</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>/**</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>6.7 访问者模式</li>
+<li>6.8 备忘录模式</li>
+<li>6.11 中介者模式</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 行为型模式用于描述程序在运行时复杂的流程控制，即描述多个类或对象之间怎样相互协作共同完成单个对象都无法单独完成的任务，它涉及算法与对象间职责的分配。
 行为型模式分为类行为模式和对象行为模式，前者采用继承机制来在类间分派行为，后者采用组合或聚合在对象间分配行为。由于组合关系或聚合关系比继承关系耦合度低，满足“合成复用原则”，所以对象行为模式比类行为模式具有更大的灵活性。
 行为型模式分为：
@@ -5063,8 +5254,8 @@ if (i &gt;= IntegerCache.low &amp;&amp; i &lt;= IntegerCache.high)
 
 观察者模式的应用场景非常广泛，小到代码层面的解耦，大到架构层面的系统解耦，再或者一些产品的设计思路，都有这种模式的影子.现在我们常说的基于事件驱动的架构，其实也是观察者模式的一种最佳实践。当我们观察某一个对象时，对象传递出的每一个行为都被看成是一个事件，观察者通过处理每一个事件来完成自身的操作处理。
 生活中也有许多观察者模式的应用,比如汽车与红绿灯的关系,'红灯停,绿灯行',在这个过程中交通信号灯是汽车的观察目标,而汽车是观察者.
-**观察者模式(observer pattern)的原始定义是：定义对象之间的一对多依赖关系，这样当一个对象改变状态时，它的所有依赖项都会自动得到通知和更新。**解释一下上面的定义: 观察者模式它是用于建立一种对象与对象之间的依赖关系,一个对象发生改变时将自动通知其他对象,其他对象将相应的作出反应.
-&gt; 在观察者模式中发生改变的对象称为**观察目标**,而被通知的对象称为**观察者**,一个观察目标可以应
+<strong>观察者模式(observer pattern)的原始定义是：定义对象之间的一对多依赖关系，这样当一个对象改变状态时，它的所有依赖项都会自动得到通知和更新。</strong>解释一下上面的定义: 观察者模式它是用于建立一种对象与对象之间的依赖关系,一个对象发生改变时将自动通知其他对象,其他对象将相应的作出反应.
+&gt; 在观察者模式中发生改变的对象称为<strong>观察目标</strong>,而被通知的对象称为<strong>观察者</strong>,一个观察目标可以应
 对多个观察者,而且这些观察者之间可以没有任何相互联系,可以根据需要增加和删除观察者,使得系统更易于扩展.
 &gt; 
 &gt; 观察者模式的别名有发布-订阅(Publish/Subscribe)模式,模型-视图(Model-View)模式、源-监听(Source
@@ -5080,10 +5271,11 @@ ConcrereObserver：具体观察者，实现抽象观察者定义的更新接口�
 
 #### 6.1.3 观察者模式实现
 
-**观察者**
+<strong>观察者</strong>
 
 </code></pre>
-<p>/**</p>
+
+</p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/10/11**/
@@ -5092,7 +5284,7 @@ ConcrereObserver：具体观察者，实现抽象观察者定义的更新接口�
 <p>public interface Observer {</p>
 <p>//update : ( ) , public void update();</p>
 <p>}</p>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/10/11**/
@@ -5113,7 +5305,7 @@ System.out.println("ConcreteObserverOne !");
 </code></pre>
 <p>}</p>
 <p>}</p>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/10/11**/
@@ -5136,10 +5328,10 @@ System.out.println("ConcreteObserverTwo !");
 <p>}</p>
 <pre><code>
 
-**被观察者**
+<strong>被观察者</strong>
 
 </code></pre>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/10/11**/
@@ -5153,7 +5345,7 @@ System.out.println("ConcreteObserverTwo !");
 
 </code></pre>
 <p>}</p>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/10/11**/
@@ -5205,7 +5397,7 @@ obs.update();
 <p>}</p>
 <pre><code>
 
-**测试类**
+<strong>测试类</strong>
 
 </code></pre>
 <p>public class Client {</p>
@@ -5227,10 +5419,10 @@ subject.notifyObservers();
 
 接下来我们使用观察模式,来实现一个买房摇号的程序.摇号结束,需要通过短信告知用户摇号结果,还需要想M Q中保存用户本次摇号的信息.
 
-**1 ) 未使用设计模式**
+<strong>1 ) 未使用设计模式</strong>
 
 </code></pre>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/10/11**/
@@ -5258,7 +5450,7 @@ subject.notifyObservers();
 <p>// id private String msg;</p>
 <p>// private Date dataTime;</p>
 <p>// //get&amp;set..... }</p>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/10/11**/
@@ -5267,7 +5459,7 @@ subject.notifyObservers();
 <p>public interface LotteryService {</p>
 <p>// public LotteryResult lottery(String uId);</p>
 <p>}</p>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/10/11**/
@@ -5317,13 +5509,13 @@ String result = ls.lottery("1234567887654322");System.out.println(result);
 <p>}</p>
 <pre><code>
 
-**1 ) 使用观察者模式进行优化**
+<strong>1 ) 使用观察者模式进行优化</strong>
 
 上面的摇号业务中,摇号、发短信、发MQ消息是一个顺序调用的过程,但是除了摇号这个核心功能以外, 发短信与记录信息到MQ的操作都不是主链路的功能,需要单独抽取出来,这样才能保证在后面的开发过程中保证代码的可扩展性和可维护性.
 事件监听
 
 </code></pre>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/10/11**/
@@ -5332,7 +5524,7 @@ String result = ls.lottery("1234567887654322");System.out.println(result);
 <p>public interface EventListener {</p>
 <p>void doEvent(LotteryResult result);</p>
 <p>}</p>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/10/11**/
@@ -5352,7 +5544,7 @@ System.out.println(" ID : " + result.getuId() +", : " + result.getMsg());
 </code></pre>
 <p>}</p>
 <p>}</p>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * MQ * @author spikeCong* @date 2022/10/11**/
@@ -5377,7 +5569,7 @@ System.out.println(" (MQ), ID:" + result.getuId() +", :" + result.getMsg());
 事件处理
 
 </code></pre>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/10/11**/
@@ -5397,7 +5589,7 @@ MQ,Message
 <p>this.listeners.put(operation,new ArrayList&lt;&gt;());</p>
 <p>}</p>
 <p>}</p>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * * @param eventType * @param listener */
@@ -5410,7 +5602,7 @@ List&lt;EventListener&gt; users = listeners.get(eventType);users.add(listener);
 
 </code></pre>
 <p>}</p>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * * @param eventType * @param listener */
@@ -5423,7 +5615,7 @@ List&lt;EventListener&gt; users = listeners.get(eventType);users.remove(listener
 
 </code></pre>
 <p>}</p>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * * @param eventType * @param result */
@@ -5449,7 +5641,7 @@ listener.doEvent(result);
 摇号业务处理
 
 </code></pre>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/10/11**/
@@ -5482,7 +5674,7 @@ eventManager.notify(EventManager.EventType.Message,result);eventManager.notify(E
 <p>}</p>
 <p>public abstract LotteryResult lottery(String uId);</p>
 <p>}</p>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/10/11**/
@@ -5522,16 +5714,16 @@ LotteryResult result = ls.lotteryAndMsg("1234567887654322");System.out.println(r
 
 #### 6.1.5 观察者模式总结
 
-**1) 观察者模式的优点**
+<strong>1) 观察者模式的优点</strong>
 
 降低了目标与观察者之间的耦合关系，两者之间是抽象耦合关系。
 被观察者发送通知，所有注册的观察者都会收到信息【可以实现广播机制】
 
-**2) 观察者模式的缺点**
+<strong>2) 观察者模式的缺点</strong>
 
 如果观察者非常多的话，那么所有的观察者收到被观察者发送的通知会耗时如果被观察者有循环依赖的话，那么被观察者发送通知会使观察者循环调用，会导致系统崩溃
 
-**3 ) 观察者模式常见的使用场景**
+<strong>3 ) 观察者模式常见的使用场景</strong>
 
 当一个对象状态的改变需要改变其他对象时。比如，商品库存数量发生变化时，需要通知商品详情页、购物车等系统改变数量。
 一个对象发生改变时只想要发送通知，而不需要知道接收者是谁。比如，订阅微信公众号的文章，发送者通过公众号发送，订阅者并不知道哪些用户订阅了公众号。
@@ -5539,9 +5731,9 @@ LotteryResult result = ls.lotteryAndMsg("1234567887654322");System.out.println(r
 微博或微信朋友圈发送的场景。这是观察者模式的典型应用场景，一个人发微博或朋友圈，只要是关联的朋友都会收到通知；一旦取消关注，此人以后将不会收到相关通知。
 需要建立基于事件触发的场景。比如，基于 Java UI 的编程，所有键盘和鼠标事件都由它的侦听器对象和指定函数处理。当用户单击鼠标时，订阅鼠标单击事件的函数将被调用，并将所有上下文数据作为方法参数传递给它。
 
-**4 ) JDK 中对观察者模式的支持**
+<strong>4 ) JDK 中对观察者模式的支持</strong>
 
-JDK中提供了Observable类以及Observer接口,它们构成了JDK对观察者模式的支持.`java.util.Observer` 接口:该接口中声明了一个方法,它充当**抽象观察者**,其中声明了一个update方法.
+JDK中提供了Observable类以及Observer接口,它们构成了JDK对观察者模式的支持.`java.util.Observer` 接口:该接口中声明了一个方法,它充当<strong>抽象观察者</strong>,其中声明了一个update方法.
 
 </code></pre>
 <p>void update(Observable o, Object arg);</p>
@@ -5557,7 +5749,7 @@ void setChange() 方法：用来设置一个 boolean类型的内部标志，注�
 
 #### 6.2.1 模板方法模式介绍
 
-**模板方法模式(template method pattern)原始定义是：在操作中定义算法的框架，将一些步骤推迟到子类中。模板方法让子类在不改变算法结构的情况下重新定义算法的某些步骤。**模板方法中的算法可以理解为广义上的业务逻辑,并不是特指某一个实际的算法.定义中所说的算法的框架就是模板, 包含算法框架的方法就是模板方法.
+<strong>模板方法模式(template method pattern)原始定义是：在操作中定义算法的框架，将一些步骤推迟到子类中。模板方法让子类在不改变算法结构的情况下重新定义算法的某些步骤。</strong>模板方法中的算法可以理解为广义上的业务逻辑,并不是特指某一个实际的算法.定义中所说的算法的框架就是模板, 包含算法框架的方法就是模板方法.
 &gt; 例如: 我们去医院看病一般要经过以下4个流程：挂号、取号、排队、医生问诊等，其中挂号、 取号 、排
 队对每个病人是一样的，可以在父类中实现，但是具体医生如何根据病情开药每个人都是不一样的，所以开药这个操作可以延迟到子类中实现。
 模板方法模式是一种基于继承的代码复用技术,它是一种类行为模式.模板方法模式其结构中只存在父类与子类之间的继承关系.模板方法的作用主要是提高程序的复用性和扩展性:复用指的是,所有的子类可以复用父类中提供的模板方法代码扩展指的是,框架通过模板模式提供功能扩展点,让框架用户可以在不修改框架源码的情况下,基于扩展点定制化框架的功能.
@@ -5581,7 +5773,7 @@ void setChange() 方法：用来设置一个 boolean类型的内部标志，注�
 UML类图对应的代码实现
 
 </code></pre>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/10/12**/
@@ -5710,7 +5902,7 @@ concreteClassB.run("x");
 P2P公司的借款系统中有一个利息计算模块,利息的计算流程是这样的:用户登录系统,登录时需要输入账号密码,如果登录失败(比如用户密码错误),系统需要给出提示如果用户登录成功,则根据用户的借款的类型不同,使用不同的利息计算方式进行计算系统需要显示利息.
 
 </code></pre>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/10/12**/
@@ -5755,7 +5947,7 @@ calculate();display();
 </code></pre>
 <p>}</p>
 <p>}</p>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/10/12**/
@@ -5775,7 +5967,7 @@ System.out.println(" 30 , 10%!");
 </code></pre>
 <p>}</p>
 <p>}</p>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/10/12**/
@@ -5827,16 +6019,16 @@ a2.handle("tom","123456");
 
 #### 6.2.5 模板方法模式总结
 
-**优点**
+<strong>优点</strong>
 
 在父类中形式化的定义一个算法,而由它的子类来实现细节处理,在子类实现详细的处理代码时,并不会改变父类算法中步骤的执行顺序.模板方法可以实现一种反向的控制结构,通过子类覆盖父类的钩子方法,来决定某一个特定步骤是否需要执行在模板方法模式中可以通过子类来覆盖父类的基本方法,不同的子类可以提供基本方法的不同实现,更换和增加新的子类很方便,符合单一职责原则和开闭原则.
 
-**缺点**
+<strong>缺点</strong>
 
 对每个不同的实现都需要定义一个子类，这会导致类的个数增加，系统更加庞大，设计也更加抽象。
 父类中的抽象方法由子类实现，子类执行的结果会影响父类的结果，这导致一种反向的控制结构，它提高了代码阅读的难度。
 
-**模板方法模式的使用场景一般有**
+<strong>模板方法模式的使用场景一般有</strong>
 
 多个类有相同的方法并且逻辑可以共用时；
 将通用的算法或固定流程设计为模板，在每一个具体的子类中再继续优化算法步骤或流程步骤时；
@@ -5846,9 +6038,9 @@ a2.handle("tom","123456");
 
 #### 6.3.1 策略模式概述
 
-**策略模式(strategy pattern)的原始定义是：定义一系列算法，将每一个算法封装起来，并使它们可以相互替换。策略模式让算法可以独立于使用它的客户端而变化。**其实我们在现实生活中常常遇到实现某种目标存在多种策略可供选择的情况，例如，出行旅游可以乘坐飞机、乘坐火车、骑自行车或自己开私家车等。
+<strong>策略模式(strategy pattern)的原始定义是：定义一系列算法，将每一个算法封装起来，并使它们可以相互替换。策略模式让算法可以独立于使用它的客户端而变化。</strong>其实我们在现实生活中常常遇到实现某种目标存在多种策略可供选择的情况，例如，出行旅游可以乘坐飞机、乘坐火车、骑自行车或自己开私家车等。
 在软件开发中,经常会遇到这种情况,开发一个功能可以通过多个算法去实现,我们可以将所有的算法集中在一个类中,在这个类中提供多个方法,每个方法对应一个算法, 或者我们也可以将这些算法都封装在一个统一的方法中,使用if...else...等条件判断语句进行选择.但是这两种方式都存在硬编码的问题,后期需要增加算法就需要修改源代码,这会导致代码的维护变得困难.
-**比如网购，你可以选择工商银行、农业银行、建设银行等等，但是它们提供的算法都是一致的，就是帮你付款。**在软件开发中也会遇到相似的情况，当实现某一个功能存在多种算法或者策略，我们可以根据环境或者条件的不同选择不同的算法或者策略来完成该功能。
+<strong>比如网购，你可以选择工商银行、农业银行、建设银行等等，但是它们提供的算法都是一致的，就是帮你付款。</strong>在软件开发中也会遇到相似的情况，当实现某一个功能存在多种算法或者策略，我们可以根据环境或者条件的不同选择不同的算法或者策略来完成该功能。
 
 #### 6.3.2 策略模式原理
 
@@ -5862,7 +6054,7 @@ a2.handle("tom","123456");
 策略模式的本质是通过Context类来作为中心控制单元，对不同的策略进行调度分配。
 
 </code></pre>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/10/13**/
@@ -5899,7 +6091,7 @@ System.out.println(" B");
 </code></pre>
 <p>}</p>
 <p>}</p>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/10/13**/
@@ -5941,12 +6133,12 @@ context.algorithm();
 面试问题: 如何用设计模式消除代码中的if-else物流行业中，通常会涉及到EDI报文(XML格式文件)传输和回执接收，每发送一份EDI报文，后续都会收到与之关联的回执（标识该数据在第三方系统中的流转状态）。
 这里列举几种回执类型：MT1101、MT2101、MT4101、MT8104，系统在收到不同的回执报文后，会执行对应的业务逻辑处理。我们就业回执处理为演示案例
 
-**1 ) 不使用设计模式**
+<strong>1 ) 不使用设计模式</strong>
 
 回执类
 
 </code></pre>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/10/13**/
@@ -6047,12 +6239,12 @@ System.out.println(" MT8104 !");System.out.println(" ");System.out.println(" D")
 <p>}</p>
 <pre><code>
 
-**2 ) 使用策略模式进行优化**
+<strong>2 ) 使用策略模式进行优化</strong>
 
 通过策略模式, 将所有的if-else分支的业务逻辑抽取为各种策略类,让客户端去依赖策略接口,保证具体策略类的改变不影响客户端.策略接口
 
 </code></pre>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/10/13**/
@@ -6099,7 +6291,7 @@ System.out.println(" MT2101: " + receipt.getMessage());
 ......策略上下文类(策略接口的持有者)
 
 </code></pre>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * , * @author spikeCong* @date 2022/10/13**/
@@ -6180,21 +6372,21 @@ context.handleReceipt(receipt);
 <p>}</p>
 <pre><code>
 
-**经过上面的改造，我们已经消除了if-else的结构，每当新来了一种回执，只需要添加新的回执处理策略，并修改ReceiptHandleStrategyFactory中的Map集合。如果要使得程序符合开闭原则，则需要调整Receip tHandleStrategyFactory中处理策略的获取方式，通过反射的方式，获取指定包下的所有IReceiptHandle Strategy实现类，然后放到字典Map中去.**
+<strong>经过上面的改造，我们已经消除了if-else的结构，每当新来了一种回执，只需要添加新的回执处理策略，并修改ReceiptHandleStrategyFactory中的Map集合。如果要使得程序符合开闭原则，则需要调整Receip tHandleStrategyFactory中处理策略的获取方式，通过反射的方式，获取指定包下的所有IReceiptHandle Strategy实现类，然后放到字典Map中去.</strong>
 
 #### 6.3.5 策略模式总结
 
-**1) 策略模式优点**
+<strong>1) 策略模式优点</strong>
 
 策略类之间可以自由切换由于策略类都实现同一个接口，所以使它们之间可以自由切换。
 易于扩展增加一个新的策略只需要添加一个具体的策略类即可，基本不需要改变原有的代码，符合“开闭原则“避免使用多重条件选择语句（if else），充分体现面向对象设计思想。
 
-**2) 策略模式缺点**
+<strong>2) 策略模式缺点</strong>
 
 客户端必须知道所有的策略类，并自行决定使用哪一个策略类。
 策略模式将造成产生很多策略类，可以通过使用享元模式在一定程度上减少对象的数量。
 
-**3) 策略模式使用场景**
+<strong>3) 策略模式使用场景</strong>
 
 一个系统需要动态地在几种算法中选择一种时，可将每个算法封装到策略类中。
 &gt; 策略模式最大的作用在于分离使用算法的逻辑和算法自身实现的逻辑，这样就意味着当我们想要优化算
@@ -6204,13 +6396,13 @@ context.handleReceipt(receipt);
 择非常方便。但是这就会带来一个问题：当在这个算法类中封装了大量查找算法时，该类的代码就会变得非常复杂，维护也会突然就变得非常困难。虽然策略模式看上去比较笨重，但实际上在每一次新增策略时都通过新增类来进行隔离，短期虽然不如直接写 if-else来得效率高，但长期来看，维护单一的简单类耗费的时间其实远远低于维护一个超大的复杂类。
 系统要求使用算法的客户不应该知道其操作的数据时，可使用策略模式来隐藏与算法相关的数据结构。
 &gt; 如果我们不希望客户知道复杂的、与算法相关的数据结构,在具体策略类中封装算法与相关数据结构,可以
-提高算法的保密性与安全性.**设计原则和思想其实比设计模式更加的普适和重要,掌握了代码的设计原则和思想,我们自然而然的就可以使用到设计模式,还有可能自己创建出一种新的设计模式.**
+提高算法的保密性与安全性.<strong>设计原则和思想其实比设计模式更加的普适和重要,掌握了代码的设计原则和思想,我们自然而然的就可以使用到设计模式,还有可能自己创建出一种新的设计模式.</strong>
 
 ### 6.4 职责链模式
 
 #### 6.4.1 职责链模式介绍
 
-**职责链模式(chain of responsibility pattern) 定义: 避免将一个请求的发送者与接收者耦合在一起,让多个对象都有机会处理请求.将接收请求的对象连接成一条链,并且沿着这条链传递请求,直到有一个对象能够处理它为止.**在职责链模式中，多个处理器（也就是刚刚定义中说的“接收对象”）依次处理同一个请求。一个请求先经过 A 处理器处理，然后再把请求传递给 B 处理器，B 处理器处理完后再 传递给 C处理器，以此类推，形成一个链条。链条上的每个处理器各自承担各自的处理职责，所以叫作职责链模式。
+<strong>职责链模式(chain of responsibility pattern) 定义: 避免将一个请求的发送者与接收者耦合在一起,让多个对象都有机会处理请求.将接收请求的对象连接成一条链,并且沿着这条链传递请求,直到有一个对象能够处理它为止.</strong>在职责链模式中，多个处理器（也就是刚刚定义中说的“接收对象”）依次处理同一个请求。一个请求先经过 A 处理器处理，然后再把请求传递给 B 处理器，B 处理器处理完后再 传递给 C处理器，以此类推，形成一个链条。链条上的每个处理器各自承担各自的处理职责，所以叫作职责链模式。
 
 #### 6.4.2 职责链模式原理
 
@@ -6243,7 +6435,7 @@ this.data = data;
 </code></pre>
 <p>}</p>
 <p>}</p>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/10/14**/
@@ -6347,10 +6539,10 @@ h1.handle(requestData);
 
 接下来我们模拟有一个双11期间,业务系统审批的流程,临近双十一公司会有陆续有一些新的需求上线,为了保证线上系统的稳定,我们对上线的审批流畅做了严格的控制.审批的过程会有不同级别的负责人加入进行审批(平常系统上线只需三级负责人审批即可,双十一前后需要二级或一级审核人参与审批),接下来我们就使用职责链模式来设计一下此功能.
 
-**1) 不使用设计模式**
+<strong>1) 不使用设计模式</strong>
 
 </code></pre>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/10/14**/
@@ -6408,7 +6600,7 @@ this.info = info;
 </code></pre>
 <p>}</p>
 <p>}</p>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/10/14**/
@@ -6420,7 +6612,7 @@ this.info = info;
 
 </code></pre>
 <p>private static Map&lt;String,Date&gt; authMap = new HashMap&lt;String, Date&gt;();</p>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * * @param uId id* @param orderId id*/
@@ -6505,7 +6697,7 @@ Date date = sdf.parse("2022-11-12 00:00:00");
 AuthInfo info1 = controller.doAuth(" ", "100001000010000", date);System.out.println(" : " + info1.getInfo());
 
 </code></pre>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * 2. , ID: 1000013* auth() , Map  ID ID*/AuthService.auth("1000013", "100001000010000");System.out.println(" , : ");System.out.println("===========================================================================");
@@ -6518,7 +6710,7 @@ AuthInfo info1 = controller.doAuth(" ", "100001000010000", date);System.out.prin
 AuthInfo info2 = controller.doAuth(" ", "100001000010000", date);System.out.println(" : " + info2.getInfo());
 
 </code></pre>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * 2. , ID: 1000012* auth() , Map  ID ID*/AuthService.auth("1000012", "100001000010000");System.out.println(" , : ");System.out.println("===========================================================================");
@@ -6531,7 +6723,7 @@ AuthInfo info2 = controller.doAuth(" ", "100001000010000", date);System.out.prin
 AuthInfo info3 = controller.doAuth(" ", "100001000010000", date);System.out.println(" : " + info3.getInfo());
 
 </code></pre>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * 2. , ID: 1000012* auth() , Map  ID ID*/AuthService.auth("1000011", "100001000010000");System.out.println(" , : ");
@@ -6541,12 +6733,12 @@ AuthInfo info3 = controller.doAuth(" ", "100001000010000", date);System.out.prin
 <p>}</p>
 <pre><code>
 
-**2 ) 职责链模式重构代码**
+<strong>2 ) 职责链模式重构代码</strong>
 
 下图是为当前业务设计的责任链结构,统一抽象类AuthLink 下有三个子类,将三个子类的执行通过编排,模拟出一条链路,这个链路就是业务中的责任链.
 
 </code></pre>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * */
@@ -6633,7 +6825,7 @@ return new AuthInfo("0000", " ", orderId, " ", " ", f.format(date), " ", levelUs
 <p>return next.doAuth(uId, orderId, authDate);</p>
 <p>}</p>
 <p>}</p>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * */
@@ -6680,7 +6872,7 @@ return new AuthInfo("0000", " ", orderId, " ", " ", f.format(date), " ", levelUs
 <p>return next.doAuth(uId, orderId, authDate);</p>
 <p>}</p>
 <p>}</p>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * */
@@ -6772,7 +6964,7 @@ AuthService.auth("1000011", "1000998004813441");logger.info(" {}", " ");logger.i
 
 #### 6.4.5 职责链模式总结
 
-**1) 职责链模式的优点**
+<strong>1) 职责链模式的优点</strong>
 
 降低了对象之间的耦合度该模式降低了请求发送者和接收者的耦合度。
 增强了系统的可扩展性可以根据需要增加新的请求处理类，满足开闭原则。
@@ -6781,13 +6973,13 @@ AuthService.auth("1000011", "1000998004813441");logger.info(" {}", " ");logger.i
 责任分担
 每个类只需要处理自己该处理的工作，不能处理的传递给下一个对象完成，明确各类的责任范围，符合类的单一职责原则。
 
-**2) 职责链模式的缺点**
+<strong>2) 职责链模式的缺点</strong>
 
 不能保证每个请求一定被处理。由于一个请求没有明确的接收者，所以不能保证它一定会被处理，该请求可能一直传到链的末端都得不到处理。
 对比较长的职责链，请求的处理可能涉及多个处理对象，系统性能将受到一定影响。
 职责链建立的合理性要靠客户端来保证，增加了客户端的复杂性，可能会由于职责链的错误设置而导致系统出错，如可能会造成循环调用。
 
-**3) 使用场景分析**
+<strong>3) 使用场景分析</strong>
 
 责任链模式常见的使用场景有以下几种情况。
 在运行时需要动态使用多个关联对象来处理同一次请求时。比如，请假流程、员工入职流程、编译打包发布上线流程等。
@@ -6799,7 +6991,7 @@ AuthService.auth("1000011", "1000998004813441");logger.info(" {}", " ");logger.i
 
 #### 6.5.1 状态模式介绍
 
-自然界很多事物都有多种状态,而且不同状态下会具有不同的行为,这些状态在特定条件下还会发生相互转换,比如水在软件系统中,有些对象也像水一样具有多种状态,这些状态在某些情况下能够相互转换,而且对象在不同状态下也将具有不同的行为.**状态模式(state pattern)的定义: 允许一个对象在其内部状态改变时改变它的行为.对象看起来似乎修改了它的类.****状态模式**就是用于解决系统中复杂对象的状态转换以及不同状态下行为的封装问题.状态模式将一个对象的状态从该对象中分离出来,封装到专门的状态类中(用类来表示状态),使得对象状态可以灵活变化.
+自然界很多事物都有多种状态,而且不同状态下会具有不同的行为,这些状态在特定条件下还会发生相互转换,比如水在软件系统中,有些对象也像水一样具有多种状态,这些状态在某些情况下能够相互转换,而且对象在不同状态下也将具有不同的行为.<strong>状态模式(state pattern)的定义: 允许一个对象在其内部状态改变时改变它的行为.对象看起来似乎修改了它的类.</strong><strong>状态模式</strong>就是用于解决系统中复杂对象的状态转换以及不同状态下行为的封装问题.状态模式将一个对象的状态从该对象中分离出来,封装到专门的状态类中(用类来表示状态),使得对象状态可以灵活变化.
 
 #### 6.5.2 状态模式结构
 
@@ -6812,7 +7004,7 @@ AuthService.auth("1000011", "1000998004813441");logger.info(" {}", " ");logger.i
 代码示例
 
 </code></pre>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/10/17**/
@@ -6821,7 +7013,7 @@ AuthService.auth("1000011", "1000998004813441");logger.info(" {}", " ");logger.i
 <p>public interface State {</p>
 <p>// , void handle(Context context);</p>
 <p>}</p>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/10/17**/
@@ -6928,10 +7120,10 @@ state2.handle(context);System.out.println(context.getCurrentState().toString());
 
 模拟交通信号灯的状态转换. 交通信号灯一般包括了红、黄、绿3种颜色状态,不同状态之间的切换逻辑为:红灯只能切换为黄灯,黄灯可以切换为绿灯或红灯,绿灯只能切换为黄灯.
 
-**1) 不使用设计模式**
+<strong>1) 不使用设计模式</strong>
 
 </code></pre>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * * ( ) , ( ), ( ) .* @author spikeCong* @date 2022/10/17**/
@@ -7010,10 +7202,10 @@ state = " ";System.out.println(" ... : 90 ");
 <p>}</p>
 <pre><code>
 
-问题:状态切换的操作全部在一个类中,如果有很多的交通灯进行联动,这个程序的逻辑就会变得非常复杂,难以维护.**2) 使用状态模式,将交通灯的切换逻辑组织起来,把跟状态有关的内容从交通灯类里抽离出来,使用类来表示不同的状态.**
+问题:状态切换的操作全部在一个类中,如果有很多的交通灯进行联动,这个程序的逻辑就会变得非常复杂,难以维护.<strong>2) 使用状态模式,将交通灯的切换逻辑组织起来,把跟状态有关的内容从交通灯类里抽离出来,使用类来表示不同的状态.</strong>
 
 </code></pre>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * * ( ) , ( ), ( ) .* @author spikeCong* @date 2022/10/17**/
@@ -7050,7 +7242,7 @@ state.switchToRed(this);
 </code></pre>
 <p>}</p>
 <p>}</p>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/10/17**/
@@ -7061,7 +7253,7 @@ state.switchToRed(this);
 <p>// void switchToYellow(TrafficLight trafficLight);</p>
 <p>// void switchToRed(TrafficLight trafficLight);</p>
 <p>// }</p>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/10/17**/
@@ -7105,7 +7297,7 @@ System.out.println(" !");
 </code></pre>
 <p>}</p>
 <p>}</p>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/10/17**/
@@ -7149,7 +7341,7 @@ System.out.println(" !");
 </code></pre>
 <p>}</p>
 <p>}</p>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/10/17**/
@@ -7209,18 +7401,18 @@ trafficLight.switchToYellow();trafficLight.switchToGreen();trafficLight.switchTo
 
 #### 6.5.5 状态模式总结
 
-**1) 状态模式的优点**
+<strong>1) 状态模式的优点</strong>
 
 将所有与某个状态有关的行为放到一个类中，并且可以方便地增加新的状态，只需要改变对象状态即可改变对象的行为。
 允许状态转换逻辑与状态对象合成一体，而不是某一个巨大的条件语句块。
 
-**2) 状态模式的缺点**
+<strong>2) 状态模式的缺点</strong>
 
 状态模式的使用必然会增加系统类和对象的个数。
 状态模式的结构与实现都较为复杂，如果使用不当将导致程序结构和代码的混乱。
 状态模式对"开闭原则"的支持并不太好 (添加新的状态类需要修改那些负责状态转换的源代码)。
 
-**3) 状态模式常见的使用场景**
+<strong>3) 状态模式常见的使用场景</strong>
 
 对象根据自身状态的变化来进行不同行为的操作时， 比如，购物订单状态。
 对象需要根据自身变量的当前值改变行为，不期望使用大量 if-else 语句时， 比如，商品库存状态。
@@ -7231,11 +7423,11 @@ trafficLight.switchToYellow();trafficLight.switchToGreen();trafficLight.switchTo
 #### 6.6.1 迭代器模式介绍
 
 迭代器模式是我们学习一个设计时很少用到的、但编码实现时却经常使用到的行为型设计模式。在绝大多数编程语言中，迭代器已经成为一个基础的类库，直接用来遍历集合对象。在平时开发中，我们更多的是直接使用它，很少会从零去实现一个迭代器。
-**迭代器模式(Iterator pattern)又叫游标（Cursor）模式，它的原始定义是：迭代器提供一种对容器对象中的各个元素进行访问的方法，而又不需要暴露该对象的内部细节。**在软件系统中,容器对象拥有两个职责: 一是存储数据,而是遍历数据.从依赖性上看,前者是聚合对象的基本职责.而后者是可变化的,又是可分离的.因此可以将遍历数据的行为从容器中抽取出来,封装到迭代器对象中,由迭代器来提供遍历数据的行为,这将简化聚合对象的设计,更加符合单一职责原则
+<strong>迭代器模式(Iterator pattern)又叫游标（Cursor）模式，它的原始定义是：迭代器提供一种对容器对象中的各个元素进行访问的方法，而又不需要暴露该对象的内部细节。</strong>在软件系统中,容器对象拥有两个职责: 一是存储数据,而是遍历数据.从依赖性上看,前者是聚合对象的基本职责.而后者是可变化的,又是可分离的.因此可以将遍历数据的行为从容器中抽取出来,封装到迭代器对象中,由迭代器来提供遍历数据的行为,这将简化聚合对象的设计,更加符合单一职责原则
 
 #### 6.6.2 迭代器模式原理
 
-**迭代器模式结构图**
+<strong>迭代器模式结构图</strong>
 
 迭代器模式主要包含以下角色：
 抽象集合（Aggregate）角色：用于存储和管理元素对象,定义存储、添加、删除集合元素的功能,并且声明了一个createIterator()方法用于创建迭代器对象。
@@ -7246,7 +7438,7 @@ hasNext()函数用于判断集合中是否还有下一个元素next() 函数用�
 #### 6.6.3 迭代器模式实现
 
 </code></pre>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/10/18**/
@@ -7267,7 +7459,7 @@ E currentItem();
 
 </code></pre>
 <p>}</p>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/10/18**/
@@ -7330,7 +7522,7 @@ while(iterator.hasNext()){System.out.println(iterator.currentItem());iterator.ne
 
 </code></pre>
 <p>}</p>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * ArrayList iterator() * , .*/java.util.Iterator&lt;String&gt; iterator1 = names.iterator();while(iterator1.hasNext()){System.out.println(iterator1.next());iterator.next();
@@ -7346,7 +7538,7 @@ while(iterator.hasNext()){System.out.println(iterator.currentItem());iterator.ne
 为了帮助你更好地理解迭代器模式，下面我们还是通过一个简单的例子给大家演示一下
 
 </code></pre>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * IteratorIterator* @author spikeCong* @date 2022/10/18
@@ -7362,7 +7554,7 @@ E next(); // E currentItem(); // boolean hasNext(); // ```java
     }
     /**
 </code></pre>
-<p class="li">• ListList* @author spikeCong* @date 2022/10/18**/</p>
+<p>• ListList* @author spikeCong* @date 2022/10/18</strong>/</p>
 <pre><code>
     public interface ListList&lt;E&gt; {
         // ( )
@@ -7372,7 +7564,7 @@ E next(); // E currentItem(); // boolean hasNext(); // ```java
     }
     /**
 </code></pre>
-<p class="li">• * @author spikeCong* @date 2022/10/18**/</p>
+<p>• <em> @author spikeCong</em> @date 2022/10/18<strong>/</p>
 <pre><code>
     public class Topic {
         private String name;
@@ -7392,7 +7584,7 @@ E next(); // E currentItem(); // boolean hasNext(); // ```java
     }
     /**
 </code></pre>
-<p class="li">• * @author spikeCong* @date 2022/10/18**/</p>
+<p>• <em> @author spikeCong</em> @date 2022/10/18</strong>/</p>
 <pre><code>
     public class TopicIterator implements IteratorIterator&lt;Topic&gt; {
         //Topic private Topic[] topics;
@@ -7436,7 +7628,7 @@ E next(); // E currentItem(); // boolean hasNext(); // ```java
     }
     /**
 </code></pre>
-<p class="li">• * @author spikeCong* @date 2022/10/18**/</p>
+<p>• <em> @author spikeCong</em> @date 2022/10/18<strong>/</p>
 <pre><code>
     public class TopicList implements ListList&lt;Topic&gt; {
         private Topic[] topics;
@@ -7476,10 +7668,10 @@ E next(); // E currentItem(); // boolean hasNext(); // ```java
 <p>抽象迭代器的设计难度较大,需要充分考虑到系统将来的扩展.`</p>
 <p><strong>3) 使用场景</strong></p>
 <p>减少程序中重复的遍历代码</p>
-<blockquote>对于放入一个集合容器中的多个对象来说，访问必然涉及遍历算法。如果我们不将遍历算法封装到容器</blockquote>
+
 <p>里（比如，List、Set、Map 等），那么就需要使用容器的人自行去实现遍历算法，这样容易造成很多重复的循环和条件判断语句出现，不利于代码的复用和扩展，同时还会暴露不同容器的内部结构。而使用迭代器模式是将遍历算法作为容器对象自身的一种“属性方法”来使用，能够有效地避免写很多重复的代码，同时又不会暴露内部结构。</p>
 <p>当需要为遍历不同的集合结构提供一个统一的接口时或者当访问一个集合对象的内容而无须暴露其内部细节的表示时。</p>
-<blockquote>迭代器模式把对不同集合类的访问逻辑抽象出来，这样在不用暴露集合内部结构的情况下，可以隐藏不</blockquote>
+
 <p>同集合遍历需要使用的算法，同时还能够对外提供更为简便的访问算法接口。</p>
 <h3>6.7 访问者模式</h3>
 <h4>6.7.1 访问者模式介绍</h4>
@@ -7496,7 +7688,7 @@ E next(); // E currentItem(); // boolean hasNext(); // ```java
 <pre><code>
     /**
 </code></pre>
-<p class="li">• * @author spikeCong* @date 2022/10/18**/</p>
+<p>• <em> @author spikeCong</em> @date 2022/10/18</strong>/</p>
 <pre><code>
     public abstract class Product {
         private String name;
@@ -7536,7 +7728,7 @@ E next(); // E currentItem(); // boolean hasNext(); // ```java
     }
     /**
 </code></pre>
-<p class="li">• * @author spikeCong* @date 2022/10/18**/</p>
+<p>• <em> @author spikeCong</em> @date 2022/10/18<strong>/</p>
 <pre><code>
     public class Candy extends Product{
         public Candy(String name, LocalDate producedDate, double price) {
@@ -7547,7 +7739,7 @@ E next(); // E currentItem(); // boolean hasNext(); // ```java
     }
     /**
 </code></pre>
-<p class="li">• * @author spikeCong* @date 2022/10/18**/</p>
+<p>• <em> @author spikeCong</em> @date 2022/10/18</strong>/</p>
 <pre><code>
     public class Wine extends Product{
         public Wine(String name, LocalDate producedDate, double price) {
@@ -7558,7 +7750,7 @@ E next(); // E currentItem(); // boolean hasNext(); // ```java
     }
     /**
 </code></pre>
-<p class="li">• * @author spikeCong* @date 2022/10/18**/</p>
+<p>• <em> @author spikeCong</em> @date 2022/10/18<strong>/</p>
 <pre><code>
     public class Fruit extends Product{
         // private float weight;
@@ -7582,7 +7774,7 @@ E next(); // E currentItem(); // boolean hasNext(); // ```java
 <pre><code>
     /**
 </code></pre>
-<p class="li">• - * @author spikeCong* @date 2022/10/18**/</p>
+<p>• - <em> @author spikeCong</em> @date 2022/10/18</strong>/</p>
 <pre><code>
     public interface Visitor {
         public void visit(Candy candy);
@@ -7595,7 +7787,7 @@ E next(); // E currentItem(); // boolean hasNext(); // ```java
 <pre><code>
     /**
 </code></pre>
-<p class="li">• * @author spikeCong* @date 2022/10/18**/</p>
+<p>• <em> @author spikeCong</em> @date 2022/10/18<strong>/</p>
 <pre><code>
     public class DiscountVisitor implements Visitor {
         private LocalDate billDate;
@@ -7652,7 +7844,7 @@ E next(); // E currentItem(); // boolean hasNext(); // ```java
 <pre><code>
     }
 </code></pre>
-<p>double discountPrice = fruit.getPrice() * fruit.getWeight() * rate;System.out.println(" : "+NumberFormat.getCurrencyInstance().format(discountPrice));</p>
+<p>double discountPrice = fruit.getPrice() <em> fruit.getWeight() </em> rate;System.out.println(" : "+NumberFormat.getCurrencyInstance().format(discountPrice));</p>
 <pre><code>
     }
     public static void main(String[] args) {
@@ -7687,14 +7879,14 @@ E next(); // E currentItem(); // boolean hasNext(); // ```java
 <pre><code>
     /**
 </code></pre>
-<p class="li">• ( )* @author spikeCong* @date 2022/10/18**/</p>
+<p>• ( )<em> @author spikeCong</em> @date 2022/10/18</strong>/</p>
 <pre><code>
     public interface Acceptable {
         // Visitor public void accept(Visitor visitor);
     }
     /**
 </code></pre>
-<p class="li">• * @author spikeCong* @date 2022/10/18**/</p>
+<p>• <em> @author spikeCong</em> @date 2022/10/18<strong>/</p>
 <pre><code>
     public class Candy extends Product implements Acceptable{
         public Candy(String name, LocalDate producedDate, double price) {
@@ -7752,7 +7944,7 @@ E next(); // E currentItem(); // boolean hasNext(); // ```java
 <h3>6.8 备忘录模式</h3>
 <h4>6.8.1 备忘录模式介绍</h4>
 <p>备忘录模式提供了一种对象状态的撤销实现机制,当系统中某一个对象需要恢复到某一历史状态时可以使用备忘录模式进行设计.</p>
-<blockquote>很多软件都提供了撤销（Undo）操作，如 Word、记事本、Photoshop、IDEA等软件在编辑时按</blockquote>
+
 <p>Ctrl+Z 组合键时能撤销当前操作，使文档恢复到之前的状态；还有在 浏览器 中的后退键、数据库事务管理中的回滚操作、玩游戏时的中间结果存档功能、数据库与操作系统的备份操作、棋类游戏中的悔棋功能等都属于这类。</p>
 <p><strong>备忘录模式(memento pattern)定义: 在不破坏封装的前提下,捕获一个对象的内部状态,并在该对象之外保存这个状态,这样可以在以后将对象恢复到原先保存的状态.</strong></p>
 <h4>6.8.2 备忘录模式原理</h4>
@@ -7765,7 +7957,7 @@ E next(); // E currentItem(); // boolean hasNext(); // ```java
 <pre><code>
     /**
 </code></pre>
-<p class="li">• * @author spikeCong* @date 2022/10/19**/</p>
+<p>• <em> @author spikeCong</em> @date 2022/10/19</strong>/</p>
 <pre><code>
     public class Originator {
         private String state = " ";
@@ -7827,7 +8019,7 @@ E next(); // E currentItem(); // boolean hasNext(); // ```java
     }
     /**
 </code></pre>
-<p class="li">• * : , ( )* @author spikeCong* @date 2022/10/19**/</p>
+<p>• <em> : , ( )</em> @author spikeCong* @date 2022/10/19<strong>/</p>
 <pre><code>
     class Memento {
         private String state = " ";
@@ -7844,8 +8036,8 @@ E next(); // E currentItem(); // boolean hasNext(); // ```java
     //get set toString...... }
     /**
 </code></pre>
-<p class="li">• - * @author spikeCong</p>
-<p class="li">• @date 2022/10/19**/</p>
+<p>• - * @author spikeCong</p>
+<p>• @date 2022/10/19</strong>/</p>
 <pre><code>
     public class Caretaker {
         private Memento memento;
@@ -7884,7 +8076,7 @@ E next(); // E currentItem(); // boolean hasNext(); // ```java
 <pre><code>
     /**
 </code></pre>
-<p class="li">• Memento * @author spikeCong* @date 2022/10/19**/</p>
+<p>• Memento <em> @author spikeCong</em> @date 2022/10/19<strong>/</p>
 <pre><code>
     public class Memento {
 </code></pre>
@@ -7933,7 +8125,7 @@ Player玩家类,只要玩家的金币还够,就会一直进行游戏,在该类�
 <p>import java.util.ArrayList;</p>
 <p>import java.util.List;</p>
 <p>import java.util.Random;</p>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * @author spikeCong* @date 2022/10/19**/
@@ -8095,15 +8287,15 @@ Thread.sleep(1000);System.out.println("");
 
 #### 6.8.5 备忘录模式总结
 
-**1 ) 备忘录模式的优点**
+<strong>1 ) 备忘录模式的优点</strong>
 
 提供了一种状态恢复的实现机制,使得用户可以方便的回到一个特定的历史步骤,当新的状态无效或者存在问题的时候,可以使用暂时存储起来的备忘录将状态复原.备忘录实现了对信息的封装,一个备忘录对象是一种发起者对象状态的表示,不会被其他代码所改动.备忘录保存了发起者的状态,采用集合来存储备忘录可以实现多次撤销的操作
 
-**2 ) 备忘录模式的缺点**
+<strong>2 ) 备忘录模式的缺点</strong>
 
 资源消耗过大,如果需要保存的发起者类的成员变量比较多,就不可避免的需要占用大量的存储空间,每保存一次对象的状态,都需要消耗一定系统资源
 
-**3) 备忘录模式使用场景**
+<strong>3) 备忘录模式使用场景</strong>
 
 需要保存一个对象在某一时刻的状态时,可以使用备忘录模式.不希望外界直接访问对象内部状态时.
 
@@ -8111,7 +8303,7 @@ Thread.sleep(1000);System.out.println("");
 
 #### 6.9.1 命令模式介绍
 
-**命令模式(command pattern)的定义:命令模式将请求（命令）封装为一个对象，这样可以使用不同的请求参数化其他对象（将不同请求依赖注入到其他对象），并且能够支持请求（命令）的排队执行、记录日志、撤销等（附加控制）功能。**命令模式的核心是将指令信息封装成一个对象,并将此对象作为参数发送给接收方去执行,达到使命令的请求与执行方解耦,双方只通过传递各种命令对象来完成任务.在实际的开发中，如果你用到的编程语言并不支持用函数作为参数来传递，那么就可以借助命令模式将函数封装为对象来使用。
+<strong>命令模式(command pattern)的定义:命令模式将请求（命令）封装为一个对象，这样可以使用不同的请求参数化其他对象（将不同请求依赖注入到其他对象），并且能够支持请求（命令）的排队执行、记录日志、撤销等（附加控制）功能。</strong>命令模式的核心是将指令信息封装成一个对象,并将此对象作为参数发送给接收方去执行,达到使命令的请求与执行方解耦,双方只通过传递各种命令对象来完成任务.在实际的开发中，如果你用到的编程语言并不支持用函数作为参数来传递，那么就可以借助命令模式将函数封装为对象来使用。
 &gt; 我们知道，C 语
 言支持函数指针，我们可以把函数当作变量传递来传递去。但是，在大部分编程语言中，函数没法儿作为参数传递给其他函数，也没法儿赋值给变量。借助命令模式，我们可以将函数封装成对象。具体来说就是，设计一个包含这个函数的类，实例化一个对象传来传去，这样就可以实现把函数像对象一样使用。
 
@@ -8128,7 +8320,7 @@ Thread.sleep(1000);System.out.println("");
 模拟酒店后厨的出餐流程,来对命令模式进行一个演示,命令模式角色的角色与案例中角色的对应关系如下:服务员: 即调用者角色,由她来发起命令.厨师: 接收者,真正执行命令的对象.订单: 命令中包含订单
 
 </code></pre>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/10/19**/
@@ -8161,7 +8353,7 @@ this.foodMenu = foodMenu;
 
 </code></pre>
 <p>}</p>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * -&gt; Receiver * @author spikeCong* @date 2022/10/19**/
@@ -8176,7 +8368,7 @@ System.out.println(num + " ," + foodName);
 </code></pre>
 <p>}</p>
 <p>}</p>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/10/19**/
@@ -8185,7 +8377,7 @@ System.out.println(num + " ," + foodName);
 <p>public interface Command {</p>
 <p>void execute();</p>
 <p>// }</p>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * * @author spikeCong* @date 2022/10/19**/
@@ -8232,7 +8424,7 @@ System.out.println(order.getDiningTable() + " .");
 </code></pre>
 <p>}</p>
 <p>}</p>
-<p>/**</p>
+<p>/<strong></p>
 <pre><code>
 
 * -&gt; Invoker * @author spikeCong* @date 2022/10/19**/
@@ -8312,18 +8504,18 @@ invoke.orderUp();
 
 #### 6.9.4 命令模式总结
 
-**1) 命令模式优点**
+<strong>1) 命令模式优点</strong>
 
 降低系统的耦合度。命令模式能将调用操作的对象与实现该操作的对象解耦。
 增加或删除命令非常方便。采用命令模式增加与删除命令不会影响其他类，它满足“开闭原则”，对扩展比较灵活。
 可以实现宏命令。命令模式可以与组合模式结合，将多个命令装配成一个组合命令，即宏命令。
 
-**2) 命令模式缺点**
+<strong>2) 命令模式缺点</strong>
 
 使用命令模式可能会导致某些系统有过多的具体命令类。
 系统结构更加复杂。
 
-**3) 使用场景**
+<strong>3) 使用场景</strong>
 
 系统需要将请求调用者和请求接收者解耦，使得调用者和接收者不直接交互。
 系统需要在不同的时间指定请求、将请求排队和执行请求。
@@ -8334,7 +8526,7 @@ invoke.orderUp();
 #### 6.10.1 解释器模式介绍
 
 解释器模式使用频率不算高，通常用来描述如何构建一个简单“语言”的语法解释器。它只在一些非常特定的领域被用到，比如编译器、规则引擎、正则表达式、SQL解析等。不过，了解它的实现原理同样很重要，能帮助你思考如何通过更简洁的规则来表示复杂的逻辑。
-**解释器模式(Interpreter pattern)的原始定义是：用于定义语言的语法规则表示，并提供解释器来处理句子中的语法。**我们通过一个例子给大家解释一下解释器模式假设我们设计一个软件用来进行加减计算。我们第一想法就是使用工具类，提供对应的加法和减法的工具方法。
+<strong>解释器模式(Interpreter pattern)的原始定义是：用于定义语言的语法规则表示，并提供解释器来处理句子中的语法。</strong>我们通过一个例子给大家解释一下解释器模式假设我们设计一个软件用来进行加减计算。我们第一想法就是使用工具类，提供对应的加法和减法的工具方法。
 
 </code></pre>
 <p>// public static int add(int a , int b){</p>
@@ -8362,7 +8554,7 @@ sum += num;
 
 + -上面的形式比较单一、有限，如果形式变化非常多，这就不符合要求，因为加法和减法运算，两个运算符与数值可以有无限种组合方式。比如: 5-3+2-1, 10-5+20....
 
-**文法规则和抽象语法树**
+<strong>文法规则和抽象语法树</strong>
 
 解释器模式描述了如何为简单的语言定义一个文法,如何在该语言中表示一个句子,以及如何解释这些句子.在上面提到的加法/减法解释器中,每一个输入表达式(比如:2+3+4-5)都包含了3个语言单位,可以使用下面的文法规则定义:文法是用于描述语言的语法结构的形式规则。
 expression ::= value | plus | minus plus ::= expression ‘+’ expression minus ::= expression ‘-’ expression value ::= integer
@@ -8371,7 +8563,7 @@ expression ::= value | plus | minus plus ::= expression ‘+’ expression minus
 上面规则描述为 ：
 表达式可以是一个值，也可以是plus或者minus运算，而plus和minus又是由表达式结合运算符构成，值的类型为整型数。
 
-**抽象语法树**
+<strong>抽象语法树</strong>
 
 在解释器模式中还可以通过一种称为抽象语法树的图形方式来直观的表示语言的构成,每一棵抽象语法树对应一个语言实例,例如加法/减法表达式语言中的语句 " 1+ 2 + 3 - 4 + 1" 可以通过下面的抽象语法树表示
 
@@ -8389,12 +8581,12 @@ expression ::= value | plus | minus plus ::= expression ‘+’ expression minus
 表达式中，先书写数字，后书写运算符，空格隔开；
 我们举个例子来解释一下上面的语法规则:比如`“ 9 5 7 3 - + * ”`这样一个表达式，我们按照上面的语法规则来处理，取出数字 `“9、5”` 和`“-”` 运算符，计算得到 4，于是表达式就变成了`“ 4 7 3 + * ”`。然后，我们再取出`“4 7”`和“+ ”运算符，计算得到 11，表达式就变成了“ 11 3 * ”。最后，我们取出“ 11 3”和“ *”运算符，最终得到的结果就是 33。
 
-**代码示例**
+<strong>代码示例</strong>
 
 用户按照上 面的规则书写表达式，传递给 interpret() 函数，就可以得到最终的计算结果。
 
 </code></pre>
-<p>/**</p>
+<p>/</strong></p>
 <pre><code>
 
 * * @author spikeCong
@@ -8479,7 +8671,7 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
 <pre><code>
     /**
 </code></pre>
-<p class="li">• * @author spikeCong* @date 2022/10/20**/</p>
+<p>• <em> @author spikeCong</em> @date 2022/10/20<strong>/</p>
 <pre><code>
     public interface Expression {
 </code></pre>
@@ -8488,7 +8680,7 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
     }
     /**
 </code></pre>
-<p class="li">• * @author spikeCong* @date 2022/10/20**/</p>
+<p>• <em> @author spikeCong</em> @date 2022/10/20</strong>/</p>
 <pre><code>
     public class NumExpression implements Expression {
         private long number;
@@ -8511,7 +8703,7 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
     }
     /**
 </code></pre>
-<p class="li">• * @author spikeCong* @date 2022/10/20**/</p>
+<p>• <em> @author spikeCong</em> @date 2022/10/20<strong>/</p>
 <pre><code>
     public class PluExpression implements Expression{
         private Expression exp1;
@@ -8530,7 +8722,7 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
     }
     /**
 </code></pre>
-<p class="li">• * @author spikeCong* @date 2022/10/20**/</p>
+<p>• <em> @author spikeCong</em> @date 2022/10/20</strong>/</p>
 <pre><code>
     public class SubExpression implements Expression {
         private Expression exp1;
@@ -8550,7 +8742,7 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
     }
     /**
 </code></pre>
-<p class="li">• * @author spikeCong* @date 2022/10/20**/</p>
+<p>• <em> @author spikeCong</em> @date 2022/10/20<strong>/</p>
 <pre><code>
     public class MulExpression implements Expression {
         private Expression exp1;
@@ -8569,7 +8761,7 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
     }
     /**
 </code></pre>
-<p class="li">• * @author spikeCong* @date 2022/10/20**/</p>
+<p>• <em> @author spikeCong</em> @date 2022/10/20</strong>/</p>
 <pre><code>
     public class DivExpression implements Expression {
         private Expression exp1;
@@ -8618,14 +8810,14 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
 <pre><code>
     /**
 </code></pre>
-<p class="li">• * @author spikeCong* @date 2022/10/20**/</p>
+<p>• <em> @author spikeCong</em> @date 2022/10/20<strong>/</p>
 <pre><code>
     public interface Mediator {
         void apply(String key);
     }
     /**
 </code></pre>
-<p class="li">• * @author spikeCong* @date 2022/10/20**/</p>
+<p>• <em> @author spikeCong</em> @date 2022/10/20</strong>/</p>
 <pre><code>
     public class MediatorImpl implements Mediator {
 </code></pre>
@@ -8639,7 +8831,7 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
     }
     /**
 </code></pre>
-<p class="li">• * @author spikeCong* @date 2022/10/20**/</p>
+<p>• <em> @author spikeCong</em> @date 2022/10/20<strong>/</p>
 <pre><code>
     public abstract class Colleague {
         private Mediator mediator;
@@ -8655,7 +8847,7 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
     }
     /**
 </code></pre>
-<p class="li">• * @author spikeCong* @date 2022/10/20**/</p>
+<p>• <em> @author spikeCong</em> @date 2022/10/20</strong>/</p>
 <pre><code>
     public class ConcreteColleagueA extends Colleague {
         public ConcreteColleagueA(Mediator mediator) {
@@ -8707,14 +8899,14 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
 <pre><code>
     /**
 </code></pre>
-<p class="li">• * @author spikeCong* @date 2022/10/20**/</p>
+<p>• <em> @author spikeCong</em> @date 2022/10/20<strong>/</p>
 <pre><code>
     public abstract class Mediator {
         // public abstract void contact(String message,Person person);
     }
     /**
 </code></pre>
-<p class="li">• * @author spikeCong* @date 2022/10/20**/</p>
+<p>• <em> @author spikeCong</em> @date 2022/10/20</strong>/</p>
 <pre><code>
     public abstract class Person {
         protected String name;
@@ -8729,7 +8921,7 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
     }
     /**
 </code></pre>
-<p class="li">• * @author spikeCong* @date 2022/10/20**/</p>
+<p>• <em> @author spikeCong</em> @date 2022/10/20<strong>/</p>
 <pre><code>
     public class MediatorStructure extends Mediator {
         // private HouseOwner houseOwner;
@@ -8764,7 +8956,7 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
     }
     /**
 </code></pre>
-<p class="li">• - * @author spikeCong* @date 2022/10/20**/</p>
+<p>• - <em> @author spikeCong</em> @date 2022/10/20</strong>/</p>
 <pre><code>
     public class HouseOwner extends Person{
         public HouseOwner(String name, Mediator mediator) {
@@ -8785,7 +8977,7 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
     }
     /**
 </code></pre>
-<p class="li">• - * @author spikeCong* @date 2022/10/20**/</p>
+<p>• - <em> @author spikeCong</em> @date 2022/10/20<strong>/</p>
 <pre><code>
     public class Tenant extends Person{
         public Tenant(String name, Mediator mediator) {
@@ -8823,10 +9015,30 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
 <p>在具体中介者类中包含了大量同事之间的交互细节,可能会导致中介者类变得非常的复杂,使得系统不好维护.</p>
 <p><strong>3) 中介者模式使用场景</strong></p>
 <p>系统中对象之间存在复杂的引用关系,系统结构混乱且难以理解.一个对象由于引用了其他的很多对象并且直接和这些对象进行通信,导致难以复用该对象.想要通过一个中间类来封装多个类中的行为,而又不想生成太多的子类,此时可以通过引用中介者类来实现,在中介者类中定义对象的交互的公共行为,如果需要改变行为则可以在增加新的中介类.</p>
+</div></div></details>
+</section>
+<section class="kp" id="kp7">
+<div class="kp-head">
+<span class="kp-no">7</span>
 <h2>第七章 开源实战</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p><strong>Spring的设计理念</strong></p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>7.1 剖析Spring框架中用到的经典设计模式</li>
+<li>7.2 剖析MyBatis框架中用到的经典设计模式</li>
+<li>7.3 总结</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <h3>7.1 剖析Spring框架中用到的经典设计模式</h3>
 <h4>7.1.1 Spring中工厂模式的应用</h4>
-<p><strong>Spring的设计理念</strong></p>
+
 <p>Spring是面向Bean的编程（BOP：Bean Oriented Programming），Bean在Spring中才是真正的主角。Bean在Spring中作用就像Object对OOP的意义一样，没有对象的概念就像没有面向对象编程，S pring中没有Bean也就没有Spring存在的意义。Spring提供了IoC容器通过配置文件或者注解的方式来管理对象之间的依赖关系。</p>
 <p>控制反转（Inversion of Control，缩写为IoC），是面向对象编程中的一种设计原则，可以用来减低代码之间的耦合度。其中最常见的方式叫做依赖注入（Dependency Injection，简称DI），还有一种方式叫“依赖查找”（Dependency Lookup）。通过控制反转，对象在被创建的时候，由一个调控系统内所有对象的外界实体，将其所依赖的对象的引用传递给它。</p>
 <h4>7.1.1.1 Spring中的Bean组件</h4>
@@ -9021,13 +9233,13 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
 <h4>7.1.2 Spring中观察者模式的应用</h4>
 <h4>7.1.2.1 观察者模式与发布订阅模式的异同</h4>
 <p><strong>观察者模式它是用于建立一种对象与对象之间的依赖关系,一个对象发生改变时将自动通知其他对象,其他对象将相应的作出反应.</strong></p>
-<blockquote>在观察者模式中发生改变的对象称为<strong>观察目标</strong>,而被通知的对象称为<strong>观察者</strong>,一个观察目标可以应</blockquote>
+
 <p>对多个观察者,而且这些观察者之间可以没有任何相互联系,可以根据需要增加和删除观察者,使得系统更易于扩展.</p>
 <p>观察者模式的别名有发布-订阅(Publish/Subscribe)模式,我们来看一下观察者模式与发布订阅模式结构上的区别在设计模式结构上，发布订阅模式<strong>继承</strong>自观察者模式，是观察者模式的一种实现的变体。</p>
 <p>在设计模式意图上，两者<strong>关注点</strong>不同，一个关心数据源，一个关心的是事件消息。</p>
-<blockquote>观察者模式里，只有两个角色 —— 观察者 + 被观察者;</blockquote>
+
 <p>而发布订阅模式里，却不仅仅只有发布者和订阅者两个角色，还有一个管理并执行消息队列的“经纪人Broker”</p>
-<blockquote>观察者和被观察者，是松耦合的关系;发布者和订阅者，则完全不存在耦合</blockquote>
+
 <p>观察者模式：<strong>数据源直接通知订阅者发生改变。</strong>发布订阅模式：<strong>数据源告诉第三方（事件通道）发生了改变，第三方再通知订阅者发生了改变。</strong></p>
 <h4>7.1.2.2 Spring中的观察者模式</h4>
 <p>Spring 基于观察者模式，实现了自身的事件机制也就是事件驱动模型，事件驱动模型通常也被理解成观察者或者发布/订阅模型。</p>
@@ -9066,7 +9278,7 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
 <p>实现了ApplicationListener接口之后，需要实现方法onApplicationEvent()，在容器将所有的Bean都初始化完成之后，就会执行该方法。</p>
 <p><strong>3) 事件源：ApplicationEventPublisher</strong></p>
 <p>事件的发布者，封装了事件发布功能方法接口，是Applicationcontext接口的超类</p>
-<blockquote>事件机制的实现需要三个部分,事件源,事件,事件监听器,在上面介绍的ApplicationEvent就相当于事件,Ap</blockquote>
+
 <p>plicationListener相当于事件监听器,这里的事件源说的就是ApplicationEventPublisher.</p>
 <pre><code>
     public interface ApplicationEventPublisher {
@@ -9143,7 +9355,7 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
 <pre><code>
     /**
 </code></pre>
-<p class="li">• * @author spikeCong* @date 2022/10/24**/</p>
+<p>• <em> @author spikeCong</em> @date 2022/10/24</strong>/</p>
 <pre><code>
     public class RequestEvent extends ApplicationEvent {
         public RequestEvent(Object source) {
@@ -9154,7 +9366,7 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
     }
     /**
 </code></pre>
-<p class="li">• * @author spikeCong* @date 2022/10/24**/@Component</p>
+<p>• <em> @author spikeCong</em> @date 2022/10/24<strong>/@Component</p>
 <pre><code>
     public class Request {
 </code></pre>
@@ -9170,7 +9382,7 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
     }
     /**
 </code></pre>
-<p class="li">• * @author spikeCong* @date 2022/10/24**/@Component</p>
+<p>• <em> @author spikeCong</em> @date 2022/10/24</strong>/@Component</p>
 <pre><code>
     public class RequestListener implements ApplicationListener&lt;RequestEvent&gt; {
 </code></pre>
@@ -9414,7 +9626,7 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
     public interface BeanFactoryPostProcessor {
         /*
 </code></pre>
-<p class="li">• postProcessBeanFactory ConfigurableListableBeanFactory  BeanDefinition*/void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException;</p>
+<p>• postProcessBeanFactory ConfigurableListableBeanFactory  BeanDefinition*/void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException;</p>
 <pre><code>
     }
 </code></pre>
@@ -9439,13 +9651,13 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
 <h4>7.1.3.3 自定义SpringIOC</h4>
 <p>对下面的配置文件进行解析，并自定义SpringIOC, 对涉及到的对象进行管理。</p>
 <p>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;beans&gt;&lt;bean id="courseService" class="com.mashibing.service.impl.CourseServiceImpl"&gt;&lt;property name="courseDao" ref="courseDao"&gt;&lt;/property&gt;&lt;/bean&gt;&lt;bean id="courseDao" class="com.mashibing.dao.impl.CourseDaoImpl"&gt;&lt;/bean&gt;&lt;/beans&gt;##### 1) 创建与Bean相关的pojo类</p>
-<p><strong>PropertyValue类</strong>**</p>
+<p><strong>PropertyValue类</strong><strong></p>
 <p>用于封装bean的属性，体现到上面的配置文件就是封装bean标签的子标签property标签数据。</p>
 <pre><code>
     package com.mashibing.framework.beans;
     /**
 </code></pre>
-<p class="li">• bean property * 1.name * 2.ref * 3.value : string * @author spikeCong* @date 2022/10/26**/</p>
+<p>• bean property <em> 1.name </em> 2.ref <em> 3.value : string </em> @author spikeCong* @date 2022/10/26</strong>/</p>
 <pre><code>
     public class PropertyValue {
         private String name;
@@ -9495,7 +9707,7 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
     import java.util.List;
     /**
 </code></pre>
-<p class="li">• PropertyValue * @author spikeCong* @date 2022/10/26**/</p>
+<p>• PropertyValue <em> @author spikeCong</em> @date 2022/10/26<strong>/</p>
 <pre><code>
     public class MutablePropertyValues implements Iterable&lt;PropertyValue&gt;{
         // List , PropertyValue private final List&lt;PropertyValue&gt; propertyValueList;
@@ -9564,7 +9776,7 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
 <pre><code>
     /**
 </code></pre>
-<p class="li">• Bean , id class * @author spikeCong* @date 2022/10/27**/</p>
+<p>• Bean , id class <em> @author spikeCong</em> @date 2022/10/27</strong>/</p>
 <pre><code>
     public class BeanDefinition {
         private String id;
@@ -9696,7 +9908,7 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
 <pre><code>
     /**
 </code></pre>
-<p class="li">• * @author spikeCong* @date 2022/10/28**/</p>
+<p>• <em> @author spikeCong</em> @date 2022/10/28<strong>/</p>
 <pre><code>
     public interface BeanDefinitionReader {
         //
@@ -9710,7 +9922,7 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
 <pre><code>
     /**
 </code></pre>
-<p class="li">• XML * @author spikeCong* @date 2022/10/28**/</p>
+<p>• XML <em> @author spikeCong</em> @date 2022/10/28</strong>/</p>
 <pre><code>
     public class XmlBeanDefinitionReader implements BeanDefinitionReader {
         // ( , Reader ) private BeanDefinitionRegistry registry;
@@ -9787,7 +9999,7 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
 <pre><code>
     /**
 </code></pre>
-<p class="li">• IOC * @author spikeCong* @date 2022/10/28**/</p>
+<p>• IOC <em> @author spikeCong</em> @date 2022/10/28<strong>/</p>
 <pre><code>
     public interface BeanFactory {
 </code></pre>
@@ -9803,7 +10015,7 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
 <pre><code>
     /**
 </code></pre>
-<p class="li">• * @author spikeCong* @date 2022/10/28**/</p>
+<p>• <em> @author spikeCong</em> @date 2022/10/28</strong>/</p>
 <pre><code>
     public interface ApplicationContext extends BeanFactory {
         // , void refresh();
@@ -9816,7 +10028,7 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
 <pre><code>
     /**
 </code></pre>
-<p class="li">• ApplicationContext * , , bean * @author spikeCong* @date 2022/10/28**/</p>
+<p>• ApplicationContext <em> , , bean </em> @author spikeCong* @date 2022/10/28<strong>/</p>
 <pre><code>
     public abstract class AbstractApplicationContext implements ApplicationContext {
         // protected BeanDefinitionReader beanDefinitionReader;
@@ -9865,7 +10077,7 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
 <pre><code>
     /**
 </code></pre>
-<p class="li">• IOC , XML * @author spikeCong* @date 2022/10/28**/</p>
+<p>• IOC , XML <em> @author spikeCong</em> @date 2022/10/28</strong>/</p>
 <pre><code>
     public class ClassPathXmlApplicationContext extends AbstractApplicationContext{
         public ClassPathXmlApplicationContext(String configLocation) {
@@ -10055,7 +10267,7 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
 <h4>7.2.1 MyBatis回顾</h4>
 <h4>7.2.1.1 MyBatis与ORM框架</h4>
 <p>MyBatis 是一个 ORM（Object Relational Mapping，对象 - 关系映射）框架。ORM 框架主要是根据类和数据库表之间的映射关系，帮助程序员自动实现对象与数据库中数据之间的互相转化。</p>
-<blockquote>ORM 负责将程序中的对象 存储到数据库中、将数据库中的数据转化为程序中的对象</blockquote>
+
 <p><strong>Mybatis架构</strong></p>
 <p>1 mybatis SqlMapConfig.xml mybatis mybatis mapper.xml sql sql SqlMapConfig.xml 2 mybatis SqlSessionFactory 3 sqlSession sqlSession 4 mybatis Executor Executor 5 Mapped Statement mybatis mybatis sql mapper.xml sql Mapped Statement sql id Mapped statement id 6 Mapped Statement sql HashMap pojo Executor Mapped Statement sql java sql jdbc preparedStatement 7 Mapped Statement sql HashMap pojo Executor Mapped Statement sql java jdbc #### 7.2.1.1 MyBatis的基础使用</p>
 <p>因为 MyBatis 依赖 JDBC 驱动，所以，在项目中使用 MyBatis，除了需要引入 MyBatis 框架本身（mybatis.jar）之外，还需要引入 JDBC 驱动（比如，访问 MySQL 的 JDBC 驱动 实现类库mysql-connector-java.jar）。</p>
@@ -10159,17 +10371,17 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
 <pre><code>
     /**
 </code></pre>
-<p class="li">• Mapper Proxy ** @author Lasse Voss*/</p>
+<p>• Mapper Proxy <strong> @author Lasse Voss*/</p>
 <pre><code>
     public class MapperProxyFactory&lt;T&gt; {
         /**
 </code></pre>
-<p class="li">• Mapper */</p>
+<p>• Mapper */</p>
 <pre><code>
     private final Class&lt;T&gt; mapperInterface;
     /**
 </code></pre>
-<p class="li">• MapperMethod */</p>
+<p>• MapperMethod */</p>
 <pre><code>
     private final Map&lt;Method, MapperMethod&gt; methodCache = new ConcurrentHashMap&lt;&gt;();
     public MapperProxyFactory(Class&lt;T&gt; mapperInterface) {
@@ -10207,17 +10419,17 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
         private static final long serialVersionUID = -6424540398559729838L;
         /**
 </code></pre>
-<p class="li">• SqlSession */</p>
+<p>• SqlSession */</p>
 <pre><code>
     private final SqlSession sqlSession;
     /**
 </code></pre>
-<p class="li">• Mapper */</p>
+<p>• Mapper */</p>
 <pre><code>
     private final Class&lt;T&gt; mapperInterface;
     /**
 </code></pre>
-<p class="li">• MapperMethod ** {@link MapperProxyFactory#methodCache} */</p>
+<p>• MapperMethod </strong> {@link MapperProxyFactory#methodCache} */</p>
 <pre><code>
     private final Map&lt;Method, MapperMethod&gt; methodCache;
     // SqlSession session
@@ -10259,12 +10471,12 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
 <pre><code>
     /**
 </code></pre>
-<p class="li">• SQL Node XML Node SQL Node * @author Clinton Begin*/</p>
+<p>• SQL Node XML Node SQL Node <em> @author Clinton Begin</em>/</p>
 <pre><code>
     public interface SqlNode {
         /**
 </code></pre>
-<p class="li">• SQL Node ** @param context * @return SQL Node */boolean apply(DynamicContext context);</p>
+<p>• SQL Node <strong> @param context <em> @return SQL Node </em>/boolean apply(DynamicContext context);</p>
 <pre><code>
     }
 </code></pre>
@@ -10293,7 +10505,7 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
 <pre><code>
     /**
 </code></pre>
-<p class="li">• Copyright 2009-2017 the original author or authors.* &lt;p&gt;* Licensed under the Apache License, Version 2.0 (the "License");* you may not use this file except in compliance with the License.* You may obtain a copy of the License at* &lt;p&gt;* http://www.apache.org/licenses/LICENSE-2.0* &lt;p&gt;* Unless required by applicable law or agreed to in writing, software* distributed under the License is distributed on an "AS IS" BASIS,* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.* See the License for the specific language governing permissions and* limitations under the License.*/</p>
+<p>• Copyright 2009-2017 the original author or authors.<em> &lt;p&gt;</em> Licensed under the Apache License, Version 2.0 (the "License");* you may not use this file except in compliance with the License.<em> You may obtain a copy of the License at</em> &lt;p&gt;<em> http://www.apache.org/licenses/LICENSE-2.0</em> &lt;p&gt;* Unless required by applicable law or agreed to in writing, software* distributed under the License is distributed on an "AS IS" BASIS,* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.* See the License for the specific language governing permissions and* limitations under the License.*/</p>
 <pre><code>
     package org.apache.ibatis.logging.log4j;
     import org.apache.ibatis.logging.Log;
@@ -10301,7 +10513,7 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
     import org.apache.log4j.Logger;
     /**
 </code></pre>
-<p class="li">• @author Eduardo Macarron*/</p>
+<p>• @author Eduardo Macarron*/</p>
 <pre><code>
     public class Log4jImpl implements Log {
         private static final String FQCN = Log4jImpl.class.getName();
@@ -10450,7 +10662,7 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
     import org.apache.ibatis.cache.CacheException;
     /**
 </code></pre>
-<p class="li">• @author Clinton Begin*/</p>
+<p>• @author Clinton Begin*/</p>
 <pre><code>
     public class PerpetualCache implements Cache {
         private final String id;
@@ -10524,7 +10736,7 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
     }
     // configuration EnvironmentId /**
 </code></pre>
-<p class="li">• &lt;environments default="development"&gt;* &lt;environment id="development"&gt; // id* &lt;!-- JDBC --&gt;* &lt;transactionManager type="JDBC"&gt;&lt;/transactionManager&gt;* &lt;!-- mybatis --&gt;* &lt;dataSource type="POOLED"&gt;* &lt;property name="driver" value="${jdbc.driver}"/&gt;* &lt;property name="url" value="${jdbc.url}"/&gt;* &lt;property name="username" value="${jdbc.username}"/&gt;* &lt;property name="password" value="${jdbc.password}"/&gt;* &lt;/dataSource&gt;* &lt;/environment&gt;* &lt;/environments&gt;*/</p>
+<p>• &lt;environments default="development"&gt;<em> &lt;environment id="development"&gt; // id</em> &lt;!-- JDBC --&gt;* &lt;transactionManager type="JDBC"&gt;&lt;/transactionManager&gt;<em> &lt;!-- mybatis --&gt;</em> &lt;dataSource type="POOLED"&gt;<em> &lt;property name="driver" value="${jdbc.driver}"/&gt;</em> &lt;property name="url" value="${jdbc.url}"/&gt;<em> &lt;property name="username" value="${jdbc.username}"/&gt;</em> &lt;property name="password" value="${jdbc.password}"/&gt;<em> &lt;/dataSource&gt;</em> &lt;/environment&gt;<em> &lt;/environments&gt;</em>/</p>
 <pre><code>
     if (configuration.getEnvironment() != null) {
         // issue #176
@@ -10552,7 +10764,7 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
 <pre><code>
     // ...... public void update(Object object) {
 </code></pre>
-<p>int baseHashCode = object == null ? 1 : ArrayUtil.hashCode(object);count++;checksum += baseHashCode;baseHashCode *= count;hashcode = multiplier * hashcode + baseHashCode;</p>
+<p>int baseHashCode = object == null ? 1 : ArrayUtil.hashCode(object);count++;checksum += baseHashCode;baseHashCode <em>= count;hashcode = multiplier </em> hashcode + baseHashCode;</p>
 <pre><code>
     // list
 </code></pre>
@@ -10605,27 +10817,27 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
 <pre><code>
     /**
 </code></pre>
-<p class="li">• ** @author Clinton Begin*/</p>
+<p>• </strong> @author Clinton Begin*/</p>
 <pre><code>
     public class PropertyTokenizer implements Iterator&lt;PropertyTokenizer&gt; {
         /**
 </code></pre>
-<p class="li">• */</p>
+<p>• */</p>
 <pre><code>
     private String name;
     /**
 </code></pre>
-<p class="li">• {@link #name} {@link #name} {@link #index} */</p>
+<p>• {@link #name} {@link #name} {@link #index} */</p>
 <pre><code>
     private final String indexedName;
     /**
 </code></pre>
-<p class="li">• ** name[0] index = 0* Map map[key] index = key*/</p>
+<p>• ** name[0] index = 0* Map map[key] index = key*/</p>
 <pre><code>
     private String index;
     /**
 </code></pre>
-<p class="li">• */</p>
+<p>• */</p>
 <pre><code>
     private final String children;
     public PropertyTokenizer(String fullname) {
@@ -10693,6 +10905,58 @@ long number1 = numbers.pollFirst(); // long number2 = numbers.pollFirst();long r
 <h3>7.3 总结</h3>
 <p>上面给大家讲解的就是Spring和MyBatis框架中所使用到的设计模式. 要再次强调的是,对于同学们来说不需要去记忆哪个类用到了哪个模式, 死记硬背是没有意义的,同学们最好是下载一些优秀框架的源码,比如Spring或者MyBatis,然后抽出时间好好的阅读一下源码,锻炼自己阅读理解源码的能力.除此之外同学们应该也有发现,其实框架对很多设计模式的实现，都并非标准的代码实现，都做了比较多的自我改进。实际上，这就是所谓的灵活应用, 只借鉴不照搬,根据具体问题针对性地去解决。</p>
 <div class="footer">学习手册 24 · 来源《23种设计模式精讲_v2.pdf》240 页 · 代码注释原为图片格式，提取后丢失</div>
+</div></div></details>
+</section>
 </article></div>
-</body>
-</html>
+<a class="totop" href="#">↑</a>
+<script>
+(function(){
+  var KEY = '%s';
+  var boxes = [].slice.call(document.querySelectorAll('details.ans'));
+  var cnt = document.getElementById('cnt');
+  var read = {};
+  try { read = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch(e){ read = {}; }
+  function paint(){
+    var n = 0;
+    boxes.forEach(function(d, i){ if (read[i]) n++; });
+    cnt.textContent = '\u5df2\u770b ' + n + ' / ' + boxes.length;
+  }
+  boxes.forEach(function(d, i){
+    if (read[i]) d.open = true;
+    d.addEventListener('toggle', function(){
+      read[i] = d.open;
+      try { localStorage.setItem(KEY, JSON.stringify(read)); } catch(e){}
+      paint();
+    });
+  });
+  paint();
+  function ensureSaved(){
+    boxes.forEach(function(d, i){ read[i] = d.open; });
+    try { localStorage.setItem(KEY, JSON.stringify(read)); } catch(e){}
+    paint();
+  }
+  var btnQuiz = document.getElementById('btnQuiz');
+  btnQuiz.addEventListener('click', function(){
+    var on = document.body.classList.toggle('quiz');
+    btnQuiz.classList.toggle('on', on);
+    if (on) { boxes.forEach(function(d){ d.open = false; }); }
+    ensureSaved();
+  });
+  document.getElementById('btnOpen').addEventListener('click', function(){
+    document.body.classList.remove('quiz');
+    btnQuiz.classList.remove('on');
+    boxes.forEach(function(d){ d.open = true; });
+    ensureSaved();
+  });
+  document.getElementById('btnClose').addEventListener('click', function(){
+    document.body.classList.remove('quiz');
+    btnQuiz.classList.remove('on');
+    boxes.forEach(function(d){ d.open = false; });
+    ensureSaved();
+  });
+  document.querySelectorAll('a[href="#"]').forEach(function(a){
+    a.addEventListener('click', function(e){ e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); });
+  });
+})();
+</script>
+</body></html>

@@ -1,36 +1,88 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>01 计算机网络 · 学习手册</title><style>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📘 学习手册 01 · 计算机网络</title><style>
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:60px; }
+body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:70px; -webkit-text-size-adjust:100%; }
 .topnav { position:sticky; top:0; z-index:9; background:#1f2937; color:#fff; padding:10px 0; }
 .topnav .inner { max-width:960px; margin:0 auto; padding:0 18px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; font-size:13px; }
 .topnav a { color:#c7d2fe; text-decoration:none; padding:3px 12px; border-radius:14px; background:rgba(255,255,255,.08); }
 .topnav a:hover { background:rgba(255,255,255,.2); color:#fff; }
 .topnav .sep { opacity:.4; }
 .wrap { max-width:960px; margin:0 auto; padding:0 18px; }
-.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px; margin-top:22px; box-shadow:0 1px 3px rgba(20,30,60,.05); }
+.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:34px 40px 28px; margin-top:22px; box-shadow:0 1px 3px rgba(20,30,60,.05); }
 .article h1 { font-size:26px; color:#4f46e5; border-bottom:3px solid #4f46e5; padding-bottom:12px; margin-bottom:18px; }
-.article h2 { font-size:20px; margin:30px 0 12px; padding:10px 14px; background:#eef2ff; border-left:4px solid #4f46e5; border-radius:6px; color:#312e81; }
-.article h3 { font-size:14px; color:#475569; margin:14px 0 6px; }
-.article p { margin:8px 0; font-size:14.5px; color:#2b3245; }
-.article ul, .article ol { margin:8px 0 8px 24px; }
-.article li { font-size:14.5px; margin:4px 0; }
-.article strong { color:#111827; }
+.meta { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; border-radius:6px; color:#166534; font-size:13px; margin-bottom:8px; }
+
+.toolbar { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:18px 0 6px; padding:12px 14px; background:#eef2ff; border-radius:10px; border:1px solid #dbe2fb; position:sticky; top:44px; z-index:8; }
+.toolbar button { font-family:inherit; font-size:13px; padding:7px 14px; border-radius:16px; border:1px solid #c7d2fe; background:#fff; color:#4338ca; cursor:pointer; }
+.toolbar button:hover { background:#e0e7ff; }
+.toolbar button.on { background:#4f46e5; color:#fff; border-color:#4f46e5; }
+.toolbar .count { font-size:12.5px; color:#4f46e5; margin-left:auto; font-weight:600; }
+
+.kp { border-bottom:1px dashed #dbe0ea; padding:22px 0 10px; }
+.kp:last-child { border-bottom:none; }
+.kp-head { display:flex; gap:10px; align-items:flex-start; margin-bottom:12px; }
+.kp-no { flex:none; width:26px; height:26px; border-radius:8px; background:#4f46e5; color:#fff; font-size:13px; display:flex; align-items:center; justify-content:center; font-weight:600; margin-top:3px; }
+.kp-head h2 { font-size:18px; color:#312e81; line-height:1.5; }
+.kp-head .h3sub { font-size:13px; color:#64748b; font-weight:400; display:block; margin-top:2px; }
+
+.concept { background:#f5f3ff; border-left:4px solid #8b5cf6; border-radius:8px; padding:12px 16px; margin:10px 0; }
+.tag { display:inline-block; font-size:11.5px; padding:2px 10px; border-radius:10px; margin-bottom:6px; font-weight:600; letter-spacing:.5px; }
+.tag-c { background:#ddd6fe; color:#4c1d95; }
+.tag-q { background:#fed7aa; color:#7c2d12; }
+.concept-body p { font-size:14.5px; color:#3b3355; margin:6px 0; }
+.concept-body p:first-child { margin-top:0; }
+.concept-body ul, .concept-body ol { margin:6px 0 6px 22px; }
+.concept-body li { font-size:14.5px; color:#3b3355; margin:4px 0; }
+
+.ask { background:#fffbeb; border-left:4px solid #f59e0b; border-radius:8px; padding:12px 16px; margin:10px 0 14px; }
+.ask-body ul, .ask-body ol { margin:4px 0 4px 22px; }
+.ask-body li { font-size:14.5px; color:#78350f; margin:5px 0; }
+.ask-body p { font-size:14.5px; color:#78350f; margin:5px 0; }
+
+details.ans { margin:6px 0 4px; }
+details.ans > summary { list-style:none; cursor:pointer; display:flex; align-items:center; gap:8px; background:#4f46e5; color:#fff; padding:11px 16px; border-radius:9px; font-size:14px; font-weight:600; user-select:none; }
+details.ans > summary::-webkit-details-marker { display:none; }
+details.ans > summary:hover { background:#4338ca; }
+.arrow { width:0; height:0; border-left:7px solid #fff; border-top:5px solid transparent; border-bottom:5px solid transparent; transition:transform .18s; }
+details.ans[open] > summary .arrow { transform:rotate(90deg); }
+details.ans[open] > summary .sum-text::after { content:" ▲"; font-size:11px; opacity:.7; }
+.ans-inner { border-left:3px solid #c7d2fe; margin:8px 0 0 14px; padding:6px 0 6px 18px; }
+.ans-body p { font-size:14.5px; margin:8px 0; }
+.ans-body h3 { font-size:15px; color:#1e293b; margin:16px 0 8px; padding-left:10px; border-left:3px solid #818cf8; }
+.ans-body h4 { font-size:14.5px; color:#334155; margin:14px 0 6px; }
+.ans-body ul, .ans-body ol { margin:8px 0 8px 24px; }
+.ans-body li { font-size:14.5px; margin:5px 0; }
+.ans-body strong { color:#111827; }
+.sec-h { font-size:12.5px; color:#0f766e; background:#ccfbf1; display:inline-block; padding:2px 12px; border-radius:10px; margin:18px 0 6px; font-weight:600; }
+.ext-body { border-left:3px solid #5eead4; padding-left:14px; margin-bottom:6px; }
+.ext-body p { font-size:14.5px; margin:8px 0; }
+.ext-body ul, .ext-body ol { margin:8px 0 8px 24px; }
+.ext-body li { font-size:14.5px; margin:5px 0; }
+details.sub { margin:12px 0 0; border:1px solid #e4e8f0; border-radius:9px; overflow:hidden; }
+details.sub > summary { list-style:none; cursor:pointer; padding:10px 14px; font-size:13.5px; background:#f8fafc; color:#334155; font-weight:600; user-select:none; }
+details.sub > summary::-webkit-details-marker { display:none; }
+details.sub > summary::before { content:"\25B8 "; color:#94a3b8; }
+details.sub[open] > summary::before { content:"\25BE "; }
+details.sub[open] > summary { border-bottom:1px solid #e4e8f0; }
+.sub-body { padding:12px 16px; }
+.sub-body p { font-size:14.5px; margin:7px 0; }
+.sub-body ul, .sub-body ol { margin:7px 0 7px 24px; }
+.sub-body li { font-size:14.5px; margin:5px 0; }
+details.sub-ask > summary { background:#fff7ed; color:#9a3412; }
+details.sub-anchor > summary { background:#f0fdf4; color:#166534; }
+details.sub-anchor .sub-body { background:#fafffb; }
+
 .article code { background:#f1f3fa; padding:1px 6px; border-radius:4px; font-size:13px; color:#be185d; }
-.article pre { background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:8px; overflow-x:auto; margin:12px 0; font-size:13px; line-height:1.6; }
-.article pre code { background:none; color:inherit; padding:0; }
-.article table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13.5px; display:block; overflow-x:auto; }
-.article th { background:#f1f3fa; padding:8px 10px; text-align:left; color:#475569; font-size:12.5px; border:1px solid #e4e8f0; }
+.article pre { background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:8px; overflow-x:auto; margin:12px 0; font-size:12.8px; line-height:1.65; }
+.article pre code { background:none; color:inherit; padding:0; font-size:12.8px; }
+.article table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; display:block; overflow-x:auto; }
+.article th { background:#f1f3fa; padding:8px 10px; text-align:left; color:#475569; font-size:12.5px; border:1px solid #e4e8f0; white-space:nowrap; }
 .article td { padding:8px 10px; border:1px solid #e4e8f0; vertical-align:top; }
 .article blockquote { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; margin:12px 0; border-radius:6px; color:#166534; font-size:14px; }
 .article blockquote strong { color:#14532d; }
 .article hr { border:none; border-top:1px dashed #d1d5db; margin:26px 0; }
-.bottomnav { max-width:960px; margin:20px auto 0; padding:0 18px; display:flex; gap:10px; }
-.bottomnav a { flex:1; text-align:center; background:#4f46e5; color:#fff; text-decoration:none; padding:12px 10px; border-radius:10px; font-size:14px; }
-.bottomnav a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
-@media (max-width:760px){ .article{padding:22px 18px;} .article h1{font-size:21px;} }
-/* handbook-layout-fix */
 .article p.lead { background:#eef2ff; border-left:4px solid #6366f1; padding:10px 14px; border-radius:6px; color:#312e81; margin:10px 0 4px; }
 .article p.lbl { font-size:13px; color:#64748b; margin:14px 0 4px; }
 .article p.say { background:#fff7ed; border-left:4px solid #f97316; padding:10px 14px; border-radius:6px; color:#7c2d12; margin:12px 0 4px; }
@@ -39,19 +91,54 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 .article ol { margin:6px 0 6px 24px; }
 .article li { margin:5px 0; }
 .article ul ul { margin:4px 0 4px 20px; }
+
+body.quiz details.ans > summary { background:#94a3b8; }
+body.quiz details.ans:not([open]) .sum-text::after { content:"（自测中，先自己答）"; font-size:11.5px; font-weight:400; opacity:.9; }
+body.hide-ans details.ans { display:none; }
+
+.bottomnav { max-width:960px; margin:20px auto 0; padding:0 18px; display:flex; gap:10px; }
+.bottomnav a { flex:1; text-align:center; background:#4f46e5; color:#fff; text-decoration:none; padding:12px 10px; border-radius:10px; font-size:14px; }
+.bottomnav a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
+.totop { position:fixed; right:18px; bottom:22px; width:44px; height:44px; border-radius:50%; background:#4f46e5; color:#fff; display:flex; align-items:center; justify-content:center; font-size:18px; text-decoration:none; box-shadow:0 2px 10px rgba(79,70,229,.35); z-index:20; }
+@media (max-width:760px){
+  .article { padding:22px 16px 20px; }
+  .article h1 { font-size:21px; }
+  .kp-head h2 { font-size:16.5px; }
+  .toolbar { top:40px; padding:10px; }
+  .toolbar button { font-size:12.5px; padding:6px 11px; }
+  .toolbar .count { width:100%; margin:2px 0 0; }
+  .ans-inner { margin-left:4px; padding-left:12px; }
+  body { font-size:15px; }
+}
 </style></head>
 <body>
 <div class="topnav"><div class="inner"><a href="学习中心.html">🏠 学习中心</a> <span class="sep">|</span> <a href="学习手册索引.html">📚 手册索引</a> <span class="sep">|</span> <a href="学习手册_02_MySQL核心.html">02 MySQL ▶</a></div></div>
-<div class="wrap"><article class="article"><h1>📘 学习手册 01 · 计算机网络</h1>
-<blockquote>
-<p>配套《面试八股复习计划》第 2 节网络部分 + PDF 第 51-55 页<br />
-模板：<strong>一句话结论 → 详细解释 → 面试话术 → 例题/追问</strong><br />
-你的强项章节——不仅要会，要能讲得比面试官还清楚</p>
-</blockquote>
-<hr />
-<h2>1. TCP 和 UDP 的区别</h2>
-<p class="lead"><strong>一句话结论</strong>：TCP 面向连接、可靠、字节流；UDP 无连接、不可靠、数据报，TCP 慢但稳，UDP 快但丢。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+<div class="wrap"><article class="article">
+<h1>📘 学习手册 01 · 计算机网络</h1>
+<div class="meta"><p>配套《面试八股复习计划》第 2 节网络部分 + PDF 第 51-55 页<br /><br />模板：<strong>一句话结论 → 详细解释 → 面试话术 → 例题/追问</strong><br /><br />你的强项章节——不仅要会，要能讲得比面试官还清楚</p></div>
+<div class="toolbar">
+  <button id="btnQuiz" type="button">自测模式</button>
+  <button id="btnOpen" type="button">全部展开</button>
+  <button id="btnClose" type="button">全部折叠</button>
+  <span class="count" id="cnt">已看 0 / 12</span>
+</div>
+<section class="kp" id="kp1">
+<div class="kp-head">
+<span class="kp-no">1</span>
+<h2>TCP 和 UDP 的区别</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>TCP 面向连接、可靠、字节流；UDP 无连接、不可靠、数据报，TCP 慢但稳，UDP 快但丢。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>TCP 和 UDP 的区别？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <table>
 <thead>
 <tr>
@@ -91,18 +178,50 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 <p><strong>面试话术</strong>：先说结论"TCP 可靠连接、UDP 尽力而为"，再补一句适用场景对比（HTTP 用 TCP 因为要准确，直播用 UDP 因为能容忍丢包但不能容忍延迟），面试官会觉得你有工程视角。</p>
 <p><strong>例题/追问</strong>：① 视频会议为什么用 UDP 不用 TCP？→ 丢一帧还能看，卡顿半秒没法忍，TCP 重传会导致延迟堆积。② 有没有用 TCP 的实时场景？→ WebRTC 的拥塞控制/QUIC 用类 TCP 方案，UDP 之上自建可靠性。</p>
 <hr />
-<h2>2. TCP 三次握手</h2>
-<p class="lead"><strong>一句话结论</strong>：三次握手是客户端与服务端互相确认"双方收发能力都正常"的最小通信次数。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+</div></div></details>
+</section>
+<section class="kp" id="kp2">
+<div class="kp-head">
+<span class="kp-no">2</span>
+<h2>TCP 三次握手</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>三次握手是客户端与服务端互相确认"双方收发能力都正常"的最小通信次数。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>TCP 三次握手？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ol><li>客户端 → 服务端：<strong>SYN=1, seq=x</strong>（"我想连你"）</li><li>服务端 → 客户端：<strong>SYN=1, ACK=1, seq=y, ack=x+1</strong>（"我收到你的，我也能发"）</li><li>客户端 → 服务端：<strong>ACK=1, ack=y+1</strong>（"我收到你的了，开始传数据"）</li></ol>
 <p>为什么是三次不是两次：</p>
 <ul><li>两次握手：客户端发出的 SYN 若在网络中滞留，超时重传后服务端会收到两个 SYN 建立两条连接，旧连接残留 → 浪费资源</li><li>三次握手让<strong>双方都确认对方能收能发</strong>，并同步初始序列号（防伪造/防旧连接）</li></ul>
 <p><strong>面试话术</strong>：背熟三次报文（SYN → SYN+ACK → ACK），重点落在"为什么两次不行"——防止滞留的旧连接请求导致服务端建立无效连接；以及"为什么要 seq 序列号"——保证有序和防篡改。</p>
 <p><strong>例题/追问</strong>：① 第二次握手的 seq 和 ack 分别是什么含义？② 半连接队列（SYN Queue）是什么？→ 服务端收到 SYN 未完成三次握手的队列，攻击可占满它 → SYN Flood 攻击的原理。</p>
 <hr />
-<h2>3. TCP 四次挥手</h2>
-<p class="lead"><strong>一句话结论</strong>：四次挥手是因为 TCP 全双工，双方各自独立关闭一条方向，需要 4 个报文；主动关闭方要等 2MSL 才真正断开。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+</div></div></details>
+</section>
+<section class="kp" id="kp3">
+<div class="kp-head">
+<span class="kp-no">3</span>
+<h2>TCP 四次挥手</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>四次挥手是因为 TCP 全双工，双方各自独立关闭一条方向，需要 4 个报文；主动关闭方要等 2MSL 才真正断开。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>TCP 四次挥手？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ol><li>客户端 → 服务端：<strong>FIN=1</strong>（"我数据发完了，要关了"）</li><li>服务端 → 客户端：<strong>ACK=1</strong>（"收到，但我可能还有数据要发"）</li><li>服务端 → 客户端：<strong>FIN=1</strong>（服务端数据也发完了）</li><li>客户端 → 服务端：<strong>ACK=1</strong>（确认关闭）</li></ol>
 <p>为什么四次：服务端的 ACK 和 FIN 不能合并——它收到 FIN 后还要继续发剩余数据，发完才发 FIN，所以中间隔了一次。</p>
 <p>TIME_WAIT（主动关闭方等 2MSL，约 60s）的原因：</p>
@@ -110,36 +229,118 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 <p><strong>面试话术</strong>：强调"全双工 → 两个方向的关闭各自独立 → 四次"，再说 TIME_WAIT 两个原因。能引出"服务端大量 TIME_WAIT 怎么排查"（netstat 统计、调 keepalive、复用端口）这种实战问题。</p>
 <p><strong>例题/追问</strong>：① 为什么 TIME_WAIT 是 2MSL 不是 1MSL？→ 保证最坏情况下（ACK 丢失+重传）报文也能往返。② 大量 CLOSE_WAIT 是什么问题？→ 对方关闭后己方没调 close()，通常是代码没关 socket 导致连接泄漏。</p>
 <hr />
-<h2>4. HTTP 请求方式</h2>
-<p class="lead"><strong>一句话结论</strong>：GET 取数据、POST 提交数据、PUT 整体更新、PATCH 局部更新、DELETE 删除、HEAD 只要响应头、OPTIONS 探询跨域。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+</div></div></details>
+</section>
+<section class="kp" id="kp4">
+<div class="kp-head">
+<span class="kp-no">4</span>
+<h2>HTTP 请求方式</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>GET 取数据、POST 提交数据、PUT 整体更新、PATCH 局部更新、DELETE 删除、HEAD 只要响应头、OPTIONS 探询跨域。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>HTTP 请求方式？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li>GET：幂等、参数在 URL、有长度限制、可缓存</li><li>POST：非幂等、参数在 body、无长度限制</li><li>PUT：幂等（整体替换）；PATCH：非幂等（部分修改）</li><li>DELETE：幂等</li><li>HEAD：同 GET 但只返回响应头（常用于探测资源是否存在）</li><li>OPTIONS：CORS 预检请求会用它</li></ul>
 <p><strong>面试话术</strong>：RESTful 语义 + 幂等性两个概念一起讲（幂等=重复执行结果一致），顺便说 GET 和 POST 的区别常被追问（GET 不能带 body？规范上可以但别用；缓存差异才是本质）。</p>
 <p><strong>例题/追问</strong>：① 为什么 GET 比 POST 容易被缓存？② OPTIONS 预检在什么时候触发？（非简单请求：自定义 header、JSON body 等）</p>
 <hr />
-<h2>5. HTTP 状态码</h2>
-<p class="lead"><strong>一句话结论</strong>：1xx 信息、2xx 成功、3xx 重定向、4xx 客户端错误、5xx 服务端错误。</p>
+</div></div></details>
+</section>
+<section class="kp" id="kp5">
+<div class="kp-head">
+<span class="kp-no">5</span>
+<h2>HTTP 状态码</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>1xx 信息、2xx 成功、3xx 重定向、4xx 客户端错误、5xx 服务端错误。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>HTTP 状态码？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>详细解释</strong>（面试高频）：</p>
 <ul><li>200 成功、204 无内容（删除常用）、206 部分内容（断点续传/分片）</li><li>301 永久重定向（换域名）、302 临时重定向、304 Not Modified（协商缓存，命中缓存）</li><li>400 参数错误、401 未认证、403 无权限、404 不存在、405 方法不允许、429 限流</li><li>500 服务器内部错误、502 网关错误（上游无响应）、503 服务不可用（过载/维护）、504 网关超时</li></ul>
 <p><strong>面试话术</strong>：背 200/301/304/400/401/403/404/500/502/503 就够用。重点能区分 401（没登录）vs 403（登录了没权限）、502（上游挂了）vs 504（上游响应慢）。</p>
 <p><strong>例题/追问</strong>：① 前端缓存命中一般返回哪个码？304。② 502 和 504 的区别？（网关角度：502 连不上上游，504 上游没在时间内返回）</p>
 <hr />
-<h2>6. HTTPS 和 HTTP 的区别</h2>
-<p class="lead"><strong>一句话结论</strong>：HTTPS = HTTP + TLS，用非对称加密协商密钥、对称加密传输数据，防窃听、防篡改、防冒充。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+</div></div></details>
+</section>
+<section class="kp" id="kp6">
+<div class="kp-head">
+<span class="kp-no">6</span>
+<h2>HTTPS 和 HTTP 的区别</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>HTTPS = HTTP + TLS，用非对称加密协商密钥、对称加密传输数据，防窃听、防篡改、防冒充。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>HTTPS 和 HTTP 的区别？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ol><li><strong>加密</strong>：HTTP 明文，HTTPS 加密</li><li><strong>握手</strong>：HTTPS 多一次 TLS 握手（约 2 RTT），主要动作： - 服务端发证书（含公钥）→ 客户端验证书（CA 签名链）→ 防中间人冒充 - 双方用<strong>非对称加密</strong>（RSA/ECDHE）协商出<strong>对称密钥</strong> - 之后数据用<strong>对称加密</strong>（AES）传输（快）</li><li><strong>端口</strong>：80 vs 443</li><li>证书需 CA 签发，有有效期</li></ol>
 <p><strong>面试话术</strong>：一句话"混合加密——非对称协商密钥，对称加密数据"，展开三步：证书验身份 → 协商密钥 → 加密传输。能讲清"为什么不用纯非对称？慢"就是高分答案。</p>
 <p><strong>例题/追问</strong>：① 中间人攻击怎么防？证书校验。② TLS1.3 比 1.2 快在哪？→ 握手从 2 RTT 降到 1 RTT。</p>
 <hr />
-<h2>7. Cookie 和 Session</h2>
-<p class="lead"><strong>一句话结论</strong>：Session 存在服务器（记录登录态），Cookie 存在浏览器（携带身份标识），SessionId 通过 Cookie 传递。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+</div></div></details>
+</section>
+<section class="kp" id="kp7">
+<div class="kp-head">
+<span class="kp-no">7</span>
+<h2>Cookie 和 Session</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>Session 存在服务器（记录登录态），Cookie 存在浏览器（携带身份标识），SessionId 通过 Cookie 传递。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>Cookie 和 Session？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li>流程：登录成功 → 服务端创建 Session（内存/Redis）→ 把 sessionId 放进 Set-Cookie → 浏览器存 Cookie → 后续请求自动带 Cookie → 服务端查 Session 确认身份</li><li>Cookie 特点：有大小限制（约 4KB）、可设置过期时间、HttpOnly 防 JS 读取（防 XSS 偷）、SameSite 防 CSRF</li><li>Session 特点：服务端存储，可存任意大小，分布式下要放 Redis（共享）</li><li>现代替代：<strong>JWT</strong>——把用户信息签名后放客户端，服务端无状态，适合分布式/多端</li></ul>
 <p><strong>面试话术</strong>：讲清"Cookie 是载体，Session 是状态"这个本质，再补一句"分布式场景 Session 要放 Redis 或用 JWT 做无状态认证"，体现工程经验。</p>
 <p><strong>例题/追问</strong>：① JWT 和 Session 怎么选？② 为什么 JWT 无法主动注销？（token 在客户端，只能等过期或加黑名单）</p>
 <hr />
-<h2>8. OSI 七层模型 和 TCP/IP 五层模型</h2>
-<p class="lead"><strong>一句话结论</strong>：OSI 七层（应用/表示/会话/传输/网络/数据链路/物理）是教科书标准，TCP/IP 五层（应用/传输/网络/数据链路/物理）是实际实现。</p>
+</div></div></details>
+</section>
+<section class="kp" id="kp8">
+<div class="kp-head">
+<span class="kp-no">8</span>
+<h2>OSI 七层模型 和 TCP/IP 五层模型</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>OSI 七层（应用/表示/会话/传输/网络/数据链路/物理）是教科书标准，TCP/IP 五层（应用/传输/网络/数据链路/物理）是实际实现。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>OSI 七层模型 和 TCP/IP 五层模型？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>详细解释</strong>（五层对应典型协议）：</p>
 <table>
 <thead>
@@ -178,28 +379,91 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 <p><strong>面试话术</strong>：背熟五层+各层协议，能画出"HTTP → TCP → IP → 以太网"的封装过程。追问时能说"为什么 OSI 把表示层/会话层合并进应用层——实际实现里不需要分开"。</p>
 <p><strong>例题/追问</strong>：① 一次 HTTP 请求经过哪些层？（应用→传输→网络→链路→物理，逐层加头，接收方逐层去头）。② 交换机/路由器分别在几层？（2 层/3 层）</p>
 <hr />
-<h2>9. 各层常用协议</h2>
-<p class="lead"><strong>一句话结论</strong>：应用层 HTTP/DNS/WebSocket，传输层 TCP/UDP，网络层 IP/ICMP，链路层 ARP/以太网。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+</div></div></details>
+</section>
+<section class="kp" id="kp9">
+<div class="kp-head">
+<span class="kp-no">9</span>
+<h2>各层常用协议</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>应用层 HTTP/DNS/WebSocket，传输层 TCP/UDP，网络层 IP/ICMP，链路层 ARP/以太网。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>各层常用协议？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li><strong>HTTP</strong>：应用层，超文本传输</li><li><strong>DNS</strong>：域名 → IP，UDP:53，层级查询（根 → 顶级 → 权威）</li><li><strong>WebSocket</strong>：应用层，基于 TCP 的长连接全双工，HTTP 握手升级（101 Switching Protocols）</li><li><strong>TCP/UDP</strong>：传输层</li><li><strong>IP</strong>：网络层，寻址路由</li><li><strong>ICMP</strong>：网络层，ping 用它（探测连通性）</li><li><strong>ARP</strong>：链路层，IP → MAC</li></ul>
 <p><strong>面试话术</strong>：结合你的业务讲——RRM 设备上报走 Kafka（应用层）、云端下发走 WebSocket（应用层）基于 TCP；讲协议时要能落到"我实际用过"。</p>
 <p><strong>例题/追问</strong>：DNS 用 TCP 还是 UDP？→ 正常 UDP:53（快），响应超大数据（DNSSEC）时切 TCP。</p>
 <hr />
-<h2>10. 为什么 TCP 要建立三次握手（深入）</h2>
-<p class="lead"><strong>一句话结论</strong>：三次握手同步了序列号、确认了双向收发能力，并防止历史重复连接（滞留 SYN）误建立连接。</p>
+</div></div></details>
+</section>
+<section class="kp" id="kp10">
+<div class="kp-head">
+<span class="kp-no">10</span>
+<h2>为什么 TCP 要建立三次握手（深入）</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>三次握手同步了序列号、确认了双向收发能力，并防止历史重复连接（滞留 SYN）误建立连接。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>为什么 TCP 要建立三次握手（深入）？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <p><strong>详细解释</strong>（升级版）：</p>
 <ul><li><strong>同步序列号</strong>：双方 seq 不同，后续按序号排序去重</li><li><strong>防滞留连接</strong>：客户端旧 SYN 比新 SYN 晚到，服务端回 SYN+ACK 后，客户端发现序号过期 → 发 RST 断开，新连接不受影响——这是"两次握手做不到的"</li><li><strong>确认双向</strong>：第一次只证明客户端能发，第二次证明服务端能收能发，第三次证明客户端能收</li></ul>
 <p><strong>面试话术</strong>：层次感递进："表面是确认能力，核心是同步序列号+防滞留连接"——这样答基本满分。</p>
 <p><strong>例题/追问</strong>：SYN Flood 攻击怎么防？→ SYN Cookie（不分配资源，用 cookie 校验）+ 限制半连接队列长度。</p>
 <hr />
-<h2>11. 对 HTTP 的理解（含 HTTP 版本演进）</h2>
-<p class="lead"><strong>一句话结论</strong>：HTTP 是应用层无状态请求-响应协议；HTTP/1.1 引入持久连接与管线化，HTTP/2 多路复用，HTTP/3 基于 QUIC(UDP)。</p>
-<p class="lbl"><strong>详细解释</strong>：</p>
+</div></div></details>
+</section>
+<section class="kp" id="kp11">
+<div class="kp-head">
+<span class="kp-no">11</span>
+<h2>对 HTTP 的理解（含 HTTP 版本演进）</h2>
+</div>
+<div class="concept">
+<div class="tag tag-c">概念</div>
+<div class="concept-body"><p>HTTP 是应用层无状态请求-响应协议；HTTP/1.1 引入持久连接与管线化，HTTP/2 多路复用，HTTP/3 基于 QUIC(UDP)。</p></div>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>对 HTTP 的理解（含 HTTP 版本演进）？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ul><li><strong>无状态</strong>：服务端不记客户端状态 → 靠 Cookie/Session 补充</li><li><strong>HTTP/1.0</strong>：短连接，一次请求一个连接</li><li><strong>HTTP/1.1</strong>：keep-alive 持久连接；管线化（仍队头阻塞）；Host 头支持虚拟主机</li><li><strong>HTTP/2</strong>：二进制分帧 + 多路复用（一个连接并发多个流，解决队头阻塞）；头部压缩 HPACK；服务端推送</li><li><strong>HTTP/3</strong>：基于 UDP 的 QUIC，解决 TCP 队头阻塞（丢一个包不影响其他流），0-RTT 连接</li></ul>
 <p><strong>面试话术</strong>：背版本演进表 + 每个版本解决什么问题（1.1 解决重复建连，2 解决队头阻塞，3 解决 TCP 层队头阻塞）。能说"2 的队头阻塞只是应用层没了，TCP 层丢包仍阻塞，所以 3 换 QUIC"是加分。</p>
 <p><strong>例题/追问</strong>：HTTP/2 还有队头阻塞吗？→ 应用层没有，但 TCP 层丢包仍会阻塞整个连接，所以才有 HTTP/3/QUIC。</p>
 <hr />
+</div></div></details>
+</section>
+<section class="kp" id="kp12">
+<div class="kp-head">
+<span class="kp-no">12</span>
 <h2>📝 本章自测（闭卷）</h2>
+</div>
+<div class="ask">
+<div class="tag tag-q">面试官会怎么问</div>
+<div class="ask-body"><ul>
+<li>📝 本章自测（闭卷）？</li>
+</ul></div></div>
+<details class="ans">
+<summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
+<div class="ans-inner"><div class="ans-body">
 <ol>
 <li>画出 TCP 三次握手、四次挥手完整过程（含 seq/ack）</li>
 <li>讲清 TIME_WAIT 出现的原因和两个作用</li>
@@ -208,10 +472,62 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6f
 <li>HTTP/1.1 / 2 / 3 各解决什么问题</li>
 <li>Cookie 和 Session 的关系，JWT 为什么适合分布式</li>
 </ol>
-<blockquote>
-<p>完成自测后回《面试八股复习计划》勾选网络相关题（第 2 节）</p>
-</blockquote></article></div>
+</div></div></details>
+</section>
+</article></div>
 <div class="bottomnav"><a class="ghost" href="学习中心.html">🏠 回学习中心</a>
 <a class="ghost" href="面试八股复习计划_李鑫.html">📖 回复习计划勾选</a>
 <a href="学习手册_02_MySQL核心.html">下一本：02 MySQL ▶</a></div>
+</body>
+<a class="totop" href="#">↑</a>
+<script>
+(function(){
+  var KEY = '%s';
+  var boxes = [].slice.call(document.querySelectorAll('details.ans'));
+  var cnt = document.getElementById('cnt');
+  var read = {};
+  try { read = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch(e){ read = {}; }
+  function paint(){
+    var n = 0;
+    boxes.forEach(function(d, i){ if (read[i]) n++; });
+    cnt.textContent = '\u5df2\u770b ' + n + ' / ' + boxes.length;
+  }
+  boxes.forEach(function(d, i){
+    if (read[i]) d.open = true;
+    d.addEventListener('toggle', function(){
+      read[i] = d.open;
+      try { localStorage.setItem(KEY, JSON.stringify(read)); } catch(e){}
+      paint();
+    });
+  });
+  paint();
+  function ensureSaved(){
+    boxes.forEach(function(d, i){ read[i] = d.open; });
+    try { localStorage.setItem(KEY, JSON.stringify(read)); } catch(e){}
+    paint();
+  }
+  var btnQuiz = document.getElementById('btnQuiz');
+  btnQuiz.addEventListener('click', function(){
+    var on = document.body.classList.toggle('quiz');
+    btnQuiz.classList.toggle('on', on);
+    if (on) { boxes.forEach(function(d){ d.open = false; }); }
+    ensureSaved();
+  });
+  document.getElementById('btnOpen').addEventListener('click', function(){
+    document.body.classList.remove('quiz');
+    btnQuiz.classList.remove('on');
+    boxes.forEach(function(d){ d.open = true; });
+    ensureSaved();
+  });
+  document.getElementById('btnClose').addEventListener('click', function(){
+    document.body.classList.remove('quiz');
+    btnQuiz.classList.remove('on');
+    boxes.forEach(function(d){ d.open = false; });
+    ensureSaved();
+  });
+  document.querySelectorAll('a[href="#"]').forEach(function(a){
+    a.addEventListener('click', function(e){ e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); });
+  });
+})();
+</script>
 </body></html>
