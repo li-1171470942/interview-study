@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>嵌入式 Day1 学习记录（2026-09-21）</title>
+<style>
+  :root { --bg:#f4f6fb; --card:#fff; --ink:#1f2430; --sub:#5b6478; --line:#e4e8f0; --brand:#4f46e5; --red:#dc2626; --green:#16a34a; --amber:#d97706; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:var(--bg); color:var(--ink); line-height:1.7; padding-bottom:70px; }
+  .hero { background:linear-gradient(135deg,#0f766e,#4f46e5); color:#fff; padding:26px 0 20px; }
+  .hero .wrap { max-width:960px; margin:0 auto; padding:0 16px; }
+  .hero h1 { font-size:21px; margin-bottom:6px; }
+  .hero .sub { font-size:13px; opacity:.94; }
+  .hero .nav { margin-top:12px; display:flex; gap:8px; flex-wrap:wrap; }
+  .hero .nav a { display:inline-block; font-size:12px; color:#fff; background:rgba(255,255,255,.18); border:1px solid rgba(255,255,255,.35); border-radius:99px; padding:3px 12px; text-decoration:none; }
+  .hero .nav a:hover { background:rgba(255,255,255,.3); }
+  .wrap { max-width:960px; margin:0 auto; padding:0 16px; }
+
+  .stats { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:16px 0; }
+  .stat { background:#fff; border:1px solid var(--line); border-radius:12px; padding:13px 12px; text-align:center; }
+  .stat .n { font-size:24px; font-weight:700; color:var(--brand); line-height:1.2; }
+  .stat .l { font-size:11.5px; color:var(--sub); margin-top:3px; }
+  .stat.done .n { color:var(--green); }
+  .stat.todo .n { color:var(--amber); }
+
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px; margin:14px 0; }
+  .card h2 { font-size:15.5px; margin-bottom:8px; display:flex; align-items:center; gap:8px; }
+  h3 { font-size:13.5px; margin:14px 0 6px; color:var(--brand); }
+  table { width:100%; border-collapse:collapse; font-size:12.8px; }
+  th { background:#f1f3fa; padding:7px 8px; text-align:left; font-size:11.8px; color:var(--sub); font-weight:600; }
+  td { padding:7px 8px; border-top:1px solid var(--line); vertical-align:top; }
+  code { background:#eef2ff; color:#3730a3; padding:1px 5px; border-radius:4px; font-family:Consolas,Monaco,monospace; font-size:12px; }
+  pre { background:#1e2235; color:#e2e8f0; padding:11px 13px; border-radius:8px; overflow-x:auto; font-family:Consolas,Monaco,monospace; font-size:12px; line-height:1.6; margin:8px 0; }
+  pre code { background:none; color:inherit; padding:0; }
+
+  .tag { display:inline-block; font-size:11px; padding:1px 7px; border-radius:99px; background:#eef2ff; color:#4338ca; margin-left:6px; }
+  .tag.pass { background:#f0fdf4; color:#15803d; }
+  .tag.half { background:#fffbeb; color:#b45309; }
+  .tag.fail { background:#fef2f2; color:#b91c1c; }
+  .tag.new  { background:#f5f3ff; color:#6d28d9; }
+
+  .ok { background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:9px 12px; font-size:12.8px; color:#14532d; margin:9px 0; }
+  .warn { background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:9px 12px; font-size:12.8px; color:#92400e; margin:9px 0; }
+  .bad { background:#fef2f2; border:1px solid #fecaca; border-radius:8px; padding:9px 12px; font-size:12.8px; color:#991b1b; margin:9px 0; }
+  .talk { background:#f5f7ff; border-left:3px solid var(--brand); border-radius:0 8px 8px 0; padding:9px 12px; margin:8px 0; font-size:12.8px; }
+  .talk b { color:var(--brand); }
+  a { color:var(--brand); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  ul.clean { padding-left:19px; }
+  ul.clean li { font-size:13px; margin:5px 0; }
+  .footer { text-align:center; color:#9aa3b5; font-size:11.8px; margin-top:24px; line-height:1.9; }
+  @media (max-width:560px){ .hero h1{font-size:18px;} .stats{grid-template-columns:repeat(2,1fr);} table{font-size:12.2px;} th,td{padding:6px;} }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <h1>📘 嵌入式 Day1 学习记录</h1>
+    <div class="sub">2026-09-21（周一）· C 语言真功夫（第 1–2 题深挖）· 有效学习约 1.5 小时</div>
+    <div class="nav">
+      <a href="学习中心.html">← 学习中心</a>
+      <a href="嵌入式面试_3天冲刺计划_20260921.html">⚡ 3 天冲刺计划</a>
+      <a href="嵌入式面试高频题_20260917.html">🎯 高频题 36 题</a>
+      <a href="华为引望OD_嵌入式_面试突击方案_20260917.html">🚀 引望突击方案</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="stats">
+    <div class="stat done"><div class="n">2</div><div class="l">今日过题（含深挖）</div></div>
+    <div class="stat todo"><div class="n">11</div><div class="l">C 语言待过</div></div>
+    <div class="stat"><div class="n">14</div><div class="l">新增知识条目</div></div>
+    <div class="stat todo"><div class="n">6</div><div class="l">手撕待写</div></div>
+  </div>
+
+  <div class="card">
+    <h2>🎤 今日过题实况</h2>
+    <table>
+      <tr><th style="width:8%">题号</th><th style="width:34%">题目</th><th style="width:14%">结果</th><th>备注</th></tr>
+      <tr>
+        <td>Q1</td>
+        <td>指针和数组的区别</td>
+        <td><span class="tag half">半过</span></td>
+        <td>第一次只答"定义"没答"区别"；第二次补上了"声明类型决定解引用读多少位"（加分点），但**仍未搭对比框架**。晚上按四点对比重说一遍。</td>
+      </tr>
+      <tr>
+        <td>Q2</td>
+        <td>⭐ 函数指针是什么？有什么用？</td>
+        <td><span class="tag half">半过</span></td>
+        <td>答出"指向函数的指针"<b>定义正确</b>，但"有什么用"整块空着 —— 而这题 70% 的分在用途。已补讲三大用途 + 话术，需重说。</td>
+      </tr>
+      <tr><td>Q3</td><td>野指针 / 空指针 / 悬空指针</td><td><span class="tag fail">未答</span></td><td>按"定义 + 怎么产生 + 怎么避免"三段准备</td></tr>
+      <tr><td>Q4</td><td>⭐ volatile（含原子性反转）</td><td><span class="tag fail">未答</span></td><td>关键反转：volatile <b>不保证原子性</b></td></tr>
+      <tr><td>Q5–Q13</td><td>const / static / 堆栈 / malloc / 内存对齐 / 大小端 / 位操作 / 宏 / sizeof</td><td><span class="tag fail">未答</span></td><td>晚上主攻一（19:30–20:40）覆盖</td></tr>
+    </table>
+
+    <div class="bad">
+      <b>⚠️ 今天暴露的核心短板：没有「对比框架」。</b><br>
+      被问 "A 和 B 的区别" 时，两次都在"分别描述 A 和 B"，而不是"逐条对比 A vs B"。<br>
+      考官评分点在<b>对比项</b>，不在定义。这个毛病还会命中：堆 vs 栈、宏 vs 函数、sizeof vs strlen、大端 vs 小端、struct vs class。<br>
+      <b>固定话术模板：先说"有几点区别"，再逐条对比，最后补一个延伸。</b>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>💎 今日新增知识（深挖产出 14 条）</h2>
+
+    <h3>组一 · 指针与数组</h3>
+    <table>
+      <tr><th style="width:26%">知识点</th><th>核心结论</th></tr>
+      <tr><td><b>指针算术的步长</b></td><td>步长 = <b>它指向的类型的大小</b>。<code>a+1</code> 走 4 字节（<code>int*</code>），<code>&amp;a+1</code> 走 <b>20 字节</b>（<code>int(*)[5]</code>）。<code>a</code> 与 <code>&amp;a</code> <b>值相同、类型不同</b>。</td></tr>
+      <tr><td><b>数组指针 vs 指针数组</b></td><td><code>int (*p)[5]</code> = 数组指针（p 先碰 <code>*</code>）；<code>int *p[5]</code> = 指针数组（p 先碰 <code>[]</code>）。看 p 先和谁结合。</td></tr>
+      <tr><td><b>反向取最后元素</b></td><td><code>(&amp;a)[1][-1]</code> / <code>*((int*)(&amp;a+1) - 1)</code> → 都是 <code>a[4]</code>。原理：<code>&amp;a+1</code> 跨 20 字节，回退用 <code>int*</code> 的 4 字节步长。</td></tr>
+      <tr><td><b>数组名是地址常量</b></td><td><code>a+1</code> ✅ 合法（只取值）；<code>a++</code> / <code>++a</code> / <code>a=b</code> ❌ 非法（要修改自身）。<b>左值问题</b>。</td></tr>
+      <tr><td><b>数组指针 vs 二级指针</b></td><td><code>int(*)[5]</code> 一级跳转、步长 20；<code>int**</code> 两级跳转、步长 8。前者指向<b>一堆数据</b>，后者指向<b>一个地址</b>。<code>int **q = &amp;a;</code> 编译报错。</td></tr>
+      <tr><td><b>指针大小</b></td><td>与<b>平台</b>有关，与<b>类型</b>无关：32 位 4 字节、64 位 8 字节。理由是"地址总线宽度"，<b>不是</b>"因为 int 是 4 字节"。</td></tr>
+    </table>
+
+    <h3>组二 · 类型与底层实现</h3>
+    <table>
+      <tr><th style="width:26%">知识点</th><th>核心结论</th></tr>
+      <tr><td><b>不定长字符串输入</b></td><td>用<b>指针数组</b> <code>char *argv[N]</code> + 每段独立 <code>malloc</code>；或整行读入后 <code>strtok_r</code> 原地切分（0 次额外分配）。<b>不能用</b> <code>char[N][M]</code> —— M 按最长取会浪费。</td></tr>
+      <tr><td><b>argv 为什么是 char**</b></td><td>各参数字符串<b>长度不一</b>，<code>char(*)[N]</code> 要求等长做不到。真实模型 = <b>一块连续内存 + 一个指针数组索引</b>。</td></tr>
+      <tr><td><b>_Bool 是关键字</b></td><td><code>_Bool</code> 是 C99 <b>语言关键字</b>；<code>bool</code>/<code>true</code>/<code>false</code> 才是 <code>&lt;stdbool.h&gt;</code> 里的宏。特殊语义：赋非零值会被<b>归一化为 1</b>（<code>_Bool b = 5; → 1</code>）。</td></tr>
+      <tr><td><b>定宽类型用 typedef</b></td><td><code>int32_t</code> 等是 <b>typedef</b> 实现，<b>不是 #define</b>（define 是文本替换，会出 <code>UINT32 *p, q;</code> 的坑）。映射到哪个基本类型<b>由平台决定</b>。</td></tr>
+      <tr><td><b>float→int 是截断</b></td><td><code>int i = 3.9;</code> → 3，<b>不四舍五入</b>（向零取整，<code>-3.9 → -3</code>）。要四舍五入用 <code>round()</code>。<code>rint()</code> 默认是<b>银行家舍入</b>（<code>rint(2.5)=2</code>，<code>round(2.5)=3</code>）。</td></tr>
+      <tr><td><b>long 跨平台差异</b></td><td>Linux x86-64（LP64）<code>long</code>=8 字节；Windows x64（LLP64）<code>long</code>=4 字节。跨平台 bug 经典来源 → 用 <code>&lt;stdint.h&gt;</code>。</td></tr>
+    </table>
+
+    <h3>组三 · OOP 与虚函数</h3>
+    <table>
+      <tr><th style="width:26%">知识点</th><th>核心结论</th></tr>
+      <tr><td><b>C 模拟对象</b></td><td>struct 里塞<b>函数指针</b>当成员函数，显式传 <code>self</code>（= C++ 的隐式 <code>this</code>）。</td></tr>
+      <tr><td><b>C 实现多态</b></td><td>struct 里放 <code>const Vtbl *vptr</code>，虚表放只读数据段。<b>把父类结构体作为子类的第一个成员</b>实现"继承" → 地址相同可安全互转，这就是 C++ 单继承向上转型零开销的原因。</td></tr>
+      <tr><td><b>struct vs class</b></td><td>C++ 里<b>只差两个默认值</b>：默认访问权限（public / private）、默认继承方式（public / private）。其他完全等价。</td></tr>
+      <tr><td><b>虚函数三问</b></td><td>虚表在<b>只读数据段</b>（每类一张，编译期生成）；vptr 在<b>对象</b>里（8 字节，通常在起始处）；vptr 在<b>构造函数</b>里设置。</td></tr>
+      <tr><td><b>虚函数陷阱</b></td><td>① 基类析构<b>必须虚</b>（否则 delete 泄漏）② 构造/析构里调虚函数<b>不多态</b> ③ <b>默认参数静态绑定 + 函数体动态绑定</b>（<code>b-&gt;f()</code> 输出基类默认值！）</td></tr>
+      <tr><td><b>名词全称</b></td><td>MCU = Microcontroller Unit（微控制器）；MPU = Microprocessor Unit；SoC = System on Chip；OOP = Object-Oriented Programming；RTOS / HAL / BSP。</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>⭐ 错题纸 —— 晚上必背 5 条</h2>
+    <div class="warn">拿一张 A4 纸抄下来，睡前看一遍，明早再看一遍（遗忘曲线最陡的就是这 12 小时）。</div>
+    <ul class="clean">
+      <li><b>① <code>&amp;a + 1</code> 的步长是 20 字节，不是 4</b> —— 步长由指针<b>类型</b>决定。</li>
+      <li><b>② <code>int (*p)[5]</code> 数组指针 vs <code>int *p[5]</code> 指针数组</b> —— 看 p 先和 <code>*</code> 还是 <code>[]</code> 结合。</li>
+      <li><b>③ <code>a+1</code> 合法 / <code>a++</code> 非法</b> —— 数组名是地址常量，不是可修改左值。</li>
+      <li><b>④ 指针大小与平台有关、与类型无关</b> —— 32 位 4 字节、64 位 8 字节。</li>
+      <li><b>⑤ 基类析构函数必须是虚函数</b> —— 否则 <code>delete base_ptr</code> 只调基类析构，子类资源泄漏。</li>
+    </ul>
+
+    <h3>还要补的两个「重说」</h3>
+    <div class="talk">
+      <b>Q1 重说 · 按四维对比：</b>本质 → sizeof(20 vs 8) → 取地址类型(<code>int(*)[5]</code> vs <code>int**</code>) → 能否重新赋值；最后补"数组名退化成指针，<code>sizeof</code> 和 <code>&amp;</code> 两个例外"。
+    </div>
+    <div class="talk">
+      <b>Q2 重说 · 定义 + 三大用途：</b>"函数指针存的是函数入口地址，核心价值是把'调哪个函数'从编译期推迟到运行期。三大用途：回调（qsort）、跳转表/状态机、驱动接口抽象（Linux <code>file_operations</code>）。C++ 虚函数表底层就是函数指针数组。"
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🌙 今晚剩余（按优先级）</h2>
+    <table>
+      <tr><th style="width:12%">时段</th><th style="width:30%">任务</th><th>要点</th></tr>
+      <tr><td>19:30–20:40</td><td><b>C 语言 13 题口述</b></td><td>Q1/Q2 重说一遍 → Q3–Q13 全部过。今天已深挖 Q1/Q2 的底层，直接接上进度。</td></tr>
+      <tr><td>20:40–21:50</td><td><b>手撕 6 道（纸上手写）</b></td><td>字符串反转 / memcpy（内存重叠）/ 链表反转 / 数 1 个数 / 大小端 / <b>环形缓冲区</b>。不要开 IDE。</td></tr>
+      <tr><td>21:50–22:20</td><td><b>自我介绍 + 项目话术录音</b></td><td>中文 60 秒；<b>C 语言必须在前 30 秒出现</b>；录音回放删口头禅。</td></tr>
+      <tr><td>睡前</td><td><b>过一遍错题纸</b></td><td>上面 5 条 + 2 个重说</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>📌 明天（Day2）预告</h2>
+    <p style="font-size:13px;color:var(--sub)">Day2 主攻：中断 4 题 + RTOS 5 题 + 总线 5 题 + MCU 5 题，外加 C/Node 双向调用 8 个深挖问答与"无经验"应对话术。</p>
+    <div class="ok">今天已经提前拿到两个 Day2 相关的高价值素材：<b>指针 / 函数指针的底层机制</b>（双向调用的技术底座）与 <b>C 模拟面向对象</b>（可用来讲"我的代码的分层设计"）。</div>
+  </div>
+
+  <div class="footer">
+    记录时间：2026-09-21 18:00 · 本地与云端同步<br>
+    <a href="学习中心.html">学习中心</a> ·
+    <a href="嵌入式面试_3天冲刺计划_20260921.html">3 天冲刺计划</a> ·
+    <a href="index.html">站点首页</a>
+  </div>
+
+</div>
+</body>
+</html>
