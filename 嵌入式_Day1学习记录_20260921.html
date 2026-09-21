@@ -180,8 +180,61 @@
     <div class="ok">今天已经提前拿到两个 Day2 相关的高价值素材：<b>指针 / 函数指针的底层机制</b>（双向调用的技术底座）与 <b>C 模拟面向对象</b>（可用来讲"我的代码的分层设计"）。</div>
   </div>
 
+  <div class="card">
+    <h2><span class="n">5</span> 🌙 晚间口述实况（21:00-23:30 · AI 陪练 Q1 → Q10）</h2>
+    <p>按顺序过 C 语言 13 题的前 10 题：逐题口述 → AI 判卷 → 补缺口。整体判断：<b>Q5/Q6 是概念盲区（已补），Q3 悬空指针说反（需重点巩固）。</b></p>
+    <table>
+      <thead><tr><th style="width:24%">题</th><th style="width:20%">判定</th><th>缺口 / 关键纠正</th></tr></thead>
+      <tbody>
+        <tr><td>Q1 数组 vs 指针</td><td>3/4 维</td><td>缺「取地址类型」：<code>int (*p)[5]</code> vs <code>int **</code>；<code>&amp;a+1</code> = +20 字节未主动提</td></tr>
+        <tr><td>Q2 函数指针</td><td>用途 2.5/3</td><td>定义循环（应说「存函数入口地址」）；缺核心价值「编译期 → 运行期」；漏「跳转表 / 状态机」</td></tr>
+        <tr><td>Q3 野 / 空 / 悬空指针</td><td><b>❌ 概念混淆</b></td><td><b>把悬空指针说成内存泄漏，且说反</b> —— 见下方错题纸 ①</td></tr>
+        <tr><td>Q4 volatile</td><td>3/4</td><td>缺三个场景（硬件寄存器 / 中断共享 / 多线程）+ <code>volatile const</code>（只读状态寄存器）</td></tr>
+        <tr><td>Q5 const</td><td><b>✅ 已通</b></td><td>先只会一句 → 讲完复述全对（四用法 + 「左边锁值、右边锁指针」）</td></tr>
+        <tr><td>Q6 static</td><td>3/4</td><td>❌ 说「存在栈中」→ 实际在 <b>静态区（.data / .bss）</b>：默认 0、只初始化一次</td></tr>
+        <tr><td>Q7 堆 vs 栈</td><td>4/5</td><td>答得不错（栈溢出 / 堆泄漏均对）；漏「碎片化」；<b>主动追问「为什么栈快」</b></td></tr>
+        <tr><td>Q8 malloc / free</td><td>讲解（未答）</td><td>malloc 5 注意 + free 4 注意 + 泄漏 4 场景 → <b>明天复述</b></td></tr>
+        <tr><td>Q9 结构体对齐</td><td>讲解（未答）</td><td>两条规则 + <code>#pragma pack(1)</code> 三用途（协议报文 / 寄存器映射 / 省内存）</td></tr>
+        <tr><td>Q10 大小端</td><td>定义 ✅ / 判断 ❌</td><td>「与 1 做与」错 → 必须按字节读内存：<code>*(char *)&amp;x == 1</code> 或 union</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">6</span> ⭐ 晚间新增错题纸（睡前必背 5 条）</h2>
+    <ol>
+      <li><b>悬空指针 ≠ 内存泄漏</b>：泄漏 = malloc 了没 free（欠着不还）；悬空 = free 了没置 NULL（还了还去花）</li>
+      <li><b>static 变量在静态区（.data/.bss），不在栈上</b>：程序启动创建、只初始化一次、默认 0、程序结束才释放</li>
+      <li><b>不能用位与判断大小端</b>（位运算在数值层面，与内存布局无关）→ 用 <code>*(char *)&amp;x == 1</code> 或 union；<b>大端 = 高位字节在低地址</b>（网络字节序）</li>
+      <li><b><code>&amp;a + 1</code> 前进 20 字节</b>（类型决定步长：<code>int (*)[5]</code>）；<code>a + 1</code> 只前进 4 字节</li>
+      <li><b>内存泄漏只在「进程存活期间」有意义</b>：进程一退出（含 kill -9），OS 把整个地址空间全部回收</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">7</span> 🧠 今晚两个高价值深挖（自己主动提问）</h2>
+    <table>
+      <thead><tr><th style="width:32%">问题</th><th>结论</th></tr></thead>
+      <tbody>
+        <tr><td>程序是如何管理堆的？</td><td>变量名<b>只在编译期存在</b>（编译后变成「基址 + 偏移」，运行期不查表 —— 这就是 C 快的原因之一）；堆靠<b>块头（大小 + 占用标志，藏在用户区前面）+ 空闲链表</b>记账，<code>free(p)</code> 靠 p 往前找块头得知归还大小</td></tr>
+        <tr><td>泄漏的内存，程序停掉后会怎样？</td><td>进程退出 → <b>OS 全部回收</b>（虚拟内存 + 页表机制，内核统一释放）→ 所以泄漏真正怕的是<b>长驻服务 / 嵌入式设备</b>：活几个月，积累到 OOM</td></tr>
+      </tbody>
+    </table>
+    <div class="ok">✅ 这两问比背题更有价值 —— 说明在<b>从机制反推原理</b>，明天继续保持这个问法</div>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">8</span> 📌 明天（Day2）优先复习</h2>
+    <ol>
+      <li><b>复述今晚 Q8 / Q9</b>：malloc/free 注意事项 + 内存泄漏四场景；对齐两条规则 + <code>pack(1)</code> 三用途</li>
+      <li><b>巩固 Q3 悬空指针</b>（今晚唯一说反的概念）</li>
+      <li>补完剩余三题：<b>Q11 位操作 / Q12 宏 vs 函数 / Q13 sizeof vs strlen</b></li>
+      <li>走 3 天冲刺计划 Day2 主线：中断 4 + RTOS 5 + 总线 5 + MCU 5 + C/Node 双向调用 8 问 + 无经验话术</li>
+    </ol>
+  </div>
+
   <div class="footer">
-    记录时间：2026-09-21 18:00 · 本地与云端同步<br>
+    记录时间：2026-09-21 18:00（Day1 白天）· 23:30 补晚间陪练实况<br>
     <a href="学习中心.html">学习中心</a> ·
     <a href="嵌入式面试_3天冲刺计划_20260921.html">3 天冲刺计划</a> ·
     <a href="index.html">站点首页</a>
