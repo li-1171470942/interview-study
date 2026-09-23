@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>嵌入式 Day2 学习记录（2026-09-23）</title>
+<style>
+  :root { --bg:#f4f6fb; --card:#fff; --ink:#1f2430; --sub:#5b6478; --line:#e4e8f0; --brand:#4f46e5; --red:#dc2626; --green:#16a34a; --amber:#d97706; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:var(--bg); color:var(--ink); line-height:1.7; padding-bottom:70px; }
+  .hero { background:linear-gradient(135deg,#0f766e,#4f46e5); color:#fff; padding:26px 0 20px; }
+  .hero .wrap { max-width:960px; margin:0 auto; padding:0 16px; }
+  .hero h1 { font-size:21px; margin-bottom:6px; }
+  .hero .sub { font-size:13px; opacity:.94; }
+  .hero .nav { margin-top:12px; display:flex; gap:8px; flex-wrap:wrap; }
+  .hero .nav a { display:inline-block; font-size:12px; color:#fff; background:rgba(255,255,255,.18); border:1px solid rgba(255,255,255,.35); border-radius:99px; padding:3px 12px; text-decoration:none; }
+  .hero .nav a:hover { background:rgba(255,255,255,.3); }
+  .wrap { max-width:960px; margin:0 auto; padding:0 16px; }
+
+  .stats { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:16px 0; }
+  .stat { background:#fff; border:1px solid var(--line); border-radius:12px; padding:13px 12px; text-align:center; }
+  .stat .n { font-size:24px; font-weight:700; color:var(--brand); line-height:1.2; }
+  .stat .l { font-size:11.5px; color:var(--sub); margin-top:3px; }
+  .stat.done .n { color:var(--green); }
+  .stat.todo .n { color:var(--amber); }
+  .stat.fail .n { color:var(--red); }
+
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px; margin:14px 0; }
+  .card h2 { font-size:15.5px; margin-bottom:8px; display:flex; align-items:center; gap:8px; }
+  h3 { font-size:13.5px; margin:14px 0 6px; color:var(--brand); }
+  table { width:100%; border-collapse:collapse; font-size:12.8px; }
+  th { background:#f1f3fa; padding:7px 8px; text-align:left; font-size:11.8px; color:var(--sub); font-weight:600; }
+  td { padding:7px 8px; border-top:1px solid var(--line); vertical-align:top; }
+  code { background:#eef2ff; color:#3730a3; padding:1px 5px; border-radius:4px; font-family:Consolas,Monaco,monospace; font-size:12px; }
+  pre { background:#1e2235; color:#e2e8f0; padding:11px 13px; border-radius:8px; overflow-x:auto; font-family:Consolas,Monaco,monospace; font-size:12px; line-height:1.6; margin:8px 0; }
+  pre code { background:none; color:inherit; padding:0; }
+
+  .tag { display:inline-block; font-size:11px; padding:1px 7px; border-radius:99px; background:#eef2ff; color:#4338ca; margin-left:6px; }
+  .tag.pass { background:#f0fdf4; color:#15803d; }
+  .tag.half { background:#fffbeb; color:#b45309; }
+  .tag.fail { background:#fef2f2; color:#b91c1c; }
+  .tag.new  { background:#f5f3ff; color:#6d28d9; }
+
+  .ok { background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:9px 12px; font-size:12.8px; color:#14532d; margin:9px 0; }
+  .warn { background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:9px 12px; font-size:12.8px; color:#92400e; margin:9px 0; }
+  .bad { background:#fef2f2; border:1px solid #fecaca; border-radius:8px; padding:9px 12px; font-size:12.8px; color:#991b1b; margin:9px 0; }
+  .talk { background:#f5f7ff; border-left:3px solid var(--brand); border-radius:0 8px 8px 0; padding:9px 12px; margin:8px 0; font-size:12.8px; }
+  .talk b { color:var(--brand); }
+  a { color:var(--brand); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  ul.clean { padding-left:19px; }
+  ul.clean li { font-size:13px; margin:5px 0; }
+  ol.clean { padding-left:21px; }
+  ol.clean li { font-size:13px; margin:5px 0; }
+  .footer { text-align:center; color:#9aa3b5; font-size:11.8px; margin-top:24px; line-height:1.9; }
+  @media (max-width:560px){ .hero h1{font-size:18px;} .stats{grid-template-columns:repeat(2,1fr);} table{font-size:12.2px;} th,td{padding:6px;} }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <h1>📘 嵌入式 Day2 学习记录</h1>
+    <div class="sub">2026-09-23（周三）· C 语言 9 题重测 + 错题纸分类整理 · AI 陪练</div>
+    <div class="nav">
+      <a href="学习中心.html">🏠 学习中心</a>
+      <a href="嵌入式面试_3天冲刺计划_20260921.html">📅 3 天冲刺计划</a>
+      <a href="嵌入式_Day1学习记录_20260921.html">📗 Day1 记录（9/21）</a>
+      <a href="华为引望OD_嵌入式_面试突击方案_20260917.html">🚀 引望突击方案</a>
+      <a href="index.html">站点首页</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="stats">
+    <div class="stat done"><div class="n">1</div><div class="l">✅ 完全通过</div></div>
+    <div class="stat todo"><div class="n">5</div><div class="l">⚠️ 主体对 · 需补点</div></div>
+    <div class="stat fail"><div class="n">2</div><div class="l">❌ 核心概念说反</div></div>
+    <div class="stat"><div class="n">20</div><div class="l">📝 错题纸条目</div></div>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">1</span> 今日实况（9 题重测）</h2>
+    <table>
+      <thead><tr><th style="width:6%">#</th><th style="width:26%">题目</th><th>表现</th><th style="width:9%">状态</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>malloc/free + 泄漏 4 场景</td><td>基本对；<b>强转误区</b> + 缺 2 个泄漏场景</td><td><span class="tag half">⚠️</span></td></tr>
+        <tr><td>2</td><td>结构体对齐</td><td>规则 1 对；<b>总大小规则表述偏差</b></td><td><span class="tag half">⚠️</span></td></tr>
+        <tr><td>3</td><td>空 / 野 / 悬空指针</td><td><b>野指针、悬空指针定义说反</b></td><td><span class="tag fail">❌</span></td></tr>
+        <tr><td>4</td><td>位操作</td><td>运算符列全；<b>"逻辑异或"概念错误</b></td><td><span class="tag half">⚠️</span></td></tr>
+        <tr><td>5</td><td>大小端</td><td><b>定义说反（字节/地址混淆）</b>，应用对</td><td><span class="tag fail">❌</span></td></tr>
+        <tr><td>6</td><td>volatile</td><td>机制对；<b>多线程误区</b>、漏 ISR 场景</td><td><span class="tag half">⚠️</span></td></tr>
+        <tr><td>7</td><td>static</td><td><b>三点全对</b>，缺场景举例</td><td><span class="tag pass">✅</span></td></tr>
+        <tr><td>8</td><td>数组 vs 指针</td><td>主体对；<b>"数组名是左值"错误</b></td><td><span class="tag half">⚠️</span></td></tr>
+        <tr><td>9</td><td>中断上下文禁用 malloc/printf</td><td>不知道 → 已讲解（新学）</td><td><span class="tag new">📖</span></td></tr>
+      </tbody>
+    </table>
+    <div class="warn">⚠️ <b>看出规律了吗</b>：错的都是<b>"说反"类</b>（野指针/悬空说反、大小端说反）——不是你"不会"，是<b>两个相近概念没做对照记忆</b>。这类题的解法只有一招：<b>做成"对比表"背，不要单独背单条</b>。</div>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">2</span> ⭐ 错题纸（分类整理 · 睡前逐条过）</h2>
+
+    <h3>① 指针 / 内存（6 条）</h3>
+    <ol class="clean">
+      <li>malloc 的 <code>void*</code> 在 <b>C 中不需要强转</b>（C++ 才必须）</li>
+      <li><b>malloc 不清零</b>（内容是垃圾）；要清零用 <code>calloc</code> 或 <code>memset</code></li>
+      <li><b>内存泄漏 4 场景</b>：早 return 漏释放 / 忘析构 / 指针被覆盖丢失引用 / 循环里持续申请</li>
+      <li><b>野指针 = 地址随机</b>（未初始化），<b>≠ 内存泄漏</b></li>
+      <li><b>悬空指针 = 内存已 free、指针还留着旧地址</b>（未置 NULL）</li>
+      <li>记忆锚：<b>泄漏 = 钱没还钥匙丢了；悬空 = 房退了钥匙还在手里</b></li>
+    </ol>
+
+    <h3>② 对齐 / 位运算（4 条）</h3>
+    <ol class="clean">
+      <li>结构体<b>总大小 = 最大基础成员类型的整数倍</b></li>
+      <li><code>#pragma pack(1)</code> 的代价 = <b>非对齐访问变慢</b>（某些平台直接异常）</li>
+      <li><b>C 语言没有"逻辑异或"</b>（<code>^</code> 是按位异或；逻辑运算只有 &amp;&amp; || !）</li>
+      <li>右移：<b>无符号补 0；有符号补符号位</b>（实现定义，别依赖）</li>
+    </ol>
+
+    <h3>③ 大小端（3 条）</h3>
+    <ol class="clean">
+      <li><b>大端 = 高字节存低地址；小端 = 低字节存低地址</b>（口诀：谁在前面谁住低地址）</li>
+      <li><b>union 判断法</b>：<code>union { int i; char c; } u; u.i = 1; u.c == 1 → 小端</code></li>
+      <li><b>网络字节序 = 大端；主机序通常小端</b> → 跨平台要 <code>htons/ntohl</code> 转换</li>
+    </ol>
+
+    <h3>④ volatile（3 条）</h3>
+    <ol class="clean">
+      <li><b>volatile ≠ 线程安全</b>（只保证可见性，不保证原子性 → 要 <code>atomic</code> 或锁）</li>
+      <li><b>最经典场景是 ISR 共享变量</b>（中断改、主循环读）＋ 硬件寄存器 ＋ 多线程共享标志</li>
+      <li><b><code>const volatile</code> = 程序只读、硬件会改</b>（只读状态寄存器）</li>
+    </ol>
+
+    <h3>⑤ 其他（4 条）</h3>
+    <ol class="clean">
+      <li><b>static 局部变量在程序启动时初始化</b>（只初始化一次，之后一直存在）</li>
+      <li><b>数组名不是左值</b>（不可赋值、不能 <code>a++</code>；C++ 里称"不可修改左值"）</li>
+      <li><b>数组作形参退化为指针 → sizeof 失效</b>（所以必须另传长度）</li>
+      <li><b>ISR 禁止阻塞 / 带锁函数</b>、禁止 malloc/printf（不可重入）</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">3</span> 🔍 对比 Day1（9/21）：哪些是"真盲区"</h2>
+    <table>
+      <thead><tr><th style="width:24%">类别</th><th style="width:38%">具体</th><th>结论</th></tr></thead>
+      <tbody>
+        <tr><td><b>连续两天都错</b> 🔴</td><td>① 悬空指针（Day1 说反 → Day2 又说反）② 大小端（Day1 判断法错 → Day2 定义说反）</td><td><b>这两个是真盲区</b>，必须用<b>对比表 + 记忆锚</b>强攻，别再看单条定义</td></tr>
+        <tr><td><b>两天都通过</b> 🟢</td><td>static（Day1 讲清"存静态区"后，Day2 三点全对）</td><td>已经<b>巩固住了</b>，只需补场景举例</td></tr>
+        <tr><td><b>Day2 新发现</b> 🟡</td><td>"数组名是左值"、"C 有逻辑异或"、volatile 多线程误区、malloc 强转</td><td>细节误区，各记一条即可（已进错题纸）</td></tr>
+        <tr><td><b>Day2 新学</b> 📖</td><td>中断上下文禁用 malloc/printf（不可重入）</td><td>已讲解，明天抽查</td></tr>
+      </tbody>
+    </table>
+    <div class="talk"><b>💡 一句话结论</b>：你现在的问题<b>不是"学得少"，而是"相近概念容易串"</b>。对策很明确——<b>凡是有"两个兄弟"的知识点，一律做对比表</b>（野指针 vs 悬空 vs 泄漏、大端 vs 小端、栈 vs 堆、const 左 vs 右、volatile vs atomic）。</div>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">4</span> 🎯 四个核心薄弱点（重测优先级）</h2>
+    <table>
+      <thead><tr><th style="width:6%">序</th><th style="width:30%">薄弱点</th><th>攻法</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><b>指针三兄弟辨析</b>（野 / 悬空 / 泄漏）</td><td>画一张三方对比表：<b>触发原因 → 现象 → 后果 → 防法</b>；用"钱和钥匙"锚定</td></tr>
+        <tr><td>2</td><td><b>大小端"字节 vs 地址"</b></td><td>默写 <code>0x12345678</code> 两种布局；记<b>"谁在前面谁住低地址"</b></td></tr>
+        <tr><td>3</td><td><b>内存泄漏 4 场景</b></td><td>背成口诀：<b>早返回 / 忘析构 / 丢指针 / 循环堆</b></td></tr>
+        <tr><td>4</td><td><b>volatile 适用场景</b></td><td>只背 3 个：<b>硬件寄存器 / ISR 共享变量 / 多线程共享标志</b>；加一句"≠线程安全"</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">5</span> 📌 下一步</h2>
+    <h3>今晚优先（按序重测）</h3>
+    <ol class="clean">
+      <li>指针三兄弟 → 2. 大小端 → 3. 内存泄漏 4 场景 → 4. volatile 适用场景</li>
+    </ol>
+    <h3>待学清单（嵌入式模块，衔接冲刺计划 Day2 主线）</h3>
+    <ul class="clean">
+      <li><b>中断嵌套 / 中断优先级</b>（下一个知识点）</li>
+      <li>链表 vs 数组（含手撕：单链表反转 → 对应的下半场）</li>
+      <li><b>const 指针三兄弟</b>（与指针三兄弟一起做成对比表再记一次）</li>
+      <li>栈 vs 堆（Day1 已过，可快速复述）</li>
+      <li>回调函数（与 C/Node 双向调用项目挂钩）</li>
+    </ul>
+    <div class="ok">✅ <b>提醒</b>：<b>手撕代码 6 道仍未开练</b>（Day1 唯一欠账，华为技术面 P0）——建议今晚重测完薄弱点后，拿 20 分钟先在纸上写"字符串反转 + 判断大小端"两道最简的，把手感建立起来。</div>
+  </div>
+
+  <div class="footer">
+    记录时间：2026-09-23 22:10 · 由 AI 陪练结果汇总整理 · 本地与云端同步<br>
+    <a href="学习中心.html">学习中心</a> ·
+    <a href="嵌入式面试_3天冲刺计划_20260921.html">3 天冲刺计划</a> ·
+    <a href="嵌入式_Day1学习记录_20260921.html">Day1 记录</a> ·
+    <a href="index.html">站点首页</a>
+  </div>
+
+</div>
+</body>
+</html>
