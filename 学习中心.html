@@ -3,19 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>李鑫 · 求职学习中心（全量导航）</title>
+<title>李鑫 · 求职学习中心</title>
 <style>* { margin:0; padding:0; box-sizing:border-box; }
   body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.7; padding-bottom:60px; }
-  .hero { background:linear-gradient(135deg,#4f46e5,#7c3aed); color:#fff; padding:40px 0 34px; text-align:center; }
-  .hero h1 { font-size:26px; margin-bottom:8px; }
-  .hero .sub { font-size:14px; opacity:.92; }
+  .hero { background:linear-gradient(135deg,#4f46e5,#7c3aed); color:#fff; padding:34px 0 28px; text-align:center; }
+  .hero h1 { font-size:25px; margin-bottom:8px; }
+  .hero .sub { font-size:13.5px; opacity:.93; }
+  .hero .sub b { color:#fde68a; }
   .wrap { max-width:1020px; margin:0 auto; padding:0 18px; }
-  .sec-title { font-size:15px; font-weight:700; margin:28px 0 12px; color:#4f46e5; display:flex; align-items:center; gap:8px; }
+  .sec-title { font-size:15px; font-weight:700; margin:26px 0 12px; color:#4f46e5; display:flex; align-items:center; gap:8px; }
   .sec-title::after { content:""; flex:1; height:1px; background:#e4e8f0; }
-  .sec-title .cnt { font-size:11px; background:#eef2ff; color:#4f46e5; padding:2px 10px; border-radius:10px; font-weight:600; }
+  .sec-title.dim { color:#8b93a7; }
+  .sec-title .cnt { font-size:11px; background:#eef2ff; color:#4f46e5; padding:2px 10px; border-radius:10px; font-weight:600; white-space:nowrap; }
+  .sec-title .cnt.red { background:#fee2e2; color:#b91c1c; }
+  .sec-title .cnt.gray { background:#eef0f4; color:#6b7280; }
   .cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:14px; }
   .card { background:#fff; border:1px solid #e4e8f0; border-radius:12px; padding:16px 18px; text-decoration:none; color:inherit; transition:.15s; display:block; }
   .card:hover { border-color:#4f46e5; transform:translateY(-2px); box-shadow:0 6px 16px rgba(79,70,229,.12); }
+  .card.main { border:1.5px solid #a5b4fc; background:#fbfcff; }
   .card .t { font-size:14.5px; font-weight:700; color:#111827; margin-bottom:5px; display:flex; justify-content:space-between; align-items:center; gap:8px; }
   .card .tag { font-size:10px; background:#eef2ff; color:#4f46e5; padding:2px 8px; border-radius:10px; font-weight:600; white-space:nowrap; }
   .card .tag.green { background:#dcfce7; color:#166534; }
@@ -24,6 +29,15 @@
   .card .d { font-size:12px; color:#5b6478; }
   .card .go { font-size:12px; color:#4f46e5; margin-top:7px; font-weight:600; }
   .panel { background:#fff; border:1px solid #e4e8f0; border-radius:12px; padding:16px 20px; }
+  .today { background:#fff; border:2px solid #4f46e5; border-radius:14px; padding:18px 20px; box-shadow:0 6px 20px rgba(79,70,229,.10); }
+  .today h2 { font-size:16px; color:#4f46e5; margin-bottom:6px; }
+  .today .lead { font-size:13px; color:#5b6478; margin-bottom:12px; }
+  .today .steps { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:10px; margin:12px 0; }
+  .today .step { background:#f8f9ff; border:1px solid #e4e8f0; border-radius:9px; padding:10px 12px; font-size:12.5px; }
+  .today .step b { color:#4f46e5; display:block; margin-bottom:3px; font-size:13px; }
+  .today .btns { display:flex; flex-wrap:wrap; gap:9px; margin-top:12px; }
+  .today .btns a { background:#4f46e5; color:#fff; padding:8px 16px; border-radius:8px; text-decoration:none; font-size:13px; font-weight:600; }
+  .today .btns a.ghost { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
   .rrow { display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 14px; padding:9px 0; border-bottom:1px dashed #eceef4; font-size:13px; }
   .rrow:last-child { border-bottom:none; }
   .rrow .dir { width:76px; font-weight:700; color:#312e81; flex-shrink:0; }
@@ -34,38 +48,45 @@
   .chips { display:flex; flex-wrap:wrap; gap:8px; }
   .chip { background:#fff; border:1px solid #d8ddf0; padding:5px 13px; border-radius:16px; text-decoration:none; color:#4338ca; font-size:12.5px; }
   .chip:hover { border-color:#4f46e5; background:#eef2ff; }
+  .chip.arch { color:#6b7280; border-color:#e4e8f0; background:#fafbfd; }
   .footer { text-align:center; color:#9aa3b5; font-size:12px; margin-top:34px; }
   @media (max-width:680px){ .rrow .dir{width:100%;} }</style>
 </head>
 <body>
-<div class="hero"><h1>🏠 李鑫 · 求职学习中心</h1><div class="sub">全部资料导航 · 每份文档均可点击跳转 · 薪资 30-40 万（嵌入式 20-30）</div></div>
+<div class="hero"><h1>🏠 李鑫 · 求职学习中心</h1><div class="sub">当前主线：<b>华为引望 · 嵌入式开发（OD）</b> ｜ 远程·成都 ｜ 面试时间待定（随时可能约）</div></div>
 <div class="wrap">
-<div class="sec-title">🎯 求职核心 <span class="cnt">4</span></div><div class="cards">
-<a class="card" href="成都后端求职作战方案_李鑫.html"><div class="t">🎯 求职作战方案<span class="tag orange">40 家</span></div><div class="d">40 家分层（A/B/C/D）+ 城市抉择与求职铁律 + 30 天时间线</div><div class="go">打开 →</div></a>
-<a class="card" href="投递跟踪表_李鑫.html"><div class="t">📊 投递跟踪表<span class="tag green">打卡用</span></div><div class="d">40 家状态打卡 + 强度/稳定/长期 三维评估 + 进度可导入导出</div><div class="go">打开 →</div></a>
-<a class="card" href="求职复习进度中枢.html"><div class="t">🧠 求职复习进度中枢<span class="tag ">交互版</span></div><div class="d">每日打卡/面试记录/Offer 表 —— 跨电脑续对话的事实来源</div><div class="go">打开 →</div></a>
-<a class="card" href="智联招聘_个人优势文案.html"><div class="t">📝 在线简历文案库<span class="tag ">智联+BOSS</span></div><div class="d">智联+BOSS：个人优势 4 版 + 工作内容/业绩 + 项目经历 3 段（一键复制）</div><div class="go">打开 →</div></a>
+
+<div class="today">
+  <h2>🔥 今天做什么（每天先看这里）</h2>
+  <div class="lead">主线是 <b>嵌入式</b>——其他都是次要。每天走同一个闭环，不要东看西看。</div>
+  <div class="steps">
+    <div class="step"><b>① 读</b>点开当日计划里的<b>直达链接</b>（卡码/本地材料），15-20 分钟一篇</div>
+    <div class="step"><b>② 考</b>合上材料，跟我说「<b>今天读完了，来考</b>」→ 我按当日考核清单逐题出</div>
+    <div class="step"><b>③ 记 + 巩固</b>我记错题 + 补缺口 + 出记忆锚 → 写进学习记录推云端 → 隔日回炉</div>
+  </div>
+  <div class="btns">
+    <a href="嵌入式系统学习计划_14天_20260924.html">📅 打开每日学习计划（9/24-10/7）</a>
+    <a class="ghost" href="嵌入式_Day2学习记录_20260923.html">📙 最新错题纸（Day2）</a>
+    <a class="ghost" href="华为引望OD_嵌入式_面试突击方案_20260917.html">🚀 面试突击总纲</a>
+  </div>
 </div>
-<div class="sec-title">📄 简历库 <span class="cnt">10 HTML + 4 PDF</span></div><div class="panel">
-<div class="rrow"><span class="dir">☕ Java</span><span class="links"><a href="李鑫-Java后端工程师-社招简历.html">详版</a><a href="李鑫-Java后端-精简版.html">精简版</a><a class="f" href="李鑫 - Java后端开发工程师（社招·精简版）.pdf">PDF（投递用）</a></span></div>
-<div class="rrow"><span class="dir">📗 Node.js</span><span class="links"><a href="李鑫-Node.js高级工程师-社招简历-v3规模版.html">v3 规模版</a><a href="李鑫-Node.js高级工程师-社招简历-优化版.html">优化版</a><a href="李鑫-Node.js高级-精简版.html">精简版</a><a class="f" href="李鑫 - Node.js高级-精简版.pdf">PDF（投递用）</a></span></div>
-<div class="rrow"><span class="dir">🔧 嵌入式</span><span class="links"><a href="李鑫-嵌入式开发工程师-OD版.html">⭐OD 版（投引望）</a><a href="李鑫-嵌入式软件开发工程师-社招简历.html">详版</a><a href="李鑫-嵌入式软件-精简版.html">精简版</a><a class="f" href="李鑫 - 嵌入式_网络通信软件工程师（社招·精简版）.pdf">PDF（投递用）</a></span></div>
-<div class="rrow"><span class="dir">🤖 AI 全栈</span><span class="links"><a href="李鑫-AI全栈开发工程师-社招简历.html">详版</a><a href="李鑫-AI全栈-精简版.html">精简版</a><a class="f" href="李鑫 - AI应用全栈开发工程师（社招·精简版）.pdf">PDF（投递用）</a></span></div>
-<div class="note">💡 规则：投递前改薪资/内容 → 改对应 HTML → 浏览器 Ctrl+P 出 PDF（背景图形勾选）→ 覆盖原 PDF。精简版为 2 页投递版，详版用于精投。</div>
+
+<div class="sec-title">🔥 主线 · 华为引望嵌入式 OD <span class="cnt red">优先级最高</span></div><div class="cards">
+<a class="card main" href="嵌入式系统学习计划_14天_20260924.html"><div class="t">📅 每日学习计划（14 天）<span class="tag red">每天用</span></div><div class="d">90 个任务 + <b>41 条卡码直达链接</b> + 每天「🎯 学完找我考」考核清单；四阶段：C 语言地基 → 嵌入式核心 → MCU/基础/话术 → 全真模拟</div><div class="go">打开 →</div></a>
+<a class="card" href="华为引望OD_嵌入式_面试突击方案_20260917.html"><div class="t">🚀 引望 OD 面试突击方案<span class="tag red">总纲</span></div><div class="d">岗位与流程预判 + 攻防策略 + 嵌入式版自我介绍 + 必答 10 题 + <b>手撕代码 6 道（C 代码全给）</b> + 项目深挖 + HR/OD 话题 + 备战节奏与环境清单</div><div class="go">打开 →</div></a>
+<a class="card" href="嵌入式面试高频题_20260917.html"><div class="t">🎯 嵌入式面试高频题<span class="tag red">36 题</span></div><div class="d">C 语言 13 + 中断 4 + RTOS 5 + 四大总线 5 + MCU 5 + Linux 4，每题含结论与话术（折叠式，可快速展开）</div><div class="go">打开 →</div></a>
+<a class="card" href="嵌入式面试_无经验应对话术_20260917.html"><div class="t">💬「无经验」应对话术<span class="tag red">必背</span></div><div class="d">转岗标准话术（坦诚承认 + 三点契合 + 学习证据）+ C 双向调用项目 8 个深挖问答 + 禁止话术清单</div><div class="go">打开 →</div></a>
+<a class="card" href="学习资源_卡码笔记八股_嵌入式取舍指南_20260924.html"><div class="t">🧭 卡码笔记取舍指南<span class="tag green">省时间</span></div><div class="d">卡码笔记怎么用在嵌入式岗：该学哪几章 / <b>该跳哪几章</b>（数据库+Redis 全跳）+ 缺失考点对照 + 复习顺序</div><div class="go">打开 →</div></a>
+<a class="card" href="嵌入式_Day1学习记录_20260921.html"><div class="t">📘 学习记录 · Day1<span class="tag orange">9/21</span></div><div class="d">C 语言 Q1-Q10 陪练实况 + 深挖产出 14 条 + 错题纸 5 条</div><div class="go">打开 →</div></a>
+<a class="card" href="嵌入式_Day2学习记录_20260923.html"><div class="t">📙 学习记录 · Day2<span class="tag orange">9/23</span></div><div class="d">9 题重测判定 + <b>错题纸分类 20 条</b> + 真盲区识别（悬空指针 / 大小端连续两天错）+ 薄弱点攻法</div><div class="go">打开 →</div></a>
 </div>
-<div class="sec-title">📖 面试准备 <span class="cnt">复习计划 + 索引 + 24 手册 + 八股 PDF</span></div><div class="cards"><a class="card" href="嵌入式系统学习计划_14天_20260924.html"><div class="t">📚 嵌入式每日学习计划 14 天<span class="tag red">9/24-10/7 · 带链接+考核</span></div><div class="d">90 个任务 · 每天三步：<b>点链接读 → 找我考核 → 我记错题</b>（41 条卡码直达链接 + 每天「学完找我考」清单）；含 STM32 两个动手 demo 与 4 个检查点</div><div class="go">打开 →</div></a>
-<a class="card" href="嵌入式面试_3天冲刺计划_20260921.html"><div class="t">⚡ 嵌入式 3 天冲刺计划<span class="tag green">9/21 起 · 可勾选</span></div><div class="d">执行清单：Day1 C 语言 13 题 + 手撕 6 道 + 自我介绍 · Day2 中断/RTOS/总线/MCU + 无经验话术 · Day3 全真模拟 + 环境演练；87 个可勾选任务 + 每日闭卷自测</div><div class="go">打开 →</div></a><a class="card" href="嵌入式_Day1学习记录_20260921.html"><div class="t">📘 Day1 学习记录<span class="tag red">9/21 实况</span></div><div class="d">过题实况（Q1/Q2 半过含复盘）+ 深挖产出 14 条知识（指针算术/数组指针/C 模拟 OOP/虚函数考点）+ 错题纸 5 条 + 今晚剩余任务</div><div class="go">打开 →</div></a>
-<a class="card" href="嵌入式_Day2学习记录_20260923.html"><div class="t">📙 Day2 学习记录<span class="tag red">9/23 重测</span></div><div class="d">9 题重测（✅1 ⚠️5 ❌2 📖1）+ 错题纸分类 20 条 + 对比 Day1 识别真盲区（悬空指针 &amp; 大小端连续两天错）+ 4 个薄弱点攻法 + 待学清单</div><div class="go">打开 →</div></a>
-<a class="card" href="华为引望OD_嵌入式_面试突击方案_20260917.html"><div class="t">🚀 引望 OD 嵌入式突击方案<span class="tag red">总纲 · 新</span></div><div class="d">流程预判 + 攻防策略 + 嵌入式版自我介绍 + 必答 10 题 + 手撕代码 6 道（C 代码全给）+ 项目深挖 + HR/OD 特有话题 + 冲刺计划</div><div class="go">打开 →</div></a>
-<a class="card" href="嵌入式面试高频题_20260917.html"><div class="t">🎯 嵌入式面试高频题<span class="tag red">36 题 · 新</span></div><div class="d">C 语言（指针/函数指针/volatile/内存）+ 中断 + RTOS + 四大总线对比 + MCU 基础 + Linux，每题含结论与话术</div><div class="go">打开 →</div></a>
-<a class="card" href="嵌入式面试_无经验应对话术_20260917.html"><div class="t">💬 嵌入式「无经验」应对话术<span class="tag red">必背</span></div><div class="d">转岗标准话术（坦诚承认 + 三点契合 + 学习证据）+ C 双向调用项目 8 个深挖问答 + 禁止话术清单</div><div class="go">打开 →</div></a>
-<a class="card" href="学习资源_卡码笔记八股_嵌入式取舍指南_20260924.html"><div class="t">🧭 卡码笔记取舍指南<span class="tag red">省时间</span></div><div class="d">卡码笔记八股（kamacoder）怎么用在嵌入式岗：该学哪几章 / 该跳哪几章（数据库+Redis 全跳）+ 缺失考点对照已有材料 + 复习顺序</div><div class="go">打开 →</div></a>
-<a class="card" href="面试复盘_活跃网络_20260911.html"><div class="t">🔍 面试复盘 · 活跃网络<span class="tag orange">9/11 实况</span></div><div class="d">46 分钟录音转写分析：15 题表现评分（好5/中5/差6）+ 5 大短板 + 面试官透露的真实业务信息</div><div class="go">打开 →</div></a>
-<a class="card" href="面试八股复习计划_李鑫.html"><div class="t">📖 面试八股复习计划<span class="tag green">89 题</span></div><div class="d">89 题勾选打卡（含 SpringCloud/性能优化）+ 跨设备导入导出</div><div class="go">打开 →</div></a>
+
+<div class="sec-title">📖 通用面试准备（次线） <span class="cnt">主战场之外再看</span></div><div class="cards">
+<a class="card" href="面试八股复习计划_李鑫.html"><div class="t">📖 面试八股复习计划<span class="tag green">89 题</span></div><div class="d">89 题勾选打卡（后端向）+ 跨设备导入导出</div><div class="go">打开 →</div></a>
 <a class="card" href="学习手册索引.html"><div class="t">📚 学习手册索引<span class="tag ">24/24</span></div><div class="d">24 本手册总览与学习路径（01-24 快速跳转）</div><div class="go">打开 →</div></a>
-<a class="card" href="八股文分类完全整理版.pdf"><div class="t">🗞️ 八股文 PDF<span class="tag orange">PDF</span></div><div class="d">Java 向全量八股（78 页 PDF，浏览器内直接查看）</div><div class="go">打开 →</div></a>
-<a class="card" href="活跃网络_Node.js后端_面试突击方案_20260911.html"><div class="t">🚀 面试突击方案<span class="tag ">🆕</span></div><div class="d">活跃网络 · Node.js 后端面试突击方案（2026-09-11）</div><div class="go">打开 →</div></a>
+<a class="card" href="八股文分类完全整理版.pdf"><div class="t">🗞️ 八股文 PDF<span class="tag orange">78 页</span></div><div class="d">Java 向全量八股（浏览器内直接查看）</div><div class="go">打开 →</div></a>
 </div>
+
 <div class="panel" style="margin-top:12px;"><div class="chips">
 <a class="chip" href="学习手册_01_计算机网络.html">📘 01 计算机网络</a>
 <a class="chip" href="学习手册_02_MySQL核心.html">📘 02 MySQL 核心</a>
@@ -91,8 +112,30 @@
 <a class="chip" href="学习手册_22_RRM无线资源管理_讲述卡.html">📘 22 RRM 讲述卡</a>
 <a class="chip" href="学习手册_23_招银网络面经_标准答案.html">📘 23 招银网络面经</a>
 <a class="chip" href="学习手册_24_23种设计模式精讲.html">📘 24 23种设计模式精讲</a>
-</div><div class="note">💡 手册均为"练习题+课本"双形态：先复习计划勾题，再开手册学详解。手册 11 是设计模式速答版，手册 24 是同主题系统精讲版（23 种模式完整教程）。</div></div>
+</div><div class="note">💡 手册均为"练习题+课本"双形态：先复习计划勾题，再开手册学详解。手册 11 是设计模式速答版，手册 24 是同主题系统精讲版（23 种模式完整教程）。<b>嵌入式主线期间，手册按需查即可，别当主线读。</b></div></div>
+
+<div class="sec-title">📊 求职管理 <span class="cnt">投递 / 进度 / 薪资谈判</span></div><div class="cards">
+<a class="card" href="成都后端求职作战方案_李鑫.html"><div class="t">🎯 求职作战方案<span class="tag orange">40 家</span></div><div class="d">40 家分层（A/B/C/D）+ 城市抉择与求职铁律 + 30 天时间线</div><div class="go">打开 →</div></a>
+<a class="card" href="投递跟踪表_李鑫.html"><div class="t">📊 投递跟踪表<span class="tag green">打卡用</span></div><div class="d">40 家状态打卡 + 强度/稳定/长期 三维评估 + 进度可导入导出</div><div class="go">打开 →</div></a>
+<a class="card" href="求职复习进度中枢.html"><div class="t">🧠 求职复习进度中枢<span class="tag ">交互版</span></div><div class="d">每日打卡 / 面试记录 / Offer 表 —— 跨电脑续对话的事实来源</div><div class="go">打开 →</div></a>
+<a class="card" href="智联招聘_个人优势文案.html"><div class="t">📝 在线简历文案库<span class="tag ">智联+BOSS</span></div><div class="d">个人优势 4 版 + 工作内容/业绩 + 项目经历 3 段（一键复制）</div><div class="go">打开 →</div></a>
 </div>
-<div class="footer">求职资料库 · 学习中心全量导航 · 改动后 git commit &amp; push 即可同步双端</div>
+
+<div class="sec-title">📄 简历库 <span class="cnt">8 HTML + 4 PDF</span></div><div class="panel">
+<div class="rrow"><span class="dir">🔧 嵌入式</span><span class="links"><a href="李鑫-嵌入式开发工程师-OD版.html">⭐OD 版（投引望）</a><a href="李鑫-嵌入式软件开发工程师-社招简历.html">详版</a><a href="李鑫-嵌入式软件-精简版.html">精简版</a><a class="f" href="李鑫 - 嵌入式_网络通信软件工程师（社招·精简版）.pdf">PDF（投递用）</a></span></div>
+<div class="rrow"><span class="dir">☕ Java</span><span class="links"><a href="李鑫-Java后端工程师-社招简历.html">详版</a><a href="李鑫-Java后端-精简版.html">精简版</a><a class="f" href="李鑫 - Java后端开发工程师（社招·精简版）.pdf">PDF（投递用）</a></span></div>
+<div class="rrow"><span class="dir">📗 Node.js</span><span class="links"><a href="李鑫-Node.js高级工程师-社招简历-v3规模版.html">v3 规模版</a><a href="李鑫-Node.js高级工程师-社招简历-优化版.html">优化版</a><a href="李鑫-Node.js高级-精简版.html">精简版</a><a class="f" href="李鑫 - Node.js高级-精简版.pdf">PDF（投递用）</a></span></div>
+<div class="rrow"><span class="dir">🤖 AI 全栈</span><span class="links"><a href="李鑫-AI全栈开发工程师-社招简历.html">详版</a><a href="李鑫-AI全栈-精简版.html">精简版</a><a class="f" href="李鑫 - AI应用全栈开发工程师（社招·精简版）.pdf">PDF（投递用）</a></span></div>
+<div class="note">💡 投递前改薪资/内容 → 改对应 HTML → 浏览器 Ctrl+P 出 PDF（背景图形勾选）→ 覆盖原 PDF。<b>当前主投嵌入式，用 OD 版。</b></div>
+</div>
+
+<div class="sec-title dim">🗂 存档（当前不用） <span class="cnt gray">已完成 / 已挂，留作复盘</span></div><div class="panel"><div class="chips">
+<a class="chip arch" href="嵌入式面试_3天冲刺计划_20260921.html">⚡ 嵌入式 3 天冲刺计划（已被 14 天计划取代）</a>
+<a class="chip arch" href="活跃网络_Node.js后端_面试突击方案_20260911.html">🚀 活跃网络突击方案（9/11）</a>
+<a class="chip arch" href="面试复盘_活跃网络_20260911.html">🔍 活跃网络面试复盘（46min 录音）</a>
+</div><div class="note">活跃网络已结束（练手场，价值已兑现＝完整复盘 + 6 道代码题解析）。<b>只在复盘时回来翻，别当主线。</b></div></div>
+
+</div>
+<div class="footer">求职资料库 · 学习中心 · 改动后 git commit &amp; push 即可同步双端</div>
 </body>
 </html>
