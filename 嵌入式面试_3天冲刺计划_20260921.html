@@ -103,36 +103,36 @@
     <div class="day-tip">今日目标：<b>C 语言 13 题能脱口而出 + 6 道手撕能白板写出来 + 自我介绍背熟</b>。白天摸鱼时间先过一轮概念，晚上集中打硬仗。</div>
 
     <h3>☀️ 白天碎片（合计 20 分钟，手机就能做）</h3>
-    <label class="task"><input type="checkbox" data-id="d1-s1"><span class="tx"><b>摸鱼 10 分钟</b>：用手机打开云端链接，把《嵌入式面试高频题》§1 的 1–6 题扫一遍<b>（只求眼熟，不求记住）</b><span class="meta">目的：晚上正式学时降低陌生感，效率翻倍</span></span></label>
-    <label class="task"><input type="checkbox" data-id="d1-s2"><span class="tx"><b>通勤/午休 10 分钟</b>：背三个口诀 —— volatile（可见性≠原子性）· const（左锁值右锁指针）· static（局部延长生命周期／全局限文件可见）<span class="meta">这三题是华子最爱开场的暖场题，必须条件反射级</span></span></label>
+    <div class="task"><input type="checkbox" data-id="d1-s1"><span class="tx"><b>摸鱼 10 分钟</b>：用手机打开云端链接，把《嵌入式面试高频题》§1 的 1–6 题扫一遍<b>（只求眼熟，不求记住）</b><span class="meta">目的：晚上正式学时降低陌生感，效率翻倍</span></span></div>
+    <div class="task"><input type="checkbox" data-id="d1-s2"><span class="tx"><b>通勤/午休 10 分钟</b>：背三个口诀 —— volatile（可见性≠原子性）· const（左锁值右锁指针）· static（局部延长生命周期／全局限文件可见）<span class="meta">这三题是华子最爱开场的暖场题，必须条件反射级</span></span></div>
 
     <h3>🌙 主攻一（19:30–20:40）：C 语言核心 13 题</h3>
-    <label class="task"><input type="checkbox" data-id="d1-1"><span class="tx"><b>题 1–6 口述</b>：指针 vs 数组 · <b>函数指针</b> · 野/空/悬空指针 · <b>volatile</b> · const 四个位置 · static<span class="meta">材料：高频题 §1（题号 1–6）＋突击方案 §4 的 ①②③④（表格对照背）｜<b>用"说"不用"看"——说卡了才算没记住</b></span></span></label>
-    <label class="task"><input type="checkbox" data-id="d1-2"><span class="tx"><b>题 7–10 口述</b>：堆 vs 栈 · malloc/free 注意事项与内存泄漏 · <b>结构体内存对齐</b> · 判断大小端<span class="meta">对齐两条规则必须能秒答：① 成员起始地址是自身大小整数倍 ② 结构体总大小是最大成员大小整数倍｜<b>追问"为什么要对齐"要答得出</b></span></span></label>
-    <label class="task"><input type="checkbox" data-id="d1-3"><span class="tx"><b>题 11–13 口述</b>：位操作（置位/清位/取反/判断） · 宏 vs 函数 · sizeof vs strlen<span class="meta">位操作口诀：置位 <code>|= (1&lt;&lt;n)</code>、清位 <code>&amp;= ~(1&lt;&lt;n)</code>、取反 <code>^= (1&lt;&lt;n)</code>、判断 <code>&amp; (1&lt;&lt;n)</code>｜引申：寄存器操作就是这么干的</span></span></label>
-    <label class="task"><input type="checkbox" data-id="d1-4"><span class="tx"><b>补齐"必答 10 题"里的 C 部分</b>：突击方案 §4 的 ⑤内存对齐 ⑥堆栈 完成后，把这 6 道标上「已能说 60 秒」<span class="meta">材料：<a href="华为引望OD_嵌入式_面试突击方案_20260917.html" target="_blank">突击方案 §4</a></span></span></label>
+    <div class="task"><input type="checkbox" data-id="d1-1"><span class="tx"><b>题 1–6 口述</b>：指针 vs 数组 · <b>函数指针</b> · 野/空/悬空指针 · <b>volatile</b> · const 四个位置 · static<span class="meta">材料：高频题 §1（题号 1–6）＋突击方案 §4 的 ①②③④（表格对照背）｜<b>用"说"不用"看"——说卡了才算没记住</b></span></span></div>
+    <div class="task"><input type="checkbox" data-id="d1-2"><span class="tx"><b>题 7–10 口述</b>：堆 vs 栈 · malloc/free 注意事项与内存泄漏 · <b>结构体内存对齐</b> · 判断大小端<span class="meta">对齐两条规则必须能秒答：① 成员起始地址是自身大小整数倍 ② 结构体总大小是最大成员大小整数倍｜<b>追问"为什么要对齐"要答得出</b></span></span></div>
+    <div class="task"><input type="checkbox" data-id="d1-3"><span class="tx"><b>题 11–13 口述</b>：位操作（置位/清位/取反/判断） · 宏 vs 函数 · sizeof vs strlen<span class="meta">位操作口诀：置位 <code>|= (1&lt;&lt;n)</code>、清位 <code>&amp;= ~(1&lt;&lt;n)</code>、取反 <code>^= (1&lt;&lt;n)</code>、判断 <code>&amp; (1&lt;&lt;n)</code>｜引申：寄存器操作就是这么干的</span></span></div>
+    <div class="task"><input type="checkbox" data-id="d1-4"><span class="tx"><b>补齐"必答 10 题"里的 C 部分</b>：突击方案 §4 的 ⑤内存对齐 ⑥堆栈 完成后，把这 6 道标上「已能说 60 秒」<span class="meta">材料：<a href="华为引望OD_嵌入式_面试突击方案_20260917.html" target="_blank">突击方案 §4</a></span></span></div>
 
     <h3>🌙 主攻二（20:40–21:50）：手撕代码 6 道 —— 必须纸上手写</h3>
     <div class="warn">⚠️ <b>不要去 IDE 里敲</b>。远程面试大概率让你共享屏幕写或举纸给面试官看。拿 A4 纸 + 笔，写完拍照存手机。</div>
-    <label class="task"><input type="checkbox" data-id="d1-5"><span class="tx"><b>① 字符串反转</b>（不额外申请空间）—— 先判空是加分项<span class="meta">口诀：双指针 i/j 向中间夹，交换后 i++ j--</span></span></label>
-    <label class="task"><input type="checkbox" data-id="d1-6"><span class="tx"><b>② 实现 memcpy</b>（考内存重叠）—— 判方向：目标落在源区间内就从后往前拷<span class="meta"><b>这道是分水岭题</b>，能主动说出"内存重叠"就赢一半</span></span></label>
-    <label class="task"><input type="checkbox" data-id="d1-7"><span class="tx"><b>③ 单链表反转</b> —— 三指针 prev/head/next，先存后继再改指向<span class="meta">热点第二名，函数指针题之后最常考</span></span></label>
-    <label class="task"><input type="checkbox" data-id="d1-8"><span class="tx"><b>④ 统计二进制中 1 的个数</b> —— <code>n &amp;= (n-1)</code> 每次消最低位的 1<span class="meta">要能对比"逐位判断"和"巧解"的复杂度差异</span></span></label>
-    <label class="task"><input type="checkbox" data-id="d1-9"><span class="tx"><b>⑤ 判断大小端 / 字节序转换</b> —— union 或 <code>*(char*)&amp;i</code> 两种写法都写一遍</span></label>
-    <label class="task"><input type="checkbox" data-id="d1-10"><span class="tx"><b>⑥ 环形缓冲区</b> —— 写指针 / 读指针 / 判空判满 / 取模 vs 位与<span class="meta"><b>超高频</b>：串口收发必用。要能<b>画图讲</b>（画一圈 + 两个指针 + 满/空两种状态）｜突击方案 §5 ⑥ 有三层递进讲解</span></span></label>
-    <label class="task"><input type="checkbox" data-id="d1-11"><span class="tx"><b>六道全部复写一遍</b>，每道主动说边界：空指针 / 长度 0 / 内存重叠<span class="meta">华子面试官很看重"写完主动自查边界"这个动作</span></span></label>
+    <div class="task"><input type="checkbox" data-id="d1-5"><span class="tx"><b>① 字符串反转</b>（不额外申请空间）—— 先判空是加分项<span class="meta">口诀：双指针 i/j 向中间夹，交换后 i++ j--</span></span></div>
+    <div class="task"><input type="checkbox" data-id="d1-6"><span class="tx"><b>② 实现 memcpy</b>（考内存重叠）—— 判方向：目标落在源区间内就从后往前拷<span class="meta"><b>这道是分水岭题</b>，能主动说出"内存重叠"就赢一半</span></span></div>
+    <div class="task"><input type="checkbox" data-id="d1-7"><span class="tx"><b>③ 单链表反转</b> —— 三指针 prev/head/next，先存后继再改指向<span class="meta">热点第二名，函数指针题之后最常考</span></span></div>
+    <div class="task"><input type="checkbox" data-id="d1-8"><span class="tx"><b>④ 统计二进制中 1 的个数</b> —— <code>n &amp;= (n-1)</code> 每次消最低位的 1<span class="meta">要能对比"逐位判断"和"巧解"的复杂度差异</span></span></div>
+    <div class="task"><input type="checkbox" data-id="d1-9"><span class="tx"><b>⑤ 判断大小端 / 字节序转换</b> —— union 或 <code>*(char*)&amp;i</code> 两种写法都写一遍</span></div>
+    <div class="task"><input type="checkbox" data-id="d1-10"><span class="tx"><b>⑥ 环形缓冲区</b> —— 写指针 / 读指针 / 判空判满 / 取模 vs 位与<span class="meta"><b>超高频</b>：串口收发必用。要能<b>画图讲</b>（画一圈 + 两个指针 + 满/空两种状态）｜突击方案 §5 ⑥ 有三层递进讲解</span></span></div>
+    <div class="task"><input type="checkbox" data-id="d1-11"><span class="tx"><b>六道全部复写一遍</b>，每道主动说边界：空指针 / 长度 0 / 内存重叠<span class="meta">华子面试官很看重"写完主动自查边界"这个动作</span></span></div>
 
     <h3>🌙 主攻三（21:50–22:20）：自我介绍 + 项目话术（录音）</h3>
-    <label class="task"><input type="checkbox" data-id="d1-12"><span class="tx"><b>中文 60 秒自我介绍</b>背到脱口而出，<b>录音回放</b>删口头禅<span class="meta">材料：<a href="华为引望OD_嵌入式_面试突击方案_20260917.html" target="_blank">突击方案 §3</a>｜铁律：<b>C 语言必须在前 30 秒出现</b>，禁止说"我做过嵌入式"</span></span></label>
-    <label class="task"><input type="checkbox" data-id="d1-13"><span class="tx"><b>项目概述 30 秒版</b>（被问"介绍下你的项目"时用）—— C/Node 双向调用讲清楚<span class="meta">材料：突击方案 §3 + §6｜这段是你的王牌，必须像条件反射一样顺</span></span></label>
+    <div class="task"><input type="checkbox" data-id="d1-12"><span class="tx"><b>中文 60 秒自我介绍</b>背到脱口而出，<b>录音回放</b>删口头禅<span class="meta">材料：<a href="华为引望OD_嵌入式_面试突击方案_20260917.html" target="_blank">突击方案 §3</a>｜铁律：<b>C 语言必须在前 30 秒出现</b>，禁止说"我做过嵌入式"</span></span></div>
+    <div class="task"><input type="checkbox" data-id="d1-13"><span class="tx"><b>项目概述 30 秒版</b>（被问"介绍下你的项目"时用）—— C/Node 双向调用讲清楚<span class="meta">材料：突击方案 §3 + §6｜这段是你的王牌，必须像条件反射一样顺</span></span></div>
 
     <h3>✅ Day 1 闭卷自测（不看书，能答完才算过关）</h3>
-    <label class="task"><input type="checkbox" data-id="d1-t1"><span class="tx">volatile 能说出「<b>只保证可见性，不能保证原子性</b>」</span></label>
-    <label class="task"><input type="checkbox" data-id="d1-t2"><span class="tx">const 四个位置能秒答（<code>const int *p</code> / <code>int * const p</code> / <code>const int * const p</code> / <code>const int a</code>）</span></label>
-    <label class="task"><input type="checkbox" data-id="d1-t3"><span class="tx">内存对齐两条规则 + <b>为什么对齐</b>（硬件按字长取数、不对齐要拆两次访问）</span></label>
-    <label class="task"><input type="checkbox" data-id="d1-t4"><span class="tx">memcpy 内存重叠的方向判断能讲清（<code>d &gt; s &amp;&amp; d &lt; s+n</code> → 从后往前）</span></label>
-    <label class="task"><input type="checkbox" data-id="d1-t5"><span class="tx">环形缓冲区能画图讲：读指针/写指针/判空/判满</span></label>
-    <label class="task"><input type="checkbox" data-id="d1-t6"><span class="tx">把今天卡壳的题抄到一页<b>「错题纸」</b>上，明天早上先过这张纸</span></label>
+    <div class="task"><input type="checkbox" data-id="d1-t1"><span class="tx">volatile 能说出「<b>只保证可见性，不能保证原子性</b>」</span></div>
+    <div class="task"><input type="checkbox" data-id="d1-t2"><span class="tx">const 四个位置能秒答（<code>const int *p</code> / <code>int * const p</code> / <code>const int * const p</code> / <code>const int a</code>）</span></div>
+    <div class="task"><input type="checkbox" data-id="d1-t3"><span class="tx">内存对齐两条规则 + <b>为什么对齐</b>（硬件按字长取数、不对齐要拆两次访问）</span></div>
+    <div class="task"><input type="checkbox" data-id="d1-t4"><span class="tx">memcpy 内存重叠的方向判断能讲清（<code>d &gt; s &amp;&amp; d &lt; s+n</code> → 从后往前）</span></div>
+    <div class="task"><input type="checkbox" data-id="d1-t5"><span class="tx">环形缓冲区能画图讲：读指针/写指针/判空/判满</span></div>
+    <div class="task"><input type="checkbox" data-id="d1-t6"><span class="tx">把今天卡壳的题抄到一页<b>「错题纸」</b>上，明天早上先过这张纸</span></div>
   </div>
 
   <!-- ============ DAY 2 ============ -->
@@ -144,47 +144,47 @@
     <div class="day-tip">今日目标：<b>把"我没有嵌入式经验"这个话题的支撑面全部铺满</b>——这 19 题答得出来，话术才立得住。</div>
 
     <h3>☀️ 白天碎片（20 分钟）</h3>
-    <label class="task"><input type="checkbox" data-id="d2-s1"><span class="tx"><b>早上 5 分钟</b>：过 Day 1 的错题纸<span class="meta">遗忘曲线最陡的就是这 12 小时</span></span></label>
-    <label class="task"><input type="checkbox" data-id="d2-s2"><span class="tx"><b>午休 15 分钟</b>：把 CAN 总线 + 优先级反转两个概念先眼熟一遍（晚上重点）<span class="meta">这两道是汽车电子岗的核心考点，也是你最容易被问倒的地方</span></span></label>
+    <div class="task"><input type="checkbox" data-id="d2-s1"><span class="tx"><b>早上 5 分钟</b>：过 Day 1 的错题纸<span class="meta">遗忘曲线最陡的就是这 12 小时</span></span></div>
+    <div class="task"><input type="checkbox" data-id="d2-s2"><span class="tx"><b>午休 15 分钟</b>：把 CAN 总线 + 优先级反转两个概念先眼熟一遍（晚上重点）<span class="meta">这两道是汽车电子岗的核心考点，也是你最容易被问倒的地方</span></span></div>
 
     <h3>🌙 主攻一（19:30–20:15）：中断与系统（4 题）</h3>
-    <label class="task"><input type="checkbox" data-id="d2-1"><span class="tx"><b>题 14 中断 vs 轮询</b>（必考）—— 事件驱动 vs 主循环轮询，实时性/功耗/CPU 占用三个维度对比<span class="meta">要能说选型依据：低频低速用轮询，实时性高/低功耗必须中断</span></span></label>
-    <label class="task"><input type="checkbox" data-id="d2-2"><span class="tx"><b>题 15 中断嵌套 + 优先级</b> —— 高优先级可打断低优先级，注意栈深度与临界区</span></label>
-    <label class="task"><input type="checkbox" data-id="d2-3"><span class="tx"><b>题 16 ISR 注意事项</b> —— ① 尽量短 ② 不能阻塞/延时 ③ 共享变量加 volatile ④ 临界区保护 ⑤ 不用不可重入函数（printf）<span class="meta">这五条要能一口气说完，是嵌入式修养的体现</span></span></label>
-    <label class="task"><input type="checkbox" data-id="d2-4"><span class="tx"><b>题 17 中断 vs 异常</b> —— 同步（异常，如除零/缺页）vs 异步（中断，外设触发）</span></label>
+    <div class="task"><input type="checkbox" data-id="d2-1"><span class="tx"><b>题 14 中断 vs 轮询</b>（必考）—— 事件驱动 vs 主循环轮询，实时性/功耗/CPU 占用三个维度对比<span class="meta">要能说选型依据：低频低速用轮询，实时性高/低功耗必须中断</span></span></div>
+    <div class="task"><input type="checkbox" data-id="d2-2"><span class="tx"><b>题 15 中断嵌套 + 优先级</b> —— 高优先级可打断低优先级，注意栈深度与临界区</span></div>
+    <div class="task"><input type="checkbox" data-id="d2-3"><span class="tx"><b>题 16 ISR 注意事项</b> —— ① 尽量短 ② 不能阻塞/延时 ③ 共享变量加 volatile ④ 临界区保护 ⑤ 不用不可重入函数（printf）<span class="meta">这五条要能一口气说完，是嵌入式修养的体现</span></span></div>
+    <div class="task"><input type="checkbox" data-id="d2-4"><span class="tx"><b>题 17 中断 vs 异常</b> —— 同步（异常，如除零/缺页）vs 异步（中断，外设触发）</span></div>
 
     <h3>🌙 主攻二（20:15–21:00）：RTOS（5 题）</h3>
-    <label class="task"><input type="checkbox" data-id="d2-5"><span class="tx"><b>题 18 裸机 vs RTOS 怎么选</b> —— 任务数量/实时性要求/复杂度三个维度<span class="meta">送分题，但要答得有条理（面试官在看你有没有工程判断力）</span></span></label>
-    <label class="task"><input type="checkbox" data-id="d2-6"><span class="tx"><b>题 19 RTOS 任务调度机制</b> —— 抢占式 + 时间片轮转，优先级 + 就绪队列<span class="meta">必须能说出 FreeRTOS 的调度器在 SysTick 中断里跑</span></span></label>
-    <label class="task"><input type="checkbox" data-id="d2-7"><span class="tx"><b>题 20 优先级反转 + 怎么解决</b>（★重点）—— 低优先级持锁 → 高优先级被阻塞 → 中优先级抢占执行 → 高优先级被"间接拖住"；解：<b>优先级继承</b>（FreeRTOS mutex 支持）或优先级天花板<span class="meta">要能讲出"三方角色"的完整故事链，只说名词是拿不到分的</span></span></label>
-    <label class="task"><input type="checkbox" data-id="d2-8"><span class="tx"><b>题 21 信号量 vs 互斥锁</b> —— 信号量用于同步/资源计数，可被多任务释放；互斥锁用于临界区保护，<b>谁加锁谁解锁</b>，通常带优先级继承</span></label>
-    <label class="task"><input type="checkbox" data-id="d2-9"><span class="tx"><b>题 22 任务间通信方式</b> —— 信号量 / 消息队列 / 事件标志组 / 邮箱 / 任务通知（FreeRTOS）<span class="meta">补充：ISR 里不能用阻塞 API，要用 <code>FromISR</code> 版本</span></span></label>
+    <div class="task"><input type="checkbox" data-id="d2-5"><span class="tx"><b>题 18 裸机 vs RTOS 怎么选</b> —— 任务数量/实时性要求/复杂度三个维度<span class="meta">送分题，但要答得有条理（面试官在看你有没有工程判断力）</span></span></div>
+    <div class="task"><input type="checkbox" data-id="d2-6"><span class="tx"><b>题 19 RTOS 任务调度机制</b> —— 抢占式 + 时间片轮转，优先级 + 就绪队列<span class="meta">必须能说出 FreeRTOS 的调度器在 SysTick 中断里跑</span></span></div>
+    <div class="task"><input type="checkbox" data-id="d2-7"><span class="tx"><b>题 20 优先级反转 + 怎么解决</b>（★重点）—— 低优先级持锁 → 高优先级被阻塞 → 中优先级抢占执行 → 高优先级被"间接拖住"；解：<b>优先级继承</b>（FreeRTOS mutex 支持）或优先级天花板<span class="meta">要能讲出"三方角色"的完整故事链，只说名词是拿不到分的</span></span></div>
+    <div class="task"><input type="checkbox" data-id="d2-8"><span class="tx"><b>题 21 信号量 vs 互斥锁</b> —— 信号量用于同步/资源计数，可被多任务释放；互斥锁用于临界区保护，<b>谁加锁谁解锁</b>，通常带优先级继承</span></div>
+    <div class="task"><input type="checkbox" data-id="d2-9"><span class="tx"><b>题 22 任务间通信方式</b> —— 信号量 / 消息队列 / 事件标志组 / 邮箱 / 任务通知（FreeRTOS）<span class="meta">补充：ISR 里不能用阻塞 API，要用 <code>FromISR</code> 版本</span></span></div>
 
     <h3>🌙 主攻三（21:00–21:40）：通信总线（5 题）</h3>
-    <label class="task"><input type="checkbox" data-id="d2-10"><span class="tx"><b>题 23–25 UART / SPI / I2C</b> —— 各自的线数、速率、主从关系、典型场景<span class="meta">UART：异步、无时钟线、点对点｜SPI：同步、4 线、全双工、最快｜I2C：2 线、多从机、有地址、速度慢</span></span></label>
-    <label class="task"><input type="checkbox" data-id="d2-11"><span class="tx"><b>题 26 CAN 总线特点</b>（★汽车电子核心）—— 差分抗干扰 / 多主广播 / <b>ID 越小优先级越高 + 非破坏性仲裁</b> / CRC + 应答 / 125K–1Mbps（CAN FD 更快）<span class="meta"><b>迁移话术</b>：我做过 802.11 的 CSMA/CA 信道竞争，CAN 的 ID 仲裁本质也是"总线竞争 + 优先级"，思路相通</span></span></label>
-    <label class="task"><input type="checkbox" data-id="d2-12"><span class="tx"><b>题 27 四总线对比表</b> —— <b>默写一遍</b>（面试官常让你现场列表格）<span class="meta">材料：高频题 §4 题 27</span></span></label>
+    <div class="task"><input type="checkbox" data-id="d2-10"><span class="tx"><b>题 23–25 UART / SPI / I2C</b> —— 各自的线数、速率、主从关系、典型场景<span class="meta">UART：异步、无时钟线、点对点｜SPI：同步、4 线、全双工、最快｜I2C：2 线、多从机、有地址、速度慢</span></span></div>
+    <div class="task"><input type="checkbox" data-id="d2-11"><span class="tx"><b>题 26 CAN 总线特点</b>（★汽车电子核心）—— 差分抗干扰 / 多主广播 / <b>ID 越小优先级越高 + 非破坏性仲裁</b> / CRC + 应答 / 125K–1Mbps（CAN FD 更快）<span class="meta"><b>迁移话术</b>：我做过 802.11 的 CSMA/CA 信道竞争，CAN 的 ID 仲裁本质也是"总线竞争 + 优先级"，思路相通</span></span></div>
+    <div class="task"><input type="checkbox" data-id="d2-12"><span class="tx"><b>题 27 四总线对比表</b> —— <b>默写一遍</b>（面试官常让你现场列表格）<span class="meta">材料：高频题 §4 题 27</span></span></div>
 
     <h3>🌙 主攻四（21:40–22:10）：MCU 与硬件基础（5 题）</h3>
-    <label class="task"><input type="checkbox" data-id="d2-13"><span class="tx"><b>题 28 Flash vs RAM</b> —— 掉电是否保留 / 速度 / 擦写寿命 / 存什么<span class="meta">Flash 存代码常量、RAM 存运行时变量；Flash 写入前要先擦除（按扇区）</span></span></label>
-    <label class="task"><input type="checkbox" data-id="d2-14"><span class="tx"><b>题 29 MCU 启动流程</b> —— 复位 → 取中断向量表首地址 → 初始化时钟/内存 → 跳 main<span class="meta">能提到 <code>startup_xxx.s</code>、堆栈指针初始化就够了，不必背寄存器名</span></span></label>
-    <label class="task"><input type="checkbox" data-id="d2-15"><span class="tx"><b>题 30 看门狗</b> —— 定时器不倒喂就复位，防程序跑飞；<b>喂狗要放在主循环，不能放中断里</b><span class="meta">这句"不能放中断里"是加分点，说明理解原理</span></span></label>
-    <label class="task"><input type="checkbox" data-id="d2-16"><span class="tx"><b>题 31 DMA</b> —— 不占 CPU 直接搬数据，用于串口/ADC 大块传输<span class="meta">联系你的项目：大包传输省 CPU，和你们做双向调用时"避免一次性打包大数据"是同一类优化思路</span></span></label>
-    <label class="task"><input type="checkbox" data-id="d2-17"><span class="tx"><b>题 32 GPIO 常见模式</b> —— 输入（浮空/上拉/下拉/模拟）· 输出（推挽/开漏）· 复用<span class="meta">开漏的用途：I2C 总线、电平转换、线与</span></span></label>
+    <div class="task"><input type="checkbox" data-id="d2-13"><span class="tx"><b>题 28 Flash vs RAM</b> —— 掉电是否保留 / 速度 / 擦写寿命 / 存什么<span class="meta">Flash 存代码常量、RAM 存运行时变量；Flash 写入前要先擦除（按扇区）</span></span></div>
+    <div class="task"><input type="checkbox" data-id="d2-14"><span class="tx"><b>题 29 MCU 启动流程</b> —— 复位 → 取中断向量表首地址 → 初始化时钟/内存 → 跳 main<span class="meta">能提到 <code>startup_xxx.s</code>、堆栈指针初始化就够了，不必背寄存器名</span></span></div>
+    <div class="task"><input type="checkbox" data-id="d2-15"><span class="tx"><b>题 30 看门狗</b> —— 定时器不倒喂就复位，防程序跑飞；<b>喂狗要放在主循环，不能放中断里</b><span class="meta">这句"不能放中断里"是加分点，说明理解原理</span></span></div>
+    <div class="task"><input type="checkbox" data-id="d2-16"><span class="tx"><b>题 31 DMA</b> —— 不占 CPU 直接搬数据，用于串口/ADC 大块传输<span class="meta">联系你的项目：大包传输省 CPU，和你们做双向调用时"避免一次性打包大数据"是同一类优化思路</span></span></div>
+    <div class="task"><input type="checkbox" data-id="d2-17"><span class="tx"><b>题 32 GPIO 常见模式</b> —— 输入（浮空/上拉/下拉/模拟）· 输出（推挽/开漏）· 复用<span class="meta">开漏的用途：I2C 总线、电平转换、线与</span></span></div>
 
     <h3>🌙 主攻五（22:10–23:00）：王牌项目 + 无经验话术</h3>
-    <label class="task"><input type="checkbox" data-id="d2-18"><span class="tx"><b>C/Node 双向调用 8 问深挖</b> —— 能<b>画图讲</b>：函数指针映射表 → 初始化注册 → method-data-callback → 异步回调与嵌套调用<span class="meta">材料：<a href="嵌入式面试_无经验应对话术_20260917.html" target="_blank">无经验话术 §2.5</a> + <a href="华为引望OD_嵌入式_面试突击方案_20260917.html" target="_blank">突击方案 §6</a>｜<b>这段是你最硬的技术亮点，必须能白板画出来</b></span></span></label>
-    <label class="task"><input type="checkbox" data-id="d2-19"><span class="tx"><b>无经验话术 90 秒</b>复述 2 遍，「三点契合」必须流畅<span class="meta">材料：突击方案 §7 + 无经验话术 §2</span></span></label>
-    <label class="task"><input type="checkbox" data-id="d2-20"><span class="tx"><b>过一遍禁语清单</b>：不说"我做过嵌入式" / 不说"嵌入式很简单" / 不说"我做后端想试试" / 不编造驱动经历<span class="meta">材料：无经验话术 §5</span></span></label>
-    <label class="task"><input type="checkbox" data-id="d2-21"><span class="tx"><b>随机抽 2 道手撕复写</b>（防遗忘）—— 优先抽 memcpy 和环形缓冲区</span></label>
+    <div class="task"><input type="checkbox" data-id="d2-18"><span class="tx"><b>C/Node 双向调用 8 问深挖</b> —— 能<b>画图讲</b>：函数指针映射表 → 初始化注册 → method-data-callback → 异步回调与嵌套调用<span class="meta">材料：<a href="嵌入式面试_无经验应对话术_20260917.html" target="_blank">无经验话术 §2.5</a> + <a href="华为引望OD_嵌入式_面试突击方案_20260917.html" target="_blank">突击方案 §6</a>｜<b>这段是你最硬的技术亮点，必须能白板画出来</b></span></span></div>
+    <div class="task"><input type="checkbox" data-id="d2-19"><span class="tx"><b>无经验话术 90 秒</b>复述 2 遍，「三点契合」必须流畅<span class="meta">材料：突击方案 §7 + 无经验话术 §2</span></span></div>
+    <div class="task"><input type="checkbox" data-id="d2-20"><span class="tx"><b>过一遍禁语清单</b>：不说"我做过嵌入式" / 不说"嵌入式很简单" / 不说"我做后端想试试" / 不编造驱动经历<span class="meta">材料：无经验话术 §5</span></span></div>
+    <div class="task"><input type="checkbox" data-id="d2-21"><span class="tx"><b>随机抽 2 道手撕复写</b>（防遗忘）—— 优先抽 memcpy 和环形缓冲区</span></div>
 
     <h3>✅ Day 2 闭卷自测</h3>
-    <label class="task"><input type="checkbox" data-id="d2-t1"><span class="tx">优先级反转能讲出「三方角色 + 怎么解决」的完整故事链</span></label>
-    <label class="task"><input type="checkbox" data-id="d2-t2"><span class="tx">信号量 vs 互斥锁能说出「谁加锁谁解锁」+ 优先级继承</span></label>
-    <label class="task"><input type="checkbox" data-id="d2-t3"><span class="tx">四总线对比表能默写（速率/线数/主从/距离/典型场景）</span></label>
-    <label class="task"><input type="checkbox" data-id="d2-t4"><span class="tx">CAN 能说出「ID 越小优先级越高 + 非破坏性仲裁 + 差分抗干扰」</span></label>
-    <label class="task"><input type="checkbox" data-id="d2-t5"><span class="tx">ISR 五条注意事项一口气说完</span></label>
-    <label class="task"><input type="checkbox" data-id="d2-t6"><span class="tx">C/Node 双向调用能在纸上画出架构图（30 秒内起笔）</span></label>
+    <div class="task"><input type="checkbox" data-id="d2-t1"><span class="tx">优先级反转能讲出「三方角色 + 怎么解决」的完整故事链</span></div>
+    <div class="task"><input type="checkbox" data-id="d2-t2"><span class="tx">信号量 vs 互斥锁能说出「谁加锁谁解锁」+ 优先级继承</span></div>
+    <div class="task"><input type="checkbox" data-id="d2-t3"><span class="tx">四总线对比表能默写（速率/线数/主从/距离/典型场景）</span></div>
+    <div class="task"><input type="checkbox" data-id="d2-t4"><span class="tx">CAN 能说出「ID 越小优先级越高 + 非破坏性仲裁 + 差分抗干扰」</span></div>
+    <div class="task"><input type="checkbox" data-id="d2-t5"><span class="tx">ISR 五条注意事项一口气说完</span></div>
+    <div class="task"><input type="checkbox" data-id="d2-t6"><span class="tx">C/Node 双向调用能在纸上画出架构图（30 秒内起笔）</span></div>
   </div>
 
   <!-- ============ DAY 3 ============ -->
@@ -197,42 +197,42 @@
 
     <h3>🌙 主攻一（19:30–20:40）：全真模拟（★今天最重要的一件事）</h3>
     <div class="talk">打开手机录音，<b>站着说</b>，手机架在对面当面试官。<b>全程不许翻资料</b>。顺序如下，卡住就跳过并记下来。</div>
-    <label class="task"><input type="checkbox" data-id="d3-1"><span class="tx"><b>第 1 步：自我介绍 60 秒</b> —— 说完停 3 秒，模拟面试官沉默的压力</span></label>
-    <label class="task"><input type="checkbox" data-id="d3-2"><span class="tx"><b>第 2 步：必答 10 题里随机抽 5 道</b>（用纸团抽，别自己挑）<span class="meta">自选 = 只练会的；抽签才暴露真问题</span></span></label>
-    <label class="task"><input type="checkbox" data-id="d3-3"><span class="tx"><b>第 3 步：手撕 1 道</b> —— 抽到哪道写哪道，纸上手写 + 边写边解说<span class="meta">模拟"共享屏幕写代码"的场景</span></span></label>
-    <label class="task"><input type="checkbox" data-id="d3-4"><span class="tx"><b>第 4 步：项目深挖 3 问</b> —— 双向调用架构 / 大数据量 OOM 怎么解决的 / 10 万 QPS 怎么压出来的</span></label>
-    <label class="task"><input type="checkbox" data-id="d3-5"><span class="tx"><b>第 5 步：无经验追问 2 问</b> —— "你没做过嵌入式，怎么快速上手？" / "为什么不做后端了？"<span class="meta">材料：突击方案 §7 + 无经验话术 §3</span></span></label>
-    <label class="task"><input type="checkbox" data-id="d3-6"><span class="tx"><b>第 6 步：反问 2 个</b> —— 从突击方案 §9 挑 2–3 个<span class="meta">反问要往"业务/技术/团队"上问，别上来问薪资福利</span></span></label>
+    <div class="task"><input type="checkbox" data-id="d3-1"><span class="tx"><b>第 1 步：自我介绍 60 秒</b> —— 说完停 3 秒，模拟面试官沉默的压力</span></div>
+    <div class="task"><input type="checkbox" data-id="d3-2"><span class="tx"><b>第 2 步：必答 10 题里随机抽 5 道</b>（用纸团抽，别自己挑）<span class="meta">自选 = 只练会的；抽签才暴露真问题</span></span></div>
+    <div class="task"><input type="checkbox" data-id="d3-3"><span class="tx"><b>第 3 步：手撕 1 道</b> —— 抽到哪道写哪道，纸上手写 + 边写边解说<span class="meta">模拟"共享屏幕写代码"的场景</span></span></div>
+    <div class="task"><input type="checkbox" data-id="d3-4"><span class="tx"><b>第 4 步：项目深挖 3 问</b> —— 双向调用架构 / 大数据量 OOM 怎么解决的 / 10 万 QPS 怎么压出来的</span></div>
+    <div class="task"><input type="checkbox" data-id="d3-5"><span class="tx"><b>第 5 步：无经验追问 2 问</b> —— "你没做过嵌入式，怎么快速上手？" / "为什么不做后端了？"<span class="meta">材料：突击方案 §7 + 无经验话术 §3</span></span></div>
+    <div class="task"><input type="checkbox" data-id="d3-6"><span class="tx"><b>第 6 步：反问 2 个</b> —— 从突击方案 §9 挑 2–3 个<span class="meta">反问要往"业务/技术/团队"上问，别上来问薪资福利</span></span></div>
 
     <h3>🌙 主攻二（20:40–21:20）：回放 + 错题回炉</h3>
-    <label class="task"><input type="checkbox" data-id="d3-7"><span class="tx"><b>回放录音，只听三件事</b>：口头禅（嗯/那个/就是说）· 卡壳点 · 有没有把 C 语言放在前 30 秒</span></label>
-    <label class="task"><input type="checkbox" data-id="d3-8"><span class="tx"><b>错题回炉</b>：Day 1 + Day 2 标红的题全部重过一遍，<b>只说卡过的那几道</b></span></label>
-    <label class="task"><input type="checkbox" data-id="d3-9"><span class="tx"><b>手撕回炉</b>：模拟里写崩的那道，重写 2 遍直到一次成</span></label>
+    <div class="task"><input type="checkbox" data-id="d3-7"><span class="tx"><b>回放录音，只听三件事</b>：口头禅（嗯/那个/就是说）· 卡壳点 · 有没有把 C 语言放在前 30 秒</span></div>
+    <div class="task"><input type="checkbox" data-id="d3-8"><span class="tx"><b>错题回炉</b>：Day 1 + Day 2 标红的题全部重过一遍，<b>只说卡过的那几道</b></span></div>
+    <div class="task"><input type="checkbox" data-id="d3-9"><span class="tx"><b>手撕回炉</b>：模拟里写崩的那道，重写 2 遍直到一次成</span></div>
 
     <h3>🌙 主攻三（21:20–22:00）：行为面 + OD 特有话题</h3>
-    <label class="task"><input type="checkbox" data-id="d3-10"><span class="tx"><b>离职原因话术</b> —— 三原则 + 引望定制版，背熟<span class="meta">材料：突击方案 §8｜<b>禁语清单要看两遍</b>，说错一句就扣分</span></span></label>
-    <label class="task"><input type="checkbox" data-id="d3-11"><span class="tx"><b>离职原因追问应对</b>（几乎必考）—— "那你为什么不留在原公司？" / "你走了项目怎么办？" / "是不是跟领导处不好？" 各自准备好答案<span class="meta">材料：突击方案 §8 追问应对小节</span></span></label>
-    <label class="task"><input type="checkbox" data-id="d3-12"><span class="tx"><b>OD 认知类话题</b> —— 被问"你怎么看 OD / 外包"怎么答<span class="meta">口径：认可转正通道 + 看重华为技术体系 + 明确自己想做的事，不要说"先干着看"</span></span></label>
-    <label class="task"><input type="checkbox" data-id="d3-13"><span class="tx"><b>必背一句</b>：引望与车 BU 的关系（引望是车 BU 业务分拆后成立的独立公司，华为持股并输出技术）<span class="meta">材料：突击方案 §1</span></span></label>
+    <div class="task"><input type="checkbox" data-id="d3-10"><span class="tx"><b>离职原因话术</b> —— 三原则 + 引望定制版，背熟<span class="meta">材料：突击方案 §8｜<b>禁语清单要看两遍</b>，说错一句就扣分</span></span></div>
+    <div class="task"><input type="checkbox" data-id="d3-11"><span class="tx"><b>离职原因追问应对</b>（几乎必考）—— "那你为什么不留在原公司？" / "你走了项目怎么办？" / "是不是跟领导处不好？" 各自准备好答案<span class="meta">材料：突击方案 §8 追问应对小节</span></span></div>
+    <div class="task"><input type="checkbox" data-id="d3-12"><span class="tx"><b>OD 认知类话题</b> —— 被问"你怎么看 OD / 外包"怎么答<span class="meta">口径：认可转正通道 + 看重华为技术体系 + 明确自己想做的事，不要说"先干着看"</span></span></div>
+    <div class="task"><input type="checkbox" data-id="d3-13"><span class="tx"><b>必背一句</b>：引望与车 BU 的关系（引望是车 BU 业务分拆后成立的独立公司，华为持股并输出技术）<span class="meta">材料：突击方案 §1</span></span></div>
 
     <h3>🌙 主攻四（22:00–22:40）：远程面试环境演练</h3>
     <div class="warn">⚠️ 面试形式是<b>远程（你在成都）</b>，技术问题不打折，但设备事故会直接毁掉一场面试。<b>今天全会话演练一次，不要等到面试当天。</b></div>
-    <label class="task"><input type="checkbox" data-id="d3-14"><span class="tx"><b>客户端装好并进测试会议</b> —— 华为侧常用 WeMeeting / 华为云会议 / 腾讯会议，三个都装，进测试房间试音视频</span></label>
-    <label class="task"><input type="checkbox" data-id="d3-15"><span class="tx"><b>音频链路测一遍</b> —— 带麦耳机（别用笔记本外放）+ 麦克风增益 + <b>关闭系统通知</b></span></label>
-    <label class="task"><input type="checkbox" data-id="d3-16"><span class="tx"><b>网络准备</b> —— 优先有线；手机热点做备用，断网立刻切别慌</span></label>
-    <label class="task"><input type="checkbox" data-id="d3-17"><span class="tx"><b>桌面摆好</b> —— A4 纸 + 笔（写代码/画图）· 简历打印稿 · 突击方案第 4/5 节打印或平板打开</span></label>
-    <label class="task"><input type="checkbox" data-id="d3-18"><span class="tx"><b>摄像头画面调好</b> —— 正对光源（脸别背光）· 背景整洁 · 素色上衣 · 坐正</span></label>
-    <label class="task"><input type="checkbox" data-id="d3-19"><span class="tx"><b>提前告知家人勿扰</b>，确认面试时段房间可用</span></label>
+    <div class="task"><input type="checkbox" data-id="d3-14"><span class="tx"><b>客户端装好并进测试会议</b> —— 华为侧常用 WeMeeting / 华为云会议 / 腾讯会议，三个都装，进测试房间试音视频</span></div>
+    <div class="task"><input type="checkbox" data-id="d3-15"><span class="tx"><b>音频链路测一遍</b> —— 带麦耳机（别用笔记本外放）+ 麦克风增益 + <b>关闭系统通知</b></span></div>
+    <div class="task"><input type="checkbox" data-id="d3-16"><span class="tx"><b>网络准备</b> —— 优先有线；手机热点做备用，断网立刻切别慌</span></div>
+    <div class="task"><input type="checkbox" data-id="d3-17"><span class="tx"><b>桌面摆好</b> —— A4 纸 + 笔（写代码/画图）· 简历打印稿 · 突击方案第 4/5 节打印或平板打开</span></div>
+    <div class="task"><input type="checkbox" data-id="d3-18"><span class="tx"><b>摄像头画面调好</b> —— 正对光源（脸别背光）· 背景整洁 · 素色上衣 · 坐正</span></div>
+    <div class="task"><input type="checkbox" data-id="d3-19"><span class="tx"><b>提前告知家人勿扰</b>，确认面试时段房间可用</span></div>
 
     <h3>🌙 收尾（22:40–23:00）：写一页「面试当天流程卡」</h3>
-    <label class="task"><input type="checkbox" data-id="d3-20"><span class="tx">写下<b>提前 30 分钟做什么</b>（开设备、关通知、上厕所、喝水、深呼吸）＋ <b>开场第一句说什么</b>＋ <b>卡壳时的救场句</b>（"这个我没实战过，我的理解是……如果不对请您指正"）<span class="meta">物理卡片放桌上，面试当天不用再想</span></span></label>
-    <label class="task"><input type="checkbox" data-id="d3-21"><span class="tx">把这张卡拍照存手机相册第一屏</span></label>
+    <div class="task"><input type="checkbox" data-id="d3-20"><span class="tx">写下<b>提前 30 分钟做什么</b>（开设备、关通知、上厕所、喝水、深呼吸）＋ <b>开场第一句说什么</b>＋ <b>卡壳时的救场句</b>（"这个我没实战过，我的理解是……如果不对请您指正"）<span class="meta">物理卡片放桌上，面试当天不用再想</span></span></div>
+    <div class="task"><input type="checkbox" data-id="d3-21"><span class="tx">把这张卡拍照存手机相册第一屏</span></div>
 
     <h3>✅ Day 3 达标线</h3>
-    <label class="task"><input type="checkbox" data-id="d3-t1"><span class="tx">模拟全程「完全不知道」不超过 2 次，其他都能给方向</span></label>
-    <label class="task"><input type="checkbox" data-id="d3-t2"><span class="tx">离职原因不踩任何一条禁语</span></label>
-    <label class="task"><input type="checkbox" data-id="d3-t3"><span class="tx">反问的 2 个问题是「业务/技术」向的，不是薪资福利向的</span></label>
-    <label class="task"><input type="checkbox" data-id="d3-t4"><span class="tx">自我介绍录音里听不到超过 2 次口头禅</span></label>
+    <div class="task"><input type="checkbox" data-id="d3-t1"><span class="tx">模拟全程「完全不知道」不超过 2 次，其他都能给方向</span></div>
+    <div class="task"><input type="checkbox" data-id="d3-t2"><span class="tx">离职原因不踩任何一条禁语</span></div>
+    <div class="task"><input type="checkbox" data-id="d3-t3"><span class="tx">反问的 2 个问题是「业务/技术」向的，不是薪资福利向的</span></div>
+    <div class="task"><input type="checkbox" data-id="d3-t4"><span class="tx">自我介绍录音里听不到超过 2 次口头禅</span></div>
   </div>
 
   <!-- ============ 并行加分轨 ============ -->
@@ -240,26 +240,26 @@
     <h2>⭐ 并行加分轨 · STM32 动手 demo <span class="tag opt">可选 · 有板子才做</span></h2>
     <div class="talk">这是所有准备里<b>唯一能主动创造硬筹码</b>的一件事。做完面试时能说：<b>"我为了准备这个方向，自己搭了 STM32 环境，跑通了 UART 中断收发和 FreeRTOS 双任务切换。"</b>——这句话的说服力胜过十句"我学习能力强"。</div>
     <div class="bad">🚫 <b>硬性前提</b>：<b>真做了才能说</b>。没做千万别编——面试官可能让你现场画流程图或写代码，一编就穿。没板子就直接跳过这条，不影响主线。</div>
-    <label class="task"><input type="checkbox" data-id="opt1"><span class="tx"><b>D1（30 分钟）</b>：装好 Keil/CubeMX + 烧一个点灯程序，确认工具链通了</span></label>
-    <label class="task"><input type="checkbox" data-id="opt2"><span class="tx"><b>D2（30 分钟）</b>：跑通<b>串口中断收发</b>——收一个字节进 ISR、置标志位、主循环处理（正好对应"ISR 尽量短"）</span></label>
-    <label class="task"><input type="checkbox" data-id="opt3"><span class="tx"><b>D3（30 分钟）</b>：跑通 <b>FreeRTOS 双任务切换</b>（两个任务各点一个 LED / 各打一条 log）</span></label>
-    <label class="task"><input type="checkbox" data-id="opt4"><span class="tx">把 demo 录一段 30 秒的手机视频 + 拍代码截图，面试时可主动展示</span></label>
+    <div class="task"><input type="checkbox" data-id="opt1"><span class="tx"><b>D1（30 分钟）</b>：装好 Keil/CubeMX + 烧一个点灯程序，确认工具链通了</span></div>
+    <div class="task"><input type="checkbox" data-id="opt2"><span class="tx"><b>D2（30 分钟）</b>：跑通<b>串口中断收发</b>——收一个字节进 ISR、置标志位、主循环处理（正好对应"ISR 尽量短"）</span></div>
+    <div class="task"><input type="checkbox" data-id="opt3"><span class="tx"><b>D3（30 分钟）</b>：跑通 <b>FreeRTOS 双任务切换</b>（两个任务各点一个 LED / 各打一条 log）</span></div>
+    <div class="task"><input type="checkbox" data-id="opt4"><span class="tx">把 demo 录一段 30 秒的手机视频 + 拍代码截图，面试时可主动展示</span></div>
   </div>
 
   <!-- ============ Day3 之后 ============ -->
   <div class="card">
     <h2>🌡 Day 3 之后 · 保温 + 收到通知的 24 小时</h2>
     <h3>每天保温（20–30 分钟，面试时间未定 · 随时可能约）</h3>
-    <label class="task"><input type="checkbox" data-id="k1"><span class="tx">抽 <b>2 道必答题 + 1 道手撕</b>口述/手写（防遗忘）</span></label>
-    <label class="task"><input type="checkbox" data-id="k2"><span class="tx">36 题按模块滚动：一天 C 语言、一天中断/RTOS、一天总线/MCU</span></label>
+    <div class="task"><input type="checkbox" data-id="k1"><span class="tx">抽 <b>2 道必答题 + 1 道手撕</b>口述/手写（防遗忘）</span></div>
+    <div class="task"><input type="checkbox" data-id="k2"><span class="tx">36 题按模块滚动：一天 C 语言、一天中断/RTOS、一天总线/MCU</span></div>
     <h3>收到面试通知后 24 小时内</h3>
-    <label class="task"><input type="checkbox" data-id="k3"><span class="tx">自我介绍 + 项目话术各过 2 遍，必答 10 题快速扫一遍</span></label>
-    <label class="task"><input type="checkbox" data-id="k4"><span class="tx">远程环境演练一次（提前 1 天装好客户端、测麦克风）</span></label>
-    <label class="task"><input type="checkbox" data-id="k5"><span class="tx">确认面试官人数 / 是否要共享屏幕写代码；备好纸笔</span></label>
+    <div class="task"><input type="checkbox" data-id="k3"><span class="tx">自我介绍 + 项目话术各过 2 遍，必答 10 题快速扫一遍</span></div>
+    <div class="task"><input type="checkbox" data-id="k4"><span class="tx">远程环境演练一次（提前 1 天装好客户端、测麦克风）</span></div>
+    <div class="task"><input type="checkbox" data-id="k5"><span class="tx">确认面试官人数 / 是否要共享屏幕写代码；备好纸笔</span></div>
     <h3>面试当天</h3>
-    <label class="task"><input type="checkbox" data-id="k6"><span class="tx">手撕：<b>先讲思路再写</b>（"我先说下思路，再写代码"）→ 写完主动说边界 → 自查一遍</span></label>
-    <label class="task"><input type="checkbox" data-id="k7"><span class="tx">答不出：坦诚 + 给方向（"这个我没实战过，我的理解是……如果不对请您指正"）</span></label>
-    <label class="task"><input type="checkbox" data-id="k8"><span class="tx">面试后当天：把被问题目记下来，回来更新进度中枢「面试记录」表</span></label>
+    <div class="task"><input type="checkbox" data-id="k6"><span class="tx">手撕：<b>先讲思路再写</b>（"我先说下思路，再写代码"）→ 写完主动说边界 → 自查一遍</span></div>
+    <div class="task"><input type="checkbox" data-id="k7"><span class="tx">答不出：坦诚 + 给方向（"这个我没实战过，我的理解是……如果不对请您指正"）</span></div>
+    <div class="task"><input type="checkbox" data-id="k8"><span class="tx">面试后当天：把被问题目记下来，回来更新进度中枢「面试记录」表</span></div>
   </div>
 
   <!-- ============ 材料索引 ============ -->
@@ -336,5 +336,29 @@
 })();
 </script>
 
+<script>
+(function(){
+  // 1) 任务行：点整行可切换勾选（已由 label 改为 div），但点链接不触发
+  document.querySelectorAll('.task').forEach(function(el){
+    el.addEventListener('click', function(e){
+      if (e.target.closest('a')) return;
+      var cb = el.querySelector('input[type=checkbox]');
+      if (!cb || e.target === cb) return;
+      cb.checked = !cb.checked;
+      cb.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+  });
+  // 2) 外部链接：优先新标签页打开；若弹窗被拦截（预览面板常见），改为当前页打开
+  document.querySelectorAll('a[href^="http"]').forEach(function(a){
+    a.addEventListener('click', function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      var w = null;
+      try { w = window.open(a.href, '_blank'); } catch (err) { w = null; }
+      if (!w) { window.location.href = a.href; }
+    });
+  });
+})();
+</script>
 </body>
 </html>
