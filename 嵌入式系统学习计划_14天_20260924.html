@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>嵌入式系统学习计划 · 14 天（2026-09-24 → 10-07）</title>
+<style>
+  :root { --bg:#f4f6fb; --card:#fff; --ink:#1f2430; --sub:#5b6478; --line:#e4e8f0; --brand:#4f46e5; --red:#dc2626; --green:#16a34a; --amber:#d97706; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:var(--bg); color:var(--ink); line-height:1.7; padding-bottom:70px; }
+  .hero { background:linear-gradient(135deg,#0f766e,#4f46e5); color:#fff; padding:26px 0 20px; }
+  .hero .wrap { max-width:960px; margin:0 auto; padding:0 16px; }
+  .hero h1 { font-size:21px; margin-bottom:6px; }
+  .hero .sub { font-size:13px; opacity:.94; }
+  .hero .nav { margin-top:12px; display:flex; gap:8px; flex-wrap:wrap; }
+  .hero .nav a { display:inline-block; font-size:12px; color:#fff; background:rgba(255,255,255,.18); border:1px solid rgba(255,255,255,.35); border-radius:99px; padding:3px 12px; text-decoration:none; }
+  .wrap { max-width:960px; margin:0 auto; padding:0 16px; }
+
+  .progbar { position:sticky; top:0; z-index:20; background:#fff; border-bottom:1px solid var(--line); padding:9px 0; }
+  .progbar .wrap { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .bar { flex:1; min-width:140px; height:9px; background:#e8ebf5; border-radius:99px; overflow:hidden; }
+  .bar > i { display:block; height:100%; width:0; background:linear-gradient(90deg,#0f766e,#4f46e5); transition:width .25s; }
+  .pct { font-size:12.5px; color:var(--sub); white-space:nowrap; }
+  .btn { border:1px solid var(--line); background:#fff; border-radius:7px; padding:3px 10px; font-size:12px; cursor:pointer; color:var(--sub); font-family:inherit; }
+  .btn:hover { border-color:var(--brand); color:var(--brand); }
+
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px; margin:14px 0; }
+  .card h2 { font-size:15.5px; margin-bottom:4px; display:flex; align-items:center; gap:8px; }
+  .day-tip { font-size:12.5px; color:var(--sub); margin-bottom:10px; }
+  h3 { font-size:13.5px; margin:14px 0 6px; color:var(--brand); }
+  table { width:100%; border-collapse:collapse; font-size:12.8px; }
+  th { background:#f1f3fa; padding:7px 8px; text-align:left; font-size:11.8px; color:var(--sub); font-weight:600; }
+  td { padding:7px 8px; border-top:1px solid var(--line); vertical-align:top; }
+  code { background:#eef2ff; color:#3730a3; padding:1px 5px; border-radius:4px; font-family:Consolas,Monaco,monospace; font-size:12px; }
+
+  .task { display:flex; gap:9px; align-items:flex-start; padding:9px 10px; border:1px solid var(--line); border-radius:9px; margin:7px 0; background:#fcfdff; cursor:pointer; transition:.15s; }
+  .task:hover { border-color:#c7cdf5; }
+  .task input { margin-top:3px; width:16px; height:16px; accent-color:var(--brand); flex-shrink:0; cursor:pointer; }
+  .task .tx { flex:1; font-size:13px; }
+  .task .tx b { color:var(--brand); }
+  .task .meta { display:block; font-size:11.5px; color:var(--sub); margin-top:2px; }
+  .task.done { background:#f0fdf4; border-color:#bbf7d0; }
+  .task.done .tx { color:#94a3b8; text-decoration:line-through; text-decoration-color:#cbd5e1; }
+  .task.done .tx b { color:#94a3b8; }
+
+  .dhead { display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+  .dprog { font-size:12px; color:var(--sub); }
+  .tag { display:inline-block; font-size:11px; padding:1px 7px; border-radius:99px; background:#eef2ff; color:#4338ca; margin-left:6px; }
+  .tag.p0 { background:#fef2f2; color:#b91c1c; }
+  .tag.p1 { background:#fffbeb; color:#b45309; }
+  .tag.opt { background:#f1f5f9; color:#475569; }
+  .tag.stage { background:#f0fdf4; color:#15803d; }
+
+  .ok { background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:9px 12px; font-size:12.8px; color:#14532d; margin:9px 0; }
+  .warn { background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:9px 12px; font-size:12.8px; color:#92400e; margin:9px 0; }
+  .bad { background:#fef2f2; border:1px solid #fecaca; border-radius:8px; padding:9px 12px; font-size:12.8px; color:#991b1b; margin:9px 0; }
+  .talk { background:#f5f7ff; border-left:3px solid var(--brand); border-radius:0 8px 8px 0; padding:9px 12px; margin:8px 0; font-size:12.8px; }
+  a { color:var(--brand); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  ul.clean { padding-left:19px; }
+  ul.clean li { font-size:13px; margin:4px 0; }
+  .footer { text-align:center; color:#9aa3b5; font-size:11.8px; margin-top:24px; line-height:1.9; }
+  @media (max-width:560px){ .hero h1{font-size:18px;} table{font-size:12.2px;} th,td{padding:6px;} }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <h1>📚 嵌入式系统学习计划 · 14 天</h1>
+    <div class="sub">2026-09-24 → 10-07（含国庆 7 天）· 约 79 小时 · 目标：华为引望嵌入式 OD · <b>全面覆盖 + 扎实输出</b></div>
+    <div class="nav">
+      <a href="index.html">🏠 站点首页</a>
+      <a href="学习中心.html">📚 学习中心</a>
+      <a href="嵌入式面试高频题_20260917.html">🎯 高频题 36</a>
+      <a href="华为引望OD_嵌入式_面试突击方案_20260917.html">🚀 突击方案</a>
+      <a href="学习资源_卡码笔记八股_嵌入式取舍指南_20260924.html">🧭 卡码取舍</a>
+      <a href="嵌入式_Day2学习记录_20260923.html">📙 Day2 记录</a>
+    </div>
+  </div>
+</div>
+
+<div class="progbar">
+  <div class="wrap">
+    <span class="pct" id="pct">已完成 0 / 0</span>
+    <span class="bar"><i id="bar"></i></span>
+    <button class="btn" id="reset">清空进度</button>
+    <button class="btn" id="expandAll" data-open="0">全部展开说明</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="card">
+    <h2>🎯 先看清战场：14 天怎么打</h2>
+    <table>
+      <tr><th style="width:16%">阶段</th><th style="width:26%">时间</th><th>主攻内容</th><th style="width:14%">产出/检查点</th></tr>
+      <tr><td><b>阶段一</b><br>C 语言地基</td><td>9/24（四）– 9/27（日）<br><span class="tag p0">19h</span></td><td><b>C 语言 13 题全通 + 手撕 6 道纸上会写</b>（用卡码 C++ 模块的"内存管理 + 基础与语法"补漏）</td><td>9/27 晚：<b>闭卷自测</b>（13 题 + 6 道）</td></tr>
+      <tr><td><b>阶段二</b><br>嵌入式核心</td><td>9/28（一）– 10/2（五）<br><span class="tag p0">24h</span></td><td><b>中断 4 + RTOS 5 + 通信总线 5</b>（CAN 是汽车核心）+ <b>STM32 动手两个 demo</b></td><td>10/3 上午：<b>阶段二自测</b></td></tr>
+      <tr><td><b>阶段三</b><br>MCU+基础+话术</td><td>10/3（六）– 10/5（一）<br><span class="tag p1">22h</span></td><td><b>MCU 5 + Linux 4 + 计算机基础</b>（OS/组成原理/网络）+ <b>项目话术 + HR</b></td><td>每天录音 + 落库记录</td></tr>
+      <tr><td><b>阶段四</b><br>模拟与收口</td><td>10/6（二）– 10/7（三）<br><span class="tag p1">14h</span></td><td><b>全真模拟 2 轮 + 错题回炉 + 环境演练 + 总复盘</b></td><td>10/7 晚：<b>错题纸定稿 + 心理建设</b></td></tr>
+    </table>
+    <div class="ok">✅ <b>一句话战术</b>：这场面试不考"你会不会嵌入式"（零经验赢不了），考 <b>① C 语言真功夫 ② 能不能快速上手 ③ 稳不稳定</b>。<br>
+    <b>所以 14 天的重心是：把 C 和手撕练成条件反射 + 嵌入式概念能口述 + 项目话术能撑住"无经验"质疑。</b></div>
+    <div class="warn">⚠️ <b>明确不碰</b>：算法刷题（除简单链表/栈/队列）、数据库、Redis、Java、设计模式、C++ 智能指针/STL/现代 C++——嵌入式岗基本不问，别浪费时间。<br>
+    ⚠️ <b>每天固定三件套</b>：① 新知识<b>口述</b>（不是看）② <b>手撕/动手</b>（纸笔或板子）③ 错题纸<b>滚动复习</b>（昨天+前天的）。</div>
+  </div>
+
+  <!-- ========== D1 ========== -->
+  <div class="card">
+    <div class="dhead">
+      <h2>📅 D1 · 9/24（周四晚 2.5h）· 补欠账 + C 内存管理 <span class="tag stage">阶段一</span></h2>
+      <span class="dprog" data-day="1">0 / 0</span>
+    </div>
+    <div class="day-tip">今晚目标：<b>把 Day2 记录里的 4 个薄弱点收掉，并用卡码"内存管理"章补漏</b>。</div>
+    <h3>🌙 主攻（19:30–22:00）</h3>
+    <label class="task"><input type="checkbox" data-id="d1-1"><span class="tx"><b>卡码「内存管理」章 5 篇精读</b>：内存分区与堆栈 · new vs malloc · free vs delete · <b>内存泄漏/野指针/内存越界</b> · <b>内存碎片与溢出</b><span class="meta">材料：<a href="学习资源_卡码笔记八股_嵌入式取舍指南_20260924.html" target="_blank">卡码取舍指南</a> §1（含直达路径）｜<b>边看边和你 Day2 的错题纸对账</b></span></span></label>
+    <label class="task"><input type="checkbox" data-id="d1-2"><span class="tx"><b>复述 Q8</b>：malloc 五注意（判空/算对总字节/不清零/不强转/类型） + free 四注意（只能 free malloc 的/double free/置 NULL/free(NULL) 安全） + <b>泄漏 4 场景</b><span class="meta">泄漏 4 场景口诀：<b>早返回 / 忘析构 / 丢指针 / 循环堆</b></span></span></label>
+    <label class="task"><input type="checkbox" data-id="d1-3"><span class="tx"><b>复述 Q9</b>：对齐两条规则（成员起始地址=自身大小整数倍；总大小=最大成员整数倍）+ <code>pack(1)</code> 三用途<span class="meta">三用途：协议报文 / 寄存器映射 / 省内存</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d1-4"><span class="tx"><b>重测 Q3「指针三兄弟」</b>——填对比表：触发原因 / 本质 / 后果 / 防法（野指针 vs 悬空指针 vs 内存泄漏）<span class="meta">这是<b>连续两天翻车</b>的真盲区｜记忆锚：泄漏=钱没还钥匙丢；悬空=房退了钥匙还在</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d1-5"><span class="tx"><b>错题纸 20 条过一遍</b>（Day2 记录 §2）<span class="meta">材料：<a href="嵌入式_Day2学习记录_20260923.html" target="_blank">Day2 记录</a></span></span></label>
+    <h3>✅ 今日自测</h3>
+    <label class="task"><input type="checkbox" data-id="d1-t1"><span class="tx">能一句话说清：<b>内存泄漏（该 free 没 free）vs 悬空指针（free 了没置 NULL）</b></span></label>
+    <label class="task"><input type="checkbox" data-id="d1-t2"><span class="tx">能说出<b>内存碎片</b>的成因与嵌入式对策（能静态就不动态 / 内存池）</span></label>
+  </div>
+
+  <!-- ========== D2 ========== -->
+  <div class="card">
+    <div class="dhead">
+      <h2>📅 D2 · 9/25（周五晚 2.5h）· 补 Q12/Q13 + 重测薄弱点 <span class="tag stage">阶段一</span></h2>
+      <span class="dprog" data-day="2">0 / 0</span>
+    </div>
+    <div class="day-tip">今晚目标：<b>C 语言 13 题全部有答案（补最后两题），4 个薄弱点全部重测通过</b>。</div>
+    <h3>🌙 主攻（19:30–22:00）</h3>
+    <label class="task"><input type="checkbox" data-id="d2-1"><span class="tx"><b>卡码「基础与语法」6 篇</b>：volatile · static+const · <b>inline vs 宏</b> · <b>sizeof vs strlen</b> · <b>结构体 vs 联合体</b> · 变量类型<span class="meta">这 6 篇直接补你的 Q12/Q13，且 union 是"判断大小端"的经典实现</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d2-2"><span class="tx"><b>补 Q12「宏 vs 函数」</b>：展开时机（预处理 vs 编译）· 类型检查 · 副作用（<code>#define SQ(x) x*x</code> 的坑）· 调试可见性<span class="meta">加分：<code>do { } while(0)</code> 包裹多语句宏</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d2-3"><span class="tx"><b>补 Q13「sizeof vs strlen」</b>：编译期 vs 运行期 · 是否含 <code>'\0'</code> · 对数组名/指针的表现差异<span class="meta">经典题：<code>char s[]="abc"</code> → sizeof=4、strlen=3</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d2-4"><span class="tx"><b>重测 4 个薄弱点</b>（按序）：指针三兄弟 → <b>大小端</b> → 泄漏 4 场景 → volatile 适用场景<span class="meta">大小端：<b>不能用位与判断</b>，必须按字节读内存（<code>*(char*)&amp;x==1</code> 或 union）｜大端=高字节存低地址</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d2-5"><span class="tx"><b>volatile 补场景</b>：硬件寄存器 / ISR 共享变量 / 多线程共享标志 + "≠线程安全"<span class="meta">加分：<code>volatile const</code> = 只读状态寄存器（程序不改、硬件会改）</span></span></label>
+    <h3>✅ 今日自测</h3>
+    <label class="task"><input type="checkbox" data-id="d2-t1"><span class="tx"><b>C 语言 13 题全部能说出骨架</b>（每道 30 秒内开口，不卡壳）</span></label>
+  </div>
+
+  <!-- ========== D3 ========== -->
+  <div class="card">
+    <div class="dhead">
+      <h2>📅 D3 · 9/26（周六全天 7h）· 手撕 6 道 + C 语言全量 <span class="tag p0">P0</span></h2>
+      <span class="dprog" data-day="3">0 / 0</span>
+    </div>
+    <div class="day-tip">今日目标：<b>手撕 6 道纸上写出来（这是华为技术面的及格线）+ C 语言 13 题全量口述</b>。</div>
+    <h3>☀️ 上午（9:00–12:00）：手撕 6 道 · A4 纸 + 笔，禁止开 IDE</h3>
+    <label class="task"><input type="checkbox" data-id="d3-1"><span class="tx"><b>① 字符串反转</b>（不额外申请空间）—— 先判空是加分项<span class="meta">双指针 i/j 向中间夹</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d3-2"><span class="tx"><b>② 实现 memcpy</b>（<b>考内存重叠</b>）—— 目标落在源区间内就从后往前拷<span class="meta"><b>分水岭题</b>：主动说出"内存重叠"就赢一半</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d3-3"><span class="tx"><b>③ 单链表反转</b> —— 三指针 prev/cur/next，先存后继再改指向<span class="meta">热点第二名</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d3-4"><span class="tx"><b>④ 统计二进制中 1 的个数</b> —— <code>n &amp;= (n-1)</code> 每次消最低位的 1<span class="meta">要能对比"逐位判断"的复杂度差异</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d3-5"><span class="tx"><b>⑤ 判断大小端</b> —— 指针法 + union 法两种都写<span class="meta">顺带复习：大端=高字节存低地址；网络序=大端</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d3-6"><span class="tx"><b>⑥ 环形缓冲区</b> —— 写/读指针 + 判空判满 + 位与取模<span class="meta"><b>超高频</b>（串口必用）：要能<b>画图讲</b>｜材料：<a href="华为引望OD_嵌入式_面试突击方案_20260917.html" target="_blank">突击方案 §5⑥</a> 有三层递进讲解</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d3-7"><span class="tx"><b>六道复写一遍</b>，每道主动说边界：空指针 / 长度 0 / 内存重叠<span class="meta">华子面试官很看重"写完主动自查边界"</span></span></label>
+    <h3>🌤 下午（14:00–18:00）：C 语言全量 + 专题深化</h3>
+    <label class="task"><input type="checkbox" data-id="d3-8"><span class="tx"><b>C 语言 13 题全量口述</b>（限时 90 分钟，每道说 60 秒）<span class="meta">用"说"不用"看"；卡住的立刻记到错题纸</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d3-9"><span class="tx"><b>专题深化三块</b>：① 内存五分区（栈/堆/全局静态/常量/代码）② 结构体对齐（算 struct 大小）③ 大小端（默写 0x12345678 两种布局）</span></label>
+    <label class="task"><input type="checkbox" data-id="d3-10"><span class="tx"><b>STM32 环境准备</b>：确认板子/工具链/示例代码就位（为 10/1-10/2 动手做准备）<span class="meta">没买板子就今晚下单（几十块的 STM32F103C8T6 最小系统板足够）</span></span></label>
+    <h3>🌙 晚上（19:30–21:00）：收拾 + 落库</h3>
+    <label class="task"><input type="checkbox" data-id="d3-11"><span class="tx">错题纸更新 + <b>生成 Day3 记录并推云端</b><span class="meta">跟我说"更新进度"即可，我来落库</span></span></label>
+  </div>
+
+  <!-- ========== D4 ========== -->
+  <div class="card">
+    <div class="dhead">
+      <h2>📅 D4 · 9/27（周日全天 7h）· 阶段一闭卷自测 <span class="tag p0">P0 · 检查点</span></h2>
+      <span class="dprog" data-day="4">0 / 0</span>
+    </div>
+    <div class="day-tip">今日目标：<b>不看书能答完 13 题 + 不看书能写完 6 道手撕</b>（这两关过了，阶段一才算真过）。</div>
+    <h3>☀️ 上午（9:00–12:00）：闭卷自测</h3>
+    <label class="task"><input type="checkbox" data-id="d4-1"><span class="tx"><b>【闭卷自测 A】C 语言 13 题</b>——限时 60 分钟，不翻材料，逐题写在纸上<span class="meta">判分标准：能说清定义 + 关键点 + 一个例子 = 通过</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d4-2"><span class="tx"><b>【闭卷自测 B】手撕 6 道</b>——限时 90 分钟，A4 纸手写，写完自查边界<span class="meta">写完拍照存档（面试前可回看手感）</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d4-3"><span class="tx"><b>错题回炉</b>：把上午自测里卡住的条目<b>逐条写进错题纸</b>，并各配一个记忆锚</span></label>
+    <h3>🌤 下午（14:00–18:00）：为阶段二铺路</h3>
+    <label class="task"><input type="checkbox" data-id="d4-4"><span class="tx"><b>卡码 OS「中断与异常」3 篇</b>：什么是中断异常 / 两者区别 / <b>中断处理流程</b><span class="meta">这是嵌入式最核心考点的"通用版"，明晚开始专攻嵌入式版（36 题 14-17）</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d4-5"><span class="tx"><b>组成原理 2 问</b>：<b>冯·诺依曼 vs 哈佛体系结构</b>（嵌入式经典题）+ CPU/GPU 区别（略读）<span class="meta">要能说：哈佛 = 程序与数据<b>分开存储</b>，多数 MCU/DSP 用哈佛</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d4-6"><span class="tx"><b>口述录音</b>：把"C 语言 13 题"随机抽 5 道口头讲一遍录音，回放听哪里含糊<span class="meta">录音是最狠的照妖镜——自以为会了的题，一录就露馅</span></span></label>
+    <h3>🌙 晚上（19:30–21:00）</h3>
+    <label class="task"><input type="checkbox" data-id="d4-7"><span class="tx"><b>阶段一复盘 + 落库</b>：统计 13 题/6 道的掌握率，未过的排进后续滚动<span class="meta">跟我说"更新进度"落库</span></span></label>
+  </div>
+
+  <!-- ========== D5 ========== -->
+  <div class="card">
+    <div class="dhead">
+      <h2>📅 D5 · 9/28（周一晚 2.5h）· 中断 4 题 <span class="tag stage">阶段二</span></h2>
+      <span class="dprog" data-day="5">0 / 0</span>
+    </div>
+    <div class="day-tip">今晚目标：<b>中断四题能口述 90 秒</b>（这是嵌入式面试的第一道硬菜）。</div>
+    <h3>🌙 主攻（19:30–22:00）</h3>
+    <label class="task"><input type="checkbox" data-id="d5-1"><span class="tx"><b>Q14 中断 vs 轮询</b>（必考）：事件驱动 vs 主动查询 · 响应速度 · CPU 占用 · 功耗 · 适用场景<span class="meta">材料：<a href="嵌入式面试高频题_20260917.html" target="_blank">高频题 36</a> §2</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d5-2"><span class="tx"><b>Q15 中断嵌套与优先级</b>：什么是嵌套 · 优先级如何决定谁能打断谁 · 嵌套的代价（栈开销）</span></label>
+    <label class="task"><input type="checkbox" data-id="d5-3"><span class="tx"><b>Q16 中断服务函数（ISR）注意事项</b>：尽量短 / 不阻塞 / 不延时 / 共享变量加 volatile / 临界区保护 / 不用不可重入函数（printf）<span class="meta">重点：<b>ISR 只置标志或发信号量，重活丢给主循环/任务</b></span></label>
+    <label class="task"><input type="checkbox" data-id="d5-4"><span class="tx"><b>Q17 中断 vs 异常</b>：同步 vs 异步 · 来源（外部硬件 vs CPU 内部）· 典型例子（缺页/HardFault/除零）</span></label>
+    <label class="task"><input type="checkbox" data-id="d5-5"><span class="tx"><b>画图复述</b>：画出"主循环运行 → 中断触发 → 保存现场 → 跳 ISR → 恢复现场 → 继续"的完整流程<span class="meta">能画出来 = 真懂；只会背定义 = 一追问就露馅</span></span></label>
+    <h3>✅ 今日自测</h3>
+    <label class="task"><input type="checkbox" data-id="d5-t1"><span class="tx">中断四题连续口述 <b>90 秒不卡壳</b></span></label>
+    <label class="task"><input type="checkbox" data-id="d5-t2"><span class="tx">能答出追问："ISR 里为什么不能 printf？"（不可重入 + 阻塞 + 时钟/锁依赖）</span></label>
+  </div>
+
+  <!-- ========== D6 ========== -->
+  <div class="card">
+    <div class="dhead">
+      <h2>📅 D6 · 9/29（周二晚 2.5h）· 中断深化 <span class="tag stage">阶段二</span></h2>
+      <span class="dprog" data-day="6">0 / 0</span>
+    </div>
+    <div class="day-tip">今晚目标：<b>从"知道中断"到"能用中断"</b>——理解中断上下文与临界区，这是面试官区分"背过"和"做过"的地方。</div>
+    <h3>🌙 主攻（19:30–22:00）</h3>
+    <label class="task"><input type="checkbox" data-id="d6-1"><span class="tx"><b>中断向量表 + 处理流程</b>：什么是向量表 · CPU 如何找到 ISR 入口 · 保存/恢复现场做了什么<span class="meta">加分：讲出"上下文切换的开销"</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d6-2"><span class="tx"><b>中断上下文里什么不能做</b>：malloc（不可重入的堆管理）/ printf（不可重入 + 慢）/ sleep 或阻塞 / 带锁操作<span class="meta">这条你 Day2 已记（📖 项），今晚要能完整说 4 条</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d6-3"><span class="tx"><b>临界区保护</b>：关中断 vs 原子操作 vs 信号量（各自代价与适用场景）<span class="meta">关键权衡：<b>关中断简单但影响实时性</b>；长的临界区要用"关中断 + 标志位"折中</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d6-4"><span class="tx"><b>中断 + DMA 配合</b>（经典组合）：DMA 搬数据不占 CPU → 搬完触发中断 → ISR 只处理"一批完成"<span class="meta">与环形缓冲区串起来讲：DMA 往里写、主循环往外读</span></span></label>
+    <h3>✅ 今日自测</h3>
+    <label class="task"><input type="checkbox" data-id="d6-t1"><span class="tx">能画出并讲清 <b>"中断触发 → 保存现场 → ISR → 恢复现场"</b> 时序图</span></label>
+    <label class="task"><input type="checkbox" data-id="d6-t2"><span class="tx">能说清 <b>volatile 与中断的关系</b>（为什么 ISR 共享变量必须加 volatile）</span></label>
+  </div>
+
+  <!-- ========== D7 ========== -->
+  <div class="card">
+    <div class="dhead">
+      <h2>📅 D7 · 9/30（周三晚 2.5h）· RTOS 入门 <span class="tag stage">阶段二</span></h2>
+      <span class="dprog" data-day="7">0 / 0</span>
+    </div>
+    <div class="day-tip">今晚目标：<b>理解 RTOS 解决什么问题 + 任务怎么调度</b>（先建框架，明天填细节）。</div>
+    <h3>🌙 主攻（19:30–22:00）</h3>
+    <label class="task"><input type="checkbox" data-id="d7-1"><span class="tx"><b>Q18 裸机 vs RTOS 怎么选</b>：裸机（主循环+中断）适用简单任务/强实时/资源极小；RTOS 适用多任务协同/复杂时序/需要优先级管理<span class="meta">素材：你熟悉的"Node.js 单线程事件循环 vs 多线程"可以类比</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d7-2"><span class="tx"><b>Q19 RTOS 任务调度机制</b>：抢占式 vs 时间片轮转 · 优先级 · 上下文切换（保存/恢复寄存器）· 调度时机（周期 tick / 事件唤醒）<span class="meta">关键：<b>RTOS 的调度器本身就是"主循环+中断"的高级形态</b></span></span></label>
+    <label class="task"><input type="checkbox" data-id="d7-3"><span class="tx"><b>任务状态机</b>：就绪 / 运行 / 阻塞 / 挂起（4 态转换图能画出来）</span></label>
+    <label class="task"><input type="checkbox" data-id="d7-4"><span class="tx"><b>与 Day5-6 串联</b>：用"中断 → 置标志 → 任务被唤醒处理"这条链路，把中断和 RTOS 接上<span class="meta">这条链路能在面试里讲出"我理解系统是怎么跑起来的"</span></span></label>
+    <h3>✅ 今日自测</h3>
+    <label class="task"><input type="checkbox" data-id="d7-t1"><span class="tx">能说清 RTOS 相比"主循环 + 中断"多解决了什么（多任务并行观感 / 优先级保证 / 阻塞不卡全局）</span></label>
+  </div>
+
+  <!-- ========== D8 ========== -->
+  <div class="card">
+    <div class="dhead">
+      <h2>📅 D8 · 10/1（周四全天 7.5h）· RTOS 全量 + 动手 <span class="tag p0">P0</span></h2>
+      <span class="dprog" data-day="8">0 / 0</span>
+    </div>
+    <div class="day-tip">今日目标：<b>RTOS 5 题全通 + 在 STM32 上跑一个 FreeRTOS 双任务 demo</b>。</div>
+    <h3>☀️ 上午（9:00–12:00）：RTOS 剩余 3 题</h3>
+    <label class="task"><input type="checkbox" data-id="d8-1"><span class="tx"><b>Q20 优先级反转及解决</b>：什么是优先级反转（低优先级持锁 → 中优先级抢占 → 高优先级被拖住）· 解决：<b>优先级继承</b> / 优先级天花板<span class="meta">这是 RTOS <b>最高频的深度题</b>，必须能讲完整因果链</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d8-2"><span class="tx"><b>Q21 信号量 vs 互斥锁</b>：信号量用于同步/计数（可被他人释放）· 互斥锁用于互斥（谁加锁谁解锁，通常带优先级继承）<span class="meta">加分：二值信号量 ≠ 互斥锁（缺所有权概念）</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d8-3"><span class="tx"><b>Q22 任务间通信方式</b>：消息队列 / 信号量 / 事件标志组 / 邮箱 / 全局变量+保护<span class="meta">对比：什么时候用队列（传数据）vs 信号量（传事件）</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d8-4"><span class="tx"><b>卡码 OS「同步与互斥」章交叉验证</b>：线程同步方式 / 典型锁 / 进程同步互斥<span class="meta">把 RTOS 的锁与 OS 通用锁打通（概念同源）</span></span></label>
+    <h3>🌤 下午（14:00–18:00）：动手 + 手撕复习</h3>
+    <label class="task"><input type="checkbox" data-id="d8-5"><span class="tx"><b>【动手】STM32 + FreeRTOS 双任务 demo</b>：两个任务 + 一个队列/信号量通信<span class="meta">做完记一句"我做过什么"——面试时这句话胜过十句"我学过"</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d8-6"><span class="tx"><b>手撕复习</b>：环形缓冲区 + 单链表反转（限时各 15 分钟，纸上）<span class="meta">环形缓冲区与"消息队列"本质相通，正好互相印证</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d8-7"><span class="tx"><b>把今天学的 RTOS 与你的后端经验挂钩</b>：任务队列 ↔ Kafka 消费组 · 信号量 ↔ 分布式锁 · 优先级 ↔ QoS<span class="meta">整理成 2-3 句话术，面试时用来证明"我能迁移"</span></span></label>
+    <h3>✅ 今日自测</h3>
+    <label class="task"><input type="checkbox" data-id="d8-t1"><span class="tx"><b>RTOS 5 题（Q18-Q22）连续口述</b>，每道不超 90 秒且不卡壳</span></label>
+  </div>
+
+  <!-- ========== D9 ========== -->
+  <div class="card">
+    <div class="dhead">
+      <h2>📅 D9 · 10/2（周五全天 7.5h）· 通信总线 + 串口动手 <span class="tag p0">P0</span></h2>
+      <span class="dprog" data-day="9">0 / 0</span>
+    </div>
+    <div class="day-tip">今日目标：<b>四种总线能对比着讲 + CAN 能讲 90 秒 + 跑通串口中断收发 demo</b>。</div>
+    <h3>☀️ 上午（9:00–12:00）：四种总线</h3>
+    <label class="task"><input type="checkbox" data-id="d9-1"><span class="tx"><b>Q23 UART（串口）</b>：异步、点对点、两根线（TX/RX）、起始/停止位、波特率、调试最常用<span class="meta">嵌入式第一总线，你 Day1 学的环形缓冲区就是它的搭档</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d9-2"><span class="tx"><b>Q24 SPI</b>：同步、四线（SCLK/MOSI/MISO/CS）、全双工、<b>速度快</b>、多从机靠片选<span class="meta">适合 Flash/屏幕/传感器</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d9-3"><span class="tx"><b>Q25 I2C</b>：同步、两线（SCL/SDA）、<b>半双工、地址寻址、支持多主多从</b>、有 ACK、速度慢<span class="meta">适合低速传感器/EEPROM</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d9-4"><span class="tx"><b>Q26 CAN 总线</b>（汽车电子核心）：差分信号抗干扰 · 多主广播 · <b>基于 ID 的仲裁</b>（ID 越小优先级越高）· CRC + 应答 · 速率 125K-1Mbps<span class="meta"><b>迁移话术</b>：CAN 的 ID 仲裁本质也是"总线竞争 + 优先级"，与你做过的 802.11 CSMA/CA 同思路</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d9-5"><span class="tx"><b>Q27 四种总线对比表</b>（面试常让列表格）：线数 / 同步性 / 双工 / 速度 / 拓扑 / 典型用途<span class="meta">能<b>默写</b>这张表 = 这题满分</span></span></label>
+    <h3>🌤 下午（14:00–18:00）：动手（本轮最重的加分动作）</h3>
+    <label class="task"><input type="checkbox" data-id="d9-6"><span class="tx"><b>【动手】STM32 串口中断收发 demo</b>：中断接收 → 写入环形缓冲区 → 主循环取出回显<span class="meta">这一个 demo 同时落定 <b>中断 / 串口 / 环形缓冲 / 主循环</b> 四个概念｜这是突击方案里明确点名的加分项</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d9-7"><span class="tx"><b>记录 demo 细节</b>（写进落库文档）：用了哪个外设、中断怎么配、缓冲区多大、遇到什么坑<span class="meta">面试被追问时这些细节就是"我真的做过"的证据</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d9-8"><span class="tx"><b>手撕复习</b>：字符串反转 + 统计 1 的个数（限时各 10 分钟）</span></label>
+    <h3>✅ 今日自测</h3>
+    <label class="task"><input type="checkbox" data-id="d9-t1"><span class="tx"><b>CAN 讲 90 秒</b> + <b>四总线对比表默写</b></span></label>
+  </div>
+
+  <!-- ========== D10 ========== -->
+  <div class="card">
+    <div class="dhead">
+      <h2>📅 D10 · 10/3（周六全天 7.5h）· MCU + Linux + 阶段二自测 <span class="tag p0">P0 · 检查点</span></h2>
+      <span class="dprog" data-day="10">0 / 0</span>
+    </div>
+    <div class="day-tip">今日目标：<b>MCU 5 题 + Linux 4 题全通 + 阶段二（嵌入式 23 题）闭卷自测</b>。</div>
+    <h3>☀️ 上午（9:00–12:00）：MCU 5 题</h3>
+    <label class="task"><input type="checkbox" data-id="d10-1"><span class="tx"><b>Q28 Flash vs RAM</b>：掉电不丢 vs 掉电丢 · 读写速度 · 擦写寿命 · 各自存什么（代码/常量 vs 运行时变量）</span></label>
+    <label class="task"><input type="checkbox" data-id="d10-2"><span class="tx"><b>Q29 MCU 启动流程</b>：上电 → 复位向量 → 启动文件 → 初始化时钟/内存 → main()<span class="meta">加分：知道"中断向量表放在 Flash 起始处"</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d10-3"><span class="tx"><b>Q30 看门狗</b>：原理（定时器溢出就复位）· 喂狗 · 用途（程序跑飞自动恢复）· 长驻设备的必备</span></label>
+    <label class="task"><input type="checkbox" data-id="d10-4"><span class="tx"><b>Q31 DMA</b>：不占 CPU 直接搬数据 · 触发源 · 与中断配合 · 好处（释放 CPU + 提高吞吐）<span class="meta">与你 Day1 学的"环形缓冲区 + DMA"串起来</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d10-5"><span class="tx"><b>Q32 GPIO 常见模式</b>：输入（浮空/上拉/下拉/模拟）· 输出（推挽/开漏）· 复用功能<span class="meta">加分：开漏 + 上拉 = I2C 总线为什么能用一根线</span></span></label>
+    <h3>🌤 下午（14:00–18:00）：Linux 4 题 + 自测</h3>
+    <label class="task"><input type="checkbox" data-id="d10-6"><span class="tx"><b>Q33-Q36 Linux 四题</b>：进程 vs 线程 · IPC 方式 · 文件 IO vs 标准 IO · 僵尸/孤儿进程<span class="meta">你 3 年 Linux 环境经验是优势，重点是<b>用准确术语口述</b></span></span></label>
+    <label class="task"><input type="checkbox" data-id="d10-7"><span class="tx"><b>【闭卷自测】嵌入式 23 题</b>（中断 4 + RTOS 5 + 总线 5 + MCU 5 + Linux 4）——限时 2 小时口述<span class="meta">逐题打分，未过的排进滚动复习</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d10-8"><span class="tx"><b>【落库】生成 Day4 记录并推云端</b><span class="meta">跟我说"更新进度"</span></span></label>
+  </div>
+
+  <!-- ========== D11 ========== -->
+  <div class="card">
+    <div class="dhead">
+      <h2>📅 D11 · 10/4（周日全天 7.5h）· 计算机基础（OS + 组成 + 网络） <span class="tag p1">阶段三</span></h2>
+      <span class="dprog" data-day="11">0 / 0</span>
+    </div>
+    <div class="day-tip">今日目标：<b>用卡码笔记补"计算机基础类提问"</b>（这部分你后端底子好，重点是把术语讲准）。</div>
+    <h3>☀️ 上午（9:00–12:00）：操作系统</h3>
+    <label class="task"><input type="checkbox" data-id="d11-1"><span class="tx"><b>OS 基础概念</b>：进程 vs 线程 · IPC 方式 · 调度算法 · 用户态/内核态（为什么要分）<span class="meta">材料：<a href="学习资源_卡码笔记八股_嵌入式取舍指南_20260924.html" target="_blank">卡码取舍指南</a> §1 第三优先</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d11-2"><span class="tx"><b>同步与互斥 + 死锁</b>：同步方式 / 典型锁（互斥/自旋/读写）· 死锁四条件 + 避免<span class="meta">与 D8 的 RTOS 锁对照着记，一套概念两个场景</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d11-3"><span class="tx"><b>内存管理</b>：虚拟内存的作用 · 分页/分段 · 页面置换算法（FIFO/LRU/Clock）<span class="meta">与 C 语言的内存分区互为表里——一个是 OS 视角，一个是进程视角</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d11-4"><span class="tx"><b>I/O 与设备管理</b>：<b>I/O 控制方式三种（轮询 / 中断 / DMA）</b>· IO 模型 · 设备管理功能<span class="meta">"三种控制方式"与嵌入式高度相关，必看</span></span></label>
+    <h3>🌤 下午（14:00–18:00）：组成原理 + 网络</h3>
+    <label class="task"><input type="checkbox" data-id="d11-5"><span class="tx"><b>组成原理</b>：<b>冯·诺依曼 vs 哈佛</b>（复习巩固）+ CPU/GPU 区别（略读）</span></label>
+    <label class="task"><input type="checkbox" data-id="d11-6"><span class="tx"><b>网络基础</b>：TCP vs UDP · <b>三次握手（为什么三次）</b> · <b>四次挥手（为什么四次）</b><span class="meta">你的强项：目标是<b>口述流畅 + 术语准确</b>，不是重新学</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d11-7"><span class="tx"><b>网络进阶</b>：TIME_WAIT 的作用 · TCP 可靠传输机制 · 拥塞控制（慢启动/拥塞避免/快重传）<span class="meta">车载以太网同源；面试官可能顺着"你做过网络"深挖</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d11-8"><span class="tx"><b>录音口述</b>：三次握手 + 四次挥手各录一遍，回放听有没有含糊处</span></label>
+    <h3>✅ 今日自测</h3>
+    <label class="task"><input type="checkbox" data-id="d11-t1"><span class="tx">能流利讲：<b>三次握手 / 四次挥手 / 为什么 TIME_WAIT 要等 2MSL</b></span></label>
+  </div>
+
+  <!-- ========== D12 ========== -->
+  <div class="card">
+    <div class="dhead">
+      <h2>📅 D12 · 10/5（周一全天 7.5h）· 项目话术 + HR <span class="tag p0">P0</span></h2>
+      <span class="dprog" data-day="12">0 / 0</span>
+    </div>
+    <div class="day-tip">今日目标：<b>自我介绍 + 项目深挖 + 无经验话术 + HR 全套，全部录音过关</b>（这是"无经验转型"能不能翻盘的关键）。</div>
+    <h3>☀️ 上午（9:00–12:00）：王牌项目话术</h3>
+    <label class="task"><input type="checkbox" data-id="d12-1"><span class="tx"><b>C/Node 双向调用 8 问 · 前 4 问</b>：为什么双向调用（OOM + 阻塞）/ 函数指针映射表怎么设计 / 初始化注册机制 / method-data-callback 协议<span class="meta">材料：<a href="嵌入式面试_无经验应对话术_20260917.html" target="_blank">无经验应对话术 §2.5</a></span></span></label>
+    <label class="task"><input type="checkbox" data-id="d12-2"><span class="tx"><b>后 4 问</b>：嵌套调用怎么支持 / <b>10 万/s QPS 怎么测（volatile 计数器）</b> / 为什么用 ffi 不用 N-API / 内存谁管理谁释放<span class="meta">QPS 那问一定要讲出 <b>volatile 全局计数 + 1024 并发链 × 100 嵌套</b>——这是"真写过 C"的铁证</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d12-3"><span class="tx"><b>中文 60 秒自我介绍</b>背到脱口而出 + <b>录音删口头禅</b><span class="meta">铁律：<b>C 语言必须出现在前 30 秒</b>；禁止说"我做过嵌入式"｜材料：<a href="华为引望OD_嵌入式_面试突击方案_20260917.html" target="_blank">突击方案 §3</a></span></span></label>
+    <label class="task"><input type="checkbox" data-id="d12-4"><span class="tx"><b>无经验 90 秒话术</b>（三点契合）背熟 + 录音<span class="meta">坦诚承认 → C 底子 / 协议栈可迁移 / 懂设备侧约束 → 学习证据 → 合理预期</span></span></label>
+    <h3>🌤 下午（14:00–18:00）：HR / 行为题</h3>
+    <label class="task"><input type="checkbox" data-id="d12-5"><span class="tx"><b>离职原因</b>（背定制版）："想往底层走"，<b>不说"想转嵌入式"</b><span class="meta">材料：突击方案 §8（含禁语清单 + 4 个追问应对）</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d12-6"><span class="tx"><b>OD 身份怎么看</b>：不回避 + 提转正通道 + "平台与技术价值大于签约形式"</span></label>
+    <label class="task"><input type="checkbox" data-id="d12-7"><span class="tx"><b>期望薪资 · 职业规划 · 加班态度 · 最大缺点</b>四问备好（薪资不主动报价）</span></label>
+    <label class="task"><input type="checkbox" data-id="d12-8"><span class="tx"><b>反问清单 3 问</b>：技术栈与分工 / 新人上手路径 / 业务与产品<span class="meta">技术面问技术，薪资留 HR 面</span></span></label>
+    <h3>✅ 今日自测</h3>
+    <label class="task"><input type="checkbox" data-id="d12-t1"><span class="tx"><b>连讲 3 分钟</b>：自我介绍 → 项目概述 → 无经验补位，全程录音一遍过</span></label>
+  </div>
+
+  <!-- ========== D13 ========== -->
+  <div class="card">
+    <div class="dhead">
+      <h2>📅 D13 · 10/6（周二全天 7.5h）· 全真模拟 <span class="tag p0">P0 · 检查点</span></h2>
+      <span class="dprog" data-day="13">0 / 0</span>
+    </div>
+    <div class="day-tip">今日目标：<b>两轮完整模拟，把"输入"变成"输出"</b>——模拟里露的馅，就是最后一次补漏的机会。</div>
+    <h3>☀️ 上午（9:00–12:00）：模拟第一轮</h3>
+    <label class="task"><input type="checkbox" data-id="d13-1"><span class="tx"><b>【模拟 1】完整技术面 60 分钟</b>：自我介绍 → C 语言深挖（10 题）→ 嵌入式（中断/RTOS/总线）→ <b>手撕 1 道（纸上）</b> → 项目深挖 → 反问<span class="meta">可以让我出题（说"模拟面试"），也可以自问自答录音</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d13-2"><span class="tx"><b>复盘第一轮</b>：逐题判卷 + 记录卡壳点 → 更新错题纸<span class="meta">判卷用三维度：完整性 / 准确性 / 能否举例</span></span></label>
+    <h3>🌤 下午（14:00–18:00）：模拟第二轮 + 环境演练</h3>
+    <label class="task"><input type="checkbox" data-id="d13-3"><span class="tx"><b>【模拟 2】针对薄弱点的加压轮 40 分钟</b>：只问第一轮答不好的 + 高危题（指针三兄弟 / 大小端 / 优先级反转 / CAN）</span></label>
+    <label class="task"><input type="checkbox" data-id="d13-4"><span class="tx"><b>复盘第二轮 + 错题纸更新</b></span></label>
+    <label class="task"><input type="checkbox" data-id="d13-5"><span class="tx"><b>【远程环境演练】</b>：客户端装好（WeMeeting 等）· 麦克风/摄像头测试 · 网络（有线 + 热点备份）· 桌上备 <b>A4 纸 + 笔</b> + 简历打印稿<span class="meta">材料：突击方案 §11 环境清单</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d13-6"><span class="tx"><b>桌面与设备清理</b>：关无关程序 / 防弹窗 / 背景整洁 / 笔记本接电源</span></label>
+    <h3>✅ 今日自测</h3>
+    <label class="task"><input type="checkbox" data-id="d13-t1"><span class="tx">两轮模拟总评：<b>答不出的题 ≤ 3 道</b>，且都能当场给出"方向性回答"</span></label>
+  </div>
+
+  <!-- ========== D14 ========== -->
+  <div class="card">
+    <div class="dhead">
+      <h2>📅 D14 · 10/7（周三全天 7.5h）· 收口与定稿 <span class="tag p0">P0 · 最终检查</span></h2>
+      <span class="dprog" data-day="14">0 / 0</span>
+    </div>
+    <div class="day-tip">今日目标：<b>查漏补缺一遍 + 全套话术最后一次录音 + 心态与材料就位</b>。</div>
+    <h3>☀️ 上午（9:00–12:00）：全量扫尾</h3>
+    <label class="task"><input type="checkbox" data-id="d14-1"><span class="tx"><b>错题纸终稿</b>：把 14 天的错题纸合并去重，形成一份"面试前必看清单"<span class="meta">这份清单应该能在 30 分钟内过完，且每一条你都能解释为什么</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d14-2"><span class="tx"><b>薄弱点专攻</b>：把模拟里错过的题再答一遍，直到流畅</span></label>
+    <label class="task"><input type="checkbox" data-id="d14-3"><span class="tx"><b>嵌入式 36 题全量扫一遍</b>（只看结论和话术，不快答）<span class="meta">材料：<a href="嵌入式面试高频题_20260917.html" target="_blank">高频题 36</a>（折叠式，可快速折叠/展开）</span></span></label>
+    <h3>🌤 下午（14:00–18:00）：输出最后一遍</h3>
+    <label class="task"><input type="checkbox" data-id="d14-4"><span class="tx"><b>手撕 6 道最后一遍</b>（纸上限时，每道 ≤15 分钟）</span></label>
+    <label class="task"><input type="checkbox" data-id="d14-5"><span class="tx"><b>全套话术录音</b>：自我介绍 → 项目概述 → 无经验 90 秒 → 离职原因 → 反问<span class="meta">连起来讲一遍，确保衔接自然、无背诵痕迹</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d14-6"><span class="tx"><b>心理建设</b>：三条铁律（不编造 / 不说"很快能学会" / 答不出给方向）+ 财务铁律扫一眼<span class="meta">材料：突击方案 §10 + 进度中枢"财务铁律"</span></span></label>
+    <h3>🌙 晚上（19:30–21:00）</h3>
+    <label class="task"><input type="checkbox" data-id="d14-7"><span class="tx"><b>【落库】14 天总复盘</b>：生成总结 + 更新进度中枢（状态/打卡/错题纸定稿）<span class="meta">跟我说"更新进度"</span></span></label>
+    <label class="task"><input type="checkbox" data-id="d14-t1"><span class="tx"><b>最终检查</b>：环境 ✅ / 材料 ✅ / 话术 ✅ / 错题纸 ✅ / 心态 ✅</span></label>
+    <label class="task"><input type="checkbox" data-id="d14-t2"><span class="tx"><b>待命姿态</b>：面试时间若还没定，保持每天 30 分钟保温（抽 2 题口述 + 1 道手撕），随时可战</span></label>
+  </div>
+
+  <div class="card">
+    <h2>🥇 三条贯穿始终的原则</h2>
+    <div class="ok">① <b>输出大于输入</b>：<b>能口述</b>才算会，看完不算。每天至少 1 小时"说出来/写出来"。<br>
+    ② <b>做对比表</b>：你最大的弱点不是"学得少"，是"相近概念容易串"——野/悬空/泄漏、大/小端、栈/堆、const 左/右、volatile/atomic、进程/线程、信号量/互斥锁，<b>一律做成对比表</b>。<br>
+    ③ <b>每天落库</b>：结束后跟我说"更新进度"，我把当天记录写进仓库并推云端——跨设备可续，也让进度看得见。</div>
+    <div class="talk"><b>💡 时间弹性原则</b>：如果某天没完成，<b>不要往后拖、也不要跳过</b>——把没完成的挪到下一个"自测日"的上午。整个 14 天里，<b>D4 / D10 / D13 / D14 这四个检查点不可跳过</b>。</div>
+  </div>
+
+  <div class="footer">
+    <b>嵌入式系统学习计划 · 14 天</b> · 2026-09-24 制定 · 针对华为引望（OD）嵌入式开发岗（面试官 = 华为车 BU）<br>
+    覆盖：C 语言 13 题 · 手撕 6 道 · 嵌入式 23 题（中断/RTOS/总线/MCU/Linux）· 计算机基础（OS/组成/网络）· 项目话术 · HR<br>
+    勾选进度保存在本机浏览器（localStorage），刷新不丢；换设备不共享
+  </div>
+
+</div>
+
+<script>
+(function(){
+  var KEY = 'embedded14d_20260924';
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('input[type=checkbox][data-id]'));
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e) { saved = {}; }
+
+  boxes.forEach(function(b){
+    if (saved[b.dataset.id]) { b.checked = true; b.closest('.task').classList.add('done'); }
+    b.addEventListener('change', function(){
+      saved[b.dataset.id] = b.checked;
+      b.closest('.task').classList.toggle('done', b.checked);
+      try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch(e) {}
+      render();
+    });
+  });
+
+  function render(){
+    var total = boxes.length, done = boxes.filter(function(b){ return b.checked; }).length;
+    document.getElementById('bar').style.width = (total ? (done*100/total) : 0) + '%';
+    document.getElementById('pct').textContent = '已完成 ' + done + ' / ' + total;
+    document.querySelectorAll('.dprog').forEach(function(el){
+      var d = el.dataset.day;
+      var list = boxes.filter(function(b){ return b.dataset.id.indexOf('d' + d + '-') === 0; });
+      var dn = list.filter(function(b){ return b.checked; }).length;
+      el.textContent = dn + ' / ' + list.length;
+      el.style.color = (list.length && dn === list.length) ? '#16a34a' : '';
+      el.style.fontWeight = (list.length && dn === list.length) ? '700' : '';
+    });
+  }
+
+  document.getElementById('reset').addEventListener('click', function(){
+    if (!confirm('确定清空全部勾选进度？')) return;
+    boxes.forEach(function(b){ b.checked = false; b.closest('.task').classList.remove('done'); });
+    saved = {};
+    try { localStorage.removeItem(KEY); } catch(e) {}
+    render();
+  });
+
+  document.getElementById('expandAll').addEventListener('click', function(){
+    var open = this.dataset.open === '1';
+    document.querySelectorAll('details').forEach(function(d){ d.open = !open; });
+    this.dataset.open = open ? '0' : '1';
+    this.textContent = open ? '全部展开说明' : '全部收起';
+  });
+
+  render();
+})();
+</script>
+
+</body>
+</html>
