@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>卡码笔记八股 → 引望嵌入式 取舍指南（2026-09-24）</title>
+<style>
+  :root { --bg:#f4f6fb; --card:#fff; --ink:#1f2430; --sub:#5b6478; --line:#e4e8f0; --brand:#4f46e5; --red:#dc2626; --green:#16a34a; --amber:#d97706; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:var(--bg); color:var(--ink); line-height:1.7; padding-bottom:70px; }
+  .hero { background:linear-gradient(135deg,#0f766e,#4f46e5); color:#fff; padding:26px 0 20px; }
+  .hero .wrap { max-width:960px; margin:0 auto; padding:0 16px; }
+  .hero h1 { font-size:21px; margin-bottom:6px; }
+  .hero .sub { font-size:13px; opacity:.94; }
+  .hero .nav { margin-top:12px; display:flex; gap:8px; flex-wrap:wrap; }
+  .hero .nav a { display:inline-block; font-size:12px; color:#fff; background:rgba(255,255,255,.18); border:1px solid rgba(255,255,255,.35); border-radius:99px; padding:3px 12px; text-decoration:none; }
+  .hero .nav a:hover { background:rgba(255,255,255,.3); }
+  .wrap { max-width:960px; margin:0 auto; padding:0 16px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px; margin:14px 0; }
+  .card h2 { font-size:15.5px; margin-bottom:8px; display:flex; align-items:center; gap:8px; }
+  h3 { font-size:13.5px; margin:14px 0 6px; color:var(--brand); }
+  table { width:100%; border-collapse:collapse; font-size:12.8px; }
+  th { background:#f1f3fa; padding:7px 8px; text-align:left; font-size:11.8px; color:var(--sub); font-weight:600; }
+  td { padding:7px 8px; border-top:1px solid var(--line); vertical-align:top; }
+  code { background:#eef2ff; color:#3730a3; padding:1px 5px; border-radius:4px; font-family:Consolas,Monaco,monospace; font-size:12px; }
+  .tag { display:inline-block; font-size:11px; padding:1px 7px; border-radius:99px; background:#eef2ff; color:#4338ca; }
+  .tag.must { background:#fef2f2; color:#b91c1c; }
+  .tag.go   { background:#fffbeb; color:#b45309; }
+  .tag.skip { background:#f1efee; color:#78716c; }
+  .tag.you  { background:#f0fdf4; color:#15803d; }
+  .ok { background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:9px 12px; font-size:12.8px; color:#14532d; margin:9px 0; }
+  .warn { background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:9px 12px; font-size:12.8px; color:#92400e; margin:9px 0; }
+  .bad { background:#fef2f2; border:1px solid #fecaca; border-radius:8px; padding:9px 12px; font-size:12.8px; color:#991b1b; margin:9px 0; }
+  .talk { background:#f5f7ff; border-left:3px solid var(--brand); border-radius:0 8px 8px 0; padding:9px 12px; margin:8px 0; font-size:12.8px; }
+  a { color:var(--brand); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  ol.clean { padding-left:21px; } ol.clean li { font-size:13px; margin:5px 0; }
+  ul.clean { padding-left:19px; } ul.clean li { font-size:13px; margin:5px 0; }
+  .footer { text-align:center; color:#9aa3b5; font-size:11.8px; margin-top:24px; line-height:1.9; }
+  @media (max-width:560px){ .hero h1{font-size:18px;} table{font-size:12.2px;} th,td{padding:6px;} }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <h1>🧭 卡码笔记八股 → 引望嵌入式 取舍指南</h1>
+    <div class="sub">来源：<a href="https://notes.kamacoder.com" style="color:#fff;text-decoration:underline">代码随想录·最强八股文（第七版）</a> · 2026-09-24 · 目标岗：华为引望嵌入式 OD</div>
+    <div class="nav">
+      <a href="index.html">🏠 站点首页</a>
+      <a href="学习中心.html">📚 学习中心</a>
+      <a href="嵌入式面试高频题_20260917.html">🎯 嵌入式高频题 36</a>
+      <a href="华为引望OD_嵌入式_面试突击方案_20260917.html">🚀 引望突击方案</a>
+      <a href="嵌入式_Day2学习记录_20260923.html">📙 Day2 记录</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="card">
+    <h2>✅ 一句话结论</h2>
+    <div class="ok"><b>卡码笔记只用来补「计算机基础底子」（操作系统 / 计算机组成原理 / 网络 + C++ 板块的内存与关键字），嵌入式专项（RTOS / 中断 / CAN / MCU / 大小端 / 对齐）必须用我们自己的《嵌入式面试高频题 36 题》+《引望突击方案》。</b><br>
+    两套<b>互补不重复</b>——卡码笔记补"一面基础提问"，我们的材料补"嵌入式专业课"。</div>
+    <div class="talk"><b>两份资料的实际分工</b><br>
+      · <b>卡码笔记</b>：操作系统、组成原理、TCP/IP、C 内存管理 → 覆盖"计算机基础类提问"<br>
+      · <b>已有 36 题</b>：C 语言 13 + 中断 4 + RTOS 5 + 总线 5 + MCU 5 + Linux 4 → 覆盖"嵌入式专业课"<br>
+      · <b>突击方案</b>：必答 10 题 + 手撕 6 道 + 项目话术 + HR → 覆盖"实战与话术"</div>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">1</span> ⭐ 该学清单（按 ROI 排序 · 已对照实际目录）</h2>
+
+    <h3>第一优先：C++ 板块的「内存管理」整章（7 篇）— 直接命中你的薄弱点</h3>
+    <table>
+      <thead><tr><th style="width:42%">卡码小节</th><th>对你的价值</th></tr></thead>
+      <tbody>
+        <tr><td>什么是内存泄漏？什么是野指针？内存越界？如何避免</td><td><span class="tag must">靶向</span> 正是你 <b>连续两天翻车的"指针三兄弟"</b>，看它的标准表述后再做对比表</td></tr>
+        <tr><td>内存碎片与内存溢出 / 如何避免内存碎片</td><td><span class="tag must">靶向</span> 补你 Q7 漏掉的"碎片化"，也是嵌入式长期运行系统的核心痛点</td></tr>
+        <tr><td>C++ 内存分区、堆和栈的区别</td><td><span class="tag go">巩固</span> 对应你的 Q7，顺便复习<b>内存五分区</b>（Day1 已学）</td></tr>
+        <tr><td>new 和 malloc 的区别 / free 和 delete 的区别</td><td><span class="tag go">巩固</span> 对应 Q8（C 岗只考 malloc/free 侧，C++ 侧了解即可）</td></tr>
+      </tbody>
+    </table>
+
+    <h3>第二优先：C++ 板块的「基础与语法」精读 6 篇（其余跳过）</h3>
+    <table>
+      <thead><tr><th style="width:42%">卡码小节</th><th>对你的价值</th></tr></thead>
+      <tbody>
+        <tr><td>volatile 关键字的作用</td><td><span class="tag must">必看</span> 补你 Q4 缺的"场景"（注意：C 岗要往硬件寄存器/ISR 上讲，不只多线程）</td></tr>
+        <tr><td>static 关键字和 const 关键字的作用</td><td><span class="tag go">巩固</span> Q5/Q6 已过，用它交叉验证</td></tr>
+        <tr><td>inline 函数与宏的区别与优劣</td><td><span class="tag must">补缺</span> 直接覆盖你<b>未学的 Q12（宏 vs 函数）</b></td></tr>
+        <tr><td>sizeof 和 strlen 的区别</td><td><span class="tag must">补缺</span> 覆盖你<b>未学的 Q13</b></td></tr>
+        <tr><td>结构体与联合体的区别</td><td><span class="tag must">必看</span> 嵌入式高频！union 是"判断大小端"的经典实现（你今天错的大小端正好用得上）</td></tr>
+        <tr><td>静态局部变量、全局变量、局部变量的特点</td><td><span class="tag go">巩固</span> 对应 Q6 static 的"存哪个区、默认值、初始化时机"</td></tr>
+      </tbody>
+    </table>
+
+    <h3>第三优先：计算机基础「操作系统」（除"其他"小节）</h3>
+    <table>
+      <thead><tr><th style="width:42%">卡码小节</th><th>对你的价值</th></tr></thead>
+      <tbody>
+        <tr><td><b>中断与异常</b>（3 问：什么是中断异常 / 区别 / 中断处理流程）</td><td><span class="tag must">必看</span> <b>嵌入式最核心考点</b>，且你明天就要学中断——先用它打底</td></tr>
+        <tr><td>基础概念（进程 vs 线程 / IPC / 调度算法 / 用户态内核态）</td><td><span class="tag go">必看</span> Q33/Q34 的答案库，你后端出身有优势，快速过</td></tr>
+        <tr><td>同步与互斥（同步方式 / 典型锁 / 进程同步互斥）</td><td><span class="tag go">重点</span> 与 <b>RTOS 的信号量/互斥锁</b>直接相通（Q21）</td></tr>
+        <tr><td>内存管理（虚拟内存 / 分页分段 / 页面置换）</td><td><span class="tag go">看</span> 有 MMU 的嵌入式平台会问；也帮你理解"进程地址空间"</td></tr>
+        <tr><td>I/O 与设备管理（I/O 控制方式 / IO 模型 / 磁盘调度）</td><td><span class="tag go">选看</span> <b>I/O 控制方式（轮询/中断/DMA）</b>与嵌入式高度相关，其余略读</td></tr>
+        <tr><td>死锁（原因 / 避免 / 银行家算法）</td><td><span class="tag go">看</span> 概念题，10 分钟能过</td></tr>
+      </tbody>
+    </table>
+
+    <h3>第四优先：计算机组成原理（只有 2 问，但极高频）</h3>
+    <table>
+      <tbody>
+        <tr><td style="width:42%"><b>冯·诺依曼体系结构 vs 哈佛体系结构</b></td><td><span class="tag must">必看</span> <b>嵌入式经典题</b>（哈佛结构=程序与数据分开存储，多数 MCU/DSP 用哈佛）</td></tr>
+        <tr><td>CPU 和 GPU 的主要区别</td><td><span class="tag skip">可跳</span> 与岗位无关，扫一眼即可</td></tr>
+      </tbody>
+    </table>
+
+    <h3>第五优先：网络（TCP 部分，你的强项 → 快速过 + 练口述）</h3>
+    <table>
+      <tbody>
+        <tr><td style="width:42%">TCP/UDP 区别 · 三次握手 · 四次挥手 · TIME_WAIT · 可靠性 · 拥塞控制</td><td><span class="tag go">巩固</span> 你做过 802.11/TCP-IP 三年，<b>这里的目标是"能口述清楚"而不是"重新学"</b>；车载以太网同源</td></tr>
+        <tr><td>HTTP / HTTPS / 缓存 / Cookie / Session / DNS</td><td><span class="tag skip">跳过</span> Web 专用，嵌入式基本不问</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">2</span> ❌ 该跳清单（省下你 60% 的时间）</h2>
+    <table>
+      <thead><tr><th style="width:34%">板块</th><th>为什么跳</th></tr></thead>
+      <tbody>
+        <tr><td><b>数据库整章</b>（SQL / 索引 / B+树 / MVCC / 锁 / 执行引擎 / 日志）</td><td>嵌入式面试<b>基本不考</b>（你之前投 Java/银行岗才需要，现在可以放）</td></tr>
+        <tr><td><b>Redis 全部 8 篇</b></td><td>同上。⚠️ 但<b>一个例外</b>：若被问"你后端项目里的缓存/锁"，用你 RRM 的实战回答即可，不用背八股</td></tr>
+        <tr><td>C++ 板块：智能指针 / 现代 C++（11 篇）/ STL 容器（8 篇）</td><td>C 语言岗位不问；除非 JD 明确要求 C++</td></tr>
+        <tr><td>C++ 板块：面向对象大部分（构造析构/重载重写/多重继承/单例）</td><td>只留 <b>"虚函数怎么实现的"</b>（你 Day1 学过，知道虚表是函数指针数组即可）</td></tr>
+        <tr><td>C++ 板块：并发与 I/O 的 select/poll/epoll</td><td>偏 Linux 应用层；但 <b>"互斥锁 vs 自旋锁"可看</b>（与 RTOS 相通）</td></tr>
+        <tr><td>Java / Go / 大模型板块</td><td>与岗位完全无关</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">3</span> ⚠️ 卡码笔记缺失的嵌入式考点 → 用我们已有材料补</h2>
+    <table>
+      <thead><tr><th style="width:34%">缺失考点</th><th style="width:32%">为什么重要</th><th>去哪补（已有材料）</th></tr></thead>
+      <tbody>
+        <tr><td><b>RTOS</b>（任务调度/信号量/队列/优先级反转）</td><td>华为 OD 嵌入式高频</td><td>《嵌入式高频题 36 题》第 18-22 题</td></tr>
+        <tr><td><b>中断深入</b>（嵌套/优先级/ISR 注意事项/中断上下文）</td><td>卡码只有 3 问基础版</td><td>36 题第 14-17 题 + 引望突击方案必答 8</td></tr>
+        <tr><td><b>通信总线</b>（UART / I2C / SPI / <b>CAN</b>）</td><td><b>汽车电子核心（CAN 必问）</b></td><td>36 题第 23-27 题（含四总线对比表）</td></tr>
+        <tr><td><b>MCU 底层</b>（Flash vs RAM / 启动流程 / 看门狗 / GPIO 模式）</td><td>嵌入式基本功</td><td>36 题第 28-32 题</td></tr>
+        <tr><td><b>DMA</b></td><td>嵌入式高频（与 I/O 控制方式相通）</td><td>36 题第 31 题 + Day1 讲解（环形缓冲区场景）</td></tr>
+        <tr><td><b>内存对齐</b>（结构体对齐规则 / pack）</td><td>嵌入式笔试常考计算题</td><td>36 题第 9 题 + Day2 记录（已写过判定）</td></tr>
+        <tr><td><b>大小端 / 字节序</b></td><td>协议解析必备（且是你的<b>真盲区</b>）</td><td>36 题第 10 题 + Day2 记录（含 union 判断法）</td></tr>
+        <tr><td><b>位操作</b>（置位/清位/寄存器读写）</td><td>嵌入式日常操作</td><td>36 题第 11 题 + 手撕第 4 题</td></tr>
+        <tr><td><b>volatile 的嵌入式场景</b>（硬件寄存器/ISR 共享）</td><td>卡码只讲多线程场景</td><td>Day2 错题纸第 ⑭⑮⑯ 条</td></tr>
+        <tr><td><b>硬件基础 / 调试</b>（HardFault / JTAG-SWD / 逻辑分析仪）</td><td>面试官爱问"怎么定位问题"</td><td>引望突击方案（要补：建议后续加一节）</td></tr>
+        <tr><td><b>交叉编译 / 链接脚本 / 启动文件</b></td><td>加分项</td><td>待补充（优先级中）</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">4</span> 📅 建议的复习顺序（结合你当前进度）</h2>
+    <ol class="clean">
+      <li><b>补 C++ 板块「内存管理」+「基础与语法」6 篇</b>（约 2 小时）——<b>直接治你的薄弱点</b>：指针三兄弟、碎片化、volatile 场景、宏 vs 内联、sizeof vs strlen、结构体 vs 联合体</li>
+      <li><b>操作系统「中断与异常」3 篇</b>（30 分钟）——为接下来学中断打底</li>
+      <li><b>我们自己的嵌入式 36 题</b>：中断 4 → RTOS 5 → 总线 5 → MCU 5 → Linux 4（主战场）</li>
+      <li><b>组成原理 2 问</b>（10 分钟）：冯诺依曼 vs 哈佛</li>
+      <li><b>网络 TCP 部分</b>：只做"口述复述"（你有底子，目标是讲清楚）</li>
+      <li><b>操作系统其余章节</b>：进程线程/IPC/锁/内存管理/I/O（穿插在空档）</li>
+    </ol>
+    <div class="warn">⚠️ <b>别按卡码笔记的顺序从头看到尾</b>——它的默认顺序是给互联网后端岗设计的，你会把时间浪费在数据库和 Redis 上。</div>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">5</span> 🧮 算法部分怎么办</h2>
+    <div class="talk">用<b>代码随想录主站</b>（programmercarl.com）刷<b>简单难度</b>：链表、栈、队列、数组、字符串——<b>嵌入式笔试一般不出 hard</b>。<br>
+    对你的现实建议：<b>手撕 6 道优先于刷题</b>（字符串反转/memcpy/链表反转/数 1 的个数/大小端/环形缓冲区——这 6 道就是嵌入式手撕的常考池，且我们已备好代码）。</div>
+  </div>
+
+  <div class="footer">
+    生成时间：2026-09-24 · 目录已实测抓取自 notes.kamacoder.com（/base/ 与 /cpp/）· 本地与云端同步<br>
+    <a href="index.html">站点首页</a> · <a href="学习中心.html">学习中心</a> · <a href="嵌入式面试高频题_20260917.html">嵌入式高频题 36</a>
+  </div>
+
+</div>
+</body>
+</html>
