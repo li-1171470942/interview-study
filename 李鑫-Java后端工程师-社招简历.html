@@ -63,6 +63,11 @@
 .scale-note { background: #e8f0fe; border-left: 4px solid #1a73e8; padding: 10px 14px; margin: 10px 0; border-radius: 0 4px 4px 0; font-size: 13px; color: #174ea6; }
 .scale-note h4 { color: #174ea6; margin-bottom: 6px; font-size: 13px; }
 
+
+        @media print {
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            body { padding: 0 12mm; }
+        }
 </style>
 </head>
 <body>
@@ -76,14 +81,14 @@
 </div>
 
 <div class="objective">
-    <b>求职意向</b>：Java 后端开发工程师（3 年微服务后端经验，架构/分布式/中间件功底扎实，可快速上手）｜成都
+    <b>求职意向</b>：Java 后端开发工程师 ｜ 成都 · 3 年微服务后端经验，架构 / 分布式 / 中间件生产实战
 </div>
 
 <div class="objective" style="border-left-color:#1a73e8; background:#e8f0fe; line-height:2.0;">
     <b>个人亮点</b><br>
     <b>架构主导者</b>：主导 AI RRM 系统重构，设计"AC+fitap 设备侧计算 / 云 AP 云端计算"分流架构，覆盖 98%+ 组网形态，推动功能从白名单试点到规模化落地。<br>
     <b>规模级实战</b>：系统纳管 19.6万+ 无线设备，现网 AP 数据 259万+，累计调优明细 2700万+ 条，单月调优峰值 14.7万 次（腾讯云现网实测）。<br>
-    <b>全链路纵深</b>：微服务重构 + Kafka/RabbitMQ 消息 + Redis 分布式锁 + MongoDB 分库分表 + K8s 编排生产实战；正在完成 Java 体系（基础/JVM/并发/Spring）迁移。<br>
+    <b>全链路纵深</b>：微服务重构 + Kafka/RabbitMQ 消息 + Redis 分布式锁 + MongoDB 分库分表 + K8s 编排生产实战。<br>
     <b>AI 工具实践</b>：日常深度使用 LLM 提效 30%+，具备 AI 系统工程化落地经验（增量训练/边缘推理）。
 </div>
 
@@ -104,7 +109,7 @@
 <h2>工 作 经 历</h2>
 <div class="section">
     <h3>新华三技术有限公司（H3C） | 2023.07 - 至今（约3年）</h3>
-    <p style="color: #666; font-size: 14px; margin-top: 5px;">部门：云简网络团队 · RRM无线资源管理组 · 岗位：后端开发工程师（微服务方向，主力语言 Node.js，具备完整 Java 知识体系）</p>
+    <p style="color: #666; font-size: 14px; margin-top: 5px;">部门：云简网络团队 · RRM无线资源管理组 · 岗位：后端开发工程师（分布式微服务方向）</p>
     <p style="color: #666; font-size: 13px; margin-top: 4px;">主导 RRM 微服务（rrmcontrol / rrmserver / rrmcompute / aioptimize）的架构重构与运维，覆盖 <b>K8s 容器编排、Kafka/RabbitMQ 消息、Redis 分布式锁、MongoDB 分库分表、WebSocket+Netconf 设备通信</b> 全链路——架构设计、分布式中间件、容器化经验与 Java 技术栈完全可迁移</p>
 </div>
 
@@ -235,8 +240,8 @@
 <h2>技 术 栈</h2>
 <div class="skills-grid">
     <div class="skill-item">
-        <h4>Java（转岗定位）</h4>
-        <p>熟悉 Java 基础（集合框架/HashMap 底层/并发 CAS/线程池）与 JVM 核心机制；了解 Spring/SpringBoot/MyBatis 体系与 MyBatis #{} 防注入原理，正持续深入。</p>
+        <h4>Java 技术栈</h4>
+        <p>集合框架与 HashMap 底层 · 并发 CAS 与线程池 · JVM 内存结构与垃圾回收 · Spring / Spring Boot / MyBatis（#{} 防注入原理）</p>
     </div>
     <div class="skill-item">
         <h4>架构与分布式（核心卖点）</h4>
@@ -260,7 +265,7 @@
     </div>
 </div>
 
-<div class="migrate">📌 语言迁移说明：3 年后端主力语言为 Node.js/TypeScript，架构设计、分布式中间件（Kafka/Redis/MongoDB/K8s）经验与 Java 生态完全通用；已熟悉 Java 基础/JVM 与并发，了解 Spring/SpringBoot/MyBatis 体系，可快速上手 Java 开发。面试时可如实沟通转岗意愿与学习进度。</div>
+<div class="migrate">📌 技术栈说明：3 年后端经验集中在<b>分布式微服务</b>方向——架构设计、服务拆分、消息可靠性、分布式锁、容器编排（K8s）；Java 侧具备 JavaSE、JVM、并发与 Spring 体系知识。后端方法论（一致性、幂等、限流降级、可观测）跨语言通用。</div>
 
 <h2>竞 赛 与 获 奖</h2>
 <table>
@@ -277,7 +282,7 @@
     <ul style="padding-left: 25px; font-size: 14px; line-height: 2;">
         <li><strong>架构能力</strong>：主导微服务重构，具备服务拆分、双计算模式、分布式一致性设计经验</li>
         <li><strong>分布式实战</strong>：精通 Kafka/Redis/MongoDB/K8s 等中间件的生产级使用（消息可靠/分布式锁/分库分表/容器编排）</li>
-        <li><strong>快速学习</strong>：3 年后端经验打底，已熟悉 Java 基础/JVM 与并发，了解 Spring/SpringBoot/MyBatis 体系，可快速上手 Java 栈</li>
+        <li><strong>技术迁移力</strong>：跨语言工程实践（Node.js / C 库调用 / Java 体系），能适应团队既有技术栈与工程规范</li>
         <li><strong>复杂系统维护</strong>：独立接手遗留系统、保障现网稳定（每周 1+ 线上问题处理）</li>
         <li><strong>AI 工具实践</strong>：日常深度使用 LLM 辅助需求分析与代码生成，交付效率提升 <span class="num">30%+</span>；具备 AI 系统工程化落地经验</li>
         <li><strong>跨团队协作</strong>：主导项目全流程，协调前端、设备侧、测试、运维团队</li>
