@@ -1,263 +1,219 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>李鑫 - 嵌入式软件开发工程师（社招简历）</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: "Microsoft YaHei", "PingFang SC", sans-serif; max-width: 900px; margin: 0 auto; padding: 40px 30px; line-height: 1.7; color: #333; background: #fff; }
-        
-        .header { text-align: center; margin-bottom: 24px; padding-bottom: 18px; border-bottom: 2px solid #1a1a1a; }
-        .header h1 { font-size: 26px; letter-spacing: 3px; margin-bottom: 12px; }
-        .header .info { font-size: 14px; color: #666; }
-        .header .info span { margin: 0 10px; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>李鑫 · 嵌入式软件开发工程师（社招简历）</title>
+<style>
+    :root { --ink:#1c2430; --sub:#5a6472; --accent:#14406b; --line:#d8dde5; --soft:#f4f6f9; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+        font-family: "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", sans-serif;
+        max-width: 940px; margin: 0 auto; padding: 44px 48px 56px;
+        color: var(--ink); background:#fff; line-height: 1.75; font-size: 13.5px;
+        -webkit-font-smoothing: antialiased;
+    }
 
-        .objective { background: #f5f7fa; border-left: 4px solid #1a1a1a; padding: 12px 16px; margin-bottom: 10px; font-size: 14px; }
-        .objective b { color: #1a1a1a; }
-        
-        h2 { font-size: 16px; color: #fff; background: #1a1a1a; padding: 8px 15px; margin: 28px 0 15px 0; border-radius: 3px; }
-        h3 { font-size: 15px; color: #333; margin: 20px 0 10px 0; border-left: 4px solid #1a1a1a; padding-left: 10px; }
-        h4 { font-size: 14px; color: #555; margin: 15px 0 8px 0; }
-        
-        .section { margin-bottom: 20px; }
-        
-        .project { background: #fafafa; padding: 20px; margin: 15px 0; border-radius: 5px; border: 1px solid #eee; }
-        .project-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-        .project-title { font-size: 15px; font-weight: bold; color: #1a1a1a; }
-        .project-period { font-size: 12px; color: #888; }
-        
-        .tech-stack { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
-        .tech-tag { background: #1a1a1a; color: #fff; padding: 3px 10px; border-radius: 3px; font-size: 11px; }
-        .tech-tag.emb { background: #0369a1; }
-        
-        .duty { margin: 10px 0; padding-left: 20px; }
-        .duty li { margin: 6px 0; color: #444; }
-        
-        .highlight-box { background: #fff9e6; border-left: 4px solid #ff9800; padding: 12px 15px; margin: 12px 0; }
-        .highlight-box h4 { color: #e65100; margin-bottom: 8px; }
-        .highlight-box ul { padding-left: 20px; }
-        .highlight-box li { margin: 5px 0; font-size: 13px; }
-        
-        .result { background: #e8f5e9; border-left: 4px solid #4caf50; padding: 12px 15px; margin: 12px 0; }
-        .result li { margin: 5px 0; font-size: 13px; color: #2e7d32; }
-        
-        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 13px; }
-        th, td { border: 1px solid #ddd; padding: 10px 12px; text-align: left; }
-        th { background: #f5f5f5; font-weight: 600; }
-        
-        .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-        .skill-item { background: #fafafa; padding: 12px 15px; border-radius: 5px; }
-        .skill-item h4 { color: #1a1a1a; margin-bottom: 6px; border: none; padding: 0; }
-        .skill-item p { font-size: 13px; color: #666; }
-        
-        .footer { text-align: center; color: #999; margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; font-size: 13px; }
-        .num { font-weight: 700; color: #2e7d32; }
-        .migrate { background: #eef2ff; border: 1px dashed #6366f1; border-radius: 6px; padding: 6px 12px; font-size: 12.5px; color: #4338ca; margin-top: 8px; }
-    
-/* v3 数字亮点条 */
-.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 14px 0 20px; }
-.stat { background: #f5f7fa; border: 1px solid #e3e8ef; border-radius: 6px; padding: 10px 8px; text-align: center; }
-.stat .n { font-size: 18px; font-weight: 800; color: #1a73e8; display: block; }
-.stat .l { font-size: 11px; color: #777; }
-.scale-note { background: #e8f0fe; border-left: 4px solid #1a73e8; padding: 10px 14px; margin: 10px 0; border-radius: 0 4px 4px 0; font-size: 13px; color: #174ea6; }
-.scale-note h4 { color: #174ea6; margin-bottom: 6px; font-size: 13px; }
+    /* ---------- 头部 ---------- */
+    .hd { border-bottom: 3px solid var(--accent); padding-bottom: 14px; margin-bottom: 6px; }
+    .hd .name { font-size: 27px; font-weight: 700; letter-spacing: 3px; color: var(--accent); line-height: 1.2; }
+    .hd .role { font-size: 14px; font-weight: 700; color: var(--ink); margin-top: 4px; }
+    .hd .contact { font-size: 12.5px; color: var(--sub); margin-top: 7px; }
+    .hd .contact span { margin-right: 16px; white-space: nowrap; }
 
+    /* ---------- 区块标题 ---------- */
+    h2 {
+        font-size: 18px; font-weight: 700; color: var(--accent);
+        border-bottom: 2px solid var(--accent);
+        padding-bottom: 6px; margin: 30px 0 14px;
+        letter-spacing: 1.5px;
+    }
+    h2:first-of-type { margin-top: 18px; }
+
+    /* ---------- 教育背景 ---------- */
+    .edu { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 5px 0; }
+    .edu .l b { font-size: 13.8px; }
+    .edu .l span { color: var(--sub); font-size: 12.5px; }
+    .edu .r { color: var(--sub); font-size: 12.5px; white-space: nowrap; }
+
+    /* ---------- 技术栈 ---------- */
+    .stack { border-left: 3px solid var(--line); padding-left: 14px; }
+    .stack .row { margin: 7px 0; font-size: 13.2px; }
+    .stack .k { font-weight: 700; color: var(--accent); display: inline-block; min-width: 96px; }
+
+    /* ---------- 工作经历 ---------- */
+    .job { margin-bottom: 6px; }
+    .job .top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+    .job .top .co { font-size: 14px; font-weight: 700; }
+    .job .top .co em { font-style: normal; font-weight: 400; color: var(--sub); font-size: 12.5px; }
+    .job .top .dt { color: var(--sub); font-size: 12.5px; white-space: nowrap; }
+    .summary { background: var(--soft); border-left: 3px solid var(--accent); padding: 9px 13px; margin: 8px 0 4px; font-size: 12.8px; color: #333c48; }
+
+    /* ---------- 项目 ---------- */
+    .proj { margin-bottom: 20px; page-break-inside: avoid; }
+    .proj .pt { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+    .proj .pt .nm { font-size: 13.8px; font-weight: 700; }
+    .proj .pt .nm i { font-style: normal; font-weight: 400; color: var(--sub); font-size: 12.5px; }
+    .proj .pt .dt { color: var(--sub); font-size: 12.5px; white-space: nowrap; }
+    .proj .desc { font-size: 12.8px; color: #333c48; margin: 5px 0 7px; }
+    .proj .sub-t { font-size: 12.8px; font-weight: 700; color: var(--accent); margin: 8px 0 3px; }
+
+    ul { padding-left: 17px; }
+    li { font-size: 12.9px; margin: 4px 0; color: #2b333d; }
+    li b { color: var(--accent); }
+
+    .tags { margin: 6px 0 2px; }
+    .tags i { font-style: normal; display: inline-block; background: var(--soft); border: 1px solid var(--line);
+              border-radius: 3px; padding: 1px 8px; margin: 0 5px 5px 0; font-size: 11.5px; color: #46505d; }
+    .tags i.key { background: #e7eff8; border-color: #b9cde4; color: var(--accent); font-weight: 700; }
+
+    /* ---------- 获奖 / 自评 ---------- */
+    table { width: 100%; border-collapse: collapse; }
+    td { padding: 5px 0; font-size: 12.9px; vertical-align: top; }
+    td.tm { color: var(--sub); white-space: nowrap; width: 84px; font-size: 12.4px; }
+
+    /* ---------- 打印 ---------- */
+    @media print {
+        * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+        @page { margin: 10mm 0; }
+        body { padding: 0 14mm; font-size: 12.4px; }
+        h2 { font-size: 15.5px; margin: 18px 0 10px; }
+        .proj { margin-bottom: 14px; }
+        .proj, .job, table tr { page-break-inside: avoid; }
+    }
+    @media (max-width: 640px) {
+        body { padding: 22px 16px 40px; }
+        .stack .k { min-width: auto; display: block; }
+        .edu, .job .top, .proj .pt { flex-wrap: wrap; }
+    }
 </style>
 </head>
 <body>
 
-<div class="header">
-    <h1>李 鑫</h1>
-    <div class="info">
+<div class="hd">
+    <div class="name">李 鑫</div>
+    <div class="role">求职意向：嵌入式软件开发工程师（网络通信 / 无线方向）｜ 期望城市：成都</div>
+    <div class="contact">
         <span>📱 18040309928</span>
         <span>📧 lxx18040309928@163.com</span>
+        <span>🎓 硕士 · 重庆邮电大学</span>
+        <span>💼 3 年设备软件 / 通信协议开发经验</span>
     </div>
 </div>
-
-<div class="objective">
-    <b>求职意向</b>：嵌入式软件工程师（网络通信 / 无线方向）｜C/C++ 功底 + TCP/IP & 802.11 协议栈 + 底层调用经验｜成都
-</div>
-
-<div class="stats">
-    <div class="stat"><span class="n">259万+</span><span class="l">现网 AP 接入数据规模</span></div>
-    <div class="stat"><span class="n">258万+</span><span class="l">射频(Radio)数据规模</span></div>
-    <div class="stat"><span class="n">19.6万+</span><span class="l">RRM 纳管无线设备</span></div>
-    <div class="stat"><span class="n">802.11be</span><span class="l">WiFi7 · 6GHz 全链路支持</span></div>
-    </div>
 
 <h2>教 育 背 景</h2>
-<table>
-<tr><th>学校</th><th>专业</th><th>学历</th><th>时间</th></tr>
-<tr><td>重庆邮电大学（重庆市智能空地协同重点实验室）</td><td>电子信息</td><td>硕士</td><td>2020.09 - 2023.06</td></tr>
-<tr><td>成都理工大学（双一流）</td><td>电气工程及其自动化</td><td>学士</td><td>2016.09 - 2020.06</td></tr>
-</table>
-
-<h2>工 作 经 历</h2>
-<div class="section">
-    <h3>新华三技术有限公司（H3C） | 2023.07 - 至今（约3年）</h3>
-    <p style="color: #666; font-size: 14px; margin-top: 5px;">部门：云简网络团队 · RRM无线资源管理组 · 岗位：系统/后端开发工程师（网络通信与无线方向）</p>
-    <p style="color: #666; font-size: 13px; margin-top: 4px;">深度参与<b>网络设备（WBC 一体机）与无线通信系统（802.11/WiFi7）</b>的软件开发：C 语言底层库调用（node-ffi）、TCP/IP 与无线协议、设备资源受限环境优化、Linux 系统开发——通信与嵌入式方向背景扎实</p>
+<div class="edu">
+    <div class="l"><b>重庆邮电大学</b> · 电子信息（硕士）<span>　重庆市智能空地协同重点实验室</span></div>
+    <div class="r">2020.09 – 2023.06</div>
 </div>
-
-<h2>核 心 项 目</h2>
-
-<!-- 项目1: WBC 设备软件（嵌入式最对口） -->
-<div class="project">
-    <div class="project-header">
-        <span class="project-title">① WBC 设备软件：IoT 2.0 解耦（嵌入式设备资源优化）</span>
-        <span class="project-period">2023.07 - 2024.06</span>
-    </div>
-    
-    <div class="tech-stack">
-        <span class="tech-tag emb">嵌入式设备软件</span>
-        <span class="tech-tag">C/C++</span>
-        <span class="tech-tag">资源受限优化</span>
-        <span class="tech-tag">Linux</span>
-        <span class="tech-tag">虚拟化</span>
-        <span class="tech-tag">Shell脚本</span>
-    </div>
-    
-    <h4>项目背景</h4>
-    <p style="font-size: 13px; color: #555;">WBC 是集无线运维/控制于一体的网络设备，云简与物联网模块高度耦合，<b>设备内存紧张</b>。通过虚拟化方案实现模块解耦。</p>
-    
-    <h4>本人分工（嵌入式设备侧）</h4>
-    <ul class="duty">
-        <li>主导编译打包流程重构，支持"一体机+虚拟机"双镜像模式（设备固件构建）</li>
-        <li><b>资源受限优化</b>：内存紧张约束下合理分配虚拟机资源，保障核心服务稳定</li>
-        <li>开发设备监控平台 VNC 远程管理功能（宿主机 ↔ 虚拟机安全通信通道）</li>
-    </ul>
-    
-    <div class="result">
-<h4 style="color: #2e7d32; margin-bottom: 8px;">✅ 项目成果</h4>
-        <ul class="result">
-            <li>实现进程级隔离与独立版本生命周期管理</li>
-            <li>为设备软件扩展提供可复制的虚拟化技术范式</li>
-        </ul>
-    </div>
-</div>
-
-<!-- 项目2: RRM WiFi7（无线协议） -->
-<div class="project">
-    <div class="project-header">
-        <span class="project-title">② RRM 支持 WiFi7（802.11be · 6GHz 无线协议适配）</span>
-        <span class="project-period">2024.01 - 2024.12</span>
-    </div>
-    
-    <div class="tech-stack">
-        <span class="tech-tag emb">802.11 协议</span>
-        <span class="tech-tag">C 库调用(node-ffi)</span>
-        <span class="tech-tag">6GHz</span>
-        <span class="tech-tag">Linux</span>
-        <span class="tech-tag">TCP/IP</span>
-    </div>
-    
-    <h4>本人分工</h4>
-    <ul class="duty">
-        <li>新增 6GHz 频段（802.11be）全链路适配：信道扫描、AP 信息采集、无线参数下发</li>
-        <li><b>node-ffi 调用 C 语言 .so 核心算法库</b>：理解 C 内存布局、指针传参、内存释放，实现跨语言底层调用</li>
-        <li>无线信道/频段参数处理（2.4G/5G/6G 三频段统一调度）</li>
-    </ul>
-    
-    <div class="scale-note">
-        <h4>📊 现网规模（生产环境实测）</h4>
-        <ul style="padding-left:18px; margin:0;">
-            <li>系统纳管无线设备 <span class="num">19.6万+</span>、AP 数据 <span class="num">259万+</span>、射频 <span class="num">258万+</span></li>
-            <li>覆盖 2.4G/5G/6G 三频段设备通信与无线参数下发</li>
-        </ul>
-    </div>
-    
-    <div class="result">
-        <h4 style="color: #2e7d32; margin-bottom: 8px;">✅ 项目成果</h4>
-        <ul class="result">
-            <li>从 2 频段扩展到 3 频段，完整支持 WiFi7 商用</li>
-            <li>独立维护复杂遗留系统，平均每周处理 <span class="num">1+</span> 起线上问题</li>
-        </ul>
-    </div>
-</div>
-
-<!-- 项目3: AI RRM（网络协议） -->
-<div class="project">
-    <div class="project-header">
-        <span class="project-title">③ AI RRM 系统重构（设备通信与协议）</span>
-        <span class="project-period">2024.08 - 至今</span>
-    </div>
-    
-    <div class="tech-stack">
-        <span class="tech-tag emb">netconf协议</span>
-        <span class="tech-tag">WebSocket</span>
-        <span class="tech-tag">TCP/IP</span>
-        <span class="tech-tag">设备通信</span>
-    </div>
-    
-    <h4>本人分工</h4>
-    <ul class="duty">
-        <li>基于 <b>WebSocket + netconf</b> 实现云端到 AC 网络设备的指令下发（调优参数、生效指令），打通"下发-计算-上报-展示"通信闭环</li>
-        <li>设备侧调优结果实时上报链路设计与消息可靠性保障</li>
-    </ul>
-    
-    <div class="result">
-        <h4 style="color: #2e7d32; margin-bottom: 8px;">✅ 项目成果</h4>
-        <ul class="result">
-            <li>适配现网 <span class="num">98%+</span> AC+fitap 组网设备通信</li>
-        </ul>
-    </div>
+<div class="edu">
+    <div class="l"><b>成都理工大学</b> · 电气工程及其自动化（学士）<span>　双一流</span></div>
+    <div class="r">2016.09 – 2020.06</div>
 </div>
 
 <h2>技 术 栈</h2>
-<div class="skills-grid">
-    <div class="skill-item">
-        <h4>C/C++ 与底层</h4>
-        <p><b>C/C++ 功底</b>（蓝桥杯 C/C++ 研究生组二等奖）· <b>node-ffi 调用 C .so 动态库</b>（内存布局/指针/释放）· 内存管理理解</p>
-    </div>
-    <div class="skill-item">
-        <h4>网络与无线协议（核心）</h4>
-        <p><b>TCP/IP 协议栈</b> · <b>802.11 无线协议</b>（2.4G/5G/6G、WiFi7）· netconf · WebSocket · 无线信道/频段/漫游原理</p>
-    </div>
-    <div class="skill-item">
-        <h4>Linux 与工具</h4>
-        <p>Linux 环境开发调试 · Shell 脚本 · gdb 调试工具 · 交叉编译 · 设备资源受限优化</p>
-    </div>
-    <div class="skill-item">
-        <h4>嵌入式基础</h4>
-        <p><b>FreeRTOS 任务调度 / 优先级反转原理</b> · 中断机制 · 内存对齐 · 大端小端 · 设备通信协议设计</p>
-    </div>
-    <div class="skill-item">
-        <h4>工程能力</h4>
-        <p>K8s/Docker · CI/CD · Kafka/RabbitMQ · MongoDB/Redis · 版本管理 Git</p>
-    </div>
-    <div class="skill-item">
-        <h4>网络排查</h4>
-        <p>tcpdump/wireshark 抓包分析 · 协议分析（TCP 重传/丢包定位）· 无线干扰排查</p>
-    </div>
+<div class="stack">
+    <div class="row"><span class="k">编程语言</span>熟悉 C / C++（指针与内存管理 · 结构体 · 位操作 · volatile；蓝桥杯 C/C++ 研究生组二等奖）、Node.js / TypeScript</div>
+    <div class="row"><span class="k">C 底层工程</span>熟悉 C 动态库（.so）调用与接口设计 · 函数指针与回调机制 · C ↔ JS 跨语言双向调用 · 内存分配与释放管理 · 大数据量分片传输与 OOM 治理</div>
+    <div class="row"><span class="k">通信协议</span>熟悉 TCP/IP 协议栈 · 802.11 无线协议（2.4G / 5G / 6G · WiFi 7）· Netconf / YANG · WebSocket · 设备通信链路与数据上报机制</div>
+    <div class="row"><span class="k">系统与工具</span>熟悉 Linux 环境开发调试 · Shell 脚本 · tcpdump / Wireshark 抓包分析 · TCP 重传与丢包定位 · Git</div>
+    <div class="row"><span class="k">设备侧经验</span>熟悉 设备软件构建与打包（固件镜像）· 资源受限环境优化（内存紧张下的资源分配）· 模块解耦与虚拟化隔离 · 设备监控与远程管理</div>
+    <div class="row"><span class="k">工程与中间件</span>熟悉 Kafka / RabbitMQ 消息链路 · MongoDB / Redis · Kubernetes / Docker · CI/CD · SonarQube 代码质量门禁</div>
 </div>
 
-<div class="migrate">📌 方向说明：3 年网络设备与无线通信系统软件开发（Linux 环境），C/C++ 与网络协议栈扎实（node-ffi 调 C 库、802.11/netconf/TCP/IP），具备资源受限环境优化与设备通信链路实战经验，可直接承接 Linux 嵌入式软件开发。</div>
-
-<h2>竞 赛 与 获 奖</h2>
-<table>
-<tr><th>时间</th><th>级别</th><th>奖项</th></tr>
-<tr><td>2019.09</td><td>国家级</td><td>第13届"西门子杯"中国智能制造挑战赛全国总决赛<strong>特等奖</strong></td></tr>
-<tr><td>2021.05</td><td>省部级</td><td>第13届"蓝桥杯"C/C++程序设计研究生组<strong>二等奖</strong></td></tr>
-<tr><td>2021.07</td><td>国家级</td><td>第13届"电工杯"中国大学生数学建模竞赛<strong>二等奖</strong></td></tr>
-<tr><td>2021.09</td><td>校级</td><td>研究生一等奖学金（TOP 2%）</td></tr>
-<tr><td>2023-2026</td><td>工作期间</td><td>主导 AI RRM 创新特性（设备侧+云端双计算，覆盖 98%+ 组网）；持续季度稳定交付、主导 P0/P1 故障复盘与 SLA 闭环</td></tr>
-</table>
-
-<h2>自 我 评 价</h2>
-<div class="section">
-    <ul style="padding-left: 25px; font-size: 14px; line-height: 2;">
-        <li><strong>底层功底</strong>：C/C++ 扎实（竞赛获奖 + 生产级 C 库调用），理解内存管理与指针本质</li>
-        <li><strong>网络/无线专业</strong>：深入 TCP/IP、802.11（WiFi7/6GHz）、netconf 等协议，通信背景稀缺</li>
-        <li><strong>设备软件经验</strong>：参与网络设备（WBC 一体机）软件开发，熟悉资源受限环境优化</li>
-        <li><strong>快速上手</strong>：电子信息硕士 + 网络设备软件经验，可直接迁移至 Linux 嵌入式开发</li>
-        <li><strong>工程化</strong>：K8s/CI/CD/监控全链路经验，质量意识强（SonarQube 代码审查）；日常使用 LLM 提升编码与排查效率</li>
+<h2>工 作 经 历</h2>
+<div class="job">
+    <div class="top">
+        <div class="co">新华三技术有限公司（H3C）<em>　云研发部 · 云简网络 · 设备软件 / 后端开发工程师</em></div>
+        <div class="dt">2023.07 – 至今</div>
+    </div>
+    <div class="summary">负责无线网络设备软件（WBC 一体机）与无线资源管理系统（RRM）的开发，工作内容覆盖 <b>C 动态库调用与跨语言接口设计</b>、设备通信链路实现（802.11 / netconf / TCP-IP）、设备固件构建与资源受限环境优化、Linux 环境开发调试。</div>
+    <ul>
+        <li><b>C 底层与接口设计</b>：参与设计 C 算法库（.so）与上层服务的双向调用架构，基于函数指针映射表 + 回调协议实现 C ↔ JS 跨语言异步调用与嵌套调用，解决大数据量场景的内存溢出（OOM）问题。</li>
+        <li><b>设备通信链路</b>：基于 WebSocket + Netconf 实现云端到网络设备（AC / AP）的指令下发通道，打通"下发 — 计算 — 上报 — 展示"闭环；参与设备上报数据格式设计与链路调试。</li>
+        <li><b>无线协议适配</b>：主导 6GHz 频段（802.11be）全链路适配，覆盖信道扫描、AP 信息采集、无线参数下发与三频段统一调度。</li>
+        <li><b>设备软件构建</b>：主导设备软件编译打包流程重构，支持"一体机 + 虚拟机"双镜像模式；在内存紧张约束下合理分配设备资源，保障核心服务稳定。</li>
+        <li><b>线上治理</b>：承担现网值班与故障处理，主导 P0/P1 故障复盘并推动 SLA 闭环；线上问题周均闭环 1+ 起。</li>
     </ul>
 </div>
 
-<div class="footer">
-    感谢您的阅读
+<h2>项 目 经 历</h2>
+
+<div class="proj">
+    <div class="pt">
+        <div class="nm">① C 算法库与上层服务双向调用架构 <i>　C 侧接口设计 / 核心开发</i></div>
+        <div class="dt">2024.01 – 2024.12</div>
+    </div>
+    <div class="tags"><i class="key">C 语言</i><i class="key">函数指针</i><i class="key">回调机制</i><i>动态库（.so）</i><i>内存管理</i><i>跨语言调用</i><i>性能压测</i></div>
+    <div class="desc">无线调优算法以 C 语言实现并编译为动态库，上层服务通过跨语言方式调用。原有"一次性输入输出"模式在大批量设备场景下数据包过大、频繁触发内存溢出（OOM），无法承载现网规模。</div>
+    <ul>
+        <li><b>接口架构设计</b>：参与设计 C 算法库与上层服务的双向调用架构，将大数据量场景由"一次性输入输出"改造为<b>分片传输 + 回调返回</b>，从根因上解决 OOM。</li>
+        <li><b>函数指针映射表</b>：因跨语言调用层不支持异步，设计<b>函数名 → 函数指针的映射表</b>与初始化注册机制，把上层可调用函数注册给 C 侧、函数指针固化为全局变量，实现 C → 上层方向的主动回调。</li>
+        <li><b>回调协议</b>：设计 <b>method–data–callback</b> 三段式调用协议，支持异步返回与<b>嵌套调用</b>（回调中再发起调用），保证多层算法组合下的调用链正确性。</li>
+        <li><b>内存管理</b>：明确跨语言边界的内存归属与释放责任，避免重复释放与悬空引用；结合压测定位内存增长点。</li>
+    </ul>
+    <div class="sub-t">项目成果</div>
+    <ul>
+        <li>支撑 <b>10 万/s</b> 调用量的压力测试，大数据量场景 OOM 问题解决，为后续规模化调优奠定底层能力。</li>
+        <li>该接口层成为算法侧与业务侧解耦的稳定边界，新增算法无需改动上层业务代码。</li>
+    </ul>
 </div>
+
+<div class="proj">
+    <div class="pt">
+        <div class="nm">② 无线资源管理系统架构重构（设备侧 + 云端双计算） <i>　核心开发</i></div>
+        <div class="dt">2024.08 – 至今</div>
+    </div>
+    <div class="tags"><i class="key">设备通信链路</i><i>WebSocket / Netconf</i><i>802.11</i><i>消息可靠性</i><i>数据分层</i><i>配置中心</i></div>
+    <div class="desc">原有系统采用"云端集中计算"模式，云端资源压力大、功能仅在小范围白名单开放。项目将其重构为"设备侧计算 + 云端计算"的分流架构，并完成规模化落地。</div>
+    <ul>
+        <li><b>设备通信</b>：基于 WebSocket + Netconf 实现云端 → AC 网络设备的调优参数与生效指令下发，设计设备侧计算结果的上报链路，保障"下发 — 计算 — 上报 — 展示"全链路消息不丢不重（校验 / 重试 / 幂等去重）。</li>
+        <li><b>设备分组调度</b>：实现设备分组判断与"设备侧 / 云端"分流计算的调度逻辑，按组网类型动态分配计算节点，两种模式无感切换。</li>
+        <li><b>数据层</b>：负责数据库建模与索引设计，通过执行计划分析定位并优化慢查询；设计按任务维度的分片方案与历史数据分层清理策略。</li>
+        <li><b>配置中心</b>：独立设计并交付配置中心（统一管理、一键生成部署配置、自动校验、异常回滚），降低配置失误率与运维成本。</li>
+    </ul>
+    <div class="sub-t">项目成果</div>
+    <ul>
+        <li>适配现网 <b>98%+</b> 的 AC + fitap 组网形态（系统纳管无线设备 19.6 万+），计算压力有效分流至设备侧，云端运维成本明显下降。</li>
+        <li>功能从小范围白名单试点推进到<b>规模化落地</b>，调优实时性与准确率同步提升。</li>
+    </ul>
+</div>
+
+<div class="proj">
+    <div class="pt">
+        <div class="nm">③ 网络设备软件 WBC：IoT 2.0 模块解耦（资源受限优化与虚拟化） <i>　设备侧开发</i></div>
+        <div class="dt">2023.07 – 2024.06</div>
+    </div>
+    <div class="tags"><i class="key">资源受限优化</i><i>设备软件构建</i><i>虚拟化隔离</i><i>Linux</i><i>Shell</i></div>
+    <div class="desc">WBC 是集无线运维与控制于一体的网络设备，云简与物联网模块高度耦合，<b>设备内存资源紧张</b>。项目通过虚拟化方案实现模块解耦。</div>
+    <ul>
+        <li><b>设备软件构建</b>：主导编译打包流程重构，支持"一体机 + 虚拟机"双镜像模式，实现模块并行开发与独立发布。</li>
+        <li><b>资源受限优化</b>：在内存紧张约束下合理分配虚拟机资源，保障核心服务稳定运行。</li>
+        <li><b>模块隔离</b>：参与物联网模块解耦改造，实现进程级隔离与独立版本生命周期管理。</li>
+        <li><b>设备监控</b>：开发设备监控平台的 VNC 远程管理功能，建立宿主机与虚拟机之间稳定、安全的通信通道。</li>
+    </ul>
+    <div class="sub-t">项目成果</div>
+    <ul>
+        <li>物联网模块从耦合架构解耦为独立虚拟机部署，可独立升级维护，版本交付周期显著缩短。</li>
+    </ul>
+</div>
+
+<h2>竞 赛 与 获 奖</h2>
+<table>
+    <tr><td class="tm">2019.09</td><td>第 13 届"西门子杯"中国智能制造挑战赛 <b>全国总决赛特等奖</b></td></tr>
+    <tr><td class="tm">2021.05</td><td>第 13 届"蓝桥杯"C / C++ 程序设计大赛 研究生组 <b>省二等奖</b></td></tr>
+    <tr><td class="tm">2021.07</td><td>第 13 届"电工杯"全国大学生数学建模竞赛 <b>全国二等奖</b></td></tr>
+    <tr><td class="tm">2021.09</td><td>研究生学业奖学金 <b>一等奖（TOP 2%）</b></td></tr>
+    <tr><td class="tm">2023–2026</td><td>工作期间：主导核心创新特性的设计与落地、主导 P0/P1 故障复盘与 SLA 闭环，连续季度稳定交付</td></tr>
+</table>
+
+<h2>自 我 评 价</h2>
+<ul>
+    <li><b>C 语言工程能力</b>：具备 C 动态库调用与跨语言接口设计的完整实践 —— 函数指针映射表、回调协议、内存归属与释放管理，并落地在支撑 10 万/s 调用量的生产系统上。</li>
+    <li><b>设备与协议纵深</b>：3 年网络设备软件与无线通信系统开发经验，深入 TCP/IP、802.11（WiFi 7 / 6GHz）、Netconf 协议栈，理解设备侧通信链路、数据上报机制与资源约束。</li>
+    <li><b>设备侧工程意识</b>：做过设备软件构建与打包、内存紧张环境下的资源分配、模块解耦与虚拟化隔离，习惯在资源受限前提下做工程取舍。</li>
+    <li><b>稳定性与协作</b>：长期承担现网值班与故障处理，熟悉监控告警、日志排查与故障复盘方法论；能与硬件 / 设备侧团队高效协作。</li>
+</ul>
 
 </body>
 </html>
