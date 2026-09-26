@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>嵌入式 Day3 学习记录（2026-09-26）</title>
+<style>
+  :root { --bg:#f4f6fb; --card:#fff; --ink:#1f2430; --sub:#5b6478; --line:#e4e8f0; --brand:#4f46e5; --red:#dc2626; --green:#16a34a; --amber:#d97706; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:var(--bg); color:var(--ink); line-height:1.7; padding-bottom:70px; }
+  .hero { background:linear-gradient(135deg,#0f766e,#4f46e5); color:#fff; padding:26px 0 20px; }
+  .hero .wrap { max-width:960px; margin:0 auto; padding:0 16px; }
+  .hero h1 { font-size:21px; margin-bottom:6px; }
+  .hero .sub { font-size:13px; opacity:.94; }
+  .hero .nav { margin-top:12px; display:flex; gap:8px; flex-wrap:wrap; }
+  .hero .nav a { display:inline-block; font-size:12px; color:#fff; background:rgba(255,255,255,.18); border:1px solid rgba(255,255,255,.35); border-radius:99px; padding:3px 12px; text-decoration:none; }
+  .hero .nav a:hover { background:rgba(255,255,255,.3); }
+  .wrap { max-width:960px; margin:0 auto; padding:0 16px; }
+
+  .stats { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:16px 0; }
+  .stat { background:#fff; border:1px solid var(--line); border-radius:12px; padding:13px 12px; text-align:center; }
+  .stat .n { font-size:24px; font-weight:700; color:var(--brand); line-height:1.2; }
+  .stat .l { font-size:11.5px; color:var(--sub); margin-top:3px; }
+  .stat.done .n { color:var(--green); }
+  .stat.todo .n { color:var(--amber); }
+  .stat.fail .n { color:var(--red); }
+
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px; margin:14px 0; }
+  .card h2 { font-size:15.5px; margin-bottom:8px; display:flex; align-items:center; gap:8px; }
+  h3 { font-size:13.5px; margin:14px 0 6px; color:var(--brand); }
+  table { width:100%; border-collapse:collapse; font-size:12.8px; }
+  th { background:#f1f3fa; padding:7px 8px; text-align:left; font-size:11.8px; color:var(--sub); font-weight:600; }
+  td { padding:7px 8px; border-top:1px solid var(--line); vertical-align:top; }
+  code { background:#eef2ff; color:#3730a3; padding:1px 5px; border-radius:4px; font-family:Consolas,Monaco,monospace; font-size:12px; }
+  pre { background:#1e2235; color:#e2e8f0; padding:11px 13px; border-radius:8px; overflow-x:auto; font-family:Consolas,Monaco,monospace; font-size:12px; line-height:1.6; margin:8px 0; }
+  pre code { background:none; color:inherit; padding:0; }
+
+  .tag { display:inline-block; font-size:11px; padding:1px 7px; border-radius:99px; background:#eef2ff; color:#4338ca; margin-left:6px; }
+  .tag.pass { background:#f0fdf4; color:#15803d; }
+  .tag.half { background:#fffbeb; color:#b45309; }
+  .tag.fail { background:#fef2f2; color:#b91c1c; }
+  .tag.new  { background:#f5f3ff; color:#6d28d9; }
+
+  .ok { background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:9px 12px; font-size:12.8px; color:#14532d; margin:9px 0; }
+  .warn { background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:9px 12px; font-size:12.8px; color:#92400e; margin:9px 0; }
+  .bad { background:#fef2f2; border:1px solid #fecaca; border-radius:8px; padding:9px 12px; font-size:12.8px; color:#991b1b; margin:9px 0; }
+  .talk { background:#f5f7ff; border-left:3px solid var(--brand); border-radius:0 8px 8px 0; padding:9px 12px; margin:8px 0; font-size:12.8px; }
+  .talk b { color:var(--brand); }
+  a { color:var(--brand); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  ul.clean { padding-left:19px; }
+  ul.clean li { font-size:13px; margin:5px 0; }
+  ol.clean { padding-left:21px; }
+  ol.clean li { font-size:13px; margin:5px 0; }
+  .footer { text-align:center; color:#9aa3b5; font-size:11.8px; margin-top:24px; line-height:1.9; }
+  @media (max-width:560px){ .hero h1{font-size:18px;} .stats{grid-template-columns:repeat(2,1fr);} table{font-size:12.2px;} th,td{padding:6px;} }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <h1>📙 嵌入式 Day3 学习记录</h1>
+    <div class="sub">2026-09-26（周六）· 补 D1/D2 欠账 → C 语言 7 题陪练 · 欠账全部清零 · AI 陪练</div>
+    <div class="nav">
+      <a href="学习中心.html">🏠 学习中心</a>
+      <a href="嵌入式系统学习计划_14天_20260924.html">📚 每日学习计划 14 天</a>
+      <a href="嵌入式_Day2学习记录_20260923.html">📘 Day2 记录（9/23）</a>
+      <a href="嵌入式_Day1学习记录_20260921.html">📗 Day1 记录（9/21）</a>
+      <a href="华为引望OD_嵌入式_面试突击方案_20260917.html">🚀 引望突击方案</a>
+      <a href="index.html">站点首页</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="stats">
+    <div class="stat done"><div class="n">7</div><div class="l">✅ 欠账全部清零</div></div>
+    <div class="stat done"><div class="n">2</div><div class="l">🎯 破除老盲区</div></div>
+    <div class="stat fail"><div class="n">1</div><div class="l">🔴 复发错题</div></div>
+    <div class="stat"><div class="n">21</div><div class="l">📝 错题纸累计条目</div></div>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">1</span> 今日实况（7 题 · 全部通过）</h2>
+    <p>背景：计划 D1（9/24）、D2（9/25）因调部署与材料返工未执行 → <b>欠账并入今日（D3）以"考试式"补做</b>（不读文章，直接考 + 补缺口），约 4 小时 45 分钟。</p>
+    <table>
+      <thead><tr><th style="width:20%">题</th><th style="width:14%">判定</th><th>缺口 / 关键纠正</th></tr></thead>
+      <tbody>
+        <tr><td><b>Q1 指针三兄弟</b></td><td><span class="tag pass">✅ 12/12</span></td><td>首轮把三条内容<b>全塞进「野指针」一列</b>（列位全错）；补答后野指针 4/4（含"修改其他业务内容且不报错"自答加分）、悬空 4/4、泄漏 4/4 —— <b>9/21 的说反已彻底纠正</b></td></tr>
+        <tr><td><b>Q2 大小端</b></td><td><span class="tag pass">✅</span></td><td>定义一次答对；但<b>布局默写首轮写反</b>（大端写成 <code>78 56 34 12</code>）→ 给出「<b>大端顺着写 / 小端倒着写</b>」操作型锚 → 用<b>新数值</b> <code>0x00000001</code>、<code>0xDEADBEEF</code> 复验 <b>4/4 全对</b></td></tr>
+        <tr><td><b>Q3 volatile</b></td><td><span class="tag pass">✅</span></td><td>作用 / 不保证原子性 / <code>volatile const</code> / <b>自主举出"flag 死循环"例子</b>全对；<b>场景只列 1/3</b> → 已补三场景（硬件寄存器 · ISR 共享标志 · 多线程共享）+ 三不保证（原子性 / 顺序性）</td></tr>
+        <tr><td><b>Q4 Q8 复述</b><br>malloc / free</td><td><span class="tag pass">✅ 3.5/4</span></td><td>free 侧 3/3 满分（只能 free malloc 的 / 不能重复 / free 后置 NULL）；malloc 侧缺<b>"不清零"</b> → 补 <code>calloc</code> / <code>memset</code></td></tr>
+        <tr><td><b>Q5 Q9 复述</b><br>结构体对齐</td><td><span class="tag pass">✅</span></td><td>两条规则 + padding 全对；<b>手算未做</b>（<code>struct{char a;int b;char c;}</code> = <b>12</b>，补了逐字节 offset）；<b>「跨 4KB」单位错误</b> → 纠正为"跨 4 字节字边界"</td></tr>
+        <tr><td><b>Q6 Q12</b><br>宏 vs 函数</td><td><span class="tag half">✅ 4/7</span></td><td>时机（预处理）+ 类型检查对；缺<b>调用开销 / 代码膨胀 / 调试可见性</b>；<code>SQ(1+2)</code> 未算（=<b>5</b>）；正确写法 <code>((x)*(x))</code>；多语句宏 <code>do{...}while(0)</code></td></tr>
+        <tr><td><b>Q7 Q13</b><br>sizeof vs strlen</td><td><span class="tag half">✅ 5/7</span></td><td><b>🔴 复发：<code>sizeof(p)</code> 答成 3（应 8）</b> —— 与 9/21 Q1 同一个坑，第 2 次错；<code>strlen(p)=3</code> 未答；数组作形参 sizeof 失效未答</td></tr>
+      </tbody>
+    </table>
+    <div class="ok">✅ <b>结论</b>：<b>7 题全部通过</b>，计划 D1/D2/D3 的欠账清零。核心收获是<b>两个连续多天的"方向性/概念性"老坑被破除</b>；代价是暴露 <b>1 条复发错题</b>（指针大小）。</div>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">2</span> ⭐ 错题纸更新（累计 21 条）</h2>
+
+    <h3>🔴 复发（同一坑第 2 次 · 最高优先级）</h3>
+    <table>
+      <thead><tr><th style="width:34%">条目</th><th>说明与根治锚</th></tr></thead>
+      <tbody>
+        <tr><td><b>指针的大小</b>（9/21 错 → 9/26 又错）</td><td><code>sizeof(p)</code> = <b>8（64 位）/ 4（32 位）</b>，<b>与指向的类型无关</b>（<code>char*</code> / <code>int*</code> / <code>double*</code> 都是 8）。<br><b>锚：sizeof 看「类型」，strlen 看「内容」</b>；要"指向内容"的大小必须写 <code>sizeof(*p)</code>。<br>根因：把"指针"和"它指的东西"当成一体了 —— <b>指针只是一个装地址的格子</b>。</td></tr>
+      </tbody>
+    </table>
+
+    <h3>🆕 今日新增</h3>
+    <table>
+      <thead><tr><th style="width:34%">条目</th><th>要点</th></tr></thead>
+      <tbody>
+        <tr><td><code>malloc</code> 不清零</td><td>出来是<b>垃圾值</b>；要干净用 <code>calloc</code>（自动清零）或 <code>memset</code>。<b>锚：malloc 只给地，calloc 给地还打扫干净</b></td></tr>
+        <tr><td>不能 free 偏移过的指针</td><td><code>free(p + 1)</code> ❌（块头找不到了）；必须 free <code>malloc</code> 返回的<b>原指针</b></td></tr>
+        <tr><td><code>free(NULL)</code> 是安全的</td><td>所以"free 后置 NULL"<b>同时防住悬空指针 + double free</b></td></tr>
+        <tr><td><code>SQ(1+2)</code> = <b>5</b>（不是 9）</td><td>宏是文本替换 → <code>1 + 2 * 1 + 2</code>；正确写法 <b><code>((x) * (x))</code></b>；括号的意义是<b>"防止替换后被拆开"</b>不是"提优先级"</td></tr>
+        <tr><td>多语句宏要包起来</td><td><b><code>do { ... } while(0)</code></b> —— 否则塞进 <code>if / else</code> 会被拆成两半</td></tr>
+        <tr><td>结构体总大小"凑"谁</td><td>凑的是 <b>最大成员</b>的整数倍（<code>struct{char;int;char}</code> → 10 → 凑到 12），<b>不是看最后一个成员</b></td></tr>
+        <tr><td>未对齐的代价说法</td><td>是"<b>跨一个字的边界（4 / 8 字节）</b>要读两次"，<b>不是 4KB</b>；个别架构（ARM 部分指令 / SPARC）直接抛异常</td></tr>
+      </tbody>
+    </table>
+
+    <h3>📌 需回炉（今天未复述或需再验）</h3>
+    <ul class="clean">
+      <li><b>内存泄漏 4 场景</b>（Q1 已 4/4，但今天未重复复述）：早期 return / 忘析构 / 丢指针 / 循环里堆</li>
+      <li><b>野指针</b>（今天补答通过，但<b>首轮整格空白</b>）→ 下次<b>乱序抽查</b>验证归类能力</li>
+      <li><b>大端 / 小端布局</b>（今天靠新锚通过）→ 换第三个数值再验一次</li>
+      <li><b>volatile 三场景 + 三不保证</b>（今天是我补的，未验）</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">3</span> 🎯 今日生效的「操作型记忆锚」（背这几句就够）</h2>
+    <table>
+      <thead><tr><th style="width:26%">知识点</th><th style="width:37%">操作型锚（照着做）</th><th>自检法</th></tr></thead>
+      <tbody>
+        <tr><td><b>大端 / 小端布局</b></td><td><b>大端 = 顺着写；小端 = 倒着写</b>（<code>12 34 56 78</code> vs <code>78 56 34 12</code>）</td><td><code>x = 1</code> → 小端 <code>01 00 00 00</code>、大端 <code>00 00 00 01</code></td></tr>
+        <tr><td><b>野 / 悬空 / 泄漏</b></td><td><b>野 = 没领钥匙乱开门；悬空 = 房退了钥匙还在手上；泄漏 = 钥匙丢了房子还占着</b></td><td>问"内存还在不在 / 指针有没有被赋过值"</td></tr>
+        <tr><td><b>结构体对齐</b></td><td><b>成员按自身大小对齐，整体按最大成员凑</b>；<b>成员从大到小排最省</b></td><td><code>struct{char;int;char}</code> → 12；换 <code>int;char;char</code> → 8</td></tr>
+        <tr><td><b>sizeof / strlen</b></td><td><b>sizeof 看类型（编译期、含 \0）；strlen 看内容（运行期、数到 \0）</b></td><td><code>char s[]="abc"</code> → 4/3；<code>char *p="abc"</code> → <b>8</b>/3</td></tr>
+      </tbody>
+    </table>
+    <div class="talk">🎤 <b>两条能直接说的面试话术</b><br>
+      · 大小端："大端是高位字节放低地址（<b>网络字节序就是大端</b>），小端是低位字节放低地址。判断<b>必须按字节读内存</b> —— <code>union</code> 法或 <code>*(char*)&amp;x == 1</code>；<b>位运算做不到</b>，因为它在数值层面，跟内存布局无关。"<br>
+      · volatile："volatile 强制每次从内存读写，解决<b>可见性</b>；三个场景是<b>硬件寄存器、中断与主循环共享的标志位、多线程共享变量</b>；它<b>不保证原子性也不保证顺序性</b>，多线程还要配 <code>atomic</code>。"</div>
+    <div class="ok">⭐ <b>可钩项目的两个点</b>：① 他压测时真用过 <b>volatile 全局计数器</b>（1024 并发链 × 100 嵌套 → 10 万/s）② 处理过 <b>rrmcompute OOM</b>（内存配额 5Gi → 5.5Gi）—— 对"内存泄漏在长驻服务/设备上的危害"有真实体感。</div>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">4</span> 📌 明日（D4 · 9/27 周日）优先清单</h2>
+    <ol class="clean">
+      <li><b>🔴 补 D3 主体：手撕 6 道（今天未开始）</b> —— 纸上写，顺序：字符串反转 → memcpy（内存重叠）→ 单链表反转 → 统计 1 的个数 → 判断大小端 → 环形缓冲区。写完贴给我，按「边界 / 正确性 / 讲得清」三维判</li>
+      <li><b>D4 阶段一闭卷自测</b>（C 语言 13 题全量，限时口述）—— 计划的检查点，不跳过</li>
+      <li><b>乱序抽查</b>（验归类能力，专治"概念串"）：三兄弟随机问、大小端换第三个数值、对齐给新结构体</li>
+      <li><b>简历挂钩任务</b>：<code>d3-11</code> gcc 共享库 + Makefile、<code>d3-12</code> GDB 调试实操（今天未做）→ 30 分钟能补掉</li>
+      <li>错题纸 21 条过一遍（重点：🔴 复发那条 + 📌 回炉 4 条）</li>
+    </ol>
+  </div>
+
+  <div class="footer">
+    记录时间：2026-09-26 23:45 · 由 AI 陪练结果汇总整理 · 本地与云端同步<br>
+    <a href="学习中心.html">学习中心</a> ·
+    <a href="嵌入式系统学习计划_14天_20260924.html">每日学习计划 14 天</a> ·
+    <a href="嵌入式_Day2学习记录_20260923.html">Day2 记录</a> ·
+    <a href="index.html">站点首页</a>
+  </div>
+
+</div>
+</body>
+</html>
