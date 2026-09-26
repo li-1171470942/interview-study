@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>成都嵌入式岗位需求分析 × 简历匹配度评估（2026-09-26）</title>
+<style>
+    :root { --ink:#1c2430; --sub:#5a6472; --accent:#14406b; --line:#d8dde5; --soft:#f4f6f9;
+            --ok:#0f7b52; --warn:#b45309; --bad:#b91c1c; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; max-width:1000px; margin:0 auto;
+           padding:36px 30px 48px; color:var(--ink); background:#fbfcfd; line-height:1.7; font-size:13.5px; }
+    h1 { font-size:23px; color:var(--accent); letter-spacing:1px; }
+    .sub { color:var(--sub); font-size:12.6px; margin:6px 0 22px; }
+    h2 { font-size:17px; color:var(--accent); border-bottom:2px solid var(--accent);
+         padding-bottom:5px; margin:28px 0 12px; letter-spacing:1px; }
+    h3 { font-size:14.5px; color:var(--accent); margin:16px 0 7px; }
+    .card { background:#fff; border:1px solid var(--line); border-radius:8px; padding:16px 18px; margin:14px 0; }
+    table { width:100%; border-collapse:collapse; margin:8px 0; font-size:12.7px; }
+    th, td { border:1px solid var(--line); padding:6px 9px; text-align:left; vertical-align:top; }
+    th { background:var(--soft); font-weight:700; color:var(--accent); }
+    td.c { text-align:center; white-space:nowrap; }
+    .ok { color:var(--ok); font-weight:700; }
+    .warn { color:var(--warn); font-weight:700; }
+    .bad { color:var(--bad); font-weight:700; }
+    .box-ok { background:#ecfdf5; border-left:4px solid var(--ok); padding:9px 13px; margin:10px 0; border-radius:0 5px 5px 0; }
+    .box-warn { background:#fffbeb; border-left:4px solid #f59e0b; padding:9px 13px; margin:10px 0; border-radius:0 5px 5px 0; }
+    .box-bad { background:#fef2f2; border-left:4px solid var(--bad); padding:9px 13px; margin:10px 0; border-radius:0 5px 5px 0; }
+    .box-talk { background:#eef2ff; border-left:4px solid #6366f1; padding:9px 13px; margin:10px 0; border-radius:0 5px 5px 0; color:#3730a3; }
+    ul, ol { padding-left:20px; }
+    li { margin:4px 0; font-size:13px; }
+    code { background:#f1f5f9; border:1px solid #e2e8f0; border-radius:3px; padding:0 4px; font-size:12px; color:#334155; }
+    .bar { display:inline-block; height:9px; border-radius:5px; background:var(--accent); vertical-align:middle; margin-right:6px; }
+    .footer { text-align:center; color:#9aa3b5; font-size:12px; margin-top:28px; border-top:1px solid var(--line); padding-top:12px; }
+</style>
+</head>
+<body>
+
+<h1>🎯 成都嵌入式岗位需求分析 × 你的简历匹配度</h1>
+<div class="sub">
+  数据来源：2026-09-26 抓取 16 个成都在招岗位（BOSS 直聘需登录、浏览器自动化在当前沙箱不可用 → 改用多平台公开岗位信息聚合，含 BOSS 转载岗位、智联、前程无忧、全职招聘网、国聘、鱼泡等）<br>
+  分析目标：判断<b>「嵌入式 Linux 软件开发」</b>定位下，现简历的匹配度与缺口
+</div>
+
+<h2>① 16 个岗位（按方向分三类）</h2>
+
+<div class="card">
+  <h3>🅰 网络 / 通信设备方向（<span class="ok">最对口</span> · 薪资最高）</h3>
+  <table>
+    <tr><th style="width:20%">公司</th><th style="width:16%">岗位 / 薪资</th><th>核心要求</th></tr>
+    <tr><td><b>迈普通信</b><br>（武侯区）</td><td>嵌入式软件开发<br>（网络设备系统基础）<br><b>1.5-2.5 万</b> · 3-5 年</td><td><b>Linux 操作系统 + C 语言 + TCP/IP 协议族 + 路由器/交换机原理</b>；设备管理 / 配置管理 / HA / 日志系统；优化<b>启动流程、内存管理、进程调度</b>。加分：内核开发、CLI/Web/SNMP/<b>NETCONF</b>/TELEMETRY</td></tr>
+    <tr><td><b>成都中嵌</b><br>（科学城）</td><td>嵌入式软件开发<br>（交换机）<br><b>1.1-2 万</b> · 3-5 年</td><td>Linux 开发 + C 语言 + <b>TCP/IP 协议栈</b> + 二三层转发；<b>熟练 GCC 及 makefile</b>。加分：LACP/MSTP/QoS/ACL/OSPF/VRRP、交换芯片</td></tr>
+    <tr><td><b>智联·数通安全</b><br>（武侯区，招 5 人）</td><td>软件开发工程师<br><b>1.5-2.5 万</b> · 3-5 年</td><td>通信行业 3 年嵌入式；<b>Linux + C + TCP/IP + 路由器/交换机/安全设备原理</b>；Portal/802.1X/AAA、IPsec/IKE、DPI</td></tr>
+    <tr><td><b>鼎峰汇智</b><br>（双流区）</td><td>高级嵌入式软件<br>（交换机底层）<br>3 年+</td><td>C/C++、<b>操作系统（Linux/RTOS）底层原理</b>、多线程 / 内存管理 / 性能调优、<b>TCP/IP + L2/L3 转发</b>、OSPF/BGP、交换芯片 SDK、<b>Wireshark/GDB/Perf</b></td></tr>
+  </table>
+  <div class="box-ok">✅ <b>这 4 个岗位是"你的形状"</b>：C + Linux + TCP/IP + 网络设备 + 设备管理/配置管理 —— 你在 RRM 做的正是"网络设备的云端管理 + 设备通信链路（netconf 配置下发）"。<b>迈普那条还点名了 NETCONF</b>，你做过。</div>
+</div>
+
+<div class="card">
+  <h3>🅱 Linux 应用 / 驱动方向（数量最多）</h3>
+  <table>
+    <tr><th style="width:20%">公司</th><th style="width:16%">岗位 / 薪资</th><th>核心要求</th></tr>
+    <tr><td>兴隆湖实验室<br>（天府新区）</td><td>嵌入式软件开发<br><b>1.3-1.7 万 ×15 薪</b> · 硕士</td><td><b>Linux 系统软件设计开发（含内核优化、驱动开发）</b>；精通 C/C++；<b>V4L2 / GPIO / SPI 驱动开发调试</b></td></tr>
+    <tr><td>成都能通科技<br>（武侯区）</td><td>嵌入式软件<br>1.1-2 万 · 硕士</td><td>C/C++；<b>嵌入式 Linux 或 VxWorks 应用 / 驱动开发</b>；STM32 / ARM / ZYNQ；原理图</td></tr>
+    <tr><td>某公司（鼎桥项目）<br>（双流区）</td><td>嵌入式开发<br>1-1.5 万 · 1-3 年</td><td>ARM/RISC-V 嵌入式 Linux；<b>精通 C + 交叉编译 + Linux 系统调用</b>；<b>UART/I2C/SPI/CAN 至少 2 种</b>；<b>GDB/Jlink</b>；buildroot/yocto 优先</td></tr>
+    <tr><td>江苏新绿能<br>（金牛区）</td><td>嵌入式软件开发<br>0.8-0.9 万 · 1-3 年</td><td>C/C++；<b>Linux 多线程 / 进程间通信 / 性能调优</b>；网络编程；<b>Shell/Makefile</b>；<b>CMake/Ninja/GDB 交叉编译工具链</b>；MQTT/TCP-IP</td></tr>
+    <tr><td>成都熊谷加世<br>（郫都区）</td><td>嵌入式软件<br>10-15 万 / 年</td><td>C/C++；<b>Linux 交叉编译 + 网络编程 + 文件编程</b>；<b>线程 / 锁 / gdb 调试</b>；Git/Makefile；glibc</td></tr>
+    <tr><td>四川中科友成<br>（郫都区）</td><td>嵌入式软件<br>2 年+</td><td>底层驱动、OS 移植；C/C++；<b>SPI/I2C/UART/CAN/USB/TCP-IP</b>；Keil/IAR/<b>GCC/GDB/JTAG</b>/示波器</td></tr>
+    <tr><td>天津讯联（成都）<br>（高新区）</td><td>嵌入式软件<br>1-2 万 · 3 年+</td><td>ARM/DSP/FPGA；<b>Linux 系统裁剪移植 + 外设驱动（设备树 GPIO/I2C/SPI/UART）+ petalinux</b>；TCP/UDP；<b>C / shell / gdb / git / makefile</b></td></tr>
+    <tr><td>成都栾南芯源<br>（温江）</td><td>软件工程师（校招）<br>3-5 千</td><td>C 语言；STM32；<b>Linux 基本操作 + GCC/Make/GDB</b>；中断/内存/进程线程/交叉编译</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h3>🅲 车载方向（<span class="bad">门槛最高</span> · 与引望同类）</h3>
+  <table>
+    <tr><th style="width:20%">公司</th><th style="width:16%">岗位 / 薪资</th><th>核心要求</th></tr>
+    <tr><td>某车载芯片平台<br>（郫都区）</td><td>基础软件工程师<br>3-5 年</td><td>嵌入式 Linux / QNX / RTOS；<b>Linux 内核 · 设备驱动 · Bootloader · 文件系统 · 网络协议栈（至少两类）</b>；CAN/CAN FD/以太网/SOME-IP/DDS/UDS/DoIP（至少两类）；ASPICE / MISRA C</td></tr>
+    <tr><td>云锐科技</td><td>嵌入式软件<br>3 年+</td><td><b>AUTOSAR CP 的 BSW / MCAL</b>；Davinci / EB Tresos；MISRA-C；CAN/LIN/SPI/以太网</td></tr>
+    <tr><td>法本信息<br>（双流区）</td><td>C 开发工程师<br>3-5 年</td><td><b>AUTOSAR CP</b>；MCU 外设驱动（CAN/LIN/Ethernet/SPI/I²C/UART/ADC/PWM/Watchdog/Flash）；RTOS 或 Linux 内核/驱动/应用层</td></tr>
+    <tr><td>Syntronic<br>（成都）</td><td>汽车电子软件<br>1.3-1.7 万</td><td>AUTOSAR / OSEK、多核 MCU、MISRA-C、底层驱动、CAN/LIN/ETH、ISO 26262 / ASPICE</td></tr>
+  </table>
+  <div class="box-bad">⚠️ 车载方向要求 <b>AUTOSAR / 功能安全 / 车载协议</b>，这是另一个技术体系，短期无法补齐。<b>引望（车 BU）的面试要按"通信/设备软件"的思路打，别硬碰 AUTOSAR。</b></div>
+</div>
+
+<h2>② 需求频次（16 个岗位里出现几次）</h2>
+<div class="card">
+  <table>
+    <tr><th style="width:34%">要求</th><th style="width:14%">出现率</th><th>你的现状</th></tr>
+    <tr><td><b>C / C++ 语言</b></td><td><span class="bar" style="width:64px"></span>16/16 = <b>100%</b></td><td class="ok">✅ 强项（C 动态库 / 函数指针 / 内存管理 + 蓝桥杯省二）</td></tr>
+    <tr><td><b>Linux 操作系统 / 开发环境</b></td><td><span class="bar" style="width:60px"></span>15/16 = <b>94%</b></td><td class="ok">✅ 3 年 Linux（Shell / 进程 / 日志 / 抓包）</td></tr>
+    <tr><td><b>TCP/IP 协议 / 网络编程</b></td><td><span class="bar" style="width:36px"></span>9/16 = <b>56%</b><br>（网络设备岗 4/4）</td><td class="ok">✅ 强项（3 年 802.11 / netconf / 设备通信链路）</td></tr>
+    <tr><td><b>GDB 调试</b></td><td><span class="bar" style="width:28px"></span>7/16 = <b>44%</b></td><td class="bad">❌ 没真用过（你确认过）</td></tr>
+    <tr><td><b>GCC / Makefile / 构建</b></td><td><span class="bar" style="width:26px"></span>6/16 = <b>38%</b></td><td class="warn">⚠️ 简历刚写，知识未补</td></tr>
+    <tr><td><b>UART / SPI / IIC / CAN</b></td><td><span class="bar" style="width:26px"></span>6/16 = <b>38%</b></td><td class="warn">⚠️ 简历刚写"协议原理"，未实战</td></tr>
+    <tr><td><b>内核 / 驱动开发</b></td><td><span class="bar" style="width:26px"></span>6/16 = <b>38%</b></td><td class="bad">❌ 完全没有</td></tr>
+    <tr><td><b>多线程 / 进程 / IPC / 性能调优</b></td><td><span class="bar" style="width:22px"></span>5/16 = <b>31%</b></td><td class="warn">⚠️ 有并发/OOM 治理经验，但是 Node.js 侧；Linux C 侧没做过</td></tr>
+    <tr><td>RTOS（FreeRTOS 等）</td><td><span class="bar" style="width:22px"></span>5/16 = <b>31%</b></td><td class="bad">❌ 概念级</td></tr>
+    <tr><td>交叉编译</td><td><span class="bar" style="width:18px"></span>4/16 = <b>25%</b></td><td class="bad">❌ 没用过</td></tr>
+    <tr><td>Linux 系统调用</td><td><span class="bar" style="width:16px"></span>3/16 = <b>19%</b></td><td class="bad">❌ C 语言层面没写过</td></tr>
+    <tr><td>STM32 / MCU 裸机</td><td><span class="bar" style="width:18px"></span>4/16 = <b>25%</b></td><td class="bad">❌ 无</td></tr>
+    <tr><td>AUTOSAR / 功能安全</td><td><span class="bar" style="width:18px"></span>4/16 = <b>25%</b>（车载专属）</td><td class="bad">❌ 无</td></tr>
+    <tr><td>buildroot / yocto / 设备树 / Bootloader</td><td><span class="bar" style="width:14px"></span>3/16 = <b>19%</b></td><td class="bad">❌ 无</td></tr>
+    <tr><td>硕士学历 / 3 年经验</td><td><span class="bar" style="width:60px"></span>全部满足</td><td class="ok">✅ 硕士 + 3 年（刚卡上门槛）</td></tr>
+  </table>
+</div>
+
+<h2>③ 结论：三个方向的匹配度</h2>
+<div class="card">
+  <table>
+    <tr><th style="width:26%">方向</th><th style="width:16%">匹配度</th><th>判断</th></tr>
+    <tr><td><b>网络 / 通信设备</b><br>（迈普、中嵌、智联数通、鼎峰）</td><td class="c"><b class="ok">65-75%</b></td><td><b>主战场</b>。C + Linux + TCP/IP + 网络设备 + 配置管理（netconf）全中；薪资最高（1.5-2.5 万）。缺口：数通（交换机/路由器）产品经验、内核/驱动、交换芯片 —— 但"网络设备软件 + 协议"这条主线你 3 年就在做</td></tr>
+    <tr><td><b>Linux 应用 / 驱动</b><br>（兴隆湖、能通、新绿能、熊谷、中科友成、讯联…）</td><td class="c"><b class="warn">50-60%</b></td><td><b>次战场</b>。C/Linux 对，但缺 <b>GDB / 交叉编译 / 内核驱动 / Linux C 系统编程</b> —— 这四项恰好都是<b>可以短期补</b>的（下面给补法）</td></tr>
+    <tr><td><b>车载</b><br>（AUTOSAR 系）</td><td class="c"><b class="bad">25-35%</b></td><td><b>不碰</b>。AUTOSAR CP / 功能安全 / 车载协议是另一套体系。引望面试请按「通信+设备软件」方向打，突出 netconf / 设备通信 / C 底层</td></tr>
+  </table>
+</div>
+
+<h2>④ 🚨 一个必须马上改的简历问题</h2>
+<div class="box-bad">
+  <b>你刚让我从技能栈删掉的「TCP/IP · 802.11 · Netconf」，恰恰是网络设备方向 4/4 岗位的核心要求。</b><br>
+  迈普那条甚至<b>点名 NETCONF</b>（"有 CLI/Web/SNMP/NETCONF/TELEMETRY 经验者优先"）—— 而你三年做的就是 netconf 配置下发。<br>
+  <b>建议：把「网络协议」加回技能栈</b>，写成：<br>
+  <code>熟悉 TCP/IP 协议族 · 以太网/无线网络设备原理 · Netconf / YANG（设备配置管理）· WebSocket · 设备通信链路与数据上报</code><br>
+  这一行不改回来，你在<b>最对口、薪资最高</b>的那批岗位上会白丢一个核心关键词。
+</div>
+
+<h2>⑤ 最该补的 5 项（按「频次 × 补齐成本」排序）</h2>
+<div class="card">
+  <table>
+    <tr><th style="width:6%">#</th><th style="width:24%">补什么</th><th style="width:14%">出现率</th><th style="width:14%">补齐成本</th><th>具体怎么做（可执行）</th></tr>
+    <tr><td>1</td><td><b>GDB 调试</b></td><td>44%</td><td class="ok">1 天</td><td>只学 8 个命令就够用：<code>gdb ./a.out</code> → <code>break</code> / <code>run</code> / <code>next</code> / <code>step</code> / <code>bt</code>（看调用栈）/ <code>frame</code> / <code>print</code> / <code>watch</code>；再练一次<b>core dump 分析</b>（<code>ulimit -c unlimited</code> + <code>gdb ./a.out core</code>）→ 面试就能说"我用 gdb 定位过段错误"</td></tr>
+    <tr><td>2</td><td><b>Linux C 系统编程</b><br>（多线程 / IPC / socket / 文件 IO）</td><td>31%+</td><td class="warn">3-4 天</td><td>写 3 个小程序：① <code>pthread</code> 多线程 + <code>pthread_mutex</code> 互斥（对比你在 Node 里的并发）② <code>socket</code> TCP 客户端/服务端往返 ③ <code>open/read/write/lseek</code> 文件拷贝。<b>这是"从 Node.js 后端转 Linux C"最短的桥</b></td></tr>
+    <tr><td>3</td><td><b>交叉编译 + Makefile</b></td><td>25-38%</td><td class="ok">半天</td><td><code>apt install gcc-arm-linux-gnueabihf</code> → 交叉编译一个 hello world → <code>file</code> 看架构 → 用 <code>qemu-arm</code> 跑起来；Makefile 手写一版（目标/依赖/命令、<code>$@ $&lt; $^</code>、<code>.PHONY</code>、增量编译）</td></tr>
+    <tr><td>4</td><td><b>UART / SPI / IIC / CAN</b></td><td>38%</td><td class="warn">2 天</td><td>已在 14 天计划 <b>D9</b>（总线 5 题 + 四总线对比表）。<b>CAN 是重点</b>：帧格式（标准/扩展）· 位仲裁（ID 越小优先级越高）· 差分信号</td></tr>
+    <tr><td>5</td><td><b>Linux 驱动 / 内核基础</b><br>（了解层面即可）</td><td>38%</td><td class="warn">3-5 天</td><td>目标不是会写驱动，而是<b>能听懂并接话</b>：字符设备驱动框架（<code>file_operations</code> + <code>insmod/rmmod</code>）· 设备树（dts 描述硬件）· Bootloader 做什么 · 内核模块与用户态的区别。写一个"hello world 内核模块"跑通 <code>insmod</code> → 就够讲</td></tr>
+  </table>
+  <div class="box-ok">✅ <b>性价比排序</b>：GDB（1 天）→ 交叉编译 + Makefile（半天）→ Linux C 系统编程（3-4 天）→ 总线（2 天）→ 驱动基础（3-5 天）。<b>前两项花 1.5 天，能把"Linux 应用开发"方向的匹配度从 50% 提到 65% 以上。</b></div>
+</div>
+
+<h2>⑥ 简历层面的 3 条调整建议</h2>
+<div class="card">
+  <ol>
+    <li><b>【必改】把「网络协议」加回技能栈</b>（TCP/IP 协议族 + 网络设备原理 + Netconf/YANG）—— 理由见 ④，这是网络设备岗的核心筛选项。</li>
+    <li><b>【建议】突出「设备管理 / 配置管理」这条线</b>：迈普要求"设备管理、配置管理、HA、日志系统"——你的<b>配置中心</b>（统一管理 / 一键部署 / 自动校验 / 异常回滚）+ <b>netconf 配置下发</b>正好对得上，建议在项目里把这两个词写显眼。</li>
+    <li><b>【建议】保留"学习侧"的诚实边界</b>：GDB / 驱动 / 交叉编译补完再写进技能栈；没补完之前，用"了解 Linux 设备驱动框架"这种<b>能力式</b>表述，不写"熟练"。</li>
+  </ol>
+  <div class="box-talk">💡 <b>一句话总结</b>：你的简历现在是「<b>网络设备软件 + C 底层 + Linux</b>」的形状，这正好命中<b>薪资最高、最对口</b>的那批岗位（迈普 / 中嵌 / 智联数通 / 鼎峰，1.5-2.5 万）。<b>别往"车载 AUTOSAR"和"纯 MCU"方向拧。</b></div>
+</div>
+
+<div class="footer">
+  李鑫 · 求职分析 · 2026-09-26 生成 ｜ 数据来源：公开招聘信息聚合（16 个成都在招岗位）<br>
+  免责：岗位要求为招聘信息摘要，具体以 JD 原文为准
+</div>
+
+</body>
+</html>
