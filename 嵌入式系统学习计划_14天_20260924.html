@@ -127,6 +127,8 @@
       <tr><td><b>系统镜像 / 分区 / 文件系统</b></td><td><code>fdisk</code> / <code>mkfs</code> / <code>mount</code> · fstab · 镜像怎么做（<code>dd</code> / tar 打包）· ext4 vs 只读 squashfs 在设备上的取舍</td><td><b>D10</b>（加 30 分钟）</td></tr>
       <tr><td><b>gcc 与共享库构建</b></td><td><code>-fPIC</code> 为什么必须（位置无关代码 / 重定位）· <code>-shared</code> 与静态库区别 · 符号怎么看（<code>nm</code> / <code>objdump -T</code>）· 运行找不到 .so 怎么办（<code>ldd</code> / <code>LD_LIBRARY_PATH</code>）</td><td><b>D3</b>（手撕日顺带 30 分钟）</td></tr>
       <tr><td><b>Makefile / Shell 构建脚本</b></td><td>「目标: 依赖: 命令」三段式 · <code>$@ $&lt; $^</code> · 变量与 <code>.PHONY</code> · <b>增量编译怎么判断</b>（时间戳）· <code>make -j</code></td><td><b>D3</b>（顺带 30 分钟）</td></tr>
+      <tr><td><b>GDB 调试</b> 🔴</td><td>断点 / 单步 / 看变量（<code>break · next · step · print</code>）· <b>调用栈回溯 <code>bt</code></b> · <b>core dump 怎么产生与分析</b>（<code>ulimit -c unlimited</code> → <code>gdb ./bin core</code>）· <code>-g</code> 编译选项为什么必须 · release 版崩溃怎么查（保留符号表）</td><td><b>D3</b>（d3-12，1 天可拿下，44% 岗位要求）</td></tr>
+      <tr><td><b>通信协议：TCP/IP · Netconf / YANG</b> 🔴</td><td>TCP 三次握手 / 四次挥手 · 重传与滑动窗口 · 拥塞控制 · <b>Netconf 是什么、和 SNMP 的区别</b> · YANG 模型的作用 · 设备配置管理通道怎么工作</td><td><b>D11</b>（计算机网络，你的强项，练口述）</td></tr>
     </table>
     <div class="talk"><b>🎤 被追问到不会的，用这句话收</b>："这块我在项目里是<b>这样用的</b>（讲你的具体场景）—— 底层原理我理解到这一层，没深挖过的部分我不装懂。" <b>讲清"我用它解决了什么问题"，比背原理更安全。</b></div>
     <div class="ok">✅ <b>优先级</b>：🔴🔴 总线（D9）→ 🔴 Linux 排查（D10）→ gcc / Makefile（D3）→ 虚拟化 + 文件系统（D10）。<b>这四块补完，简历上写的每一项就都站得住了。</b></div>
@@ -224,6 +226,7 @@
     <div class="task"><input type="checkbox" data-id="d3-9"><span class="tx"><b>专题深化三块</b>：① 内存五分区 ② 结构体对齐（算 struct 大小）③ 大小端（默写 0x12345678 两种布局）<span class="meta">补充读：<a class="src xl" href="https://xiaolincoding.com/os/3_memory/vmem.html" target="_blank">小林 · 为什么要有虚拟内存</a>（把"C 的内存分区"和"OS 的虚拟内存"接起来）</span></span></div>
     <div class="task"><input type="checkbox" data-id="d3-10"><span class="tx"><b>STM32 环境准备</b>：确认板子/工具链/示例代码就位<span class="meta">没买板子就今晚下单（STM32F103C8T6 最小系统板几十块）</span></span></div>
     <div class="task"><input type="checkbox" data-id="d3-11"><span class="tx"><b>【简历挂钩】gcc 共享库 + Makefile</b>：gcc <code>-fPIC -shared</code> 编译一个 .so（理解 -fPIC 为什么必须）· nm 看符号 · ldd 查依赖 · 手写一个最小 Makefile（目标: 依赖: 命令 / $@ $&lt; $^ / .PHONY / 增量编译）<span class="meta">简历写了「gcc 编译与共享库构建 · Makefile」→ 30 分钟补掉</span></span></div>
+    <div class="task"><input type="checkbox" data-id="d3-12"><span class="tx"><b>【简历挂钩】GDB 调试实操</b>：<code>gcc -g</code> 编带调试信息的程序 → <code>gdb ./a.out</code> 用 <b>break / run / next / step / print / bt（调用栈回溯）</b> 定位段错误 → 开 <code>ulimit -c unlimited</code> 生成 <b>core dump</b>，用 <code>gdb ./a.out core</code> + <code>bt</code> 还原崩溃现场<span class="meta">简历写了「GDB 调试（断点/单步/栈回溯·core dump 分析）」→ 44% 岗位要求，1 天性价比最高</span></span></div>
     <div class="exam">
       <span class="et"><b>🎯 学完找我考</b></span>
       <ol>
