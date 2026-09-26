@@ -1,277 +1,206 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>李鑫 - AI 全栈开发工程师（社招简历）</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: "Microsoft YaHei", "PingFang SC", sans-serif; max-width: 900px; margin: 0 auto; padding: 40px 30px; line-height: 1.7; color: #333; background: #fff; }
-        
-        .header { text-align: center; margin-bottom: 24px; padding-bottom: 18px; border-bottom: 2px solid #1a1a1a; }
-        .header h1 { font-size: 26px; letter-spacing: 3px; margin-bottom: 12px; }
-        .header .info { font-size: 14px; color: #666; }
-        .header .info span { margin: 0 10px; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>李鑫 · AI 应用开发工程师 / AI 系统后端（社招简历）</title>
+<style>
+    :root { --ink:#1c2430; --sub:#5a6472; --accent:#14406b; --line:#d8dde5; --soft:#f4f6f9; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+        font-family: "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", sans-serif;
+        max-width: 940px; margin: 0 auto; padding: 44px 48px 56px;
+        color: var(--ink); background:#fff; line-height: 1.75; font-size: 13.5px;
+        -webkit-font-smoothing: antialiased;
+    }
 
-        .objective { background: #f5f7fa; border-left: 4px solid #1a1a1a; padding: 12px 16px; margin-bottom: 10px; font-size: 14px; }
-        .objective b { color: #1a1a1a; }
-        
-        h2 { font-size: 16px; color: #fff; background: #1a1a1a; padding: 8px 15px; margin: 28px 0 15px 0; border-radius: 3px; }
-        h3 { font-size: 15px; color: #333; margin: 20px 0 10px 0; border-left: 4px solid #1a1a1a; padding-left: 10px; }
-        h4 { font-size: 14px; color: #555; margin: 15px 0 8px 0; }
-        
-        .section { margin-bottom: 20px; }
-        
-        .project { background: #fafafa; padding: 20px; margin: 15px 0; border-radius: 5px; border: 1px solid #eee; }
-        .project-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-        .project-title { font-size: 15px; font-weight: bold; color: #1a1a1a; }
-        .project-period { font-size: 12px; color: #888; }
-        
-        .tech-stack { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
-        .tech-tag { background: #1a1a1a; color: #fff; padding: 3px 10px; border-radius: 3px; font-size: 11px; }
-        .tech-tag.ai { background: #7c3aed; }
-        
-        .duty { margin: 10px 0; padding-left: 20px; }
-        .duty li { margin: 6px 0; color: #444; }
-        
-        .highlight-box { background: #fff9e6; border-left: 4px solid #ff9800; padding: 12px 15px; margin: 12px 0; }
-        .highlight-box h4 { color: #e65100; margin-bottom: 8px; }
-        .highlight-box ul { padding-left: 20px; }
-        .highlight-box li { margin: 5px 0; font-size: 13px; }
-        
-        .result { background: #e8f5e9; border-left: 4px solid #4caf50; padding: 12px 15px; margin: 12px 0; }
-        .result li { margin: 5px 0; font-size: 13px; color: #2e7d32; }
-        
-        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 13px; }
-        th, td { border: 1px solid #ddd; padding: 10px 12px; text-align: left; }
-        th { background: #f5f5f5; font-weight: 600; }
-        
-        .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-        .skill-item { background: #fafafa; padding: 12px 15px; border-radius: 5px; }
-        .skill-item h4 { color: #1a1a1a; margin-bottom: 6px; border: none; padding: 0; }
-        .skill-item p { font-size: 13px; color: #666; }
-        
-        .footer { text-align: center; color: #999; margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; font-size: 13px; }
-        .num { font-weight: 700; color: #2e7d32; }
-        .migrate { background: #eef2ff; border: 1px dashed #6366f1; border-radius: 6px; padding: 6px 12px; font-size: 12.5px; color: #4338ca; margin-top: 8px; }
-    
-/* v3 数字亮点条 */
-.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 14px 0 20px; }
-.stat { background: #f5f7fa; border: 1px solid #e3e8ef; border-radius: 6px; padding: 10px 8px; text-align: center; }
-.stat .n { font-size: 18px; font-weight: 800; color: #1a73e8; display: block; }
-.stat .l { font-size: 11px; color: #777; }
-.scale-note { background: #e8f0fe; border-left: 4px solid #1a73e8; padding: 10px 14px; margin: 10px 0; border-radius: 0 4px 4px 0; font-size: 13px; color: #174ea6; }
-.scale-note h4 { color: #174ea6; margin-bottom: 6px; font-size: 13px; }
+    .hd { border-bottom: 3px solid var(--accent); padding-bottom: 14px; margin-bottom: 6px; }
+    .hd .name { font-size: 27px; font-weight: 700; letter-spacing: 3px; color: var(--accent); line-height: 1.2; }
+    .hd .role { font-size: 14px; font-weight: 700; color: var(--ink); margin-top: 4px; }
+    .hd .contact { font-size: 12.5px; color: var(--sub); margin-top: 7px; }
+    .hd .contact span { margin-right: 16px; white-space: nowrap; }
 
+    h2 {
+        font-size: 18px; font-weight: 700; color: var(--accent);
+        border-bottom: 2px solid var(--accent);
+        padding-bottom: 6px; margin: 30px 0 14px;
+        letter-spacing: 1.5px;
+    }
+    h2:first-of-type { margin-top: 18px; }
+
+    .edu { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 5px 0; }
+    .edu .l b { font-size: 13.8px; }
+    .edu .l span { color: var(--sub); font-size: 12.5px; }
+    .edu .r { color: var(--sub); font-size: 12.5px; white-space: nowrap; }
+
+    .stack { border-left: 3px solid var(--line); padding-left: 14px; }
+    .stack .row { margin: 7px 0; font-size: 13.2px; }
+    .stack .k { font-weight: 700; color: var(--accent); display: inline-block; min-width: 112px; }
+
+    .job { margin-bottom: 6px; }
+    .job .top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+    .job .top .co { font-size: 14px; font-weight: 700; }
+    .job .top .co em { font-style: normal; font-weight: 400; color: var(--sub); font-size: 12.5px; }
+    .job .top .dt { color: var(--sub); font-size: 12.5px; white-space: nowrap; }
+    .summary { background: var(--soft); border-left: 3px solid var(--accent); padding: 9px 13px; margin: 8px 0 4px; font-size: 12.8px; color: #333c48; }
+
+    .proj { margin-bottom: 20px; page-break-inside: avoid; }
+    .proj .pt { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+    .proj .pt .nm { font-size: 13.8px; font-weight: 700; }
+    .proj .pt .nm i { font-style: normal; font-weight: 400; color: var(--sub); font-size: 12.5px; }
+    .proj .pt .dt { color: var(--sub); font-size: 12.5px; white-space: nowrap; }
+    .proj .desc { font-size: 12.8px; color: #333c48; margin: 5px 0 7px; }
+    .proj .sub-t { font-size: 12.8px; font-weight: 700; color: var(--accent); margin: 8px 0 3px; }
+
+    ul { padding-left: 17px; }
+    li { font-size: 12.9px; margin: 4px 0; color: #2b333d; }
+    li b { color: var(--accent); }
+
+    .tags { margin: 6px 0 2px; }
+    .tags i { font-style: normal; display: inline-block; background: var(--soft); border: 1px solid var(--line);
+              border-radius: 3px; padding: 1px 8px; margin: 0 5px 5px 0; font-size: 11.5px; color: #46505d; }
+    .tags i.key { background:#e7eff8; border-color:#b9cde4; color: var(--accent); font-weight: 700; }
+
+    table { width: 100%; border-collapse: collapse; }
+    td { padding: 5px 0; font-size: 12.9px; vertical-align: top; }
+    td.tm { color: var(--sub); white-space: nowrap; width: 84px; font-size: 12.4px; }
+
+    @media print {
+        * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+        @page { margin: 10mm 0; }
+        body { padding: 0 14mm; font-size: 12.4px; }
+        h2 { font-size: 15.5px; margin: 18px 0 10px; }
+        .proj { margin-bottom: 14px; }
+        .proj, .job, table tr { page-break-inside: avoid; }
+    }
+    @media (max-width: 640px) {
+        body { padding: 22px 16px 40px; }
+        .stack .k { min-width: auto; display: block; }
+        .edu, .job .top, .proj .pt { flex-wrap: wrap; }
+    }
 </style>
 </head>
 <body>
 
-<div class="header">
-    <h1>李 鑫</h1>
-    <div class="info">
+<div class="hd">
+    <div class="name">李 鑫</div>
+    <div class="role">求职意向：AI 应用开发工程师 / AI 系统后端工程师 ｜ 期望城市：成都</div>
+    <div class="contact">
         <span>📱 18040309928</span>
         <span>📧 lxx18040309928@163.com</span>
+        <span>🎓 硕士 · 重庆邮电大学</span>
+        <span>💼 3 年 AI 系统 / 后端开发经验</span>
     </div>
 </div>
-
-<div class="objective">
-    <b>求职意向</b>：AI 应用开发工程师 / AI 全栈工程师（AI 系统工程化落地 + 全栈开发）｜成都
-</div>
-
-<div class="stats">
-    <div class="stat"><span class="n">2700万+</span><span class="l">AI 调优结果明细</span></div>
-    <div class="stat"><span class="n">259万+</span><span class="l">现网 AP 数据规模</span></div>
-    <div class="stat"><span class="n">46万+</span><span class="l">调优任务记录</span></div>
-    <div class="stat"><span class="n">14.7万</span><span class="l">单月调优任务(2026-08)</span></div>
-    </div>
 
 <h2>教 育 背 景</h2>
-<table>
-<tr><th>学校</th><th>专业</th><th>学历</th><th>时间</th></tr>
-<tr><td>重庆邮电大学（重庆市智能空地协同重点实验室）</td><td>电子信息</td><td>硕士</td><td>2020.09 - 2023.06</td></tr>
-<tr><td>成都理工大学（双一流）</td><td>电气工程及其自动化</td><td>学士</td><td>2016.09 - 2020.06</td></tr>
-</table>
-
-<h2>工 作 经 历</h2>
-<div class="section">
-    <h3>新华三技术有限公司（H3C） | 2023.07 - 至今（约3年）</h3>
-    <p style="color: #666; font-size: 14px; margin-top: 5px;">部门：云简网络团队 · RRM无线资源管理组 · 岗位：AI 应用开发工程师（AI 系统落地方向）</p>
-    <p style="color: #666; font-size: 13px; margin-top: 4px;">主导 <b>AI RRM 无线智能调优系统</b>的工程化落地：AI 算法边缘部署、模型轻量化、增量训练、数据闭环，以及微服务架构、K8s 部署、前端可视化——<b>覆盖"数据 → 模型 → 部署 → 迭代"全流程</b></p>
+<div class="edu">
+    <div class="l"><b>重庆邮电大学</b> · 电子信息（硕士）<span>　重庆市智能空地协同重点实验室</span></div>
+    <div class="r">2020.09 – 2023.06</div>
 </div>
-
-<h2>核 心 项 目</h2>
-
-<!-- 项目1: AI RRM（主打） -->
-<div class="project">
-    <div class="project-header">
-        <span class="project-title">① AI RRM 系统重构与规模化落地（AI 工程化主打项目）</span>
-        <span class="project-period">2024.08 - 至今</span>
-    </div>
-    
-    <div class="tech-stack">
-        <span class="tech-tag ai">AI 系统落地</span>
-        <span class="tech-tag">边缘推理</span>
-        <span class="tech-tag">模型轻量化</span>
-        <span class="tech-tag">增量训练</span>
-        <span class="tech-tag">微服务</span>
-        <span class="tech-tag">Kafka数据管道</span>
-        <span class="tech-tag">K8s</span>
-    </div>
-    
-    <h4>项目背景</h4>
-    <p style="font-size: 13px; color: #555;">AI RRM 无线调优系统原"云端收集-云端计算-下发"模式运维压力大。主导重构为<b>设备侧+云端双计算</b>架构，二期完成模型轻量化、增量训练与规模化落地。</p>
-    
-    <h4>本人分工（AI 工程化 + 全栈）</h4>
-    <ul class="duty">
-        <li><b>AI 推理部署</b>：AI 调优模型在设备侧/云端的部署方案设计，模型轻量化 + 边缘推理降低计算耗时</li>
-        <li><b>增量训练机制</b>：优化模型泛化能力，适配复杂现网场景（增量数据回流 → 再训练 → 下发）</li>
-        <li><b>数据闭环</b>：Kafka 优化"数据采集-预处理-回灌"全链路，AI 训练数据持续回流</li>
-        <li><b>后端与部署</b>：4 微服务架构（调度/查询/计算/AI 优化）K8s 部署与监控，Redis 分布式锁、MongoDB 分库分表</li>
-        <li><b>前端可视化</b>：协助完成调优结果可视化展示模块</li>
-    </ul>
-    
-    <div class="highlight-box">
-        <h4>🔑 技术难点</h4>
-        <ul>
-            <li><strong>AI 双计算架构</strong>：按组网类型动态分配计算节点（AC+fitap 设备侧 / 云 AP 云端）</li>
-            <li><strong>模型落地</strong>：轻量化 + 边缘推理解决设备算力受限与推理耗时</li>
-            <li><strong>数据一致性</strong>：设备侧与云端数据同步，MongoDB 分库分表 + Kafka 消息不丢不重</li>
-        </ul>
-    </div>
-    
-    <div class="result">
-            <div class="scale-note">
-        <h4>📊 现网规模（生产环境实测）</h4>
-        <ul style="padding-left:18px; margin:0;">
-            <li>系统纳管无线设备 <span class="num">19.6万+</span>、现网 AP 数据 <span class="num">259万+</span>（腾讯云现网 readonly 实测）</li>
-            <li>累计调优结果明细 <span class="num">2700万+</span> 条、调优任务记录 <span class="num">46万+</span>（2026-08 单月 <span class="num">14.7万</span> 次）</li>
-        </ul>
-    </div>
-<h4 style="color: #2e7d32; margin-bottom: 8px;">✅ 项目成果</h4>
-        <ul class="result">
-            <li>适配现网 <span class="num">98%+</span> 组网，AI 调优实时性、精度、泛化能力全面提升</li>
-            <li>主导项目全流程：需求 → 架构 → 开发 → 部署 → 规模化落地</li>
-        </ul>
-    </div>
-</div>
-
-<!-- 项目2: RRM WiFi7 -->
-<div class="project">
-    <div class="project-header">
-        <span class="project-title">② RRM 支持 WiFi7（6GHz 全链路改造）</span>
-        <span class="project-period">2024.01 - 2024.12</span>
-    </div>
-    
-    <div class="tech-stack">
-        <span class="tech-tag">后端开发</span>
-        <span class="tech-tag">Kafka</span>
-        <span class="tech-tag">MongoDB</span>
-        <span class="tech-tag">K8s</span>
-    </div>
-    
-    <h4>本人分工</h4>
-    <ul class="duty">
-        <li>梳理 4 微服务调用链路，主导 6GHz 频段采集/扫描/计算/调优全链路改造</li>
-        <li>维护 Kafka/RabbitMQ 消息、Redis 分布式锁、K8s 容器管理</li>
-    </ul>
-    
-    <div class="result">
-        <h4 style="color: #2e7d32; margin-bottom: 8px;">✅ 项目成果</h4>
-        <ul class="result">
-            <li>2.4G/5G/6G 三频段统一 RRM 调度，完整支持 WiFi7 商用</li>
-        </ul>
-    </div>
-</div>
-
-<!-- 项目3: personalAgent（业余） -->
-<div class="project">
-    <div class="project-header">
-        <span class="project-title">③ personalAgent — AI Agent 编排框架（业余项目）</span>
-        <span class="project-period">2025 - 至今</span>
-    </div>
-    
-    <div class="tech-stack">
-        <span class="tech-tag ai">LLM 应用</span>
-        <span class="tech-tag">Agent 编排</span>
-        <span class="tech-tag">DAG 工作流</span>
-        <span class="tech-tag">Function Calling</span>
-        <span class="tech-tag">Node.js/TS</span>
-    </div>
-    
-    <h4>项目简介（业余时间自研 · 了解基础知识）</h4>
-    <p style="font-size: 13px; color: #555;">业余时间自研的 AI Agent 编排框架，用于学习与验证 LLM 应用开发的基础概念。</p>
-    
-    <h4>学习实践内容</h4>
-    <ul class="duty">
-        <li>实践 LLM 应用基础：Prompt 工程、Function Calling 工具调用、多轮上下文管理</li>
-        <li>基于 DAG 工作流概念设计任务编排骨架，了解多 Agent 协作与任务调度</li>
-        <li>理解 Agent 与外部系统（API/数据）交互的工程化要点</li>
-    </ul>
-    
-    <div class="result">
-        <h4 style="color: #2e7d32; margin-bottom: 8px;">✅ 定位</h4>
-        <ul class="result">
-            <li>个人业余学习项目，验证 LLM 应用开发基础知识（Prompt / Agent 编排 / 工具调用）</li>
-            <li>体现对 LLM 方向的学习热情与动手能力</li>
-        </ul>
-    </div>
+<div class="edu">
+    <div class="l"><b>成都理工大学</b> · 电气工程及其自动化（学士）<span>　双一流</span></div>
+    <div class="r">2016.09 – 2020.06</div>
 </div>
 
 <h2>技 术 栈</h2>
-<div class="skills-grid">
-    <div class="skill-item">
-        <h4>AI 工程化（核心卖点）</h4>
-        <p><b>模型部署与推理</b>（轻量化/边缘推理/增量训练）· <b>数据闭环</b>（采集-预处理-回灌）· 训练数据管理 · AI 系统架构设计</p>
-    </div>
-    <div class="skill-item">
-        <h4>LLM 应用（业余实践 · 掌握基础）</h4>
-        <p>Prompt 工程 · Function Calling 工具调用 · Agent 编排 · DAG 工作流 · RAG（自研业余项目实践）</p>
-    </div>
-    <div class="skill-item">
-        <h4>后端开发</h4>
-        <p>Node.js/TypeScript · 微服务架构 · RESTful API · WebSocket · 异步编程</p>
-    </div>
-    <div class="skill-item">
-        <h4>数据与中间件</h4>
-        <p>MongoDB（分库分表/聚合）· Redis（分布式锁/缓存）· Kafka（数据管道/消息可靠）· MySQL</p>
-    </div>
-    <div class="skill-item">
-        <h4>部署与运维</h4>
-        <p>K8s · Docker · CI/CD · 配置中心 · 监控告警 · SonarQube</p>
-    </div>
-    <div class="skill-item">
-        <h4>前端（辅助）</h4>
-        <p>Angular.js（调优结果可视化）· 前后端联调 · 数据可视化展示</p>
-    </div>
+<div class="stack">
+    <div class="row"><span class="k">AI 系统工程化</span>熟悉 AI 算法库接入与服务化（C 动态库 ↔ Node 双向调用 · 函数指针映射表 · 回调协议）· 推理结果数据管道（采集—处理—回灌闭环）· 批量任务调度与结果存储优化</div>
+    <div class="row"><span class="k">后端开发</span>熟悉 Node.js / TypeScript（3 年主力）· 微服务架构与拆分 · RESTful API 设计 · WebSocket 长连接 · 异步编程与并发控制 · 配置中心</div>
+    <div class="row"><span class="k">数据与中间件</span>熟悉 MongoDB（分库分表 · 聚合管道 · 索引与慢查询优化）· Redis（分布式锁 · 缓存一致性）· Kafka（数据管道 · 不丢不重 · 顺序性）· MySQL · PostgreSQL</div>
+    <div class="row"><span class="k">容器与运维</span>熟悉 Kubernetes（探针 / HPA / 滚动更新 · 资源配额调优）· Docker · CI/CD · 配置中心 · 监控告警与日志排查 · SonarQube · Linux</div>
+    <div class="row"><span class="k">LLM 应用</span>熟悉 Prompt 工程 · Function Calling · Agent 编排 · DAG 工作流 · 多轮上下文管理 · 工具调用（自研 personalAgent 项目实践）</div>
+    <div class="row"><span class="k">前端（辅助）</span>熟悉 结果可视化页面开发 · 前后端联调 · 数据展示优化</div>
 </div>
 
-<div class="migrate">📌 方向说明：3 年专注 AI 系统的工程化落地（AI RRM：边缘推理/模型轻量化/增量训练/数据闭环）；LLM 应用（Prompt/Agent 编排/RAG）为业余项目实践，（Prompt / Agent 编排 / RAG）有项目实践。</div>
-
-<h2>竞 赛 与 获 奖</h2>
-<table>
-<tr><th>时间</th><th>级别</th><th>奖项</th></tr>
-<tr><td>2019.09</td><td>国家级</td><td>第13届"西门子杯"中国智能制造挑战赛全国总决赛<strong>特等奖</strong></td></tr>
-<tr><td>2021.07</td><td>国家级</td><td>第13届"电工杯"中国大学生数学建模竞赛<strong>二等奖</strong></td></tr>
-<tr><td>2021.09</td><td>校级</td><td>研究生一等奖学金（TOP 2%）</td></tr>
-<tr><td>2023-2026</td><td>工作期间</td><td>主导 AI RRM 创新特性（设备侧+云端双计算，覆盖 98%+ 组网）；持续季度稳定交付、主导 P0/P1 故障复盘与 SLA 闭环</td></tr>
-</table>
-
-<h2>自 我 评 价</h2>
-<div class="section">
-    <ul style="padding-left: 25px; font-size: 14px; line-height: 2;">
-        <li><strong>AI 系统落地经验</strong>：完整经历 AI 算法从模型到生产的工程化全流程（部署/优化/迭代）</li>
-        <li><strong>全栈能力</strong>：后端微服务 + 前端可视化 + K8s 部署运维，能独立打通"数据 → 模型 → 应用"</li>
-        <li><strong>架构设计</strong>：主导 AI 双计算架构设计，具备系统级拆分与分布式一致性经验</li>
-        <li><strong>数据工程</strong>：Kafka 数据管道、MongoDB 分库分表、数据闭环设计实战</li>
-        <li><strong>LLM 深度实践</strong>：日常使用 LLM 辅助需求分析/代码生成/排障，效率提升 <span class="num">30%+</span>；自研 Agent 编排框架（Prompt/Function Calling/DAG）</li>
-        <li><strong>学习能力</strong>：电子信息硕士，AI 与 LLM 应用方向持续学习，上手快</li>
+<h2>工 作 经 历</h2>
+<div class="job">
+    <div class="top">
+        <div class="co">新华三技术有限公司（H3C）<em>　云研发部 · 云简网络 · 后端开发工程师（AI 系统方向）</em></div>
+        <div class="dt">2023.07 – 至今</div>
+    </div>
+    <div class="summary">负责 AI 无线资源优化系统（AI RRM）的<b>后端与工程化落地</b>：AI 算法库（C 动态库）接入与服务化、计算结果数据管道、批量任务调度、结果存储与查询优化、容器化部署与线上稳定性保障。服务部署于腾讯云生产与海外集群，日均承载大批量设备优化任务。</div>
+    <ul>
+        <li><b>算法服务化</b>：通过 node-ffi 接入 C 语言核心算法库，参与设计双向调用架构（函数指针映射表 + 回调协议 + 内存归属管理），支撑 10 万/s 调用量压测，解决大数据量场景内存溢出（OOM）。</li>
+        <li><b>架构与调度</b>：主导"设备侧 + 云端"双计算分流架构，按组网类型动态分配计算节点，实现两种计算模式无感切换，功能从白名单试点推进到规模化落地。</li>
+        <li><b>数据管道</b>：搭建 Kafka 数据链路承载计算结果上报，保障不丢不重（消费后提交 offset · 消息校验 · 异常重试 · 幂等去重）与顺序性。</li>
+        <li><b>数据层</b>：负责数据库建模与索引设计，通过执行计划分析定位并优化慢查询；设计按任务维度的分片方案与历史数据分层清理策略。</li>
+        <li><b>容器化与线上治理</b>：服务全量 Kubernetes 化，负责镜像构建、探针与资源配额调优、多环境部署；承担现网值班与 P0/P1 故障复盘，线上问题周均闭环 1+ 起。</li>
+        <li><b>配置中心</b>：独立设计并交付配置中心（统一管理、一键生成部署配置、自动校验、异常回滚），降低配置失误率与运维成本。</li>
     </ul>
 </div>
 
-<div class="footer">
-    感谢您的阅读
+<h2>项 目 经 历</h2>
+
+<div class="proj">
+    <div class="pt">
+        <div class="nm">① AI 无线资源优化系统重构与规模化落地 <i>　后端 / 工程化负责人</i></div>
+        <div class="dt">2024.08 – 至今</div>
+    </div>
+    <div class="tags"><i class="key">AI 系统工程化</i><i>双计算架构</i><i>Kafka 数据管道</i><i>MongoDB 分库分表</i><i>Kubernetes</i><i>WebSocket / Netconf</i><i>配置中心</i></div>
+    <div class="desc">系统原为"云端集中计算"模式，云端资源压力大、功能仅在小范围白名单开放。项目将其重构为"设备侧计算 + 云端计算"的分流架构，让 AI 优化能力在设备侧与云端协同运行，并完成二期规模化落地。</div>
+    <ul>
+        <li><b>架构与调度</b>：主导微服务重构，设计按组网类型动态分配计算节点的分流架构，实现两种计算模式无感切换；优化服务间调用链路，降低单点压力。</li>
+        <li><b>算法接入</b>：负责 AI 算法能力的服务化接入（算法库调用、参数适配、结果解析与校验），打通"算法—服务—业务"链路的工程边界。</li>
+        <li><b>数据管道与存储</b>：Kafka 承载结果实时上报并保障不丢不重；设计按任务维度的分片方案与复合索引，解决批量写入场景下的查询性能与热点问题；实现历史数据分层与自动清理。</li>
+        <li><b>配置中心</b>：独立设计并交付配置中心（配置统一管理、一键生成部署配置、自动校验、异常回滚），显著降低配置失误率与运维成本。</li>
+    </ul>
+    <div class="sub-t">项目成果</div>
+    <ul>
+        <li>适配现网 <b>98%+</b> 组网形态（纳管设备 19.6 万+、累计结果明细 2700 万+ 条、单月任务峰值 <b>14.7 万</b> 次），计算压力有效分流至设备侧。</li>
+        <li>功能从小范围白名单试点推进到<b>规模化落地</b>，优化实时性与准确率同步提升。</li>
+    </ul>
 </div>
+
+<div class="proj">
+    <div class="pt">
+        <div class="nm">② C 算法库与上层服务双向调用架构 <i>　接口设计 / 核心开发</i></div>
+        <div class="dt">2024.01 – 2024.12</div>
+    </div>
+    <div class="tags"><i class="key">C 语言</i><i class="key">函数指针</i><i class="key">回调机制</i><i>node-ffi</i><i>内存管理</i><i>性能压测</i></div>
+    <div class="desc">核心算法以 C 语言实现并编译为动态库，上层服务需高频调用。原有"一次性输入输出"模式在大批量数据场景下包体过大、频繁触发内存溢出（OOM），无法承载现网规模。</div>
+    <ul>
+        <li><b>接口架构设计</b>：参与设计 C 算法库与上层服务的双向调用架构，将大数据量场景由"一次性输入输出"改造为<b>分片传输 + 回调返回</b>，从根因上解决 OOM。</li>
+        <li><b>函数指针映射表</b>：因 FFI 不支持异步，设计<b>函数名 → 函数指针的映射表</b>与初始化注册机制，把上层可调用函数注册给 C 侧、函数指针固化为全局变量，实现 C → 上层方向的主动回调。</li>
+        <li><b>回调协议</b>：设计 <b>method–data–callback</b> 三段式调用协议，支持异步返回与<b>嵌套调用</b>（回调中再发起调用），保证多层算法组合下的调用链正确性。</li>
+        <li><b>内存管理</b>：明确跨语言边界的内存归属与释放责任，避免重复释放与悬空引用；结合压测定位内存增长点。</li>
+    </ul>
+    <div class="sub-t">项目成果</div>
+    <ul>
+        <li>支撑 <b>10 万/s</b> 调用量的压力测试，大数据量场景 OOM 问题解决，为后续规模化奠定底层能力。</li>
+        <li>该接口层成为算法侧与业务侧解耦的稳定边界，新增算法无需改动上层业务代码。</li>
+    </ul>
+</div>
+
+<div class="proj">
+    <div class="pt">
+        <div class="nm">③ personalAgent — 个人 AI Agent 编排框架 <i>　自研项目</i></div>
+        <div class="dt">2025 – 至今</div>
+    </div>
+    <div class="tags"><i class="key">LLM</i><i>Prompt 工程</i><i>Function Calling</i><i>工具调用</i><i>编排调度</i><i>DAG 工作流</i></div>
+    <ul>
+        <li><b>编排框架</b>：自研 Agent 编排骨架，实践 Prompt 工程、Function Calling 与多轮上下文管理，把串联式任务拆解为可复用步骤，支持工具按需调用。</li>
+        <li><b>工具集</b>：沉淀可复用的工具脚本集（SSH 远程操作 / 数据库 / 消息队列 / 容器集群），把日常运维与排障流程工具化，交由 Agent 调用执行。</li>
+        <li><b>落地效果</b>：重复性的环境操作与信息检索流程自动化，减少手工操作与上下文切换，验证了 LLM 在工程场景下的可用性。</li>
+    </ul>
+</div>
+
+<h2>竞 赛 与 获 奖</h2>
+<table>
+    <tr><td class="tm">2019.09</td><td>第 13 届"西门子杯"中国智能制造挑战赛 <b>全国总决赛特等奖</b></td></tr>
+    <tr><td class="tm">2021.05</td><td>第 13 届"蓝桥杯"C / C++ 程序设计大赛 研究生组 <b>省二等奖</b></td></tr>
+    <tr><td class="tm">2021.07</td><td>第 13 届"电工杯"全国大学生数学建模竞赛 <b>全国二等奖</b></td></tr>
+    <tr><td class="tm">2021.09</td><td>研究生学业奖学金 <b>一等奖（TOP 2%）</b></td></tr>
+    <tr><td class="tm">2023–2026</td><td>工作期间：主导核心创新特性的架构设计与落地、主导 P0/P1 故障复盘与 SLA 闭环，连续季度稳定交付</td></tr>
+</table>
+
+<h2>自 我 评 价</h2>
+<ul>
+    <li><b>AI 系统落地</b>：完整参与 AI 能力从算法库接入、服务化、数据管道到线上规模的工程化全过程，主导双计算架构规模化落地（结果明细 2700 万+ 条）。</li>
+    <li><b>全栈打通</b>：后端微服务 + 前端可视化 + K8s 部署运维，能独立交付"数据 → 服务 → 应用"链路，具备从 0 到 1 负责模块的能力。</li>
+    <li><b>数据工程</b>：Kafka 数据管道、MongoDB 分库分表与索引优化、批量写入与冷热分离均有生产落地经验。</li>
+    <li><b>LLM 实践</b>：自研 Agent 编排框架（Prompt / Function Calling / 工具调用 / 编排调度），日常使用 LLM 辅助需求分析、编码与排障。</li>
+</ul>
 
 </body>
 </html>

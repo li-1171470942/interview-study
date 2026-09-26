@@ -1,142 +1,204 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>李鑫 - Node.js高级工程师（社招·精简版）</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: "Microsoft YaHei", "PingFang SC", sans-serif; max-width: 880px; margin: 0 auto; padding: 26px 22px; line-height: 1.5; color: #333; background: #fff; font-size: 13px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-        .header { text-align: center; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1.5px solid #1a1a1a; }
-        .header h1 { font-size: 22px; letter-spacing: 2px; margin-bottom: 6px; }
-        .header .info { font-size: 12px; color: #666; }
-        .header .info span { margin: 0 8px; }
-        .objective { background: #f5f7fa; border-left: 3px solid #1a1a1a; padding: 6px 10px; margin-bottom: 8px; font-size: 12.5px; line-height: 1.55; }
-        .objective b { color: #1a1a1a; }
-        .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin: 8px 0 12px; }
-        .stat { background: #f5f7fa; border: 1px solid #e3e8ef; border-radius: 4px; padding: 6px 4px; text-align: center; }
-        .stat .n { font-size: 16px; font-weight: 800; color: #1a73e8; display: block; line-height: 1.2; }
-        .stat .l { font-size: 10.5px; color: #777; }
-        h2 { font-size: 14px; color: #fff; background: #1a1a1a; padding: 5px 12px; margin: 16px 0 8px; border-radius: 2px; }
-        .section { margin-bottom: 10px; }
-        table { width: 100%; border-collapse: collapse; margin: 6px 0; font-size: 12px; }
-        th, td { border: 1px solid #ddd; padding: 4px 8px; text-align: left; }
-        th { background: #f5f5f5; font-weight: 600; }
-        tr th:nth-child(1), tr td:nth-child(1) { width: 26%; }
-        .job { font-size: 13px; margin: 4px 0 8px; }
-        .job b { color: #1a1a1a; }
-        .project { background: #fafafa; padding: 8px 12px; margin: 8px 0; border-radius: 4px; border: 1px solid #eee; font-size: 12.5px; }
-        .project-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
-        .project-title { font-weight: bold; color: #1a1a1a; font-size: 13px; }
-        .project-period { font-size: 11px; color: #888; }
-        .tech-line { color: #555; font-size: 11.5px; margin: 2px 0 4px; }
-        .project ul { padding-left: 18px; margin: 2px 0; }
-        .project li { margin: 2px 0; color: #444; }
-        .result-line { background: #e8f5e9; border-left: 3px solid #4caf50; padding: 3px 8px; margin: 4px 0 0; font-size: 12px; color: #2e7d32; }
-        .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 6px 0; }
-        .skill-item { background: #fafafa; padding: 5px 8px; border-radius: 3px; font-size: 11.5px; line-height: 1.4; }
-        .skill-item b { color: #1a1a1a; }
-        .migrate { background: #eef2ff; border: 1px dashed #6366f1; border-radius: 4px; padding: 4px 8px; font-size: 11.5px; color: #4338ca; margin-top: 6px; }
-        .footer { text-align: center; color: #999; margin-top: 14px; padding-top: 8px; border-top: 1px solid #eee; font-size: 11.5px; }
-        .num { font-weight: 700; color: #2e7d32; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>李鑫 - Node.js / TypeScript 高级后端工程师</title>
+<style>
+    :root { --ink:#1c2430; --sub:#5a6472; --accent:#14406b; --line:#d8dde5; --soft:#f4f6f9; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+        font-family: "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", sans-serif;
+        max-width: 920px; margin: 0 auto; padding: 30px 34px 34px;
+        color: var(--ink); background:#fff; line-height: 1.55; font-size: 12px;
+        -webkit-font-smoothing: antialiased;
+        -webkit-print-color-adjust: exact; print-color-adjust: exact;
+    }
+
+    /* ---------- 头部 ---------- */
+    .hd { display:flex; justify-content:space-between; align-items:flex-end; gap:18px;
+          border-bottom: 2.5px solid var(--accent); padding-bottom: 8px; margin-bottom: 2px; }
+    .hd .name { font-size: 25px; font-weight: 700; letter-spacing: 3px; color: var(--accent); line-height: 1.15; }
+    .hd .role { font-size: 12.6px; font-weight: 700; color: var(--ink); margin-top: 3px; }
+    .hd .contact { font-size: 11.4px; color: var(--sub); text-align: right; line-height: 1.7; white-space: nowrap; }
+
+    /* ---------- 区块标题 ---------- */
+    h2 {
+        font-size: 16.5px; font-weight: 700; color: var(--accent);
+        border-bottom: 1.5px solid var(--accent);
+        padding-bottom: 4px; margin: 16px 0 8px; letter-spacing: 1.5px;
+    }
+    h2:first-of-type { margin-top: 10px; }
+
+    /* ---------- 教育背景 ---------- */
+    .edu { display:flex; justify-content:space-between; align-items:baseline; gap:12px; padding: 1px 0; }
+    .edu .l { font-size: 12.4px; }
+    .edu .l b { color: var(--ink); }
+    .edu .l span { color: var(--sub); }
+    .edu .r { color: var(--sub); font-size: 11.8px; white-space: nowrap; }
+
+    /* ---------- 技术栈 ---------- */
+    .stack { border-left: 2.5px solid var(--line); padding-left: 12px; }
+    .stack .row { margin: 2.5px 0; font-size: 11.8px; line-height: 1.55; }
+    .stack .k { font-weight: 700; color: var(--accent); display: inline-block; min-width: 78px; }
+
+    /* ---------- 工作经历 ---------- */
+    .job .top { display:flex; justify-content:space-between; align-items:baseline; gap:12px; }
+    .job .top .co { font-size: 13px; font-weight: 700; }
+    .job .top .co em { font-style: normal; font-weight: 400; color: var(--sub); font-size: 11.8px; }
+    .job .top .dt { color: var(--sub); font-size: 11.8px; white-space: nowrap; }
+    .summary { background: var(--soft); border-left: 2.5px solid var(--accent); padding: 6px 11px; margin: 6px 0 4px; font-size: 11.9px; color: #333c48; line-height: 1.6; }
+
+    /* ---------- 项目 ---------- */
+    .proj { margin-bottom: 10px; page-break-inside: avoid; }
+    .proj .pt { display:flex; justify-content:space-between; align-items:baseline; gap:12px; }
+    .proj .pt .nm { font-size: 12.8px; font-weight: 700; }
+    .proj .pt .nm i { font-style: normal; font-weight: 400; color: var(--sub); font-size: 11.8px; }
+    .proj .pt .dt { color: var(--sub); font-size: 11.8px; white-space: nowrap; }
+    .tags { margin: 3px 0 1px; }
+    .tags i { font-style: normal; display:inline-block; background: var(--soft); border: 1px solid var(--line);
+              border-radius: 3px; padding: 0 6px; margin: 0 4px 3px 0; font-size: 10.8px; color: #46505d; }
+    .tags i.key { background:#e7eff8; border-color:#b9cde4; color: var(--accent); font-weight:700; }
+    .proj .desc { font-size: 11.9px; color: #333c48; margin: 3px 0 4px; line-height: 1.6; }
+    .result { background:#eef4fa; border-left: 2.5px solid var(--accent); padding: 4px 10px; margin: 4px 0 0; font-size: 11.9px; color: #24405e; line-height: 1.6; }
+    .result b { color: var(--accent); }
+
+    ul { padding-left: 15px; }
+    li { font-size: 11.9px; margin: 2px 0; color: #2b333d; line-height: 1.6; }
+    li b { color: var(--accent); }
+
+    table { width: 100%; border-collapse: collapse; }
+    td { padding: 2px 0; font-size: 11.9px; vertical-align: top; line-height: 1.6; }
+    td.tm { color: var(--sub); white-space: nowrap; width: 76px; font-size: 11.6px; }
+
+    /* ---------- 打印 ---------- */
+    @media print {
+        * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+        @page { margin: 9mm 0; }
+        body { padding: 0 12mm; font-size: 11.4px; }
+        h2 { font-size: 15px; margin: 13px 0 7px; }
+        .proj { margin-bottom: 9px; }
+        .proj, .job, table tr { page-break-inside: avoid; }
+    }
+    @media (max-width: 640px) {
+        body { padding: 20px 15px 32px; }
+        .hd { flex-wrap: wrap; }
+        .hd .contact { text-align: left; white-space: normal; }
+        .stack .k { min-width: auto; display: block; }
+        .edu, .job .top, .proj .pt { flex-wrap: wrap; }
+    }
+</style>
 </head>
 <body>
 
-<div class="header">
-    <h1>李 鑫</h1>
-    <div class="info">
-        <span>📱 18040309928</span>
-        <span>📧 lxx18040309928@163.com</span>
-        <span>重庆邮电大学·电子信息硕士</span>
+<div class="hd">
+    <div>
+        <div class="name">李 鑫</div>
+        <div class="role">求职意向：Node.js / TypeScript 高级后端工程师 ｜ 期望城市：成都</div>
+    </div>
+    <div class="contact">
+        📱 18040309928　📧 lxx18040309928@163.com<br>
+        🎓 硕士 · 重庆邮电大学　💼 3 年后端 / 微服务开发经验
     </div>
 </div>
 
-<div class="objective">
-    <b>求职意向</b>：Node.js 高级后端工程师（3 年无线网管平台微服务 + K8s/Kafka/MongoDB 生产实战）｜成都
+<h2>教 育 背 景</h2>
+<div class="edu">
+    <div class="l"><b>重庆邮电大学</b> · 电子信息（硕士）<span>　重庆市智能空地协同重点实验室</span></div>
+    <div class="r">2020.09 – 2023.06</div>
+</div>
+<div class="edu">
+    <div class="l"><b>成都理工大学</b> · 电气工程及其自动化（学士）<span>　双一流</span></div>
+    <div class="r">2016.09 – 2020.06</div>
 </div>
 
-<div class="stats">
-    <div class="stat"><span class="n">19.6万+</span><span class="l">纳管无线设备</span></div>
-    <div class="stat"><span class="n">259万+</span><span class="l">现网 AP 数据</span></div>
-    <div class="stat"><span class="n">2700万+</span><span class="l">累计调优明细</span></div>
-    <div class="stat"><span class="n">14.7万</span><span class="l">单月调优峰值</span></div>
+<h2>技 术 栈</h2>
+<div class="stack">
+    <div class="row"><span class="k">编程语言</span>熟悉 Node.js / TypeScript（3 年主力）· Java（JavaSE · JVM 内存结构与 GC · JUC 并发）· C / C++</div>
+    <div class="row"><span class="k">后端框架</span>熟悉 微服务架构与拆分 · RESTful API 设计 · WebSocket 长连接 · 异步编程与并发控制 · 配置中心</div>
+    <div class="row"><span class="k">分布式</span>熟悉 服务治理 · Redis 分布式锁（SETNX + Lua 原子释放）· 缓存一致性 · 幂等与去重 · 限流熔断降级 · 异步削峰</div>
+    <div class="row"><span class="k">消息队列</span>熟悉 Kafka（消费者组 · 分区与 offset · 顺序性 · 不丢不重）· RabbitMQ · 消息校验与异常重试</div>
+    <div class="row"><span class="k">数据库</span>熟悉 MongoDB（分库分表 · 聚合管道 · 索引与慢查询优化）· Redis · MySQL · PostgreSQL</div>
+    <div class="row"><span class="k">容器与运维</span>熟悉 Kubernetes（探针 / HPA / 滚动更新 · 资源配额调优）· Docker · CI/CD · SonarQube · 监控告警与日志排查 · Linux</div>
+    <div class="row"><span class="k">协议与跨语言</span>熟悉 TCP/IP · HTTP · Netconf · 802.11 · node-ffi 调用 C 动态库（函数指针 / 回调 / 内存管理）</div>
 </div>
 
 <h2>工 作 经 历</h2>
 <div class="job">
-    <b>新华三技术有限公司（H3C）｜2023.07 - 至今（约 3 年）</b>　部门：云简网络·RRM 无线资源管理组　岗位：Node.js 后端开发工程师
-</div>
-
-<h2>核 心 项 目</h2>
-
-<div class="project">
-    <div class="project-head">
-        <span class="project-title">① AI RRM 智能无线资源管理系统——重构与规模化落地（主导）</span>
-        <span class="project-period">2024.08 - 至今</span>
+    <div class="top">
+        <div class="co">新华三技术有限公司（H3C）<em>　云研发部 · 云简网络 · 后端开发工程师</em></div>
+        <div class="dt">2023.07 – 至今</div>
     </div>
-    <div class="tech-line">Node.js/TS · 4 微服务 · Kafka · Redis · MongoDB 分库分表 · K8s · WebSocket+Netconf · node-ffi</div>
+    <div class="summary">负责无线网络云管理平台（RRM 无线资源管理域）<b>四个后端微服务</b>的设计、开发与线上运维，覆盖微服务架构与重构、中间件集成与可靠性保障、数据库设计与优化、容器化交付与线上问题治理全流程。</div>
     <ul>
-        <li>主导"设备侧+云端"双计算架构重构：按组网类型动态分配计算节点，双计算无感切换，覆盖 98%+ 组网形态</li>
-        <li>Kafka 消息可靠链路（optType=45 结果上报、消费幂等、异常重试）；Redis 分布式锁防重复触发；MongoDB dayNo 维度分库分表 + 跨库同步</li>
-        <li>主导配置中心：配置统一管理、一键部署（ConfigMap）、自动校验、异常回滚</li>
+        <li><b>微服务架构</b>：主导核心微服务的架构重构与拆分，设计"设备侧计算 + 云端计算"双计算分流架构（按组网类型动态分配计算节点），梳理并优化服务间调用链路。</li>
+        <li><b>中间件与可靠性</b>：搭建 Kafka 消息链路并保障不丢不重（消费后提交 offset · 消息校验 · 异常重试 · 幂等去重）与顺序性；用 Redis 分布式锁解决多实例并发任务冲突。</li>
+        <li><b>数据层设计</b>：负责数据库建模与索引设计，通过执行计划分析定位并优化慢查询；设计按任务维度的分片方案与历史数据分层清理策略。</li>
+        <li><b>容器化与线上治理</b>：服务全量 Kubernetes 化，负责镜像构建、探针与资源配额调优、多环境（腾讯云生产 / 海外集群）部署；承担现网值班与 P0/P1 故障复盘，线上问题周均闭环 1+ 起。</li>
     </ul>
-    <div class="result-line">成果：功能从白名单试点到规模化落地，现网 AP 数据 <span class="num">259万+</span>、单月调优峰值 <span class="num">14.7万</span> 次，主导 P0/P1 故障复盘与 SLA 闭环</div>
 </div>
 
-<div class="project">
-    <div class="project-head">
-        <span class="project-title">② RRM 支持 WiFi7（6GHz 频段扩展，全链路改造）</span>
-        <span class="project-period">2024.01 - 2024.12</span>
+<h2>项 目 经 历</h2>
+
+<div class="proj">
+    <div class="pt">
+        <div class="nm">① 无线资源管理系统微服务架构重构与规模化落地 <i>　核心开发 / 架构设计</i></div>
+        <div class="dt">2024.08 – 至今</div>
     </div>
-    <div class="tech-line">微服务 · Kafka/RabbitMQ · Redis · K8s · node-ffi 调 C 算法库</div>
+    <div class="tags"><i class="key">微服务架构</i><i>Kafka</i><i>Redis</i><i>MongoDB 分库分表</i><i>Kubernetes</i><i>配置中心</i></div>
+    <div class="desc">原有系统采用"云端集中计算"模式，云端资源压力大、功能仅在小范围白名单开放。项目将其重构为"设备侧计算 + 云端计算"的分流架构，并完成规模化落地。</div>
     <ul>
-        <li>梳理 4 大微服务调用链路，主导 6GHz 采集/扫描/计算/调优/部署全链路适配；node-ffi 调用 C .so 核心算法库突破跨语言性能瓶颈</li>
-        <li>独立接手无完善文档的遗留系统，1 个月理清全部调用链路</li>
+        <li><b>架构设计</b>：主导微服务重构，设计按组网类型动态分配计算节点的分流架构，实现两种计算模式无感切换；优化服务间调用链路，降低单点压力。</li>
+        <li><b>消息可靠性</b>：对接 Kafka 实现设备侧计算结果实时上报，采用消费后提交 offset + 消息校验与异常重试 + 幂等去重，保障"下发—计算—上报—展示"全链路不丢不重。</li>
+        <li><b>并发与数据层</b>：Redis 分布式锁（SETNX + 唯一值 + Lua 原子释放）串行化多实例并发任务；设计按任务维度的分片方案与复合索引；独立交付配置中心（统一管理 / 一键部署 / 自动校验 / 异常回滚）。</li>
     </ul>
-    <div class="result-line">成果：2.4G/5G/6G 三频统一 RRM 调度、完整支持 WiFi7 商用，周均闭环 1+ 起线上问题</div>
+    <div class="result">成果：适配现网 <b>98%+</b> 组网形态（纳管无线设备 19.6 万+、累计调优明细 2700 万+ 条），单月调优峰值 <b>14.7 万</b> 次；功能从白名单试点推进到<b>规模化落地</b>。</div>
 </div>
 
-<div class="project">
-    <div class="project-head">
-        <span class="project-title">③ WBC 支持 IoT 2.0——云简与物联网模块解耦（架构级改造）</span>
-        <span class="project-period">2023.07 - 2024.06</span>
+<div class="proj">
+    <div class="pt">
+        <div class="nm">② C 算法库与 Node.js 双向调用架构 <i>　接口设计 / 核心开发</i></div>
+        <div class="dt">2024.01 – 2024.12</div>
     </div>
-    <div class="tech-line">MongoDB · K8s · VNC · Shell</div>
+    <div class="tags"><i class="key">C 语言</i><i class="key">函数指针</i><i>回调机制</i><i>node-ffi</i><i>内存管理</i><i>性能压测</i></div>
+    <div class="desc">无线调优算法以 C 语言实现并编译为动态库，Node.js 侧通过 node-ffi 调用。原"一次性输入输出"模式在大批量设备场景下数据包过大、频繁触发内存溢出（OOM）。</div>
     <ul>
-        <li>主导编译打包流程重构，支持"一体机+虚拟机"双镜像模式；开发监控平台 VNC 远程管理</li>
+        <li><b>接口架构</b>：参与设计 C 算法库与 Node.js 的双向调用架构，将大数据量场景改造为<b>分片传输 + 回调返回</b>，从根因解决 OOM。</li>
+        <li><b>函数指针映射表</b>：因 FFI 不支持异步，设计<b>函数名 → 函数指针的映射表</b>与初始化注册机制，把 JS 侧可调用函数注册给 C 侧、指针固化为全局变量，实现 C → JS 主动回调。</li>
+        <li><b>回调协议与内存管理</b>：设计 <b>method–data–callback</b> 三段式协议支持异步返回与<b>嵌套调用</b>；明确跨语言边界的内存归属与释放责任，避免重复释放与悬空引用。</li>
     </ul>
-    <div class="result-line">成果：进程级隔离、独立发版，版本交付周期显著缩短</div>
+    <div class="result">成果：支撑 <b>10 万/s</b> 调用量压力测试，解决大数据量场景 OOM；接口层成为算法侧与业务侧的稳定解耦边界。</div>
 </div>
 
-<h2>技 术 栈</h2>
-<div class="skills-grid">
-    <div class="skill-item"><b>语言</b>：Node.js/TypeScript（主力 3 年）· Go / Java。</div>
-    <div class="skill-item"><b>分布式</b>：微服务拆分与重构 · Redis 分布式锁 · 消息可靠与幂等 · 配置中心 · 双计算架构。</div>
-    <div class="skill-item"><b>消息与存储</b>：Kafka（消费组/分区/offset/不丢不重）· RabbitMQ · MongoDB · Redis · MySQL。</div>
-    <div class="skill-item"><b>容器与 DevOps</b>：Kubernetes · Docker · CI/CD · 滚动更新/探针/HPA · SonarQube。</div>
-    <div class="skill-item"><b>设备通信</b>：WebSocket · Netconf · 802.11 无线协议 · node-ffi 调 C 库 · Linux。</div>
-    <div class="skill-item"><b>AI 工具实践</b>：日常深度使用 LLM 提效 30%+；主导过 AI 调优算法工程化落地（增量训练/边缘推理）。</div>
+<div class="proj">
+    <div class="pt">
+        <div class="nm">③ RRM 支持 WiFi 7（6GHz 频段扩展） <i>　后端改造负责人</i></div>
+        <div class="dt">2024.01 – 2024.12</div>
+    </div>
+    <div class="tags"><i>微服务链路改造</i><i>Redis</i><i>Kafka / RabbitMQ</i><i>Kubernetes</i><i>协议适配</i></div>
+    <div class="desc">系统原仅支持 2.4G / 5G 双频段，本项目新增 6GHz 频段支持，完成 WiFi 7 商用适配。</div>
+    <ul>
+        <li>梳理四个微服务的调用链路，主导 6GHz 全链路改造（数据采集 / 扫描 / 计算 / 调优 / 下发），保证三频段统一调度与平滑升级。</li>
+        <li>维护 Redis 分布式锁、Kafka / RabbitMQ 消息链路与 Kubernetes 容器编排，保障改造期间线上稳定；独立接手无文档遗留系统，1 个月内理清全部调用链路。</li>
+    </ul>
+    <div class="result">成果：频段支持从 2 个扩展到 <b>3 个（2.4G / 5G / 6G）</b>，完整支持 WiFi 7 商用。</div>
 </div>
 
 <h2>竞 赛 与 获 奖</h2>
 <table>
-    <tr><th>时间</th><th>级别</th><th>奖项 / 荣誉</th></tr>
-    <tr><td>2019.09</td><td>国家级</td><td>第13届"西门子杯"中国智能制造挑战赛全国总决赛 <strong>特等奖</strong></td></tr>
-    <tr><td>2021.07</td><td>国家级</td><td>第13届"电工杯"中国大学生数学建模竞赛 <strong>二等奖</strong></td></tr>
-    <tr><td>2021.05</td><td>省部级</td><td>第13届"蓝桥杯"C/C++ 程序设计研究生组 <strong>二等奖</strong></td></tr>
-    <tr><td>2021.09</td><td>校级</td><td>研究生一等奖学金（TOP 2%）</td></tr>
+    <tr><td class="tm">2019.09</td><td>第 13 届"西门子杯"中国智能制造挑战赛 <b>全国总决赛特等奖</b></td></tr>
+    <tr><td class="tm">2021.05</td><td>第 13 届"蓝桥杯"C / C++ 程序设计大赛 研究生组 <b>省二等奖</b></td></tr>
+    <tr><td class="tm">2021.07</td><td>第 13 届"电工杯"全国大学生数学建模竞赛 <b>全国二等奖</b></td></tr>
+    <tr><td class="tm">2021.09</td><td>研究生学业奖学金 <b>一等奖（TOP 2%）</b></td></tr>
 </table>
 
 <h2>自 我 评 价</h2>
-<div class="section" style="font-size: 12.5px; line-height: 1.7;">
-    · <b>架构与规模</b>：主导 AI RRM 双计算架构重构（设备侧+云端分流），纳管 19.6万+ 设备、覆盖 259万+ AP 数据<br>
-    · <b>异步与可靠性</b>：3 年 Node.js 微服务，擅长消息不丢不重、分布式锁、并发正确性（防抖/幂等/兜底）<br>
-    · <b>全链路攻坚</b>：独立接手遗留系统、定位消息可靠性/并发竞态等深水区问题（周均 1+ 线上闭环）<br>
-    · <b>AI 时代效率</b>：深度使用 LLM 提效 30%+，具备 AI 产品工程化落地经验（增量训练/边缘推理）
-</div>
-
-<div class="footer">感谢您的阅读</div>
+<ul>
+    <li><b>架构与规模</b>：主导微服务架构重构与双计算分流设计，系统纳管无线设备 19.6 万+、覆盖 AP 数据 259 万+、单月调优峰值 14.7 万次。</li>
+    <li><b>异步与可靠性</b>：3 年 Node.js 微服务实战，擅长消息不丢不重、分布式锁、并发正确性（幂等 / 重试 / 兜底），并有跨语言调用的内存治理经验。</li>
+    <li><b>全链路攻坚</b>：能独立接手无文档遗留系统（1 个月理清全链路），定位消息可靠性、并发竞态等深水问题，线上问题周均闭环 1+ 起。</li>
+    <li><b>工程化意识</b>：K8s / CI/CD / 监控告警 / SonarQube 质量门禁全链路经验，重线上、重规范，能与硬件与设备侧团队高效协作。</li>
+</ul>
 
 </body>
 </html>
