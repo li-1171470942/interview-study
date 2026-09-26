@@ -114,11 +114,11 @@
 <h2>技 术 栈</h2>
 <div class="stack">
     <div class="row"><span class="k">编程语言</span>熟悉 C / C++（指针与内存管理 · 结构体 · 位操作 · volatile；蓝桥杯 C/C++ 研究生组二等奖）、Node.js / TypeScript</div>
-    <div class="row"><span class="k">Linux 系统</span>熟悉 Linux 用户态开发与调试 · Shell 脚本与构建流程 · 服务与进程管理（systemd / ps / top）· 日志分析与故障定位 · 网络配置与抓包（tcpdump / netstat）· 系统镜像打包与分区 / 文件系统</div>
+    <div class="row"><span class="k">Linux 系统</span>熟悉 Linux 用户态开发与调试 · Shell 脚本与构建流程 · 服务与进程管理（systemd / ps / top）· 日志分析与故障定位 · 网络配置与抓包（tcpdump / netstat）· <b>串口设备调试（termios / tty 设备）</b> · 系统镜像打包与分区 / 文件系统</div>
     <div class="row"><span class="k">C 底层工程</span>熟悉 C 动态库（.so）调用与接口设计 · 函数指针与回调机制 · C ↔ 上层跨语言双向调用 · 内存分配与释放管理 · 大数据量分片传输与 OOM 治理</div>
     <div class="row"><span class="k">设备与虚拟化</span>熟悉 基于 KVM / QEMU 的设备虚拟化与多系统隔离 · 一体机 + 虚拟机双镜像模式 · 资源受限环境优化（内存紧张下的资源规划）· 设备监控与远程管理（VNC）</div>
     <div class="row"><span class="k">嵌入式协议</span>熟悉 UART / SPI / IIC / CAN 总线协议原理（数据帧格式 · 时序 · 主从与多主仲裁机制 · 典型应用场景）</div>
-    <div class="row"><span class="k">构建与工具</span>熟悉 系统镜像 / 固件构建打包 · Shell 构建脚本 · Git · Docker · CI/CD · 监控告警</div>
+    <div class="row"><span class="k">构建与工具</span>熟悉 <b>gcc 编译与共享库构建（-fPIC / -shared · 符号导出）</b> · <b>Makefile / Shell 构建脚本</b> · 系统镜像与固件打包 · Git · Docker · CI/CD</div>
     <div class="row"><span class="k">工程与中间件</span>熟悉 Kafka / RabbitMQ 消息链路 · MongoDB / Redis · Kubernetes · SonarQube 代码质量门禁</div>
 </div>
 
@@ -189,7 +189,7 @@
     <div class="tags"><i class="key">Linux 设备软件</i><i class="key">KVM / QEMU</i><i>系统镜像构建</i><i>资源受限优化</i><i>Shell</i><i>文件系统</i></div>
     <div class="desc">WBC 是集无线运维与控制于一体的<b>网络设备（Linux 系统）</b>，云简与物联网模块高度耦合、<b>设备内存受限</b>。项目基于 KVM / QEMU 在单台设备上实现"宿主 + 客户机"多系统隔离，完成模块解耦。</div>
     <ul>
-        <li><b>Linux 系统镜像构建</b>：主导系统镜像构建与编译打包流程重构（Shell 构建脚本），支持"一体机 + 虚拟机"双镜像模式，实现模块并行开发与独立发布。</li>
+        <li><b>Linux 系统镜像构建</b>：主导系统镜像构建与编译打包流程重构（<b>Makefile / Shell 构建脚本</b>），支持"一体机 + 虚拟机"双镜像模式，实现模块并行开发与独立发布。</li>
         <li><b>虚拟化与资源规划</b>：基于 <b>KVM / QEMU</b> 在设备上实现多系统隔离，规划虚拟机资源分配与分区 / 文件系统布局，在内存受限条件下保障核心服务稳定运行。</li>
         <li><b>模块隔离</b>：参与物联网模块解耦改造，实现进程级隔离与独立版本生命周期管理。</li>
         <li><b>设备远程管理</b>：开发设备监控平台的 VNC 远程管理功能，基于 Linux 网络通道建立宿主机与虚拟机之间稳定、安全的通信链路。</li>

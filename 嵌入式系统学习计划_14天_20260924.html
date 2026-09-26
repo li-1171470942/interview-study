@@ -116,6 +116,23 @@
   </div>
 
   <div class="card">
+    <h2>🧩 简历已包装 → 面试前必须补的知识点 <span class="tag p0">P0 · 与简历直接挂钩</span></h2>
+    <div class="warn">⚠️ <b>2026-09-26 简历做了两轮包装</b>（补 Linux 内容 + 项目术语化 + 加总线协议）。<b>写进去的每一项面试官都会问</b>。下表是「简历承诺 → 你必须能讲清」的对照，🔴 标记的是风险最高的。</div>
+    <table>
+      <tr><th style="width:22%">简历里写了</th><th style="width:40%">面试官会问什么</th><th>补在哪天</th></tr>
+      <tr><td><b>UART / SPI / IIC / CAN</b> 🔴🔴</td><td>四总线的<b>线数与主从</b> · 同步 vs 异步 · <b>CAN 帧格式与位仲裁</b>（ID 越小优先级越高）· IIC 为什么需要上拉电阻 · 各自典型场景</td><td><b>D9</b>（总线 5 题，<b>最要紧</b>）</td></tr>
+      <tr><td><b>串口设备调试（termios）</b></td><td><code>/dev/ttyUSB0</code> 与 <code>/dev/ttyS0</code> 区别 · termios 配什么（波特率 / 数据位 / 校验 / 停止位）· <code>stty</code> / <code>minicom</code> / <code>screen</code> 用法 · <b>UART 帧格式</b></td><td><b>D9</b>（与总线同一天，串起来记）</td></tr>
+      <tr><td><b>Linux 进程 / 日志 / 抓包排查</b> 🔴</td><td><code>ps</code> / <code>top</code> / <code>systemctl</code> · 日志（journalctl / grep）· <b>tcpdump 抓包怎么定位重传与丢包</b> · 进程卡住怎么查（strace / <code>/proc</code>）</td><td><b>D10</b>（已排 Linux 4 题）</td></tr>
+      <tr><td><b>KVM / QEMU 虚拟化</b></td><td>KVM 是内核模块（<code>/dev/kvm</code>）· QEMU 负责用户态 · 虚拟机网络（虚拟网桥 / NAT）· <b>虚拟机为什么能隔离</b>（CPU / 内存虚拟化）</td><td><b>D10</b>（加 30 分钟）</td></tr>
+      <tr><td><b>系统镜像 / 分区 / 文件系统</b></td><td><code>fdisk</code> / <code>mkfs</code> / <code>mount</code> · fstab · 镜像怎么做（<code>dd</code> / tar 打包）· ext4 vs 只读 squashfs 在设备上的取舍</td><td><b>D10</b>（加 30 分钟）</td></tr>
+      <tr><td><b>gcc 与共享库构建</b></td><td><code>-fPIC</code> 为什么必须（位置无关代码 / 重定位）· <code>-shared</code> 与静态库区别 · 符号怎么看（<code>nm</code> / <code>objdump -T</code>）· 运行找不到 .so 怎么办（<code>ldd</code> / <code>LD_LIBRARY_PATH</code>）</td><td><b>D3</b>（手撕日顺带 30 分钟）</td></tr>
+      <tr><td><b>Makefile / Shell 构建脚本</b></td><td>「目标: 依赖: 命令」三段式 · <code>$@ $&lt; $^</code> · 变量与 <code>.PHONY</code> · <b>增量编译怎么判断</b>（时间戳）· <code>make -j</code></td><td><b>D3</b>（顺带 30 分钟）</td></tr>
+    </table>
+    <div class="talk"><b>🎤 被追问到不会的，用这句话收</b>："这块我在项目里是<b>这样用的</b>（讲你的具体场景）—— 底层原理我理解到这一层，没深挖过的部分我不装懂。" <b>讲清"我用它解决了什么问题"，比背原理更安全。</b></div>
+    <div class="ok">✅ <b>优先级</b>：🔴🔴 总线（D9）→ 🔴 Linux 排查（D10）→ gcc / Makefile（D3）→ 虚拟化 + 文件系统（D10）。<b>这四块补完，简历上写的每一项就都站得住了。</b></div>
+  </div>
+
+  <div class="card">
     <h2>🔁 每天的固定动作（三步循环）</h2>
     <table>
       <tr><th style="width:15%">步骤</th><th style="width:30%">你做什么</th><th>我做什么</th></tr>
@@ -206,6 +223,7 @@
     <div class="task"><input type="checkbox" data-id="d3-8"><span class="tx"><b>C 语言 13 题全量口述</b>（限时 90 分钟，每道说 60 秒）<span class="meta">材料：<a class="src local" href="嵌入式面试高频题_20260917.html" target="_blank">36 题 · C 语言 13 题</a>｜用"说"不用"看"；卡住的立刻记到错题纸</span></span></div>
     <div class="task"><input type="checkbox" data-id="d3-9"><span class="tx"><b>专题深化三块</b>：① 内存五分区 ② 结构体对齐（算 struct 大小）③ 大小端（默写 0x12345678 两种布局）<span class="meta">补充读：<a class="src xl" href="https://xiaolincoding.com/os/3_memory/vmem.html" target="_blank">小林 · 为什么要有虚拟内存</a>（把"C 的内存分区"和"OS 的虚拟内存"接起来）</span></span></div>
     <div class="task"><input type="checkbox" data-id="d3-10"><span class="tx"><b>STM32 环境准备</b>：确认板子/工具链/示例代码就位<span class="meta">没买板子就今晚下单（STM32F103C8T6 最小系统板几十块）</span></span></div>
+    <div class="task"><input type="checkbox" data-id="d3-11"><span class="tx"><b>【简历挂钩】gcc 共享库 + Makefile</b>：gcc <code>-fPIC -shared</code> 编译一个 .so（理解 -fPIC 为什么必须）· nm 看符号 · ldd 查依赖 · 手写一个最小 Makefile（目标: 依赖: 命令 / $@ $&lt; $^ / .PHONY / 增量编译）<span class="meta">简历写了「gcc 编译与共享库构建 · Makefile」→ 30 分钟补掉</span></span></div>
     <div class="exam">
       <span class="et"><b>🎯 学完找我考</b></span>
       <ol>
@@ -360,6 +378,7 @@
     <div class="task"><input type="checkbox" data-id="d9-6"><span class="tx"><b>【动手】STM32 串口中断收发 demo</b>：中断接收 → 写入环形缓冲区 → 主循环取出回显<span class="meta">一个 demo 同时落定 <b>中断 / 串口 / 环形缓冲 / 主循环</b> 四个概念｜材料：<a class="src local" href="华为引望OD_嵌入式_面试突击方案_20260917.html" target="_blank">突击方案 §5</a></span></span></div>
     <div class="task"><input type="checkbox" data-id="d9-7"><span class="tx"><b>网络对照（小林，选读）</b>：Linux 系统是如何收发网络包的<span class="meta">链接：<a class="src xl" href="https://xiaolincoding.com/network/1_base/how_os_deal_network_package.html" target="_blank">小林 · Linux 收发网络包</a>｜你做过 TCP/IP + 网卡驱动那侧，读这篇能把"嵌入式收包（中断 + 环形缓冲）"和"Linux 收包（NAPI + ring buffer）"对上</span></span></div>
     <div class="task"><input type="checkbox" data-id="d9-8"><span class="tx"><b>手撕复习</b>：字符串反转 + 统计 1 的个数（限时各 10 分钟）</span></div>
+    <div class="task"><input type="checkbox" data-id="d9-9"><span class="tx"><b>【简历挂钩】Linux 串口调试（termios）</b>：用 <code>open("/dev/ttyUSB0")</code> + termios 配波特率 / 数据位 / 校验位 / 停止位，完成 read / write 收发；对比"裸机寄存器操作 vs Linux 设备文件"<span class="meta">简历写了「串口设备调试（termios / tty 设备）」→ 必问</span></span></div>
     <div class="exam">
       <span class="et"><b>🎯 学完找我考</b></span>
       <ol>
@@ -388,6 +407,8 @@
     <h3>🌤 下午（14:00–18:00）：Linux 4 题 + 自测</h3>
     <div class="task"><input type="checkbox" data-id="d10-6"><span class="tx"><b>Q33-Q36 Linux 四题</b>：进程 vs 线程 · IPC 方式 · 文件 IO vs 标准 IO · 僵尸/孤儿进程<span class="meta">材料：<a class="src local" href="嵌入式面试高频题_20260917.html" target="_blank">36 题 §6</a> + 小林（有图）：<a class="src xl" href="https://xiaolincoding.com/os/4_process/process_base.html" target="_blank">进程线程基础</a> <a class="src xl" href="https://xiaolincoding.com/os/4_process/process_commu.html" target="_blank">进程间通信</a> <a class="src xl" href="https://xiaolincoding.com/os/6_file_system/file_system.html" target="_blank">文件系统全家桶</a></span></span></div>
     <div class="task"><input type="checkbox" data-id="d10-7"><span class="tx"><b>【闭卷自测】嵌入式 23 题</b>（中断 4 + RTOS 5 + 总线 5 + MCU 5 + Linux 4）——限时 2 小时口述<span class="meta">逐题打分，未过的排进滚动复习</span></span></div>
+    <div class="task"><input type="checkbox" data-id="d10-9"><span class="tx"><b>【简历挂钩】KVM / QEMU 虚拟化</b>：KVM 是内核模块（/dev/kvm）· QEMU 负责用户态模拟 · 虚拟机网络（网桥 / NAT）· 为什么能隔离（CPU / 内存虚拟化 + 特权级切换）<span class="meta">简历写了 KVM/QEMU 多系统隔离 → 必问</span></span></div>
+    <div class="task"><input type="checkbox" data-id="d10-10"><span class="tx"><b>【简历挂钩】系统镜像 / 分区 / 文件系统</b>：fdisk / mkfs / mount · fstab · 镜像怎么做（dd / tar 打包）· ext4 vs 只读 squashfs 在设备上的取舍<span class="meta">简历写了「系统镜像打包与分区 / 文件系统」</span></span></div>
     <div class="task"><input type="checkbox" data-id="d10-8"><span class="tx"><b>【落库】生成阶段二记录并推云端</b><span class="meta">跟我说"更新进度"</span></span></div>
     <div class="exam">
       <span class="et"><b>🎯 学完找我考（第二个检查点）</b></span>
