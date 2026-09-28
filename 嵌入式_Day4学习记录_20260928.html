@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>嵌入式 Day4 学习记录（2026-09-27 ~ 09-28）</title>
+<style>
+  :root { --bg:#f4f6fb; --card:#fff; --ink:#1f2430; --sub:#5b6478; --line:#e4e8f0; --brand:#4f46e5; --red:#dc2626; --green:#16a34a; --amber:#d97706; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:var(--bg); color:var(--ink); line-height:1.7; padding-bottom:70px; }
+  .hero { background:linear-gradient(135deg,#7c3aed,#4f46e5); color:#fff; padding:26px 0 20px; }
+  .hero .wrap { max-width:960px; margin:0 auto; padding:0 16px; }
+  .hero h1 { font-size:21px; margin-bottom:6px; }
+  .hero .sub { font-size:13px; opacity:.94; }
+  .hero .nav { margin-top:12px; display:flex; gap:8px; flex-wrap:wrap; }
+  .hero .nav a { display:inline-block; font-size:12px; color:#fff; background:rgba(255,255,255,.18); border:1px solid rgba(255,255,255,.35); border-radius:99px; padding:3px 12px; text-decoration:none; }
+  .hero .nav a:hover { background:rgba(255,255,255,.3); }
+  .wrap { max-width:960px; margin:0 auto; padding:0 16px; }
+
+  .stats { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:16px 0; }
+  .stat { background:#fff; border:1px solid var(--line); border-radius:12px; padding:13px 12px; text-align:center; }
+  .stat .n { font-size:24px; font-weight:700; color:var(--brand); line-height:1.2; }
+  .stat .l { font-size:11.5px; color:var(--sub); margin-top:3px; }
+  .stat.done .n { color:var(--green); }
+  .stat.todo .n { color:var(--amber); }
+  .stat.fail .n { color:var(--red); }
+
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px; margin:14px 0; }
+  .card h2 { font-size:15.5px; margin-bottom:8px; display:flex; align-items:center; gap:8px; }
+  h3 { font-size:13.5px; margin:14px 0 6px; color:var(--brand); }
+  table { width:100%; border-collapse:collapse; font-size:12.8px; }
+  th { background:#f1f3fa; padding:7px 8px; text-align:left; font-size:11.8px; color:var(--sub); font-weight:600; }
+  td { padding:7px 8px; border-top:1px solid var(--line); vertical-align:top; }
+  code { background:#eef2ff; color:#3730a3; padding:1px 5px; border-radius:4px; font-family:Consolas,Monaco,monospace; font-size:12px; }
+  pre { background:#1e2235; color:#e2e8f0; padding:11px 13px; border-radius:8px; overflow-x:auto; font-family:Consolas,Monaco,monospace; font-size:12px; line-height:1.6; margin:8px 0; }
+  pre code { background:none; color:inherit; padding:0; }
+
+  .tag { display:inline-block; font-size:11px; padding:1px 7px; border-radius:99px; background:#eef2ff; color:#4338ca; margin-left:6px; }
+  .tag.pass { background:#f0fdf4; color:#15803d; }
+  .tag.half { background:#fffbeb; color:#b45309; }
+  .tag.fail { background:#fef2f2; color:#b91c1c; }
+  .tag.new  { background:#f5f3ff; color:#6d28d9; }
+
+  .ok { background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:9px 12px; font-size:12.8px; color:#14532d; margin:9px 0; }
+  .warn { background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:9px 12px; font-size:12.8px; color:#92400e; margin:9px 0; }
+  .bad { background:#fef2f2; border:1px solid #fecaca; border-radius:8px; padding:9px 12px; font-size:12.8px; color:#991b1b; margin:9px 0; }
+  .talk { background:#f5f7ff; border-left:3px solid var(--brand); border-radius:0 8px 8px 0; padding:9px 12px; margin:8px 0; font-size:12.8px; }
+  .talk b { color:var(--brand); }
+  a { color:var(--brand); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  ul.clean { padding-left:19px; }
+  ul.clean li { font-size:13px; margin:5px 0; }
+  ol.clean { padding-left:21px; }
+  ol.clean li { font-size:13px; margin:5px 0; }
+  .footer { text-align:center; color:#9aa3b5; font-size:11.8px; margin-top:24px; line-height:1.9; }
+  @media (max-width:560px){ .hero h1{font-size:18px;} .stats{grid-template-columns:repeat(2,1fr);} table{font-size:12.2px;} th,td{padding:6px;} }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <h1>📕 嵌入式 Day4 学习记录</h1>
+    <div class="sub">2026-09-27 ~ 09-28（跨两天）· 闭卷自测 9 题 · const 说反当场救回 · 手撕 6 道开篇</div>
+    <div class="nav">
+      <a href="学习中心.html">🏠 学习中心</a>
+      <a href="嵌入式系统学习计划_14天_20260924.html">📚 每日学习计划 14 天</a>
+      <a href="嵌入式_Day3学习记录_20260926.html">📘 Day3 记录（9/26）</a>
+      <a href="华为引望OD_嵌入式_面试突击方案_20260917.html">🚀 引望突击方案</a>
+      <a href="index.html">站点首页</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="stats">
+    <div class="stat"><div class="n">9</div><div class="l">📝 闭卷自测题数（D4-1）</div></div>
+    <div class="stat done"><div class="n">1</div><div class="l">✅ 当场救回（const 换样例 4/4）</div></div>
+    <div class="stat fail"><div class="n">4</div><div class="l">🔴 新增错题</div></div>
+    <div class="stat todo"><div class="n">1/6</div><div class="l">✍️ 手撕进度（未过）</div></div>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">1</span> 今日实况（闭卷自测 9 题 · 全部乱序抽考）</h2>
+    <p>背景：D4 计划为「闭卷自测 A（C 语言 13 题）+ 闭卷自测 B（手撕 6 道）」。9/27 上午走了 3 题后中断，9/28 上午接续走完 6 题并开启手撕段。<b>全程不翻材料、乱序抽题</b>。</p>
+    <table>
+      <thead><tr><th style="width:20%">题</th><th style="width:14%">判定</th><th>缺口 / 关键纠正</th></tr></thead>
+      <tbody>
+        <tr><td><b>Q1 sizeof / strlen</b></td><td><span class="tag half">⚠️ 3/4</span></td><td>两个值（8 / 11）全对；<b>但把「<code>\0</code>」和「数组退化」焊在了一起</b> ❌ —— 说成"没有 <code>\0</code> 就退化为指针"。这是<b>两条毫无关系的规则</b>：<code>\0</code> 决定 strlen 数到哪停；退化只发生在数组名当函数参数/参与表达式时</td></tr>
+        <tr><td><b>Q2 数组名传参</b></td><td><span class="tag pass">✅</span></td><td>① <code>sizeof(buf)=12</code> ✅（含 <code>\0</code>）② 机制"数组名做参数退化为指针" ✅ <b>但没给数值</b>（应 <b>8</b>）→ 已补；顺带串起 <b><code>&amp;buf+1</code> 跨 12 字节</b>（他早期连错两天的那个点）</td></tr>
+        <tr><td><b>Q3 const 四兄弟</b></td><td><span class="tag fail">❌ 2/4</span></td><td><b>①③ 整个说反</b>（把 <code>const char *p1</code> 判成"指针不可改"、<code>char * const p3</code> 判成"指针可改"）。<b>根因：参照物看的是「变量名」，应该是「<code>*</code>」</b> —— const 贴近 <code>*</code> 哪一侧就锁哪一侧</td></tr>
+        <tr><td><b>Q4 const 换 int 复验</b></td><td><span class="tag pass">✅ 4/4</span></td><td>换类型（int）、换问法（"哪行报错"）后<b>全对，理由也是"左锁值/右锁指针"原话</b> → 判定<b>规则内化</b>（第二次"换样例验证通过"，首次是大小端）</td></tr>
+        <tr><td><b>Q5 static 三问</b></td><td><span class="tag half">✅ 5/6</span></td><td>存储区 / 生命周期 / 只初始化一次 ✅、static 函数 ✅；<b>① ② 只答了 static 那一半、没给对比方</b>（普通局部应在栈、函数返回即销毁）；<b>"编译期间初始化"不严谨</b> → 应为<b>程序启动时（load .data 段）一次性载入</b></td></tr>
+        <tr><td><b>Q6 堆 vs 栈</b></td><td><span class="tag half">⚠️</span></td><td>位置（堆/栈）✅ 泄漏 ✅ calloc ✅ 栈大小 ✅ 堆碎片 ✅；<b>❌ "栈为什么快"答成了物理属性</b>（"栈小、堆大、不连续"）—— 应讲<b>操作成本</b>：栈分配 = <code>sub rsp</code> 一条指令；堆 = 加锁 + 遍历空闲链表 + 可能分裂 + 可能 <code>brk/mmap</code> 进内核。另：malloc 出来是"<b>未初始化</b>"不是"随机值"；栈溢出在 Linux 是 <b>SIGSEGV</b></td></tr>
+        <tr><td><b>Q7 结构体 vs 联合体</b></td><td><span class="tag fail">❌ 不会</span></td><td>直接说不会 → 已完整讲解：对齐两规则 → <code>sizeof(struct S)=8</code> / <code>sizeof(union U)=4</code>；联合体最经典用法 = <b>判断大小端</b>（<code>union{uint32_t i; uint8_t c[4];}</code>）；<b>成员顺序影响大小</b>（<code>char,int,short</code>=12 vs <code>int,short,char</code>=8）</td></tr>
+        <tr><td><b>Q7b 对齐换样例</b></td><td><span class="tag half">⏭ 跳过</span></td><td>他要求跳过 → 已给答案（<code>struct{char;double;char;}</code> = <b>24</b>，17 撑到 24）；标记为<b>待自查</b>，不算错</td></tr>
+        <tr><td><b>Q8 函数指针</b></td><td><span class="tag pass">✅</span></td><td>① <code>int (*f)(int,int)</code> = 函数指针 ✅ ② <code>int *g(int,int)</code> = 返回 <code>int*</code> 的函数 ✅ 读法"名字是否被括号和 <code>*</code> 绑一起" ✅；<b>第 3 问漏了「映射表」</b>（只答了回调）—— 映射表正是他自己项目的用法</td></tr>
+        <tr><td><b>Q9 项目自述</b></td><td><span class="tag half">⚠️</span></td><td>只复述了简历标题（"双向回调 + Node/C 双向异步调用"），<b>缺「为什么 / 怎么做 / 结果」</b> → 已给 30 秒三段式骨架（映射表 + method/data/callback + <code>void*</code> 类型擦除 + 10 万/s QPS），待他念顺</td></tr>
+      </tbody>
+    </table>
+    <div class="warn">⚠️ <b>本日最大信号</b>：<b>"规则说对、落笔就反"又出现了一次</b>（const ①③ 全反）。但这次<b>换样例后 4/4 全对</b> —— 说明<b>「讲完立刻换新样例复验」这个方法对他确实有效</b>，后续所有方向性知识点都照此办理。</div>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">2</span> ✍️ 手撕代码 · 第 1 道（字符串反转）</h2>
+    <div class="bad">❌ <b>他直接说"我还真不会这个"</b> → 已完整讲解，<b>明天重考</b>（不看答案手写）。这不是"复习"，是<b>从零建立</b>手撕能力。</div>
+    <h3>思路（面试第一句就要说）</h3>
+    <p>"两个指针，一个指头、一个指尾，<b>交换内容后向中间夹逼</b>，直到 i 不小于 j。全程原地，不申请新空间。"</p>
+    <h3>参考实现</h3>
+    <pre><code>void reverse_str(char *s) {
+    if (s == NULL) return;          /* ① 先判空 —— 加分项 */
+    int i = 0, j = (int)strlen(s) - 1;
+    while (i &lt; j) {                 /* ② 相遇即停 */
+        char t = s[i];              /* ③ 三步交换 */
+        s[i] = s[j];
+        s[j] = t;
+        i++; j--;
+    }
+}</code></pre>
+    <div class="bad">⚠️ <b>经典坑（面试官爱问）</b>：<code>j</code> 必须用 <b>有符号</b> <code>int</code> 接。若写成 <code>size_t j = strlen(s) - 1;</code> —— <b>空串时 <code>strlen=0</code>，<code>0-1</code> 在无符号下变成 SIZE_MAX</b>，<code>i &lt; j</code> 成立 → 直接越界崩溃。用 <code>int</code> 时 <code>0-1=-1</code>，循环天然不执行 ✅。</div>
+    <div class="ok">✅ <b>四维判分标准（明天照这个自查）</b>：① 能否编译 ② 边界（空指针 / 空串 / 单字符）③ 是否真原地（偷偷开数组即扣分）④ 面试加分（<b>先判空</b> + <b>主动说边界</b>）。<br><b>锚：两手从两端往中间走，见面就散。</b></div>
+    <h3>剩余 5 道（明日主体）</h3>
+    <ol class="clean">
+      <li><b>memcpy</b> —— 考<b>内存重叠</b>：目标落在源区间内要<b>从后往前拷</b></li>
+      <li><b>单链表反转</b> —— 考<b>别丢链</b>：先存 <code>next</code> 再改指向</li>
+      <li><b>统计二进制 1 的个数</b> —— <code>n &amp;= (n-1)</code> 每次消掉最低位的 1</li>
+      <li><b>判断大小端</b> —— <code>*(char*)&amp;x == 1</code> 或 union 法</li>
+      <li><b>环形缓冲区</b> —— <code>head</code>/<code>tail</code> + 位运算取模；<b>满/空判定</b>是关键</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">3</span> ⭐ 错题纸更新（累计 21 → 25 条）</h2>
+
+    <h3>🔴 今日新增（4 条）</h3>
+    <table>
+      <thead><tr><th style="width:30%">条目</th><th>要点与根治锚</th></tr></thead>
+      <tbody>
+        <tr><td><b>把 <code>\0</code> 和「退化」焊死</b></td><td><code>\0</code> 管"<b>数到哪停</b>"（strlen 的终止符）；退化管"<b>你是谁</b>"（数组名在函数参数/表达式里变指针）。<b>两条独立规则，不在一个维度</b>。没有 <code>\0</code> 的后果是 <b>strlen 越界往下读（未定义行为）</b>，不是退化。<br><b>锚：<code>\0</code> 管停，退化管形。</b></td></tr>
+        <tr><td><b>const 判断参照物错</b></td><td>判断"左锁值 / 右锁指针"时，<b>看的是 <code>*</code> 不是变量名</b>。<code>const char *p</code> 和 <code>char * const p</code> 里 const 都在变量名左侧，但相对 <code>*</code> 一左一右。<br><b>锚：盯 <code>*</code>，谁离它近谁先被锁；两个 const = 全锁。</b></td></tr>
+        <tr><td><b>static 初始化时刻</b></td><td>不是"编译期执行"，而是：编译器把常量初值编进目标文件的 <b><code>.data</code> 段</b>，<b>程序启动时（main 之前）由加载器一次性载入内存</b>。它<b>从不是一条运行时赋值语句</b>，所以不存在"第二次执行"。<br>面试标准答法：<b>"启动时一次性初始化"</b>。</td></tr>
+        <tr><td><b>"栈为什么快"答成物理属性</b></td><td>问"为什么快"永远问的是<b>操作成本</b>，不是"栈小/连续"。<b>栈 = <code>sub rsp</code> 一条指令（挪指针）；堆 = 加锁 + 遍历空闲链表 + 可能分裂 + 可能 <code>brk/mmap</code> 进内核。</b><br><b>锚：栈是挪门牌号，堆是查表+记账+可能要跟内核申请。</b></td></tr>
+      </tbody>
+    </table>
+
+    <h3>🆕 不会项（转为待掌握）</h3>
+    <table>
+      <thead><tr><th style="width:30%">条目</th><th>要点</th></tr></thead>
+      <tbody>
+        <tr><td><b>结构体 vs 联合体 + 对齐手算</b></td><td>对齐两规则：① 成员偏移 = 自身大小的整数倍 ② 总大小 = 最大成员的整数倍。<br><code>struct{int;char;short;}</code> = 4+1+<b>1填充</b>+2 = <b>8</b>；<code>union{int;char;short;}</code> = <b>4</b>。<br><b>从大到小排最省</b>：<code>char,int,short</code>=12 vs <code>int,short,char</code>=8。<br>联合体经典用法 = <b>判断大小端</b>（面试可能让你手写）。</td></tr>
+        <tr><td><b>手撕 · 字符串反转</b></td><td>双指针夹逼 + 三步交换 + 先判空；<b><code>j</code> 用有符号 <code>int</code></b>（<code>size_t</code> 空串会下溢）。</td></tr>
+      </tbody>
+    </table>
+
+    <h3>📌 需回炉（未验 / 未答）</h3>
+    <ul class="clean">
+      <li><b>对齐换样例</b>（Q7b 被跳过）：<code>struct{char;double;char;}</code> = <b>24</b> → 自查一遍</li>
+      <li><b><code>sizeof(指针)</code> = 8</b>（Day3 🔴 复发项）→ 今天未再乱序抽查，<b>下次必须复验</b></li>
+      <li><b>函数指针第 3 问漏的「映射表」</b> → 面试时必须能同时说出 <b>回调</b> 和 <b>映射表</b> 两类用法</li>
+      <li><b>项目自述</b>（30 秒三段式）→ 出声念一遍，补上 <b>OOM 那次定位过程</b></li>
+      <li><b>static 对比表的下半张</b>（普通局部 = 栈 / 函数返回即销毁 / 每次进函数都执行初始化）</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">4</span> 🎯 本日生效的「操作型记忆锚」</h2>
+    <table>
+      <thead><tr><th style="width:24%">知识点</th><th style="width:38%">操作型锚（照着做）</th><th>自检法</th></tr></thead>
+      <tbody>
+        <tr><td><b>const 锁谁</b></td><td><b>盯 <code>*</code>：左锁值（<code>*p</code> 不能改）、右锁指针（<code>p</code> 不能改）、左右各一个 → 全锁</b></td><td>反推一行：<code>p="x"</code> 能过说明指针自由；<code>*p='x'</code> 报错说明值被锁</td></tr>
+        <tr><td><b><code>\0</code> vs 退化</b></td><td><b><code>\0</code> 管停（strlen 的刹车），退化管形（数组变指针）</b></td><td>问"这是终止符问题，还是类型问题？"</td></tr>
+        <tr><td><b>栈 / 堆快慢</b></td><td><b>栈 = 挪指针（一条指令）；堆 = 查链表 + 记账 + 可能进内核</b></td><td>别答"大小/连续性"，那是属性不是成本</td></tr>
+        <tr><td><b>结构体对齐</b></td><td><b>成员按自身大小对齐，整体按最大成员凑；从大到小排最省</b></td><td><code>char;double;char</code> → 24；<code>double;char;char</code> → 16</td></tr>
+        <tr><td><b>函数指针判断</b></td><td><b><code>(*名)</code> = 指针；<code>名(</code> = 函数</b></td><td><code>int (*f)(int)</code> 是变量；<code>int *g(int)</code> 是函数</td></tr>
+      </tbody>
+    </table>
+    <div class="talk">🎤 <b>可直接说的面试话术</b><br>
+      · <b>const</b>："const 看它贴近 <code>*</code> 哪一侧：左边锁值、右边锁指针；<code>const char * const p</code> 两边都有就是全锁。"<br>
+      · <b>栈堆</b>："栈分配就是移动栈指针一条指令；堆要加锁、遍历空闲链表、可能还有系统调用进内核，所以慢几个数量级。"<br>
+      · <b>项目</b>："C 侧维护「方法名 → 函数指针」映射表，配 method/data/callback 协议，用 <code>void*</code> 做类型擦除，结果是异步回调不阻塞 Node 事件循环，新增方法只在表里加一行，压测到 10 万/s。"</div>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">5</span> 📌 明日优先清单</h2>
+    <ol class="clean">
+      <li><b>🔴 重考手撕第 1 道（字符串反转）</b> —— 不看答案，纸上手写，按四维判分</li>
+      <li><b>🔴 手撕第 2、3 道</b> —— memcpy（内存重叠）→ 单链表反转（别丢链）</li>
+      <li><b>🎯 乱序抽查（验内化）</b>：<code>sizeof(指针)</code>、const 换写法、对齐换 struct、<code>\0</code> vs 退化 口头复述</li>
+      <li><b>项目自述出声念一遍</b>（30 秒，补 OOM 定位过程）</li>
+      <li><b>D5 新知识</b>：硬件基础（CPU 执行 / 磁盘 vs 内存）→ 中断与异常 → 冯·诺依曼 vs 哈佛</li>
+      <li>错题纸 25 条过一遍（重点：🔴 4 条新增 + 📌 5 条回炉）</li>
+    </ol>
+  </div>
+
+  <div class="footer">
+    记录时间：2026-09-28 13:05 · 由 AI 陪练结果汇总整理 · 本地与云端同步<br>
+    <a href="学习中心.html">学习中心</a> ·
+    <a href="嵌入式系统学习计划_14天_20260924.html">每日学习计划 14 天</a> ·
+    <a href="嵌入式_Day3学习记录_20260926.html">Day3 记录</a> ·
+    <a href="index.html">站点首页</a>
+  </div>
+
+</div>
+</body>
+</html>
