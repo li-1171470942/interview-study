@@ -61,7 +61,7 @@
 <div class="hero">
   <div class="wrap">
     <h1>📕 嵌入式 Day4 学习记录</h1>
-    <div class="sub">2026-09-27 ~ 09-28（跨两天）· 闭卷自测 9 题 · const 说反当场救回 · 手撕 6 道开篇</div>
+    <div class="sub">2026-09-27 ~ 09-28（跨两天）· 闭卷自测 9 题 · 手撕 6 道全部答完 · 4 笔欠账待清</div>
     <div class="nav">
       <a href="学习中心.html">🏠 学习中心</a>
       <a href="嵌入式系统学习计划_14天_20260924.html">📚 每日学习计划 14 天</a>
@@ -76,9 +76,9 @@
 
   <div class="stats">
     <div class="stat"><div class="n">9</div><div class="l">📝 闭卷自测题数（D4-1）</div></div>
-    <div class="stat done"><div class="n">1</div><div class="l">✅ 当场救回（const 换样例 4/4）</div></div>
-    <div class="stat fail"><div class="n">4</div><div class="l">🔴 新增错题</div></div>
-    <div class="stat todo"><div class="n">1/6</div><div class="l">✍️ 手撕进度（未过）</div></div>
+    <div class="stat done"><div class="n">6/6</div><div class="l">✍️ 手撕 6 道全部答完</div></div>
+    <div class="stat fail"><div class="n">34</div><div class="l">⭐ 错题纸累计</div></div>
+    <div class="stat todo"><div class="n">4</div><div class="l">🔧 欠账待清</div></div>
   </div>
 
   <div class="card">
@@ -103,7 +103,7 @@
   </div>
 
   <div class="card">
-    <h2><span class="n">2</span> ✍️ 手撕代码 · 第 1 道（字符串反转）</h2>
+    <h2><span class="n">2</span> ✍️ 手撕代码 · 6 道全部答完</h2>
     <div class="bad">❌ <b>他直接说"我还真不会这个"</b> → 已完整讲解，<b>明天重考</b>（不看答案手写）。这不是"复习"，是<b>从零建立</b>手撕能力。</div>
     <h3>思路（面试第一句就要说）</h3>
     <p>"两个指针，一个指头、一个指尾，<b>交换内容后向中间夹逼</b>，直到 i 不小于 j。全程原地，不申请新空间。"</p>
@@ -120,20 +120,32 @@
 }</code></pre>
     <div class="bad">⚠️ <b>经典坑（面试官爱问）</b>：<code>j</code> 必须用 <b>有符号</b> <code>int</code> 接。若写成 <code>size_t j = strlen(s) - 1;</code> —— <b>空串时 <code>strlen=0</code>，<code>0-1</code> 在无符号下变成 SIZE_MAX</b>，<code>i &lt; j</code> 成立 → 直接越界崩溃。用 <code>int</code> 时 <code>0-1=-1</code>，循环天然不执行 ✅。</div>
     <div class="ok">✅ <b>四维判分标准（明天照这个自查）</b>：① 能否编译 ② 边界（空指针 / 空串 / 单字符）③ 是否真原地（偷偷开数组即扣分）④ 面试加分（<b>先判空</b> + <b>主动说边界</b>）。<br><b>锚：两手从两端往中间走，见面就散。</b></div>
-    <h3>剩余 5 道（明日主体）</h3>
+    <h3>第 2 ~ 6 道 · 判卷结果（全部真编译真运行）</h3>
+    <table>
+      <thead><tr><th style="width:22%">题</th><th style="width:18%">判定</th><th>缺口 / 关键纠正</th></tr></thead>
+      <tbody>
+        <tr><td><b>② memcpy</b></td><td><span class="tag fail">❌ 半道</span></td><td>只写了「先判空」就停手。<b>核心考点是内存重叠</b>：<code>dst &gt; src</code> 时必须<b>从后往前</b>拷，正着搬会把源数据覆盖掉（实测搬出 <code>ABABAB</code>，倒搬才得 <code>ABABCD</code>）。已完整讲解，待重写。</td></tr>
+        <tr><td><b>③ 单链表反转</b></td><td><span class="tag half">⚠️ 半道</span></td><td><b>算法满分</b> —— 三指针 <code>prev/current/next</code>，实测输出 <code>10 9 8 … 1</code>，空链/单节点/双节点三个边界全过，O(1) 原地。<b>编译却挂在一个字符上</b>：<code>} Node;</code> 漏了 <code>typedef</code> → <code>Node</code> 是<b>变量名</b>不是类型名，7 个 error。反讽的是 <code>reverse_list</code> 因为签名写的是 <code>struct Node *</code> 反而躲过了报错，其余四个用 <code>Node *</code> 的函数全崩。</td></tr>
+        <tr><td><b>④ 统计二进制 1 的个数</b></td><td><span class="tag half">⚠️ 三分之二</span></td><td>函数本身正确（0 / 0xFFFFFFFF / 0b10110100 / -1 四组实测<b>全对</b>），<b>但只交了一种方法</b>，且既不是「固定 32 次」也不是 <code>n &amp;= (n-1)</code>。关键认知：<code>while(n) n &gt;&gt;= 1</code> 的循环次数 = <b>最高位那个 1 的位置</b>，不是 1 的个数 —— <code>0x80000000</code> 只有一个 1，却要转 <b>32 圈</b>；<b>参数必须用 <code>unsigned</code></b>，否则负数算术右移 → <b>死循环</b>。另：拿 <code>malloc</code> 的地址当测试输入 → 结果不可复现，测试输入必须是眼睛能验的字面量。</td></tr>
+        <tr><td><b>⑤ 判断大小端</b></td><td><span class="tag half">⚠️ 半道</span></td><td>指针法正确，而且<b>主动多写了 union 版</b>（Day4 闭卷自测里 union 还答「不会」，这次自己写对了 = <b>两天内的实质进步</b>）；<b><code>swap32</code> 完全没写</b>。正解 = <b>掩码取出 → 移位到对面 → 按位或</b>，<code>0x12345678 → 0x78563412</code>（三种写法实测结果一致）。</td></tr>
+        <tr><td><b>⑥ 环形缓冲区</b></td><td><span class="tag half">⚠️ 函数满分 / init 全崩</span></td><td><code>ring_write</code> / <code>ring_read</code> <b>判定满分</b>：判满 <code>(head+1) % N == tail</code>、判空 <code>head == tail</code> 全对，回绕实测读序 <code>14 15 21 22 23 24</code> 完全正确 —— <b>这是 6 道里函数质量最高的一题</b>。<code>ring_init</code> 三处错：<b><code>rb = malloc(...)</code> 改的是形参副本</b>（调用方对象一个字节没动，实测仍是 <code>0xAAAAAAAA</code>，且 malloc 出的块无人指向 = 泄漏）+ <code>rt</code> 笔误 + <code>-&gt;end</code> 成员不存在 + <code>sizeof ring_buf_t</code> 少括号。三问（空满冲突 / volatile / 满测试预期）全未答，<code>main</code> 是空的。</td></tr>
+      </tbody>
+    </table>
+    <div class="bad">🔴 <b>本段最大信号：连续 4 次「只交一半」</b> —— memcpy（只写判空）→ 统计 1 的个数（只写一种方法）→ 大小端（只写第一问）→ 环形缓冲（三问没答、main 空）。<b>根因：读到第一个要求就动笔，后面没看完。</b>这是面试硬伤 —— 面试官说「实现 A 和 B，再考虑 C」，只交 A 不会有人提醒你。<br><b>对策：交卷前数一遍题目里有几个问号、我答了几个。</b></div>
+    <h3>📌 4 笔欠账（明日必清）</h3>
     <ol class="clean">
-      <li><b>memcpy</b> —— 考<b>内存重叠</b>：目标落在源区间内要<b>从后往前拷</b></li>
-      <li><b>单链表反转</b> —— 考<b>别丢链</b>：先存 <code>next</code> 再改指向</li>
-      <li><b>统计二进制 1 的个数</b> —— <code>n &amp;= (n-1)</code> 每次消掉最低位的 1</li>
-      <li><b>判断大小端</b> —— <code>*(char*)&amp;x == 1</code> 或 union 法</li>
-      <li><b>环形缓冲区</b> —— <code>head</code>/<code>tail</code> + 位运算取模；<b>满/空判定</b>是关键</li>
+      <li><b>memcpy 重写</b> —— 含重叠处理：<code>d &lt; s</code> 正着搬，否则倒着搬，最后 <code>return dst</code></li>
+      <li><b>单链表反转</b> —— 补上 <code>typedef</code> 后重跑一遍</li>
+      <li><b>count_one 方法 B</b> —— <code>n &amp;= (n-1)</code> 版本补写</li>
+      <li><b>swap32</b> 与 <b>ring_init</b> 各补写一版</li>
     </ol>
+    <div class="ok">📁 <b>实测留档</b>（<code>c-practice/</code>，全部真编译真运行）：<code>list_reverse_user.c</code>（7 error）· <code>t_fix.c</code>（加 typedef 后跑通）· <code>t_var.c</code>（证明 <code>Node</code> 是变量）· <code>t_edge.c</code> · <code>count_one_user.c</code> · <code>t_count.c</code> · <code>t_iters.c</code>（两种写法迭代次数对比）· <code>endian_user.c</code> · <code>t_endian.c</code> · <code>ring_user.c</code> · <code>t_ring.c</code> · <code>t_vol.c</code> / <code>t_vol.s</code>（volatile 汇编铁证）</div>
   </div>
 
   <div class="card">
-    <h2><span class="n">3</span> ⭐ 错题纸更新（累计 21 → 25 条）</h2>
+    <h2><span class="n">3</span> ⭐ 错题纸更新（累计 21 → 34 条）</h2>
 
-    <h3>🔴 今日新增（4 条）</h3>
+    <h3>🔴 今日新增 · 闭卷自测（4 条）</h3>
     <table>
       <thead><tr><th style="width:30%">条目</th><th>要点与根治锚</th></tr></thead>
       <tbody>
@@ -141,6 +153,28 @@
         <tr><td><b>const 判断参照物错</b></td><td>判断"左锁值 / 右锁指针"时，<b>看的是 <code>*</code> 不是变量名</b>。<code>const char *p</code> 和 <code>char * const p</code> 里 const 都在变量名左侧，但相对 <code>*</code> 一左一右。<br><b>锚：盯 <code>*</code>，谁离它近谁先被锁；两个 const = 全锁。</b></td></tr>
         <tr><td><b>static 初始化时刻</b></td><td>不是"编译期执行"，而是：编译器把常量初值编进目标文件的 <b><code>.data</code> 段</b>，<b>程序启动时（main 之前）由加载器一次性载入内存</b>。它<b>从不是一条运行时赋值语句</b>，所以不存在"第二次执行"。<br>面试标准答法：<b>"启动时一次性初始化"</b>。</td></tr>
         <tr><td><b>"栈为什么快"答成物理属性</b></td><td>问"为什么快"永远问的是<b>操作成本</b>，不是"栈小/连续"。<b>栈 = <code>sub rsp</code> 一条指令（挪指针）；堆 = 加锁 + 遍历空闲链表 + 可能分裂 + 可能 <code>brk/mmap</code> 进内核。</b><br><b>锚：栈是挪门牌号，堆是查表+记账+可能要跟内核申请。</b></td></tr>
+      </tbody>
+    </table>
+
+    <h3>✍️ 手撕段新增（26 ~ 30 条 · 9/28 下午）</h3>
+    <table>
+      <thead><tr><th style="width:30%">条目</th><th>要点与根治锚</th></tr></thead>
+      <tbody>
+        <tr><td><b>26</b> <code>} Node;</code> 漏 <code>typedef</code></td><td><code>struct Node {…} Node;</code> 里的 <code>Node</code> 是<b>变量名</b>不是类型名（实测 <code>Node.val = 42</code> 编译通过 = 铁证）→ 写 <code>Node *p;</code> 报 <code>unknown type name</code>。<br><b>锚：typedef = 起名字；不加 = 招个人。</b><br>⚠️ 这是 <b>C/C++ 差异高频题</b>：C++ 里 <code>struct Node{};</code> 之后能直接写 <code>Node</code>，C 不行。<br>自检：写完结构体问一句「我是要定义类型名，还是要声明变量？」想不通就写 <code>typedef</code>。</td></tr>
+        <tr><td><b>27</b> 位运算参数必须 <code>unsigned</code></td><td><code>int</code> 为负时 <code>n &gt;&gt;= 1</code> 是<b>算术右移</b>、高位永远补 1 → <code>while(n)</code> <b>死循环</b>。把 <code>-1</code> 传给 <code>unsigned int</code> 参数结果 = <b>32</b>（补码位模式原样搬，一个 1 都不少）。</td></tr>
+        <tr><td><b>28</b> 位运算题考「循环次数」</td><td><code>while(n) n &gt;&gt;= 1</code> 次数 = <b>最高位 1 的位置</b>（<code>0x80000000</code> → 32 次，最坏情况与方法 A 一样）；<code>n &amp;= (n-1)</code> 次数 = <b>1 的个数</b>（同例 → 1 次）。<br><b>锚：<code>&gt;&gt;</code> 是往下砍（砍到空，与几个 1 无关）；<code>n&amp;(n-1)</code> 是掐掉一个 1（转几圈 = 有几个 1）。</b><br>📌 必背后手：<code>n &amp; (n-1)</code> 还能判 <b>2 的幂</b>（<code>n &gt; 0 &amp;&amp; (n &amp; (n-1)) == 0</code>）。<br>📌 加分：Intel <b><code>POPCNT</code></b> 指令 / GCC <code>__builtin_popcount()</code>。</td></tr>
+        <tr><td><b>29</b> <code>swap32</code> 定式</td><td><b>掩码取出 → 移位到对面 → 按位或合并</b>：<code>((x&amp;0x000000FF)&lt;&lt;24) | ((x&amp;0x0000FF00)&lt;&lt;8) | ((x&amp;0x00FF0000)&gt;&gt;8) | ((x&amp;0xFF000000)&gt;&gt;24)</code>。<br><code>0x12345678 → 0x78563412</code>；换字节是<b>自逆</b>操作，转两次还原。<br>📌 钩老本行：<b>这就是 <code>htonl()</code></b>，Node.js 的 <code>buf.writeUInt32BE()</code> 内部就干这个；面试可讲成「我做过三年协议栈，字节序转换是日常」。</td></tr>
+        <tr><td><b>30</b> 三个严谨性小扣</td><td>① 取字节一律用 <code>unsigned char</code>（x86 上 <code>char</code> <b>有符号</b>）② <code>char c[4]</code> 应写 <code>char c[sizeof(int)]</code> ③ <b><code>sizeof(类型)</code> 必须带括号</b> —— <code>sizeof ring_buf_t</code> 是编译错误，<code>sizeof 变量</code> 才可以省。<br>④ 判大小端返回值用 <code>*(unsigned char *)&amp;x == 1</code> 更干净（返回真布尔，不是字节值）。</td></tr>
+      </tbody>
+    </table>
+
+    <h3>🔧 环形缓冲段新增（31 ~ 33 条 · 9/28 晚）</h3>
+    <table>
+      <thead><tr><th style="width:30%">条目</th><th>要点与根治锚</th></tr></thead>
+      <tbody>
+        <tr><td><b>31</b> ⭐ 形参是「指针的副本」</td><td>函数里写 <code>rb = malloc(...)</code> <b>只改了副本</b>，调用方那个对象<b>一个字节都没动</b>（实测仍 <code>0xAAAAAAAA</code>），而 malloc 出来的块<b>再没人指向 = 内存泄漏</b>。<br>正解：<code>rb-&gt;head = rb-&gt;tail = 0;</code>（或 <code>memset(rb, 0, sizeof *rb)</code>）。<br><b>锚：传指针进来是「借你地址」，不是「让你换地址」—— 参数是复印件，改复印件不改原件。</b><br>⚠️ 对比记忆：<code>create_node</code> 里 <code>malloc</code> 是<b>对的</b> —— 因为它靠 <code>return</code> 把新地址传出去。<b>函数要造对象 → 用返回值传出去，不要用参数带回来。</b></td></tr>
+        <tr><td><b>32</b> <code>volatile</code> 为什么必须加</td><td>编译器会把「循环里没被改写的变量」的判断<b>提到循环外只读一次</b> → 循环体只剩 <code>jmp</code>，<b>永远等不到新数据</b>。<br><b>实测铁证</b>（<code>-O2</code> 汇编）：无 volatile 的 <code>while (g == 0) n++;</code> 循环体内 <b>0 条 load 指令</b>（只留 <code>.L3: jmp .L3</code>）；加 volatile 后每圈都有 <code>movl g_vol(%rip), %edx</code> 重新读内存。<br><code>head</code>/<code>tail</code> 会被<b>中断服务程序 / 另一个线程</b>改写，编译器看不见 → 必须 <code>volatile</code>。<br>📌 <b>关键补充</b>：<code>volatile</code> 只保证「每次都去内存读」，<b>不保证原子性</b>！单生产 + 单消费（SPSC）可以不加锁；多生产或多消费必须靠临界区/原子操作。</td></tr>
+        <tr><td><b>33</b> 环形缓冲「牺牲一格」</td><td><code>head == tail</code> 有两种身份：<b>空</b>（刚 init，实测 <code>0 == 0</code>）和<b>满</b>（朴素写法下 head 绕回追上 tail）→ 冲突。<br><b>三种解法</b>：① <b>牺牲一格</b>（你选的：判满 <code>(head+1) % N == tail</code>，代价 = <code>BUF_SIZE=8</code> 只能存 <b>7</b> 个，实测写第 8 个返回 -1）② 加 <code>count</code> 计数器（不浪费容量）③ 加 <code>full</code> 标志位。<br><b>为什么 <code>BUF_SIZE</code> 取 2 的幂</b>：<code>&amp; (N-1)</code> 可以完全替代 <code>% N</code> —— <code>%</code> 编译成除法指令（几十周期），<code>&amp;</code> 一个周期。<br>📌 内核里这东西叫 <b><code>kfifo</code></b>（串口/tty 层在用）；用户态还有 io_uring 的 SQ/CQ ring、Kafka 生产者缓冲、Node <code>net.Socket</code> 内部读写缓冲。</td></tr>
       </tbody>
     </table>
 
@@ -173,6 +207,9 @@
         <tr><td><b>栈 / 堆快慢</b></td><td><b>栈 = 挪指针（一条指令）；堆 = 查链表 + 记账 + 可能进内核</b></td><td>别答"大小/连续性"，那是属性不是成本</td></tr>
         <tr><td><b>结构体对齐</b></td><td><b>成员按自身大小对齐，整体按最大成员凑；从大到小排最省</b></td><td><code>char;double;char</code> → 24；<code>double;char;char</code> → 16</td></tr>
         <tr><td><b>函数指针判断</b></td><td><b><code>(*名)</code> = 指针；<code>名(</code> = 函数</b></td><td><code>int (*f)(int)</code> 是变量；<code>int *g(int)</code> 是函数</td></tr>
+        <tr><td><b>形参改不改得到外部</b></td><td><b>改 <code>rb-&gt;x</code>（顺着地址写内容）→ 改得到；改 <code>rb</code> 本身（换地址）→ 改不到</b></td><td>问「我要改的是<b>门牌号</b>还是<b>屋里的东西</b>？」要造新对象就用 <code>return</code> 带出去</td></tr>
+        <tr><td><b><code>volatile</code> 判断</b></td><td><b>这个变量会被「编译器看不见的人」改吗？</b>（中断、别的线程、硬件寄存器）→ 会就得加</td><td>看场景：等标志位 / 等中断 / 映射寄存器 / SPSC 共享游标</td></tr>
+        <tr><td><b>环形缓存的空与满</b></td><td><b>牺牲一格</b>：判空 <code>head == tail</code>，判满 <code>(head+1) % N == tail</code>（代价：容量 N-1）</td><td>自己算一遍：<code>N=8</code> 最多存 <b>7</b> 个</td></tr>
       </tbody>
     </table>
     <div class="talk">🎤 <b>可直接说的面试话术</b><br>
@@ -184,17 +221,17 @@
   <div class="card">
     <h2><span class="n">5</span> 📌 明日优先清单</h2>
     <ol class="clean">
-      <li><b>🔴 重考手撕第 1 道（字符串反转）</b> —— 不看答案，纸上手写，按四维判分</li>
-      <li><b>🔴 手撕第 2、3 道</b> —— memcpy（内存重叠）→ 单链表反转（别丢链）</li>
-      <li><b>🎯 乱序抽查（验内化）</b>：<code>sizeof(指针)</code>、const 换写法、对齐换 struct、<code>\0</code> vs 退化 口头复述</li>
+      <li><b>🔴 清 4 笔欠账</b> —— memcpy（重叠倒搬）· 单链表反转补 <code>typedef</code> · <code>count_one</code> 方法 B · <code>swap32</code> + <code>ring_init</code></li>
+      <li><b>🔴 行为自查（红线）</b> —— 交卷前数「题目里有几个问号、我答了几个」。已连续 <b>4 次</b>只交一半</li>
+      <li><b>🎯 乱序抽查（验内化）</b>：<code>sizeof(指针)</code>、const 换写法、对齐换 struct、<code>\0</code> vs 退化、<code>volatile</code> 一句话讲清、<code>n &amp;= (n-1)</code> 计数</li>
       <li><b>项目自述出声念一遍</b>（30 秒，补 OOM 定位过程）</li>
       <li><b>D5 新知识</b>：硬件基础（CPU 执行 / 磁盘 vs 内存）→ 中断与异常 → 冯·诺依曼 vs 哈佛</li>
-      <li>错题纸 25 条过一遍（重点：🔴 4 条新增 + 📌 5 条回炉）</li>
+      <li>错题纸 34 条过一遍（重点：🔴 新增 8 条 + 📌 回炉项）</li>
     </ol>
   </div>
 
   <div class="footer">
-    记录时间：2026-09-28 13:05 · 由 AI 陪练结果汇总整理 · 本地与云端同步<br>
+    记录时间：2026-09-28 16:10（手撕 6 道全部答完）· 由 AI 陪练结果汇总整理 · 本地与云端同步<br>
     <a href="学习中心.html">学习中心</a> ·
     <a href="嵌入式系统学习计划_14天_20260924.html">每日学习计划 14 天</a> ·
     <a href="嵌入式_Day3学习记录_20260926.html">Day3 记录</a> ·
