@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>嵌入式 Day5 学习记录（2026-09-29）</title>
+<style>
+  :root { --bg:#f4f6fb; --card:#fff; --ink:#1f2430; --sub:#5b6478; --line:#e4e8f0; --brand:#4f46e5; --red:#dc2626; --green:#16a34a; --amber:#d97706; --cyan:#0284c7; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:var(--bg); color:var(--ink); line-height:1.7; padding-bottom:70px; }
+  .hero { background:linear-gradient(135deg,#0284c7,#4f46e5); color:#fff; padding:26px 0 20px; }
+  .hero .wrap { max-width:960px; margin:0 auto; padding:0 16px; }
+  .hero h1 { font-size:21px; margin-bottom:6px; }
+  .hero .sub { font-size:13px; opacity:.94; }
+  .hero .nav { margin-top:12px; display:flex; gap:8px; flex-wrap:wrap; }
+  .hero .nav a { display:inline-block; font-size:12px; color:#fff; background:rgba(255,255,255,.18); border:1px solid rgba(255,255,255,.35); border-radius:99px; padding:3px 12px; text-decoration:none; }
+  .hero .nav a:hover { background:rgba(255,255,255,.3); }
+  .wrap { max-width:960px; margin:0 auto; padding:0 16px; }
+
+  .stats { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:16px 0; }
+  .stat { background:#fff; border:1px solid var(--line); border-radius:12px; padding:13px 12px; text-align:center; }
+  .stat .n { font-size:24px; font-weight:700; color:var(--brand); line-height:1.2; }
+  .stat .l { font-size:11.5px; color:var(--sub); margin-top:3px; }
+  .stat.done .n { color:var(--green); }
+  .stat.todo .n { color:var(--amber); }
+  .stat.fail .n { color:var(--red); }
+
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px; margin:14px 0; }
+  .card h2 { font-size:15.5px; margin-bottom:8px; display:flex; align-items:center; gap:8px; }
+  h3 { font-size:13.5px; margin:14px 0 6px; color:var(--brand); }
+  table { width:100%; border-collapse:collapse; font-size:12.8px; }
+  th { background:#f1f3fa; padding:7px 8px; text-align:left; font-size:11.8px; color:var(--sub); font-weight:600; }
+  td { padding:7px 8px; border-top:1px solid var(--line); vertical-align:top; }
+  code { background:#eef2ff; color:#3730a3; padding:1px 5px; border-radius:4px; font-family:Consolas,Monaco,monospace; font-size:12px; }
+  pre { background:#1e2235; color:#e2e8f0; padding:11px 13px; border-radius:8px; overflow-x:auto; font-family:Consolas,Monaco,monospace; font-size:12px; line-height:1.6; margin:8px 0; }
+  pre code { background:none; color:inherit; padding:0; }
+
+  .tag { display:inline-block; font-size:11px; padding:1px 7px; border-radius:99px; background:#eef2ff; color:#4338ca; margin-left:6px; }
+  .tag.pass { background:#f0fdf4; color:#15803d; }
+  .tag.half { background:#fffbeb; color:#b45309; }
+  .tag.fail { background:#fef2f2; color:#b91c1c; }
+  .tag.new  { background:#f5f3ff; color:#6d28d9; }
+  .tag.wait { background:#fff7ed; color:#c2410c; }
+
+  .ok { background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:9px 12px; font-size:12.8px; color:#14532d; margin:9px 0; }
+  .warn { background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:9px 12px; font-size:12.8px; color:#92400e; margin:9px 0; }
+  .bad { background:#fef2f2; border:1px solid #fecaca; border-radius:8px; padding:9px 12px; font-size:12.8px; color:#991b1b; margin:9px 0; }
+  .info { background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; padding:9px 12px; font-size:12.8px; color:#1e3a8a; margin:9px 0; }
+  .talk { background:#f5f7ff; border-left:3px solid var(--brand); border-radius:0 8px 8px 0; padding:9px 12px; margin:8px 0; font-size:12.8px; }
+  .talk b { color:var(--brand); }
+  a { color:var(--brand); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  ul.clean { padding-left:19px; }
+  ul.clean li { font-size:13px; margin:5px 0; }
+  ol.clean { padding-left:21px; }
+  ol.clean li { font-size:13px; margin:5px 0; }
+  .anchor { font-weight:700; color:#b45309; }
+  .footer { text-align:center; color:#9aa3b5; font-size:11.8px; margin-top:24px; line-height:1.9; }
+  @media (max-width:560px){ .hero h1{font-size:18px;} .stats{grid-template-columns:repeat(2,1fr);} table{font-size:12.2px;} th,td{padding:6px;} }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <h1>📓 嵌入式 Day5 学习记录</h1>
+    <div class="sub">2026-09-29 · C 语言错题重考 5 题全清 · 嵌入式核心概念新学 4 题（中断 / Flash-RAM / RTOS / 三大总线）· AI 陪练</div>
+    <div class="nav">
+      <a href="学习中心.html">🏠 学习中心</a>
+      <a href="嵌入式系统学习计划_14天_20260924.html">📚 每日学习计划 14 天</a>
+      <a href="嵌入式_Day4学习记录_20260928.html">📕 Day4 记录（9/27-28）</a>
+      <a href="嵌入式_Day3学习记录_20260926.html">📙 Day3 记录（9/26）</a>
+      <a href="华为引望OD_嵌入式_面试突击方案_20260917.html">🚀 引望突击方案</a>
+      <a href="index.html">站点首页</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="stats">
+    <div class="stat"><div class="n">9</div><div class="l">📝 今日总题数</div></div>
+    <div class="stat done"><div class="n">8</div><div class="l">✅ 过关</div></div>
+    <div class="stat todo"><div class="n">1</div><div class="l">📖 待验收（Q9 总线）</div></div>
+    <div class="stat done"><div class="n">0</div><div class="l">🆕 新增错题</div></div>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">0</span> 📌 本页说明（来源 · 日期 · 进度对齐）</h2>
+    <table>
+      <thead><tr><th style="width:22%">项</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td><b>内容来源</b></td><td>9/29 AI 陪练的原始总结（沙箱侧 AI 整理产出，9/30 回落到本机资料库）</td></tr>
+        <tr><td><b>日期校正</b></td><td>原文标题写「2026-09-22（周一）」—— 与 Day 序列不符（Day3 = 9/26、Day4 = 9/27~09/28），且内容含 <b>D5 才学的嵌入式核心概念</b>。已按实际学习日 <b>2026-09-29</b> 归入 <b>Day5</b>（原文表述在正文中保留）。</td></tr>
+        <tr><td><b>⚠️ 进度口径差异</b></td><td>原文写的「手撕仍 <b>1/6</b>，欠 5 道」和「错题纸 <b>25 条</b>清零」是 <b>沙箱侧快照</b>；本机主线（<a href="嵌入式_Day4学习记录_20260928.html">Day4 记录</a>）实际状态是 <b>手撕 6 道全部答完</b>、<b>错题纸累计 34 条</b>，欠的是 <b>4 笔「补完」</b>。详见本页第 6 节。</td></tr>
+        <tr><td><b>本周新增价值</b></td><td>Q6~Q9 是 <b>D5 新知识</b>（中断 / 存储 / RTOS / 总线）—— <b>MCU 零实战</b>是他最大的短板区，这一块开始有底了。</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">1</span> 今日实况（9 题 · 一道一道来 · 当场判卷）</h2>
+    <p>方式：<b>闭卷问答，一题一判</b>（每题答完立刻判卷 + 补盲区，不攒到最后）。<b>9 题 = 5 题 C 语言错题重考 + 4 题嵌入式核心新学</b>。</p>
+    <table>
+      <thead><tr><th style="width:9%">题</th><th style="width:26%">题目</th><th style="width:15%">判定</th><th>结论 / 缺口</th></tr></thead>
+      <tbody>
+        <tr><td><b>Q1</b></td><td>结构体对齐手算</td><td><span class="tag pass">✅ 过关</span></td><td>偏移 <code>a=0 b=4 c=8 d=16</code>、<code>sizeof=24</code> 全对；<b>重排从小到大 = 16</b> 答对 → <b>两条铁律完整掌握</b></td></tr>
+        <tr><td><b>Q2</b></td><td>static 初始化时刻</td><td><span class="tag pass">✅ 过关</span></td><td>"不是编译期赋值" + "启动时 loader 把 <code>.data</code> 一次性载入" —— <b>这是 Day4 那条错题的正面回收</b></td></tr>
+        <tr><td><b>Q3</b></td><td>const 参照物</td><td><span class="tag pass">✅ 满分</span></td><td>「<b>左定值，右定指针</b>」+ 明确"看 const 相对 <code>*</code> 的位置，不是变量名" → <b>Day4 说反的坑已焊死</b></td></tr>
+        <tr><td><b>Q4</b></td><td>栈为什么快</td><td><span class="tag pass">✅ 满分</span></td><td>从「<b>操作成本</b>」层面解释（一条指令移 SP / 无需遍历 / 无需锁）+ 主动补缓存局部性 → <b>Day4 "答成物理属性"的坑已纠正</b></td></tr>
+        <tr><td><b>Q5</b></td><td>字符串反转（手撕）</td><td><span class="tag pass">✅ 过关</span></td><td>判空 → 找末尾 → 双指针夹逼交换；<b>追问「<code>char *s = "hello"</code> 为什么崩」也答对</b>（字面量在只读段）</td></tr>
+        <tr><td><b>Q6</b></td><td>中断 vs 轮询</td><td><span class="tag pass">✅ 过关</span></td><td>流程 + 选型判据 + <b>ISR 三禁</b>全对，核心抓到了「<b>只置标志 / 压队列，重活回主循环</b>」</td></tr>
+        <tr><td><b>Q7</b></td><td>Flash vs RAM</td><td><span class="tag pass">✅ 过关</span></td><td>六类数据的归属全对；<b>能说出启动码做两件事</b>（拷 <code>.data</code> / 清 <code>.bss</code>）</td></tr>
+        <tr><td><b>Q8</b></td><td>RTOS 基础（三问）</td><td><span class="tag pass">✅ 三问全对</span></td><td>裸机 vs RTOS / 信号量 vs 队列 / <b>「有中断了为什么还要 RTOS」</b> —— 分层回答（中断管入口，RTOS 管排队协同）</td></tr>
+        <tr><td><b>Q9</b></td><td>I2C vs SPI vs UART</td><td><span class="tag wait">📖 待验收</span></td><td>刚教完（三选一口诀已给）；<b>下次先验收这一题再往下走</b></td></tr>
+      </tbody>
+    </table>
+    <div class="ok">✅ <b>结论</b>：<b>8 题过关、1 题待验收、0 新增错题</b>。最值得注意的是 —— <b>Q2 / Q3 / Q4 三道，正是 Day4 当天记下的错题</b>（static 初始化时刻 · const 参照物 · 栈快答成属性），隔一天全部正面回收。<b>这说明"当场判卷 + 钉记忆锚 + 隔日回炉"这条闭环是有效的。</b></div>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">2</span> C 语言错题重考（Q1 ~ Q5）· 全部过关</h2>
+
+    <h3>Q1 结构体对齐手算</h3>
+    <pre><code>struct S { char a; int b; char c; double d; };</code></pre>
+    <table>
+      <thead><tr><th style="width:14%">成员</th><th style="width:16%">自身大小</th><th style="width:16%">偏移量</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td><code>a</code></td><td>1</td><td><b>0</b></td><td>起始位置</td></tr>
+        <tr><td><code>b</code></td><td>4</td><td><b>4</b></td><td>需 4 对齐 → 1~3 补 3 字节</td></tr>
+        <tr><td><code>c</code></td><td>1</td><td><b>8</b></td><td>紧跟 <code>b</code> 之后（8 是任意对齐的整数倍）</td></tr>
+        <tr><td><code>d</code></td><td>8</td><td><b>16</b></td><td>需 8 对齐 → 9~15 补 7 字节</td></tr>
+      </tbody>
+    </table>
+    <div class="ok"><b><code>sizeof(struct S) = 24</code></b>（<code>d</code> 结束在 24，正好是最大成员 8 的整数倍，不需要再补尾部）。<br>
+    <b>重排更省</b>：从小到大排 <code>{char a; char c; int b; double d;}</code> → 1+1+(补2)+4+8 = <b>16</b>。<br>
+    <span class="anchor">🔑 两条铁律：① 每个成员的偏移 = 自身对齐值的整数倍；② 结构体总大小 = 最大对齐值的整数倍。</span><br>
+    <b>操作型口诀：成员按自身大小对齐，整体按最大成员凑；从大到小排最省。</b></div>
+    <div class="talk">🎤 <b>面试话术</b>："对齐是为了让 CPU 一次总线周期就能取到数据 —— 未对齐时要跨字边界读两次，个别架构（ARM 部分指令、SPARC）直接抛异常。代价是内存里出现 padding，所以把大成员排前面能省空间。"</div>
+
+    <h3>Q2 static 的初始化时刻</h3>
+    <div class="info"><b>关键纠正</b>：<code>static int x = 5;</code> 里的 <code>5</code> <b>不是"编译期执行的赋值语句"</b>。<br>
+    真相链条：<b>编译器把常量初值编进目标文件的 <code>.data</code> 段 → 程序启动时（<code>main</code> 之前）由加载器一次性载入内存</b>。<br>
+    所以它<b>从来不是一条运行时赋值语句</b>，自然也就不存在"第二次执行" —— 这就是「只初始化一次」的机制来源。<br>
+    <span class="anchor">🔑 面试标准答法：「启动时一次性初始化」，不是「编译期间初始化」。</span></div>
+    <div class="ok">📌 <b>这是 Day4 错题 ③ 的正面回收</b> —— 当时答的是"编译期间初始化"（不严谨），今天自己说对了 loader / <code>.data</code> 机制。</div>
+
+    <h3>Q3 const 参照物（满分）</h3>
+    <table>
+      <thead><tr><th style="width:30%">写法</th><th style="width:22%">const 相对 <code>*</code></th><th>锁的是谁</th></tr></thead>
+      <tbody>
+        <tr><td><code>const int *p;</code></td><td>左边</td><td><b>锁值</b> —— <code>*p = 5</code> ❌，<code>p = &amp;b</code> ✅</td></tr>
+        <tr><td><code>int * const p2;</code></td><td>右边</td><td><b>锁指针</b> —— <code>p2 = &amp;b</code> ❌，<code>*p2 = 5</code> ✅</td></tr>
+        <tr><td><code>const int * const p3;</code></td><td>两边都有</td><td><b>全锁</b> —— 都 ❌</td></tr>
+      </tbody>
+    </table>
+    <div class="ok"><span class="anchor">🔑 口诀：左定值，右定指针。</span><b>参照物是 const 相对 <code>*</code> 的位置，不是相对变量名</b> —— 这正是 Day4 说反的根因（当时盯了变量名）。<br>
+    <b>自检法</b>：反推一行代码 —— <code>p = "x"</code> 能过说明指针自由；<code>*p = 'x'</code> 报错说明值被锁。</div>
+
+    <h3>Q4 栈为什么快（满分）</h3>
+    <table>
+      <thead><tr><th style="width:16%"></th><th style="width:42%">栈</th><th>堆</th></tr></thead>
+      <tbody>
+        <tr><td><b>分配动作</b></td><td><b>移动 SP 一条指令</b>（<code>sub rsp, N</code>）</td><td>搜索空闲块 + 维护空闲链表 + 拆分块</td></tr>
+        <tr><td><b>并发</b></td><td>每个线程独立栈，<b>无需锁</b></td><td>多线程需<b>加锁</b>保护分配器</td></tr>
+        <tr><td><b>极端情况</b></td><td>无</td><td>空闲块不够时<b>进内核</b>（<code>brk</code> / <code>mmap</code>）</td></tr>
+        <tr><td><b>缓存</b></td><td>局部性好，<b>命中率高</b></td><td>地址分散，容易 cache miss</td></tr>
+      </tbody>
+    </table>
+    <div class="ok"><span class="anchor">🔑 问"为什么快"，永远答<b>操作成本</b>，不答"栈小 / 连续"这类物理属性。</span><br>
+    <b>锚：栈是挪门牌号，堆是查表 + 记账 + 可能要跟内核申请。</b></div>
+    <div class="talk">🎤 <b>面试话术</b>："栈分配就是移动栈指针一条指令；堆要加锁、遍历空闲链表、可能还有系统调用进内核，所以慢几个数量级。另外栈的局部性更好，缓存命中率也更高。"</div>
+
+    <h3>Q5 字符串反转（手撕）</h3>
+    <pre><code>void reverse_string(char *s) {
+    if (s == NULL) return;                 /* ① 先判空 —— 加分项 */
+    int i = 0, j = (int)strlen(s) - 1;     /* ② j 必须有符号 */
+    while (i &lt; j) {                        /* ③ 相遇即停 */
+        char t = s[i]; s[i] = s[j]; s[j] = t;
+        i++; j--;
+    }
+}</code></pre>
+    <div class="ok">✅ 思路叙述完整：<b>判空 → 找末尾 → 双指针首尾交换 → 相遇退出</b>；全程原地，O(n) / O(1)。<br>
+    追问「<code>char *s = "hello"</code> 调用会崩」→ <b>答对</b>：字面量落在只读段，写入触发段错误。<br>
+    对比：<code>char s[] = "hello"</code> 是栈上的可写副本，安全。</div>
+    <div class="bad">⚠️ <b>经典坑（面试官爱问）</b>：<code>j</code> 必须用<b>有符号</b> <code>int</code> 接。若写成 <code>size_t j = strlen(s) - 1;</code> —— 空串时 <code>strlen = 0</code>，<code>0 - 1</code> 在无符号下变成 <code>SIZE_MAX</code>，<code>i &lt; j</code> 成立 → <b>直接越界崩溃</b>。用 <code>int</code> 时 <code>0 - 1 = -1</code>，循环天然不执行 ✅。</div>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">3</span> 中场深入讨论：字符串字面量 / 立即数 / 只读段</h2>
+    <p>由 Q5 的「字面量为什么只读」追进去，把三类"看起来都是常量"的东西分清楚了：</p>
+    <table>
+      <thead><tr><th style="width:22%">类型</th><th style="width:26%">存储位置</th><th style="width:20%">能否取地址</th><th>能否修改</th></tr></thead>
+      <tbody>
+        <tr><td>字符串 <code>"hello"</code></td><td><b>只读数据段</b>（Linux ELF 叫 <code>.rodata</code>）</td><td>✅ 有地址</td><td>❌ 只读</td></tr>
+        <tr><td>整数 <code>1</code></td><td>指令内嵌（<b>立即数</b>）</td><td>❌ <code>&amp;1</code> 不合法</td><td>—</td></tr>
+        <tr><td>变量 <code>int x = 1</code></td><td>栈 / 全局（可写内存）</td><td>✅ <code>&amp;x</code></td><td>✅</td></tr>
+      </tbody>
+    </table>
+    <div class="info">
+      <b>· 字面量为什么进只读段</b>：编译时就写进可执行文件、<b>启动时加载器整段载入</b>、地址固定、<b>只读</b>、生命周期 = 整个程序。<br>
+      <b>· 立即数为什么不占数据段</b>：它<b>直接编码进 CPU 指令</b>（如 <code>mov eax, 1</code> 里的 <code>1</code>），根本没有独立内存地址 —— 所以 <code>&amp;1</code> 编译期就报错。<br>
+      <b>· <code>int *t = &amp;1;</code> 编译报错</b>：<code>1</code> 是<b>右值</b>，不是对象，没有 storage，取不到地址。
+    </div>
+    <div class="ok">📌 <b>本机实测补充（Windows 侧叫法不同）</b>：Windows PE 格式里这个段叫 <b><code>.rdata</code></b>，Linux ELF 才叫 <code>.rodata</code>。在 MinGW 上用 GDB 验证时，<code>maintenance info sections .rdata</code> 能看到权限位带 <b>READONLY</b> —— 这就是为什么 <code>char *p = "abc"</code> 一写就崩。<b>面试时说 "只读数据段" 两种叫法都算对，能说出平台差异是加分。</b></div>
+    <div class="talk">🎤 <b>可钩老本行</b>：做过三年协议栈 —— 报文里的常量模板、<code>netconf</code> 的固定命名空间字符串，都是编译期进只读段；设备侧"配置模板只读、运行数据可写"的分区思路，跟 Flash / RAM 的划分是同一套逻辑。<b>这不是背的，是干过的。</b></div>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">4</span> 嵌入式核心概念新学（Q6 ~ Q9）</h2>
+    <div class="info">📌 这一段是 <b>D5 的新知识</b>，也是他<b>短板最集中的区域</b>（MCU 零实战）。价值不在"记住结论"，在于<b>建立一套能自圆其说的机制理解</b>。</div>
+
+    <h3>Q6 中断 vs 轮询 <span class="tag pass">✅ 过关</span></h3>
+    <table>
+      <thead><tr><th style="width:16%"></th><th style="width:42%">中断（Interrupt）</th><th>轮询（Polling）</th></tr></thead>
+      <tbody>
+        <tr><td><b>机制</b></td><td>硬件打断当前程序 → <b>现场压栈</b> → 跳转执行 ISR → <b>弹栈恢复</b></td><td>循环读标志位 / 状态寄存器，本质是<b>阻塞等待</b></td></tr>
+        <tr><td><b>CPU 占用</b></td><td>平时不占，事件来了才跳</td><td>持续占着 CPU 空转</td></tr>
+        <tr><td><b>实时性</b></td><td><b>好</b>（事件即刻响应）</td><td>取决于轮询间隔，可能漏事件</td></tr>
+        <tr><td><b>复杂度</b></td><td>高（要考虑优先级 / 重入 / 竞态）</td><td>低（逻辑线性，好调试）</td></tr>
+      </tbody>
+    </table>
+    <div class="ok"><b>选型判据</b>：事件<b>随机 / 突发 / 要求实时</b> → 中断；事件<b>规律 / 能等 / 图简单</b> → 轮询。<b>与单核多核无关。</b></div>
+    <div class="bad">🔴 <b>ISR 三禁（必背）</b>：<br>
+      · <b>禁 <code>malloc</code></b> —— 分配器不可重入，且可能长时间持锁 → <b>死锁</b>；<br>
+      · <b>禁 <code>printf</code></b> —— 内部带锁、还可能阻塞在 I/O 上 → <b>耗时 + 不可重入</b>；<br>
+      · <b>禁一切耗时 / 带锁操作</b>（浮点运算、等外设、<code>sleep</code>）。<br>
+      <span class="anchor">🔑 ISR 铁律：只置标志 / 压队列，重活回主循环。</span></div>
+    <div class="talk">🎤 <b>面试官会追问</b>："中断里能给信号量吗？" → 要区分：<b>中断安全版</b>（FreeRTOS 的 <code>xSemaphoreGiveFromISR</code>）可以；<b>普通版会把当前任务挂起、而中断里没有"当前任务"</b> → 危险。能答出"用 <code>FromISR</code> 后缀的版本"就赢。</div>
+
+    <h3>Q7 Flash vs RAM <span class="tag pass">✅ 过关</span></h3>
+    <table>
+      <thead><tr><th style="width:22%">数据</th><th style="width:26%">位置</th><th>为什么</th></tr></thead>
+      <tbody>
+        <tr><td>程序代码</td><td><b>Flash</b></td><td>只读，掉电不丢</td></tr>
+        <tr><td>常量 / 字面量</td><td><b>Flash</b>（只读段）</td><td>只读，不需要可写内存</td></tr>
+        <tr><td>已初始化全局变量</td><td><b>RAM</b>（<code>.data</code>），初值<b>拷自 Flash</b></td><td>运行时要读写；初值随固件烧在 Flash 里</td></tr>
+        <tr><td>未初始化全局变量</td><td><b>RAM</b>（<code>.bss</code>）</td><td>只需清零，<b>不占 Flash</b>（这是 <code>.bss</code> 存在的意义）</td></tr>
+        <tr><td>局部变量 / 栈</td><td><b>RAM</b>（栈区）</td><td>临时，随调用生灭</td></tr>
+        <tr><td>堆（<code>malloc</code>）</td><td><b>RAM</b>（堆区）</td><td>动态、可写</td></tr>
+      </tbody>
+    </table>
+    <div class="ok"><span class="anchor">🔑 类比：Flash = 仓库（只读、掉电不丢、慢）；RAM = 工作台（可写、快、掉电丢）。</span><br>
+    <b>上电时启动代码（<code>start.S</code> / 启动文件）做两件事</b>：① 把 <code>.data</code> 段从 Flash <b>拷</b>到 RAM；② 把 <code>.bss</code> 段 <b>清零</b>。做完才跳 <code>main</code>。</div>
+    <div class="talk">🎤 <b>面试官会追问</b>：① "<code>.bss</code> 为什么不占固件大小？" → 未初始化 / 全零的变量<b>不用把几百 KB 的 0 存进 Flash</b>，链接脚本只需要记录"起点 + 长度"，启动时 memset 一下 —— <b>省固件体积</b>。② "栈和堆都在 RAM，怎么分？" → 常从 RAM 两端往中间长（栈在高地址往下、堆在低地址往上），<b>撞上就是栈溢出/堆溢出</b>。</div>
+
+    <h3>Q8 RTOS 基础 <span class="tag pass">✅ 三问全对</span></h3>
+    <table>
+      <thead><tr><th style="width:26%">对比项</th><th>裸机（Bare Metal）</th><th>RTOS</th></tr></thead>
+      <tbody>
+        <tr><td><b>执行模型</b></td><td><code>while(1)</code> + 中断，顺序执行</td><td>调度器按<b>优先级 / 时间片</b>切换任务</td></tr>
+        <tr><td><b>阻塞影响</b></td><td>一个任务卡死 → <b>全卡死</b></td><td>卡的任务被换下 CPU，<b>别的任务照跑</b></td></tr>
+        <tr><td><b>复杂度</b></td><td>低，时序确定，易调试</td><td>高（栈开销 / 竞态 / 优先级反转）</td></tr>
+        <tr><td><b>适用</b></td><td>逻辑简单、任务少的设备</td><td>任务多、有时序协同需求</td></tr>
+      </tbody>
+    </table>
+    <div class="ok">
+      <b>① 信号量 vs 队列</b>：<b>队列传数据</b>（UART 收字节 → 塞队列 → 主任务取，带缓冲和同步）；<b>信号量传通知</b>（give / take 计数器，只说"事件发生了"，不带数据）。<br>
+      <b>② 为什么有中断还要 RTOS</b>：中断只管<b>紧急入口</b>（要求快进快出，不能在里面干重活）；RTOS 管<b>众多任务的排队与协同</b>（把中断里"压下的活"在后台按优先级调度完）。<b>两者是分工，不是替代。</b><br>
+      <span class="anchor">🔑 锚：中断管紧急入口，RTOS 管任务排队协同。</span>
+    </div>
+
+    <h3>Q9 I2C vs SPI vs UART <span class="tag wait">📖 刚教完 · 下次验收</span></h3>
+    <table>
+      <thead><tr><th style="width:12%">协议</th><th style="width:24%">线数</th><th style="width:20%">拓扑</th><th style="width:20%">速度</th><th>典型用途</th></tr></thead>
+      <tbody>
+        <tr><td><b>UART</b></td><td>2（TX / RX）</td><td>点对点</td><td>慢（~115.2K）</td><td>调试串口、GPS</td></tr>
+        <tr><td><b>I2C</b></td><td>2（SDA / SCL）</td><td>多主多从（<b>靠地址选</b>）</td><td>中（100K ~ 3.4M）</td><td>传感器、EEPROM</td></tr>
+        <tr><td><b>SPI</b></td><td>4（MOSI / MISO / SCK / CS）</td><td>一主多从（<b>靠 CS 选</b>）</td><td><b>最快</b>（几十 M）</td><td>Flash、LCD、SD 卡</td></tr>
+      </tbody>
+    </table>
+    <div class="ok"><span class="anchor">🔑 选型口诀：要简单 + 距离稍远 → UART；引脚少 + 挂多设备 → I2C；要快 + 引脚不差 → SPI。</span></div>
+    <div class="talk">🎤 <b>下次验收要能答出的追问</b>：① I2C 为什么需要<b>上拉电阻</b>？（开漏输出，只能拉低不能拉高）② I2C 怎么知道从机"应答"？（第 9 个时钟的 <b>ACK / NACK</b>）③ SPI 的 CS 是干嘛的？（片选，拉低才听你说话 —— 这就是为什么多一个从机就多一根线）④ UART 的<b>波特率</b>是什么？（每秒符号数，双方必须约定一致）⑤ 这三种哪两个是<b>同步</b>、哪个是<b>异步</b>？（I2C/SPI 带时钟 = 同步；UART 无时钟 = 异步）</div>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">5</span> 🎯 今日生效的「操作型记忆锚」（背这几句就够）</h2>
+    <table>
+      <thead><tr><th style="width:22%">知识点</th><th style="width:40%">操作型锚（照着做）</th><th>自检法</th></tr></thead>
+      <tbody>
+        <tr><td><b>结构体对齐</b></td><td><b>成员偏移 = 自身对齐值的整数倍；总大小 = 最大对齐值的整数倍</b></td><td><code>{char;int;char;double}</code> → 24；换成从小到大排 → 16</td></tr>
+        <tr><td><b>static 初始化</b></td><td><b>启动时 loader 把 <code>.data</code> 一次性载入</b> —— 程序级，不是调用级</td><td>问自己："会不会执行第二次？" → 不会，所以才"只初始化一次"</td></tr>
+        <tr><td><b>const 判断</b></td><td><b>左定值，右定指针</b>（看 const 相对 <code>*</code> 的位置）</td><td>反推：<code>p = "x"</code> 能过 = 指针自由；<code>*p = 'x'</code> 报错 = 值被锁</td></tr>
+        <tr><td><b>栈为什么快</b></td><td><b>一条指令移 SP，无需遍历、无需锁，缓存命中率高</b></td><td>别答"小 / 连续"，那是属性不是成本</td></tr>
+        <tr><td><b>ISR 铁律</b></td><td><b>只置标志 / 压队列，重活回主循环；禁 <code>malloc</code> + <code>printf</code></b></td><td>问"这活儿在中断里干，会不会持锁 / 耗时？"</td></tr>
+        <tr><td><b>Flash vs RAM</b></td><td><b>只读留 Flash，可写进 RAM；启动拷 <code>.data</code>、清 <code>.bss</code></b></td><td>仓库 vs 工作台；<code>.bss</code> 只记长度不占体积</td></tr>
+        <tr><td><b>RTOS 本质</b></td><td><b>中断管紧急入口，RTOS 管任务排队协同</b></td><td>问"谁在调度？谁在响应？"</td></tr>
+        <tr><td><b>总线选型</b></td><td><b>简单远距离 → UART；少引脚多设备 → I2C；要快 → SPI</b></td><td>按"线数 / 拓扑 / 速度"三列比</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">6</span> 📌 欠账与下一步</h2>
+    <table>
+      <thead><tr><th style="width:22%">项目</th><th style="width:24%">本页（沙箱侧）记录</th><th>本机主线实际状态</th></tr></thead>
+      <tbody>
+        <tr><td><b>C 语言错题纸</b></td><td>25 条旧盲区全清，无新增</td><td><b>累计 34 条</b>（<a href="嵌入式_Day4学习记录_20260928.html">Day4</a> 手撕段补到 26~33 条）→ 今日 <b>0 新增</b>，Q2/Q3/Q4 三条旧错题<b>正面回收</b></td></tr>
+        <tr><td><b>手撕代码</b></td><td>仍 1/6，欠 5 道</td><td><b>6 道全部答完</b>（Day4）；欠的是 <b>4 笔「补完」</b> ↓</td></tr>
+        <tr><td><b>Q9 总线协议</b></td><td>已教完，待验收</td><td>同样待验收 → <b>下次开考第一题</b></td></tr>
+        <tr><td><b>D5 计划对照</b></td><td>—</td><td>14 天计划里的 D5 是「硬件基础 / 中断与异常 / 冯·诺依曼 vs 哈佛」；今日实际走的是 <b>中断 + 存储 + RTOS + 总线</b> —— <b>方向一致，顺序略有调整</b>（更贴合嵌入式面试高频）</td></tr>
+      </tbody>
+    </table>
+    <div class="bad">🔧 <b>4 笔欠账（从 Day4 顺延，仍未清）</b>：<br>
+      ① <b>memcpy 重写</b> —— 含重叠处理：<code>d &lt; s</code> 正着搬，否则倒着搬，最后 <code>return dst</code>；<br>
+      ② <b>单链表反转</b> —— 补上 <code>typedef</code> 后重跑；<br>
+      ③ <b>count_one 方法 B</b> —— <code>n &amp;= (n-1)</code> 版本；<br>
+      ④ <b>swap32</b> + <b>ring_init</b> 各补写一版。</div>
+    <h3>下次开考顺序（已排好）</h3>
+    <ol class="clean">
+      <li><b>Q9 验收</b> —— I2C / SPI / UART 三选一 + 上面那 5 个追问</li>
+      <li><b>4 笔欠账</b> —— 一次写完贴出来（含内存重叠）</li>
+      <li><b>乱序抽查</b>（验内化，专治"相近概念串"）：<code>sizeof(指针)</code> · const 换写法 · 对齐换 struct · <code>\0</code> vs 退化 · <code>volatile</code> 一句话 · <code>n &amp;= (n-1)</code> 计数</li>
+      <li><b>项目自述出声念一遍</b>（30 秒三段式，补 OOM 定位过程）</li>
+      <li><b>D6 新知识</b> —— CAN 总线 / UART 协议细节（按 14 天计划往下推）</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">7</span> 🔁 学习方式复盘（这段是今天最值钱的部分）</h2>
+    <p>今天改用「<b>一道一道来</b>」的节奏（对比之前一次抛 5 题的批量模式），效果差异很明显：</p>
+    <table>
+      <thead><tr><th style="width:26%">做法</th><th>为什么有效</th></tr></thead>
+      <tbody>
+        <tr><td><b>每题答完立刻判卷 + 补盲区</b></td><td>错误在<b>当场</b>被纠正，不会把错的理解带到下一题；记忆锚在刚犯错那一刻钉下去，粘得最牢</td></tr>
+        <tr><td><b>答错的点当场钉锚</b></td><td>结构体偏移（<code>c=8 / d=16</code>）、ISR 禁 <code>malloc</code> —— 都是当轮就补，没留到下次</td></tr>
+        <tr><td><b>新概念"先教后考"</b></td><td>RTOS / 总线这类完全陌生的，先讲清机制再当场验收 → 有"刚学就能说"的正反馈</td></tr>
+      </tbody>
+    </table>
+    <div class="ok">✅ <b>结论（已验证第 2 次）：闭卷问答 + 当场判卷 + 口诀内化 = 当前最高效的备考方式。</b><br>
+    本机主线的实践也印证了同一条：<b>Q2 / Q3 / Q4 三条 Day4 错题，就是靠"当场判卷 → 钉锚 → 隔日回炉"在一天内正面回收的。</b></div>
+    <div class="warn">⚠️ <b>需要盯住的一条（行为红线，跨设备通用）</b>：交卷前<b>数一遍"题目里有几个问号、我答了几个"</b>。<br>
+    Day4 手撕段曾<b>连续 4 次只交一半</b>（memcpy 只写判空 / count_one 只写一种方法 / 大小端只写第一问 / 环形缓冲三问全没答）—— 这不是知识问题，是<b>读题只读到第一段就动笔</b>，属于面试硬伤。今天 9 题都答完整，保持住。</div>
+  </div>
+
+  <div class="footer">
+    记录时间：2026-09-29 学习 · 2026-09-30 落库（内容整理自 AI 陪练原始总结）· 本地与云端同步<br>
+    <a href="学习中心.html">学习中心</a> ·
+    <a href="嵌入式系统学习计划_14天_20260924.html">每日学习计划 14 天</a> ·
+    <a href="嵌入式_Day4学习记录_20260928.html">Day4 记录</a> ·
+    <a href="index.html">站点首页</a>
+  </div>
+
+</div>
+</body>
+</html>
