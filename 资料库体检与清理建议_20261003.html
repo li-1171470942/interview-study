@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>🔍 资料库体检与清理建议（2026-10-03）</title><style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f4f6fb; color:#1f2430; line-height:1.85; padding-bottom:60px; }
+.topnav { position:sticky; top:0; z-index:9; background:#1f2937; color:#fff; padding:10px 0; }
+.topnav .inner { max-width:1000px; margin:0 auto; padding:0 18px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; font-size:13px; }
+.topnav a { color:#c7d2fe; text-decoration:none; padding:3px 12px; border-radius:14px; background:rgba(255,255,255,.08); }
+.topnav a:hover { background:rgba(255,255,255,.2); color:#fff; }
+.wrap { max-width:1000px; margin:0 auto; padding:0 18px; }
+.hero { background:linear-gradient(135deg,#4f46e5,#7c3aed); color:#fff; border-radius:14px; padding:26px 30px; margin-top:22px; }
+.hero h1 { font-size:24px; margin-bottom:6px; }
+.hero .sub { font-size:13.5px; opacity:.93; }
+.sum { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin-top:16px; }
+.sum div { background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.28); border-radius:10px; padding:10px 14px; }
+.sum b { display:block; font-size:21px; line-height:1.3; }
+.sum span { font-size:12px; opacity:.9; }
+.article { background:#fff; border:1px solid #e4e8f0; border-radius:14px; padding:26px 30px; margin-top:20px; box-shadow:0 1px 3px rgba(20,30,60,.05); }
+.article h2 { font-size:19px; margin:0 0 12px; padding:10px 14px; background:#eef2ff; border-left:4px solid #4f46e5; border-radius:6px; color:#312e81; }
+.article h3 { font-size:15.5px; color:#312e81; margin:20px 0 8px; }
+.article p { margin:8px 0; font-size:14.5px; color:#2b3245; }
+.article ul { margin:8px 0 8px 24px; }
+.article li { font-size:14px; margin:4px 0; }
+.article strong { color:#111827; }
+.article code { background:#f1f3fa; padding:1px 6px; border-radius:4px; font-size:13px; color:#be185d; }
+table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; }
+th { background:#f1f3fa; padding:8px 10px; text-align:left; color:#475569; font-size:12.5px; border:1px solid #e4e8f0; white-space:nowrap; }
+td { padding:8px 10px; border:1px solid #e4e8f0; vertical-align:top; }
+td.c { text-align:center; white-space:nowrap; }
+.p0 { background:#fee2e2; color:#b91c1c; font-weight:700; }
+.p1 { background:#ffedd5; color:#c2410c; font-weight:700; }
+.p2 { background:#dcfce7; color:#166534; font-weight:700; }
+.act-fix { color:#b91c1c; font-weight:700; }
+.act-arch { color:#c2410c; font-weight:700; }
+.act-keep { color:#166534; font-weight:700; }
+.act-del { color:#7f1d1d; font-weight:700; }
+blockquote { background:#f0fdf4; border-left:4px solid #22c55e; padding:10px 14px; margin:12px 0; border-radius:6px; color:#166534; font-size:14px; }
+blockquote.warn { background:#fef2f2; border-left-color:#ef4444; color:#991b1b; }
+blockquote.info { background:#eff6ff; border-left-color:#3b82f6; color:#1e40af; }
+.tag { display:inline-block; padding:1px 8px; border-radius:11px; font-size:11.5px; font-weight:600; margin-right:4px; }
+.t-new { background:#fee2e2; color:#b91c1c; }
+.t-old { background:#e5e7eb; color:#4b5563; }
+.t-ok { background:#dcfce7; color:#166534; }
+.footer { text-align:center; color:#9aa3b5; font-size:12px; margin-top:30px; }
+</style></head>
+<body>
+<div class="topnav"><div class="inner"><a href="index.html">🏠 首页</a><span>|</span><a href="学习中心.html">🏠 学习中心</a><span>|</span><a href="求职复习进度中枢.html">🧠 进度中枢</a><span>|</span><a href="嵌入式_Day5学习记录_20260929.html">📓 Day5</a></div></div>
+<div class="wrap">
+
+<div class="hero">
+  <h1>🔍 资料库体检与清理建议</h1>
+  <div class="sub">体检日期 <b>2026-10-03</b> ｜ 对象：<code>interview-study-remote/</code>（Git 仓库） ｜ 当前主线：华为引望 · 嵌入式 OD</div>
+  <div class="sum">
+    <div><b>59</b><span>HTML 页面</span></div>
+    <div><b>8</b><span>PDF（7 正常 / 1 废品）</span></div>
+    <div><b>6</b><span>Markdown</span></div>
+    <div><b>0</b><span>死链 ✅</span></div>
+    <div><b>14</b><span>项待处理问题</span></div>
+  </div>
+</div>
+
+<blockquote class="info">
+<strong>一句话结论</strong>：库的整体骨架是健康的（<strong>0 死链</strong>、59 个页面全部至少被引用 1 次、没有孤儿文件）。
+问题集中在四类：<strong>① 4 个功能性缺陷</strong>（含一个让文件无法被搜索的隐形炸弹）、
+<strong>② 5 处内容过时</strong>（定位还停在 9 月初的"成都后端"）、
+<strong>③ 3 处隐私风险</strong>（真实内网 IP 写在公开仓库里）、<strong>④ 8 项可优化</strong>。
+</blockquote>
+
+<blockquote>
+<strong>✅ 执行状态（2026-10-03 已处理）</strong>：A / B / D 三类 <b>13 项全部修完</b>，复检通过 —— <b>NUL 字节归零 · 死链 0 · 手册索引 24 本全部可点</b>。
+C 类已完成「<b>移出公司资料 + 内网 IP 脱敏</b>」（本报告自身也已脱敏）。
+⚠️ <b>唯一未做</b>的是<b>仓库可见性变更</b>（转私有 / 拆分仓库）—— 那一步会影响 GitHub Pages，需要你在 GitHub 上拍板。
+另外要说明：<b>脱敏只能改掉"当前可看到的文件"</b>，GitHub 的<b>历史提交里仍能翻到旧内容</b>，彻底解决要靠转私有或重写历史。
+</blockquote>
+
+<div class="article">
+
+<h2>🔴 A 类 · 功能性缺陷（建议直接修）</h2>
+
+<table>
+<thead><tr><th>#</th><th>文件</th><th>问题（实测证据）</th><th>建议</th><th class="c">优先</th></tr></thead>
+<tbody>
+<tr>
+<td>A1</td>
+<td><code>学习手册索引.html</code></td>
+<td><b>24 本手册全是死文本，一个都点不动。</b><br>实测：文件仅 <b>8.3 KB</b>，全文只有 <b>8 个 href</b>（其中手册链接只有 01 / 22 / 23 三本）；24 行表格的"手册"列是纯文本，<b>没有超链接</b>。<br>但 <code>index.html</code> 和 <code>学习中心.html</code> 的卡片都写着"<b>01-24 快速跳转</b>" → <b>承诺做不到</b>。<br>内容也过期：学习路径还是"<b>Week 1/2/3/4</b>"四周八股节奏、按 PDF 页码索引、"投 <b>D 梯队</b>前"，结尾还留着 AI 当初的问句"<b>反馈：模板是否合适？</b>"。</td>
+<td><span class="act-fix">重写</span>：给 24 行补上超链接 + 把"学习周"列改成当前的 Day 口径；顺手删掉结尾的 AI 残留问句。</td>
+<td class="c p0">P0</td>
+</tr>
+<tr>
+<td>A2</td>
+<td><code>求职复习进度中枢.html</code></td>
+<td><b>文件里嵌了 1 个真正的 0x00 字节（NUL）</b>，位置 offset 6718，原文是想写 <code>`\0`</code>（C 语言字符串结束符）却写成了真 NUL。<br><b>三重后果</b>：<br>① 页面上那个字符显示为空白 → <code>\0 与「退化」焊死</code> 变成 <code> 与「退化」焊死</code>；<br>② <b>ripgrep / grep 会把整个文件判定为"二进制"，从此任何全文搜索都会静默跳过它</b>（本次体检已实测发生）；<br>③ git diff 显示为 Binary，改动不可读。</td>
+<td><span class="act-fix">修</span>：把 0x00 换成文本 <code>\0</code>。这是全库唯一 1 处（已扫描 65 个文件确认）。</td>
+<td class="c p0">P0</td>
+</tr>
+<tr>
+<td>A3</td>
+<td><code>学习手册_21_RRM…场景模式库.html</code><br><code>学习手册_22_RRM…讲述卡.html</code></td>
+<td>浏览器标签页标题残留 <code>.md</code> 后缀：<br><code>&lt;title&gt;学习手册_21_RRM无线资源管理_场景模式库<b>.md</b>&lt;/title&gt;</code><br><code>&lt;title&gt;学习手册_22_RRM无线资源管理_讲述卡<b>.md</b>&lt;/title&gt;</code><br>（当初 md→html 转换时漏改；这两本恰好是 <b>RRM 王牌项目</b>手册，面试前天天翻）</td>
+<td><span class="act-fix">修</span>：删掉 title 里的 <code>.md</code>。</td>
+<td class="c p1">P1</td>
+</tr>
+<tr>
+<td>A4</td>
+<td><code>投递跟踪表_李鑫.html</code> + 两个导航页</td>
+<td>家数口径不一致：表格自身标题写"<b>41 家</b>"，而 <code>index.html</code> / <code>学习中心.html</code> 的卡片都写"<b>40 家</b>"。</td>
+<td><span class="act-fix">统一</span>：确认真实数字后改三处。</td>
+<td class="c p1">P1</td>
+</tr>
+</tbody>
+</table>
+
+<h2>🟡 B 类 · 内容过时（降级或归档）</h2>
+
+<blockquote class="warn">
+<strong>判定标准</strong>：这套资料 9/8–9/17 期间是为"<b>成都 · 泛后端（Node/Java）</b>"建的；9/21 之后主线切到"<b>华为引望 · 嵌入式 OD</b>"。
+凡是定位、时间线、日历还停在旧口径的，都属于这一类。
+</blockquote>
+
+<table>
+<thead><tr><th>#</th><th>文件</th><th>过时在哪</th><th>建议</th><th class="c">优先</th></tr></thead>
+<tbody>
+<tr>
+<td>B1</td>
+<td><code>README.md</code><br><span class="tag t-old">公开仓库门面</span></td>
+<td>第一句就是"<b>成都后端求职</b> + 面试复习全套资料"；内容表里把 <code>成都后端求职作战方案</code> 列为"<b>🎯 求职核心</b>"、投递跟踪表写"40 家"。<br>这是<b>任何人打开仓库第一眼看到的东西</b>（也是你自己换电脑 clone 后第一眼），定位完全没跟上主线。</td>
+<td><span class="act-fix">重写</span>：主线改"华为引望嵌入式 OD"，内容表按新的五分区（主线/次线/求职管理/简历库/存档）重列。</td>
+<td class="c p0">P0</td>
+</tr>
+<tr>
+<td>B2</td>
+<td><code>成都后端求职作战方案_李鑫.html</code><br><span class="tag t-old">29 KB · 9/8</span></td>
+<td>标题就叫"成都<b>后端</b>求职作战方案"，正文是"目标岗位清单"、"简历优化清单（基于现有 <b>Node.js</b> 简历）"、"<b>30 天行动时间线</b>"。<br>目前挂在 <b>index 的"全部资料"区</b> + <b>学习中心的"📊 求职管理"区</b> —— <b>两个都是非存档区</b>，与"主线＝嵌入式"并列，违背分区约定。</td>
+<td><span class="act-arch">下沉到存档</span>（不删）。理由：里面的「城市抉择与人生底盘铁律」是长期有效的，值得留档翻。</td>
+<td class="c p1">P1</td>
+</tr>
+<tr>
+<td>B3</td>
+<td><code>面试八股复习计划_李鑫.html</code><br><span class="tag t-old">36 KB · 89 题</span></td>
+<td>卡片描述是"89 题勾选打卡（<b>后端向</b>）"，正文是"PDF 全量 + <b>Node.js/C++ 补充</b>"、"<b>四周复习日历</b>"（早已走完）。<br><b>但它被引用 19 次</b>——24 本手册全都链回它，是<b>全库枢纽</b>，删了会引发大面积死链。</td>
+<td><span class="act-keep">保留 + 改描述</span>：降为"通用八股底座（嵌入式期间按需查）"，四周日历加"已停用"标记。<b>绝对不要删。</b></td>
+<td class="c p1">P1</td>
+</tr>
+<tr>
+<td>B4</td>
+<td><code>学习手册_23_招银网络面经_标准答案.html</code><br><span class="tag t-old">93 KB · 35 题</span></td>
+<td>内容全是<b>银行 + 纯 Java</b>：Redis 三穿雪崩、MySQL 事务、线程池参数、<b>Java + SpringAI/LangChain4j 做 Tool Calling</b>、银行 OpenAPI 网关设计……与嵌入式 / 通信设备<b>零交集</b>。</td>
+<td><span class="act-arch">归档</span>（若已不投银行/金融科技）。若 Java 备选还在投，则保留在次线但标注"仅银行系用"。</td>
+<td class="c p1">P1</td>
+</tr>
+<tr>
+<td>B5</td>
+<td><code>求职复习进度中枢.html/.md</code><br><span class="tag t-new">跨设备事实源</span></td>
+<td>内部口径自相矛盾：<br>· 页头写"最新更新 <b>2026-09-30</b>"，正文却写"🔥 最新进展（<b>9/17</b>）"<br>· "2026-09-30 阶段：<b>第 3 周 · B 梯队主战场</b>（9/15 起）" ←「B 梯队」是成都后端方案里的 A/B/C/D 分层概念，已经不属于当前主线<br>· "📅 每日打卡 <b>第 2 周起</b>"</td>
+<td><span class="act-fix">改</span>：它是"跨电脑续对话的事实来源"，口径必须准 —— 改成 Day 序列口径（Day1–Day5 / 当前 Day6）。</td>
+<td class="c p0">P0</td>
+</tr>
+</tbody>
+</table>
+
+<p><b>已在存档区、位置正确的（无需动）</b>：<code>投递清单_今日10家_20260909.html</code>（3 周前的"今日"清单）、<code>嵌入式面试_3天冲刺计划_20260921.html</code>（已被 14 天计划取代）、<code>活跃网络_*</code> 两个（练手场已复盘完毕）、<code>李鑫-Node.js…-v3规模版.html</code>（已被详版合并）。</p>
+
+<h2>🔵 C 类 · 隐私风险（需你拍板）</h2>
+
+<blockquote class="warn">
+<strong>前提</strong>：该仓库是 <b>public（公开）</b>，且已开 GitHub Pages。仓库里同时存在 <b>README 自述"成都后端"</b> 和 <b>公司真实内网地址</b>。
+</blockquote>
+
+<h3>C1 · 真实内网地址确实写在公开仓库里</h3>
+<table>
+<thead><tr><th>文件</th><th>泄露内容（实测提取）</th><th class="c">风险</th></tr></thead>
+<tbody>
+<tr><td><code>学习手册_03_Redis.html</code></td><td><b>15 个 IP</b>，含 <code>10.11.x.x:27017</code>（Mongo）、<code>10.11.x.x:9092</code>（Kafka）、<code>10.11.x.x:54321</code>（Redis）、内网域名 <code>oasis.h3c</code></td><td class="c p0">高</td></tr>
+<tr><td><code>学习手册_02_MySQL核心.html</code></td><td><b>6 个 IP</b>：<code>10.20.x.x:3306</code>、<code>10.20.x.x:27017</code> 等</td><td class="c p0">高</td></tr>
+<tr><td><code>云简平台架构分析_设备上报与微服务路由_20260909.md</code></td><td>北京 RD 环境 <code>117.128.x.x:21091</code> + 内部代码模块名 <code>rrmcontrol / wlanpub / rrmProject</code> + 设备上报链路结构</td><td class="c p0">高</td></tr>
+<tr><td><code>学习手册_14_网络进阶.html</code></td><td><code>10.0.0.0 / 172.16.0.0 / 192.168.0.0</code> —— 属于教学示例网段</td><td class="c p2">低</td></tr>
+<tr><td>简历类（11 个 HTML + 8 PDF）</td><td>出现"新华三 / H3C / 云简"共 21 处 —— <b>这是工作经历，属正常</b></td><td class="c p2">低</td></tr>
+</tbody>
+</table>
+
+<h3>C2 · robots.txt 已设，但它挡不住什么</h3>
+<p>仓库里有 <code>robots.txt</code>：<code>User-agent: * / Disallow: /</code>。它能挡搜索引擎收录，但——</p>
+<ul>
+<li>挡不住<b>知道 URL 的人</b>直接打开链接；</li>
+<li>挡不住 <b>GitHub 仓库页本身</b>：<code>github.com/li-1171470942/interview-study</code> 任何人可浏览、可搜、可 fork、可看提交历史；</li>
+<li>所以 <b>robots.txt ≠ 隐私方案</b>，它只是"请勿收录"的君子协定。</li>
+</ul>
+
+<h3>C3 · 三条可选路线</h3>
+<table>
+<thead><tr><th>方案</th><th>做法</th><th>代价 / 效果</th></tr></thead>
+<tbody>
+<tr>
+<td><b>① 拆分（推荐）</b></td>
+<td>主仓库<b>转私有</b>（简历/复盘/投递/公司资料全部变私有）；<br>另建一个只放<b>学习页面</b>的公开仓库接 Pages。</td>
+<td>学习页照常手机可看；涉及个人与公司的内容彻底离开公网。<b>需要一次性搬运 + 改链接</b>。</td>
+</tr>
+<tr>
+<td>② 单仓库转私有</td>
+<td>主仓库转私有，Pages 从私有仓库发布（<b>需 GitHub Pro/Team</b>，免费版私有仓库不发 Pages）。</td>
+<td>最省事，但可能要付费；免费版会导 Pages 直接下线。</td>
+</tr>
+<tr>
+<td>③ 保持公开 + 清洗</td>
+<td>删 <code>云简平台架构分析…md</code>；把 <code>学习手册_02/03</code> 里的真实 IP 换成示例 IP（<code>10.x.x.1</code>）；复盘中隐去内部细节。</td>
+<td>成本最低，但 <b>历史提交里仍有旧内容</b>（GitHub 能翻历史），要彻底得重写历史，较麻烦。</td>
+</tr>
+</tbody>
+</table>
+
+<h2>🟢 D 类 · 可优化（不紧急）</h2>
+<table>
+<thead><tr><th>#</th><th>项</th><th>说明</th><th>建议</th></tr></thead>
+<tbody>
+<tr><td>D1</td><td><code>index.html</code> 分区漂移</td><td>"📚 全部资料"区塞了 <b>6 张卡</b>（学习中心 / 手册索引 / 进度中枢 / 投递跟踪表 / 成都方案 / 八股计划），与"学习中心"页重复；而定好的约定是 index 只留<b>入口</b>。同时 <b>index 上完全没有"简历库"入口</b>——改简历要点两次才进得去。</td><td>精简为 2–3 个入口 + 补一个"📄 简历库"直达。</td></tr>
+<tr><td>D2</td><td>24 本手册的方向分布</td><td>按当前主线分：<b>强相关 8 本</b>（01 网络 / 05 C-C++ / 10 算法 / 14 网络进阶 / 15 无线 / 20 讲述方法论 / 21+22 RRM）｜<b>通用 5 本</b>（11 / 13 / 18 / 24 / 16）｜<b>纯 Java 向 9 本</b>（02 / 03 / 06 / 07 / 08 / 09 / 12 / 17 / 19）+ 银行 1 本（23）。</td><td>若 Java 备选继续投 → 保持现状；若已放弃 → 给纯 Java 向的加"存档"标记。</td></tr>
+<tr><td>D3</td><td><code>李鑫-Java后端详细.pdf</code></td><td><b>确认是废品</b>：3 页 / <b>0 个字符</b> / 2746 个矢量图元 / Producer = <code>Microsoft: Print To PDF</code> → 就是那个"没有文字层、ATS 解析为空"的产物；且<b>未被任何页面引用</b>。其余 7 个 PDF 全部正常（都有文字层、页数符合约定）。</td><td><span class="act-del">删</span>（它留在投递目录里迟早被误发）。</td></tr>
+<tr><td>D4</td><td><code>.trae-html-share-packages/</code>（约 20 MB）</td><td>未跟踪文件，每次 <code>git status</code> 都出现，容易误提交。</td><td>加进 <code>.gitignore</code>。</td></tr>
+<tr><td>D5</td><td><code>智联招聘_个人优势文案.html</code></td><td>已有版本 A 通用后端 / B Java / C 通信嵌入式，<b>缺"引望 OD 版"文案</b>（OD 岗的自述重点不一样）。</td><td>补一版 OD 专属文案。</td></tr>
+<tr><td>D6</td><td><code>求职分析_成都嵌入式…_20260926.html</code></td><td>岗位数据取自 9/26，招聘信息衰减快（1 周即变）。</td><td>页面加"数据截至 2026-09-26"标注；要投递前重新抓一次。</td></tr>
+<tr><td>D7</td><td>手册 11 vs 手册 24</td><td>都是"设计模式"，看起来重复。</td><td><b>不用动</b> —— 11 是面试速答版，24 是 23 种模式系统精讲版，属有意设计。</td></tr>
+<tr><td>D8</td><td>工作区 <code>_setup/</code>（277 MB）</td><td>VSCode 安装包 232 MB + msys2 43 MB，环境已装好。</td><td>删（工作区层面，不在本仓库里）。</td></tr>
+</tbody>
+</table>
+
+<h2>📋 建议执行顺序</h2>
+<ol>
+<li><b>第一批（P0，纯修 bug，不动内容）</b>：A2 修 NUL 字节 → A1 重写手册索引（补 24 链接）→ B1 重写 README → B5 修进度中枢口径。</li>
+<li><b>第二批（P1，改定位）</b>：A3 删 title 的 .md → A4 统一家数 → B2 成都方案下沉存档 → B3 改八股计划描述 → B4 决定招银面经去留。</li>
+<li><b>第三批（需你拍板）</b>：C 类隐私 —— 选①拆分 / ②转私有 / ③清洗，然后我再执行。</li>
+<li><b>顺手（D 类）</b>：D3 删废 PDF、D4 加 .gitignore、D1 理顺 index 分区。</li>
+</ol>
+
+<blockquote>
+<b>为什么"归档"而不是"删除"？</b> 因为你的资料库承担的是<b>跨设备记忆</b>的角色 —— 删掉的东西在另一台电脑上就找不回来了。
+除 <b>D3（废 PDF，无文字层且无人引用）</b> 外，我建议所有"过时"内容一律下沉到「🗂 存档」，只改<mark>它出现的位置和描述</mark>，不改内容本身。
+</blockquote>
+
+</div>
+<div class="footer">资料库体检报告 · 2026-10-03 · 生成方式：全库静态扫描（链接 / 编码 / PDF 元数据 / 敏感词）</div>
+</div>
+</body>
+</html>

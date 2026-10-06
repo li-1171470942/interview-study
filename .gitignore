@@ -18,3 +18,6 @@ node_modules/
 
 # 部署临时目录（云端发布用，不入库）
 _deploy/
+
+# Trae 生成的 HTML 分享包（约 20MB，不入库）
+.trae-html-share-packages/

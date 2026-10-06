@@ -1091,7 +1091,7 @@ redis-cli info memory | grep -E &quot;used_memory_human|used_memory_rss_human|ma
 <p><strong>Q：主库删了 key，从库为什么还占着内存？</strong>
 因为从库只在收到主库的 <code>DEL</code> 后才删。主库通过惰性删除或定期删除发现过期时，会<strong>显式向从库传播一条 <code>DEL</code></strong>（4.0 前是 <code>DEL</code>，之后一致）。如果从库曾经是从别的主库切过来的、或者复制的 backlog 有缺口，就可能残留。排查从库内存异常时，先对比 <code>dbsize</code> 和 <code>INFO replication</code> 的 offset 差。</p>
 <p><strong>Q：<code>volatile-lru</code> 里「设了 TTL 的 key」被删光了会怎样？</strong>
-<strong>退化成 <code>noeviction</code>，写入报错。</strong> 这是 <code>volatile-*</code> 系列最容易被忽略的行为，也是面试很喜欢问的细节。所以「缓存 + 持久数据混存」这个看起来优雅的设计，实际运维成本很高——更好的做法是<strong>缓存实例和数据实例物理隔离</strong>（不同 DB 不够，要用不同实例）。</p></div></details><details class="sub sub-anchor"><summary>挂到我的项目上</summary><div class="sub-body"><p>你项目里 Redis 是<strong>腾讯云 Redis（<code>10.11.2.65:6379</code>，现网 oasis.h3c.com）</strong>——托管实例有两个和自建不同的点，面试时讲出来很加分：</p>
+<strong>退化成 <code>noeviction</code>，写入报错。</strong> 这是 <code>volatile-*</code> 系列最容易被忽略的行为，也是面试很喜欢问的细节。所以「缓存 + 持久数据混存」这个看起来优雅的设计，实际运维成本很高——更好的做法是<strong>缓存实例和数据实例物理隔离</strong>（不同 DB 不够，要用不同实例）。</p></div></details><details class="sub sub-anchor"><summary>挂到我的项目上</summary><div class="sub-body"><p>你项目里 Redis 是<strong>腾讯云 Redis（<code>198.51.100.65:6379</code>，现网 oasis.<公司域名>）</strong>——托管实例有两个和自建不同的点，面试时讲出来很加分：</p>
 <p>① <strong><code>maxmemory</code> 由云厂商按规格设定，你大概率无权改 <code>maxmemory-policy</code></strong>。所以「内存不够」时的处置手段不是调淘汰策略，而是<strong>控制 key 的数量和大小</strong>（TTL 设计、避免大 key、拆分维度）——这才是你能实际动手的地方。面试可以这么讲：「云 Redis 的淘汰策略是固定的，所以我更关注写入侧的治理：每个缓存 key 必带 TTL，并且控制单个 key 的元素数量上限。」</p>
 <p>② <strong><code>evicted_keys</code> 是云 Redis 必须盯的指标</strong>。托管实例内存满了会静默淘汰，你在应用侧只能看到「缓存命中率下降」。排查路径是：<code>INFO stats</code> 的 <code>evicted_keys</code> 涨 → 反查是哪类 key 占内存大（<code>--bigkeys</code>）→ 加 TTL 或拆分。</p>
 <p><strong>「key 数量本身就是成本」这条经验，在你的 RRM 场景里非常具体</strong>：如果一个场所几千个 AP、每个 AP 一个独立的 key（如 <code>ap:{sn}:status</code>），那几万个场所就是几千万个 key——内存里光 dictEntry + redisObject + SDS 头就要几个 GB。<strong>改成按场所聚合的 Hash（<code>apstatus:{siteId}</code> 里 field=AP 序列号）能把内存降一个数量级</strong>，这就是第 2 题那个「Hash 存对象 vs 散 String」的内存账在真实业务上的落地。</p></div></details></div>
@@ -1292,7 +1292,7 @@ rdr json dump.rdb &gt; all.json
 <p><strong>Q：<code>save ""</code> 是什么？</strong>
 关闭自动 RDB 保存（只在显式 <code>BGSAVE</code> 或主从同步时才生成）。<strong>纯缓存实例的常见配置</strong> —— 既然数据可以重建，就不需要定时快照的 fork 开销。反过来，<strong>如果这台实例会当主节点供从节点同步，完全关掉 RDB 会让人有点心虚</strong>：虽然全量同步时主节点会主动 <code>BGSAVE</code>，但日常没有备份。折中是留一条低频规则，比如 <code>save 3600 1</code>。</p></div></details><details class="sub sub-anchor"><summary>挂到我的项目上</summary><div class="sub-body"><p>你们现网 Redis 是<strong>腾讯云托管实例</strong>——<code>SAVE</code>/<code>BGSAVE</code>/<code>CONFIG SET save</code> 这些命令在托管实例上<strong>通常被禁用或改由控制台配置</strong>。这反而是个可以展示理解深度的点：</p>
 <p>面试话术：「我们用的是云 Redis，持久化策略由控制台配，我不能直接跑 <code>BGSAVE</code>。但我很关注两个间接指标：<code>rdb_last_bgsave_status</code>（确认快照没失败）和 <code>latest_fork_usec</code>（确认 fork 没成为卡顿源）。<strong>这个判读习惯是从 rrmcompute 的 OOM 排查里带出来的——那次的教训是『资源类问题必须看数字，不能靠猜』。</strong>」</p>
-<p><strong>另外一个可以主动提的对比</strong>：你们 RRM 的数据主存是 MongoDB（<code>10.11.2.140:27017</code>），Redis 只是缓存层。所以 Redis 上「丢了能不能重建」的答案是<strong>能</strong>——MongoDB 是事实来源，Redis 是可重建的加速层。<strong>这个定位决定了 Redis 上不需要 AOF <code>always</code> 这种重持久化配置</strong>，这也是第 7 题「按数据重要性分级选型」的直接依据。面试官问「你们 Redis 丢数据了怎么办」，这个答案比任何配置参数都更有说服力。</p></div></details></div>
+<p><strong>另外一个可以主动提的对比</strong>：你们 RRM 的数据主存是 MongoDB（<code>198.51.100.140:27017</code>），Redis 只是缓存层。所以 Redis 上「丢了能不能重建」的答案是<strong>能</strong>——MongoDB 是事实来源，Redis 是可重建的加速层。<strong>这个定位决定了 Redis 上不需要 AOF <code>always</code> 这种重持久化配置</strong>，这也是第 7 题「按数据重要性分级选型」的直接依据。面试官问「你们 Redis 丢数据了怎么办」，这个答案比任何配置参数都更有说服力。</p></div></details></div>
 </details>
 </section>
 <section class="kp" id="kp6">
@@ -1516,7 +1516,7 @@ redis-check-aof --fix appendonly.aof
 <p><strong>Q：AOF 重写会不会阻塞主线程？</strong>
 <strong>fork 那一瞬间阻塞</strong>（同 RDB），重写本身不阻塞。但有一个例外：<strong>第 ⑤ 步「把 aof_rewrite_buf 追加到新 AOF」是主线程做的</strong> —— 如果积压了几百 MB，这一步会有明显停顿（这也是 Redis 7.0 改 multi-part AOF 的动机之一）。排查方式是看 <code>INFO persistence</code> 里的 <code>aof_rewrite_in_progress</code> 和 <code>aof_pending_rewrite</code>。</p>
 <p><strong>Q：<code>appendfsync always</code> 真的不丢数据吗？</strong>
-单机不丢（数据已经 fsync 到磁盘），但有两个前提：① <code>fsync</code> 返回成功；② <strong>磁盘缓存是 write-through 的</strong>。有些云盘/RAID 卡带电池缓存，<code>fsync</code> 返回后数据其实还在缓存里，断电仍可能丢。<strong>要做到真正不丢，需要 <code>fsync</code> + 存储层 <code>O_DIRECT</code>/关闭写缓存 + 副本</strong>。所以「金融级不丢数据」不会只靠 Redis 的 <code>always</code>，而是靠多副本 + 上层补偿。<strong>面试能主动说出这一点，是明显的深度加分。</strong></p></div></details><details class="sub sub-anchor"><summary>挂到我的项目上</summary><div class="sub-body"><p>你项目里 Redis 是缓存层（真实数据在 MongoDB <code>10.11.2.140:27017</code>），所以持久化配置的正确结论是：</p>
+单机不丢（数据已经 fsync 到磁盘），但有两个前提：① <code>fsync</code> 返回成功；② <strong>磁盘缓存是 write-through 的</strong>。有些云盘/RAID 卡带电池缓存，<code>fsync</code> 返回后数据其实还在缓存里，断电仍可能丢。<strong>要做到真正不丢，需要 <code>fsync</code> + 存储层 <code>O_DIRECT</code>/关闭写缓存 + 副本</strong>。所以「金融级不丢数据」不会只靠 Redis 的 <code>always</code>，而是靠多副本 + 上层补偿。<strong>面试能主动说出这一点，是明显的深度加分。</strong></p></div></details><details class="sub sub-anchor"><summary>挂到我的项目上</summary><div class="sub-body"><p>你项目里 Redis 是缓存层（真实数据在 MongoDB <code>198.51.100.140:27017</code>），所以持久化配置的正确结论是：</p>
 <p><strong>「缓存型实例不需要 AOF <code>always</code>。我们的定位是 Redis 挂了可以从 MongoDB 重建，所以持久化的价值主要是『减少冷启动时的缓存击穿』——真正的风险不是丢缓存，而是 Redis 重启瞬间的缓存全空导致 DB 被打爆。」</strong></p>
 <p>这个视角的转换很关键：<strong>从「怎么不丢数据」转到「重启后怎么不把 DB 打穿」</strong>。对应的措施是：
 1. 如果开了持久化（RDB/AOF），重启后缓存能快速预热；
@@ -2543,7 +2543,7 @@ end
 - <strong>本地缓存的 TTL 必须最短</strong>（秒级），因为它最难失效；
 - <strong>强一致的数据不要放本地缓存</strong>（比如余额、库存）。</p>
 <p><strong>一句话总结</strong>：「多级缓存是把『一致性』换成了『可用性』，所以只放在能容忍不一致的数据上。」</p></div></details><details class="sub sub-anchor"><summary>挂到我的项目上</summary><div class="sub-body"><p><strong>这个点你有非常强的项目素材，而且是「反向」的素材——你们的 Redis 挂了，MongoDB 直接暴露在流量下。</strong></p>
-<p><strong>① RRM 的真实依赖结构</strong>：rrmcontrol（Node.js + Kafka + Redis + MongoDB）里，Redis 做缓存和分布式协调，<strong>MongoDB（<code>10.11.2.140:27017</code>）是事实来源</strong>。如果腾讯云 Redis（<code>10.11.2.65:6379</code>）抖动或不可用：
+<p><strong>① RRM 的真实依赖结构</strong>：rrmcontrol（Node.js + Kafka + Redis + MongoDB）里，Redis 做缓存和分布式协调，<strong>MongoDB（<code>198.51.100.140:27017</code>）是事实来源</strong>。如果腾讯云 Redis（<code>198.51.100.65:6379</code>）抖动或不可用：
 - 缓存全部 miss → 查询直接压到 MongoDB
 - <strong>分布式锁失效 → 多 pod 的 scheduler 同时触发调优任务 → 重复调优 + 任务量翻 N 倍</strong>
 - 这两个叠加，就是教科书式的雪崩</p>
@@ -2692,7 +2692,7 @@ public void handleDelayDelete(String cacheKey) {
 3. <strong>可重试 + 可回溯</strong>：Kafka 保证至少一次投递，消费者可以重放
 4. <strong>多消费者</strong>：同一个变更事件可以同时触发「删缓存」「更新搜索索引」「发通知」</p>
 <p><strong>代价</strong>：多一套 Canal + MQ 的运维成本，且<strong>有秒级延迟</strong>（binlog → Canal → Kafka → 消费者）。</p>
-<p><strong>这个方案和你现有技术栈非常契合</strong>——你们本来就有 Kafka（<code>10.11.2.111:9092</code>）。<strong>面试时可以说</strong>：「如果要做 binlog 订阅方案，我们不需要额外引入 MQ，因为 Kafka 已经在了，只需要加 Canal。<strong>这是我判断『这个方案在我们环境里落地成本不高』的依据。</strong>」</p>
+<p><strong>这个方案和你现有技术栈非常契合</strong>——你们本来就有 Kafka（<code>198.51.100.111:9092</code>）。<strong>面试时可以说</strong>：「如果要做 binlog 订阅方案，我们不需要额外引入 MQ，因为 Kafka 已经在了，只需要加 Canal。<strong>这是我判断『这个方案在我们环境里落地成本不高』的依据。</strong>」</p>
 <h3>更强但更重：读也加锁 / 分布式读写锁</h3>
 <p>如果业务真的不能容忍任何脏读，可以：
 - <strong>写时加分布式锁</strong>，读也加分布式锁（读的时候禁止写）——代价是性能急剧下降
@@ -3205,7 +3205,7 @@ redis-cli WAIT 1 100
 </code></pre>
 <p><strong>关键点：加锁总耗时要算进锁的有效期里</strong> —— 如果花 2 秒才加到 3 个实例，那锁的剩余有效期只有 28 秒。<strong>这个细节说明设计者意识到了时钟和延迟问题。</strong></p>
 <pre><code class="language-bash"># 手动模拟 Redlock 的加锁过程（5 个实例，3 个成功即算成功）
-for host in 10.11.2.65 10.11.2.66 10.11.2.67 10.11.2.68 10.11.2.69; do
+for host in 198.51.100.65 198.51.100.66 198.51.100.67 198.51.100.68 198.51.100.69; do
   start=$(date +%s%3N)
   result=$(redis-cli -h $host SET resource:lock &quot;uuid-123&quot; NX PX 30000)
   echo &quot;$host -&gt; $result&quot;
@@ -3833,7 +3833,7 @@ public void hsetWithGuard(String key, String field, String value) {
 会，而且是最严重的阻塞之一。Redis 4.0 起支持 <code>FLUSHALL ASYNC</code> / <code>FLUSHDB ASYNC</code>（异步释放，把整个 db 的 dict 丢给后台线程）。<strong>8.0 起 <code>lazyfree-lazy-user-flush</code> 默认改为 yes</strong>，也就是 <code>FLUSHALL</code> 默认就是异步的。<strong>低版本上，<code>FLUSHALL</code> 一个 10GB 的实例可能阻塞好几秒。</strong></p>
 <p><strong>Q：怎么在 Cluster 里找大 key？</strong>
 <code>redis-cli --cluster</code> 没有直接的 <code>--bigkeys</code>。做法是 <strong>逐个节点跑</strong>：</p>
-<pre><code class="language-bash">for node in 10.11.2.65:6379 10.11.2.66:6379 10.11.2.67:6379; do
+<pre><code class="language-bash">for node in 198.51.100.65:6379 198.51.100.66:6379 198.51.100.67:6379; do
   echo &quot;===== $node =====&quot;
   redis-cli -h ${node%:*} -p ${node#*:} --bigkeys -i 0.1
 done
@@ -3888,9 +3888,9 @@ try (Cursor&lt;Map.Entry&lt;Object, Object&gt;&gt; cursor =
 <summary><span class="arrow"></span><span class="sum-text">查看答案与原理</span></summary>
 <div class="ans-inner"><div class="ans-body"><h3>建立复制与同步流程</h3>
 <pre><code class="language-bash"># 从节点发起（两种写法，replicaof 是 5.0+ 的新名字）
-redis-cli REPLICAOF 10.11.2.65 6379
+redis-cli REPLICAOF 198.51.100.65 6379
 # 老写法（仍支持）
-redis-cli SLAVEOF 10.11.2.65 6379
+redis-cli SLAVEOF 198.51.100.65 6379
 
 # 取消复制，变成独立节点
 redis-cli REPLICAOF NO ONE
@@ -3977,8 +3977,8 @@ redis-cli CONFIG REWRITE
 redis-cli INFO replication
 # role:master
 # connected_slaves:2
-# slave0:ip=10.11.2.66,port=6379,state=online,offset=12345678,lag=0
-# slave1:ip=10.11.2.67,port=6379,state=online,offset=12345600,lag=1
+# slave0:ip=198.51.100.66,port=6379,state=online,offset=12345678,lag=0
+# slave1:ip=198.51.100.67,port=6379,state=online,offset=12345600,lag=1
 #                                    ^^^^^^^^^^^^^^^^^^     ^^^^^^
 #                                    offset 差 78 字节         延迟 1 秒
 # master_failover_state:no-failover
@@ -3994,7 +3994,7 @@ redis-cli INFO replication
 # 从节点视角
 redis-cli INFO replication
 # role:slave
-# master_host:10.11.2.65
+# master_host:198.51.100.65
 # master_port:6379
 # master_link_status:up                ← **最关键：up 才是正常的**
 # master_last_io_seconds_ago:0
@@ -4240,7 +4240,7 @@ redis-cli WAIT 1 100
 </table>
 <h3>哨兵（Sentinel）</h3>
 <pre><code class="language-bash"># 最小配置 sentinel.conf
-sentinel monitor mymaster 10.11.2.65 6379 2
+sentinel monitor mymaster 198.51.100.65 6379 2
 #                                             ^ quorum：至少 2 个哨兵同意才判定客观下线
 sentinel auth-pass mymaster &lt;password&gt;
 sentinel down-after-milliseconds mymaster 30000    # 30 秒无响应 → 主观下线
@@ -4258,7 +4258,7 @@ redis-cli -p 26379 SENTINEL masters
 redis-cli -p 26379 SENTINEL master mymaster
 redis-cli -p 26379 SENTINEL replicas mymaster
 redis-cli -p 26379 SENTINEL get-master-addr-by-name mymaster
-# 1) &quot;10.11.2.66&quot;      ← 故障转移后主节点已经变了
+# 1) &quot;198.51.100.66&quot;      ← 故障转移后主节点已经变了
 # 2) &quot;6379&quot;
 redis-cli -p 26379 SENTINEL failover mymaster     # 手动触发故障转移（演练用）
 </code></pre>
@@ -4305,13 +4305,13 @@ redis-cli -p 26379 SENTINEL failover mymaster     # 手动触发故障转移（�
 <h3>Redis Cluster</h3>
 <pre><code class="language-bash"># 创建集群（3 主 3 从）
 redis-cli --cluster create \
-  10.11.2.65:6379 10.11.2.66:6379 10.11.2.67:6379 \
-  10.11.2.68:6379 10.11.2.69:6379 10.11.2.70:6379 \
+  198.51.100.65:6379 198.51.100.66:6379 198.51.100.67:6379 \
+  198.51.100.68:6379 198.51.100.69:6379 198.51.100.70:6379 \
   --cluster-replicas 1
 
 # 检查集群状态
-redis-cli --cluster check 10.11.2.65:6379
-redis-cli --cluster info 10.11.2.65:6379
+redis-cli --cluster check 198.51.100.65:6379
+redis-cli --cluster info 198.51.100.65:6379
 
 # 查看节点和槽位
 redis-cli -c -p 6379 CLUSTER INFO
@@ -4323,12 +4323,12 @@ redis-cli -p 6379 CLUSTER KEYSLOT user:1001
 # (integer) 10778
 
 # 扩容：加入新节点，然后重新分片
-redis-cli --cluster add-node 10.11.2.71:6379 10.11.2.65:6379
-redis-cli --cluster reshard 10.11.2.65:6379
+redis-cli --cluster add-node 198.51.100.71:6379 198.51.100.65:6379
+redis-cli --cluster reshard 198.51.100.65:6379
 # 交互式：要迁移多少个槽、目标节点 ID、从哪些节点迁
 
 # 删除节点（先迁走槽位）
-redis-cli --cluster del-node 10.11.2.65:6379 &lt;node-id&gt;
+redis-cli --cluster del-node 198.51.100.65:6379 &lt;node-id&gt;
 </code></pre>
 <p><strong>关键配置</strong>：</p>
 <pre><code class="language-bash">redis-cli config get cluster-enabled              # yes
@@ -4401,7 +4401,7 @@ redis-cli -c -p 6379 MGET &quot;{user1001}:a&quot; &quot;{user1001}:b&quot;
 </table>
 <pre><code class="language-bash"># 触发 MOVED（用非集群模式连集群，会看到重定向）
 redis-cli -p 6379 GET user:1001
-# (error) MOVED 10778 10.11.2.66:6379
+# (error) MOVED 10778 198.51.100.66:6379
 # 用 -c 参数让 redis-cli 自动跟随重定向
 redis-cli -c -p 6379 GET user:1001
 # &quot;value&quot;      ← 自动跟到正确节点
@@ -4547,9 +4547,9 @@ redis-cli -c -p 6379 CONFIG REWRITE
   redis:
     cluster:
       nodes:
-        - 10.11.2.65:6379
-        - 10.11.2.66:6379
-        - 10.11.2.67:6379
+        - 198.51.100.65:6379
+        - 198.51.100.66:6379
+        - 198.51.100.67:6379
       max-redirects: 3          # 跟随重定向的最大次数
     timeout: 3000ms             # ★ 命令超时，一定要配
     lettuce:
@@ -4581,7 +4581,7 @@ redis-cli -c -p 6379 CONFIG REWRITE
 <p><strong>Q：为什么 Cluster 不支持 <code>SELECT</code>？</strong>
 因为「多个 db」和「分片」在语义上冲突：如果支持 16 个 db，那每个 db 都要有 16384 个槽，槽的元数据量 ×16，gossip 的心跳包也要 ×16。<strong>所以 Cluster 只保留 db0，用 key 前缀来模拟命名空间。</strong>这也是「简化设计换带宽」的又一个例子。</p></div></details><details class="sub sub-anchor"><summary>挂到我的项目上</summary><div class="sub-body"><p><strong>诚实的定位：你用云托管 Redis，主从/哨兵/Cluster 大概率是平台配置的。</strong>但这个点反而可以说得很漂亮：</p>
 <p><strong>① 你的真实环境</strong></p>
-<p>面试话术：「我们用腾讯云 Redis（<code>10.11.2.65:6379</code>），高可用是云厂商提供的。<strong>所以我最关心的不是『怎么搭哨兵』，而是『故障切换期间我的应用会发生什么』——这决定了我要配什么。</strong>」</p>
+<p>面试话术：「我们用腾讯云 Redis（<code>198.51.100.65:6379</code>），高可用是云厂商提供的。<strong>所以我最关心的不是『怎么搭哨兵』，而是『故障切换期间我的应用会发生什么』——这决定了我要配什么。</strong>」</p>
 <p><strong>② 从「使用者视角」讲高可用（这是你的优势，不是劣势）</strong></p>
 <p>面试话术：「云 Redis 做主从切换的时候，客户端会短暂连不上。<strong>所以我做的两件事是：① 配命令级超时（不能让请求无限等）；② 对 Redis 的调用做降级——缓存读不到就查 MongoDB，锁拿不到就跳过本次任务。</strong>这些不是『运维知识』，是『应用侧必须做的防御』。<strong>而且我一般认为：不管下游多可靠，应用侧都要假设它会挂。</strong>」</p>
 <p><strong>这个回答的层次比背哨兵选举流程高得多</strong> —— 它展示的是「从消费者视角设计系统」的思维。<strong>面试官如果是做后端的，会更欣赏这种答法。</strong></p>
@@ -5365,7 +5365,7 @@ return tasks
 3. <strong>多消费组</strong> —— 同一个上报数据可能被多个下游消费（rrmcompute 算调优、yw-aioptimize 做 AI 优化），Kafka 的多消费组天然支持，<strong>Redis Stream 虽然也支持多组，但单 Stream 无法水平扩展，吞吐上不去</strong>。」</p>
 <p><strong>这三条正好对应 Kafka 的三个核心优势：磁盘持久化（成本）、offset 可重置（回溯）、分区（水平扩展）。这个回答的结构非常好。</strong></p></div></details><details class="sub sub-anchor"><summary>挂到我的项目上</summary><div class="sub-body"><p><strong>这是你最有底气的对比题之一 —— 因为你真的用 Kafka，也真的用 Redis。</strong></p>
 <p><strong>① 你的真实技术栈</strong></p>
-<p>rrmcontrol 是 <strong>Node.js + Kafka（<code>10.11.2.111:9092</code>）+ Redis（<code>10.11.2.65:6379</code>）+ MongoDB（<code>10.11.2.140:27017</code>）</strong>。RMM 四个微服务 rrmcontrol / rrmserver / rrmcompute / yw-aioptimize 通过 Kafka 传递数据。</p>
+<p>rrmcontrol 是 <strong>Node.js + Kafka（<code>198.51.100.111:9092</code>）+ Redis（<code>198.51.100.65:6379</code>）+ MongoDB（<code>198.51.100.140:27017</code>）</strong>。RMM 四个微服务 rrmcontrol / rrmserver / rrmcompute / yw-aioptimize 通过 Kafka 传递数据。</p>
 <p><strong>② 「为什么用 Kafka 不用 Redis 队列」的标准答案</strong>（上面追问里那段，可以直接用）</p>
 <p><strong>③ 主动补充一个「职责边界」的判断</strong></p>
 <p>面试话术：「我们架构里 Kafka 和 Redis 的职责是很清楚的：<strong>Kafka 负责『数据流』——可靠传输、可回溯、多消费组；Redis 负责『状态』——缓存和分布式协调。</strong> 这两个不能互换，因为它们的持久化模型完全不同：<strong>Kafka 的数据在磁盘上、有副本、按 offset 可以被多个消费者独立读取；Redis 的数据在内存里、复制是异步的、Stream 的消息一旦被 ACK 和 trim 就没了。</strong>」</p>
@@ -5417,7 +5417,7 @@ redis-cli SLOWLOG GET 10
 #    3) (integer) 253000                      ← 耗时（微秒）= 253ms
 #    4) 1) &quot;HGETALL&quot;                          ← 命令
 #       2) &quot;site:1001:aps&quot;                     ← 参数
-#    5) &quot;10.11.2.100:54321&quot;                    ← 客户端地址
+#    5) &quot;198.51.100.100:54321&quot;                    ← 客户端地址
 #    6) &quot;app-rrm-1&quot;                            ← 客户端名称（CLIENT SETNAME 设置的）
 
 redis-cli SLOWLOG LEN          # 慢日志条数
@@ -5583,7 +5583,7 @@ fill me with some interesting data, I'm done with this planet.
 <p>（Redis 的彩蛋文化。真正有问题时会给具体建议，比如「内存碎片率高，建议开启 activedefrag」。）</p>
 <h3>连接数暴涨的处理</h3>
 <pre><code class="language-bash">redis-cli CLIENT LIST
-# id=1 addr=10.11.2.100:54321 fd=8 name=app-rrm-1 age=3600 idle=0 flags=N db=0 sub=0 psub=0
+# id=1 addr=198.51.100.100:54321 fd=8 name=app-rrm-1 age=3600 idle=0 flags=N db=0 sub=0 psub=0
 #                                                          ^^^^^^^^^^  ^^^^^^^
 #                                                          age: 连接存活时长  idle: 空闲时长
 # multi=-1 qbuf=0 qbuf-free=0 argv-mem=0 obl=0 oll=0 omem=0 tot-mem=20512
@@ -5598,7 +5598,7 @@ redis-cli CLIENT LIST | grep -o 'name=[^ ]*' | sort | uniq -c | sort -rn
 
 # 杀掉指定的客户端
 redis-cli CLIENT KILL ID 12345
-redis-cli CLIENT KILL ADDR 10.11.2.100:54321
+redis-cli CLIENT KILL ADDR 198.51.100.100:54321
 redis-cli CLIENT KILL TYPE normal        # 杀所有普通客户端（危险）
 redis-cli CLIENT KILL MAXAGE 3600        # 杀存活超过 1 小时的连接
 </code></pre>

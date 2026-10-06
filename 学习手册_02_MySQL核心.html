@@ -1271,7 +1271,7 @@ SET GLOBAL log_queries_not_using_indexes = OFF;
 </code></pre>
 <h3>二、一条慢日志长什么样（逐字段拆）</h3>
 <pre><code class="language-text"># Time: 2026-09-18T11:03:22.418371+08:00
-# User@Host: app_rw[app_rw] @ [10.20.3.15]  Id: 84213
+# User@Host: app_rw[app_rw] @ [192.0.2.15]  Id: 84213
 # Query_time: 4.218735  Lock_time: 0.000142  Rows_sent: 20  Rows_examined: 4126350
 SET timestamp=1785000000;
 SELECT o.id, o.order_no, u.name
@@ -6996,7 +6996,7 @@ SELECT @@GLOBAL.gtid_executed\G
 
 -- 用 GTID 建立复制（不用再记 file + pos）
 CHANGE REPLICATION SOURCE TO
-  SOURCE_HOST = '10.20.3.10',
+  SOURCE_HOST = '192.0.2.10',
   SOURCE_PORT = 3306,
   SOURCE_USER = 'repl',
   SOURCE_PASSWORD = 'xxx',
@@ -7356,9 +7356,9 @@ START REPLICA;
 <p><strong>多源复制（8.0 支持得更好）</strong></p>
 <pre><code class="language-sql">-- 8.0 用 FOR CHANNEL 区分多个源
 CHANGE REPLICATION SOURCE TO
-  SOURCE_HOST='10.20.3.10', ..., FOR CHANNEL 'channel_1';
+  SOURCE_HOST='192.0.2.10', ..., FOR CHANNEL 'channel_1';
 CHANGE REPLICATION SOURCE TO
-  SOURCE_HOST='10.20.3.20', ..., FOR CHANNEL 'channel_2';
+  SOURCE_HOST='192.0.2.20', ..., FOR CHANNEL 'channel_2';
 
 START REPLICA FOR CHANNEL 'channel_1';
 START REPLICA FOR CHANNEL 'channel_2';
@@ -7450,7 +7450,7 @@ ROW 格式记录的是「行的前后像」。但从库重放时，<strong>必�
 </table>
 <pre><code class="language-javascript">// MongoDB 查看复制延迟
 rs.printSecondaryReplicationInfo()
-// source: 10.20.3.11:27017
+// source: 192.0.2.11:27017
 //     syncedTo: Fri Sep 18 2026 11:23:45 GMT+0800
 //     0 secs (0 hrs) behind the primary
 
@@ -8050,13 +8050,13 @@ SELECT * FROM t_order_N ORDER BY amount DESC LIMIT 0, 220;   -- 每片取前 220
   ds_0:
     dataSourceClassName: com.zaxxer.hikari.HikariDataSource
     driverClassName: com.mysql.cj.jdbc.Driver
-    jdbcUrl: jdbc:mysql://10.20.3.10:3306/order_db_0
+    jdbcUrl: jdbc:mysql://192.0.2.10:3306/order_db_0
     username: app
     password: xxx
   ds_1:
     dataSourceClassName: com.zaxxer.hikari.HikariDataSource
     driverClassName: com.mysql.cj.jdbc.Driver
-    jdbcUrl: jdbc:mysql://10.20.3.11:3306/order_db_1
+    jdbcUrl: jdbc:mysql://192.0.2.11:3306/order_db_1
     username: app
     password: xxx
 
