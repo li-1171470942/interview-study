@@ -238,7 +238,29 @@ C 类已完成「<b>移出公司资料 + 内网 IP 脱敏</b>」（本报告自�
 </blockquote>
 
 </div>
-<div class="footer">资料库体检报告 · 2026-10-03 · 生成方式：全库静态扫描（链接 / 编码 / PDF 元数据 / 敏感词）</div>
+<h2>🔐 2026-10-07 追加：仓库拆分 + 历史清理（C 类彻底解决）</h2>
+<blockquote>
+上文 C 类「隐私风险」当时只做了止血（移走 1 份公司资料 + 两本手册 IP 脱敏），<b>但仓库仍是公开的，简历、投递表、面试复盘、进度中枢全部对外可见，且旧提交里还能翻到</b>。
+2026-10-07 做了彻底处理。
+</blockquote>
+
+<table>
+<thead><tr><th>动作</th><th>做法</th><th>结果</th></tr></thead>
+<tbody>
+<tr><td><b>拆分仓库</b></td><td>33 个个人求职 / 公司资料文件迁入新建<b>私有仓库</b> <code>interview-study-private</code>（用 <code>git filter-repo</code> 从本仓库历史中切出，<b>这些文件的历年版本一并保留</b>）</td><td>公开站只剩学习内容：38 个 HTML（24 手册 + 索引 + Day1–5 + 计划 + 高频题 + 话术 + 取舍指南 + 体检报告 + 导航）</td></tr>
+<tr><td><b>重写历史</b></td><td><code>git filter-repo --invert-paths</code> 从<b>全部提交</b>中抹除上述文件 → <code>git push --force</code></td><td>提交数 <b>107 → 68</b>（39 个提交因只剩这些文件被剪空）；<b>历史中已搜不到任何敏感文件</b>（实测校验）</td></tr>
+<tr><td><b>修入链</b></td><td>22 处指向已迁出文件的 <code>&lt;a&gt;</code> 降级为纯文本 +「（私有）」标注（14 天计划 10 处、Day1/Day2 各 3 处、Day3–5 各 1 处等）</td><td>死链 <b>0</b></td></tr>
+<tr><td><b>改口径</b></td><td>index / 学习中心 删「简历库 + 求职管理」分区；README 重写为公开学习站门面并写明「严禁放什么」；章节标题去掉具体公司名</td><td>公开站定位从「求职资料库」变为「嵌入式学习站」</td></tr>
+</tbody>
+</table>
+
+<blockquote class="warn">
+<b>⚠️ 两个必须知道的后果</b><br>
+① <b>其他电脑上的旧克隆必须重新 clone</b> —— 历史已被重写，旧克隆里的简历 / 公司资料仍躺在本地 <code>.git</code> 里，且直接 push 会失败（历史不兼容）。<br>
+② GitHub 上<b>未被引用的旧对象（blob/commit）在服务端 GC 前，理论上仍可能凭 SHA 直接访问</b>。要 100% 干净只能整仓转私有 —— 但那样免费账号的 Pages 会失效。
+</blockquote>
+
+<div class="footer">资料库体检报告 · 2026-10-03 生成 · 2026-10-07 追加「仓库拆分与历史清理」· 生成方式：全库静态扫描（链接 / 编码 / PDF 元数据 / 敏感词）</div>
 </div>
 </body>
 </html>
