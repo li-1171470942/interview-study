@@ -83,7 +83,7 @@
       <a href="index.html">🏠 站点首页</a>
       <a href="学习中心.html">📚 学习中心</a>
       <a href="嵌入式面试高频题_20260917.html">🎯 高频题 36</a>
-      <a href="华为引望OD_嵌入式_面试突击方案_20260917.html">🚀 突击方案</a>
+      🚀 突击方案<sup style="color:#9aa3b5;font-weight:400">（私有）</sup>
       <a href="学习手册_05_C-C++基础.html">📗 手册05 C/C++</a>
     </div>
   </div>
@@ -109,7 +109,7 @@
       <tr><td><b>Linux</b></td><td><a class="src xl" href="https://xiaolincoding.com/os/2_os_structure/linux_vs_windows.html" target="_blank">小林 · Linux 内核 vs Windows</a> · <a class="src xl" href="https://xiaolincoding.com/os/6_file_system/file_system.html" target="_blank">文件系统</a> · <a class="src xl" href="https://xiaolincoding.com/os/9_linux_cmd/linux_network.html" target="_blank">Linux 命令·网络性能</a></td><td><b>小林coding《图解系统》</b>——它把 Linux 内容放在这里（内核结构 / 文件系统 / 设备 / 命令），配 400 张图，正合你"要图才记得住"的习惯</td></tr>
       <tr><td><b>操作系统</b></td><td><a class="src xl" href="https://xiaolincoding.com/os/" target="_blank">小林《图解系统》</a>（硬件结构 / 内存管理 / 进程 / 调度）</td><td>比卡码讲得深、有图；卡码 <code>/base/</code> 的 OS 篇作为<b>二遍补充</b></td></tr>
       <tr><td><b>计算机网络</b></td><td><a class="src xl" href="https://xiaolincoding.com/network/" target="_blank">小林《图解网络》</a>（TCP/IP / 握手挥手 / 拥塞控制 / IP）</td><td>你的强项，目标是<b>口述流畅、术语准</b>；重点看「Linux 如何收发网络包」（与你做的协议栈/设备侧经验直接对得上）</td></tr>
-      <tr><td><b>嵌入式专项</b></td><td><a class="src local" href="嵌入式面试高频题_20260917.html">高频题 36</a>（中断/RTOS/总线/MCU）+ <a class="src local" href="华为引望OD_嵌入式_面试突击方案_20260917.html">突击方案</a></td><td>这部分卡码和小林都<b>没有</b>，只有你这份材料覆盖 → 它才是本阶段真正的核心</td></tr>
+      <tr><td><b>嵌入式专项</b></td><td><a class="src local" href="嵌入式面试高频题_20260917.html">高频题 36</a>（中断/RTOS/总线/MCU）+ 突击方案<sup style="color:#9aa3b5;font-weight:400">（私有）</sup></td><td>这部分卡码和小林都<b>没有</b>，只有你这份材料覆盖 → 它才是本阶段真正的核心</td></tr>
     </table>
     <div class="ok">✅ <b>链接颜色约定</b>：<span class="src local">本地材料</span>（你自己的手册/题库）· <span class="src xl">小林coding</span>（OS/Linux/网络，有图）· <span class="src">卡码笔记</span>（只作补充，且不再只用它）</div>
     <div class="talk"><b>💡 为什么不再主用卡码</b>：它是「后端/互联网八股」，C 内容挂在 C++ 板块下、Linux 基本没有、嵌入式专项为零。用它补「计算机基础」可以，但<b>别当主力</b>。</div>
@@ -214,12 +214,12 @@
     </div>
     <div class="day-tip">今日目标：<b>手撕 6 道纸上写出来（华为技术面的及格线）+ C 语言 13 题全量口述</b>。</div>
     <h3>☀️ 上午（9:00–12:00）：手撕 6 道（纸上写，不看代码）</h3>
-    <div class="task"><input type="checkbox" data-id="d3-1"><span class="tx"><b>① 字符串反转</b>（不额外申请空间）—— 先判空是加分项<span class="meta">材料：<a class="src local" href="华为引望OD_嵌入式_面试突击方案_20260917.html" target="_blank">突击方案 §5</a></span></span></div>
+    <div class="task"><input type="checkbox" data-id="d3-1"><span class="tx"><b>① 字符串反转</b>（不额外申请空间）—— 先判空是加分项<span class="meta">材料：突击方案 §5<sup style="color:#9aa3b5;font-weight:400">（私有）</sup></span></span></div>
     <div class="task"><input type="checkbox" data-id="d3-2"><span class="tx"><b>② 实现 memcpy</b>（<b>考内存重叠</b>）—— 目标落在源区间内就从后往前拷<span class="meta"><b>分水岭题</b>：主动说出"内存重叠"就赢一半</span></span></div>
     <div class="task"><input type="checkbox" data-id="d3-3"><span class="tx"><b>③ 单链表反转</b> —— 三指针 prev/cur/next，先存后继再改指向</span></div>
     <div class="task"><input type="checkbox" data-id="d3-4"><span class="tx"><b>④ 统计二进制中 1 的个数</b> —— <code>n &amp;= (n-1)</code> 每次消最低位的 1<span class="meta">要能对比"逐位判断"的复杂度差异</span></span></div>
     <div class="task"><input type="checkbox" data-id="d3-5"><span class="tx"><b>⑤ 判断大小端</b> —— 指针法 + union 法两种都写<span class="meta">顺带复习：大端=高字节存低地址；网络序=大端</span></span></div>
-    <div class="task"><input type="checkbox" data-id="d3-6"><span class="tx"><b>⑥ 环形缓冲区</b> —— 写/读指针 + 判空判满 + 位与取模<span class="meta"><b>超高频</b>（串口必用）：要能<b>画图讲</b>｜材料：<a class="src local" href="华为引望OD_嵌入式_面试突击方案_20260917.html" target="_blank">突击方案 §5⑥</a> 有三层递进讲解</span></span></div>
+    <div class="task"><input type="checkbox" data-id="d3-6"><span class="tx"><b>⑥ 环形缓冲区</b> —— 写/读指针 + 判空判满 + 位与取模<span class="meta"><b>超高频</b>（串口必用）：要能<b>画图讲</b>｜材料：突击方案 §5⑥<sup style="color:#9aa3b5;font-weight:400">（私有）</sup> 有三层递进讲解</span></span></div>
     <div class="task"><input type="checkbox" data-id="d3-7"><span class="tx"><b>六道复写一遍</b>，每道主动说边界：空指针 / 长度 0 / 内存重叠<span class="meta">华子面试官很看重"写完主动自查边界"</span></span></div>
     <h3>🌤 下午（14:00–18:00）：C 语言 13 题全量 + 专题深化</h3>
     <div class="task"><input type="checkbox" data-id="d3-8"><span class="tx"><b>C 语言 13 题全量口述</b>（限时 90 分钟，每道说 60 秒）<span class="meta">材料：<a class="src local" href="嵌入式面试高频题_20260917.html" target="_blank">36 题 · C 语言 13 题</a>｜用"说"不用"看"；卡住的立刻记到错题纸</span></span></div>
@@ -302,7 +302,7 @@
     <div class="task"><input type="checkbox" data-id="d6-1"><span class="tx"><b>① 中断全链路（小林，重点）</b>：键盘敲入 A 字母时，操作系统期间发生了什么<span class="meta">链接：<a class="src xl" href="https://xiaolincoding.com/os/7_device/device.html" target="_blank">小林 · 设备管理（键鼠中断全链路）</a>｜这篇把"<b>中断 → 驱动 → 内核 → 应用</b>"整条链画出来，正好对上你"设备侧"的经验</span></span></div>
     <div class="task"><input type="checkbox" data-id="d6-2"><span class="tx"><b>② 中断上下文里什么不能做</b>：malloc（不可重入的堆管理）/ printf（不可重入 + 慢）/ sleep 或阻塞 / 带锁操作<span class="meta">这条你 Day2 已记（📖 项），今晚要能完整说 4 条</span></span></div>
     <div class="task"><input type="checkbox" data-id="d6-3"><span class="tx"><b>③ 临界区保护</b>：关中断 vs 原子操作 vs 信号量（各自代价与适用场景）<span class="meta">关键权衡：<b>关中断简单但影响实时性</b>；长的临界区要用"关中断 + 标志位"折中</span></span></div>
-    <div class="task"><input type="checkbox" data-id="d6-4"><span class="tx"><b>④ 中断 + DMA 配合</b>（经典组合）：DMA 搬数据不占 CPU → 搬完触发中断 → ISR 只处理"一批完成"<span class="meta">与环形缓冲区串起来讲：DMA 往里写、主循环往外读（材料：<a class="src local" href="华为引望OD_嵌入式_面试突击方案_20260917.html" target="_blank">突击方案 §5</a>）</span></span></div>
+    <div class="task"><input type="checkbox" data-id="d6-4"><span class="tx"><b>④ 中断 + DMA 配合</b>（经典组合）：DMA 搬数据不占 CPU → 搬完触发中断 → ISR 只处理"一批完成"<span class="meta">与环形缓冲区串起来讲：DMA 往里写、主循环往外读（材料：突击方案 §5<sup style="color:#9aa3b5;font-weight:400">（私有）</sup>）</span></span></div>
     <div class="exam">
       <span class="et"><b>🎯 学完找我考</b></span>
       <ol>
@@ -378,7 +378,7 @@
     <div class="task"><input type="checkbox" data-id="d9-4"><span class="tx"><b>Q26 CAN 总线</b>（汽车电子核心）：差分信号抗干扰 · 多主广播 · <b>基于 ID 的仲裁</b>（ID 越小优先级越高）· CRC + 应答 · 125K-1Mbps<span class="meta"><b>迁移话术</b>：CAN 的 ID 仲裁本质也是"总线竞争 + 优先级"，与你做过的 802.11 CSMA/CA 同思路</span></span></div>
     <div class="task"><input type="checkbox" data-id="d9-5"><span class="tx"><b>Q27 四种总线对比表</b>（面试常让列表格）：线数 / 同步性 / 双工 / 速度 / 拓扑 / 典型用途<span class="meta">能<b>默写</b>这张表 = 这题满分</span></span></div>
     <h3>🌤 下午（14:00–18:00）：动手（本轮最重的加分动作）</h3>
-    <div class="task"><input type="checkbox" data-id="d9-6"><span class="tx"><b>【动手】STM32 串口中断收发 demo</b>：中断接收 → 写入环形缓冲区 → 主循环取出回显<span class="meta">一个 demo 同时落定 <b>中断 / 串口 / 环形缓冲 / 主循环</b> 四个概念｜材料：<a class="src local" href="华为引望OD_嵌入式_面试突击方案_20260917.html" target="_blank">突击方案 §5</a></span></span></div>
+    <div class="task"><input type="checkbox" data-id="d9-6"><span class="tx"><b>【动手】STM32 串口中断收发 demo</b>：中断接收 → 写入环形缓冲区 → 主循环取出回显<span class="meta">一个 demo 同时落定 <b>中断 / 串口 / 环形缓冲 / 主循环</b> 四个概念｜材料：突击方案 §5<sup style="color:#9aa3b5;font-weight:400">（私有）</sup></span></span></div>
     <div class="task"><input type="checkbox" data-id="d9-7"><span class="tx"><b>网络对照（小林，选读）</b>：Linux 系统是如何收发网络包的<span class="meta">链接：<a class="src xl" href="https://xiaolincoding.com/network/1_base/how_os_deal_network_package.html" target="_blank">小林 · Linux 收发网络包</a>｜你做过 TCP/IP + 网卡驱动那侧，读这篇能把"嵌入式收包（中断 + 环形缓冲）"和"Linux 收包（NAPI + ring buffer）"对上</span></span></div>
     <div class="task"><input type="checkbox" data-id="d9-8"><span class="tx"><b>手撕复习</b>：字符串反转 + 统计 1 的个数（限时各 10 分钟）</span></div>
     <div class="task"><input type="checkbox" data-id="d9-9"><span class="tx"><b>【简历挂钩】Linux 串口调试（termios）</b>：用 <code>open("/dev/ttyUSB0")</code> + termios 配波特率 / 数据位 / 校验位 / 停止位，完成 read / write 收发；对比"裸机寄存器操作 vs Linux 设备文件"<span class="meta">简历写了「串口设备调试（termios / tty 设备）」→ 必问</span></span></div>
@@ -462,10 +462,10 @@
     <h3>☀️ 上午（9:00–12:00）：王牌项目话术</h3>
     <div class="task"><input type="checkbox" data-id="d12-1"><span class="tx"><b>C/Node 双向调用 8 问 · 前 4 问</b>：为什么双向调用（OOM + 阻塞）/ 函数指针映射表怎么设计 / 初始化注册机制 / method-data-callback 协议<span class="meta">材料：<a class="src local" href="嵌入式面试_无经验应对话术_20260917.html" target="_blank">无经验应对话术</a></span></span></div>
     <div class="task"><input type="checkbox" data-id="d12-2"><span class="tx"><b>后 4 问</b>：嵌套调用怎么支持 / <b>10 万/s QPS 怎么测（volatile 计数器）</b> / 为什么用 ffi 不用 N-API / 内存谁管理谁释放<span class="meta">QPS 那问一定要讲出 <b>volatile 全局计数 + 1024 并发链 × 100 嵌套</b>——这是"真写过 C"的铁证</span></span></div>
-    <div class="task"><input type="checkbox" data-id="d12-3"><span class="tx"><b>中文 60 秒自我介绍</b>背到脱口而出 + <b>录音删口头禅</b><span class="meta">铁律：<b>C 语言必须出现在前 30 秒</b>；不说"我做过嵌入式"｜材料：<a class="src local" href="华为引望OD_嵌入式_面试突击方案_20260917.html" target="_blank">突击方案 §3</a></span></span></div>
+    <div class="task"><input type="checkbox" data-id="d12-3"><span class="tx"><b>中文 60 秒自我介绍</b>背到脱口而出 + <b>录音删口头禅</b><span class="meta">铁律：<b>C 语言必须出现在前 30 秒</b>；不说"我做过嵌入式"｜材料：突击方案 §3<sup style="color:#9aa3b5;font-weight:400">（私有）</sup></span></span></div>
     <div class="task"><input type="checkbox" data-id="d12-4"><span class="tx"><b>无经验 90 秒话术</b>（三点契合）背熟 + 录音<span class="meta">坦诚承认 → C 底子 / 协议栈可迁移 / 懂设备侧约束 → 学习证据 → 合理预期</span></span></div>
     <h3>🌤 下午（14:00–18:00）：HR / 行为题</h3>
-    <div class="task"><input type="checkbox" data-id="d12-5"><span class="tx"><b>离职原因</b>（背定制版）："想往底层走"，<b>不说"想转嵌入式"</b><span class="meta">材料：<a class="src local" href="华为引望OD_嵌入式_面试突击方案_20260917.html" target="_blank">突击方案 §8</a>（含禁语清单 + 4 个追问应对）</span></span></div>
+    <div class="task"><input type="checkbox" data-id="d12-5"><span class="tx"><b>离职原因</b>（背定制版）："想往底层走"，<b>不说"想转嵌入式"</b><span class="meta">材料：突击方案 §8<sup style="color:#9aa3b5;font-weight:400">（私有）</sup>（含禁语清单 + 4 个追问应对）</span></span></div>
     <div class="task"><input type="checkbox" data-id="d12-6"><span class="tx"><b>OD 身份怎么看</b>：不回避 + 提转正通道 + "平台与技术价值大于签约形式"</span></div>
     <div class="task"><input type="checkbox" data-id="d12-7"><span class="tx"><b>期望薪资 · 职业规划 · 加班态度 · 最大缺点</b>四问备好（薪资不主动报价）</span></div>
     <div class="task"><input type="checkbox" data-id="d12-8"><span class="tx"><b>反问清单 3 问</b>：技术栈与分工 / 新人上手路径 / 业务与产品<span class="meta">技术面问技术，薪资留 HR 面</span></span></div>
@@ -493,7 +493,7 @@
     <h3>🌤 下午（14:00–18:00）：模拟第二轮 + 环境演练</h3>
     <div class="task"><input type="checkbox" data-id="d13-3"><span class="tx"><b>【模拟 2】针对薄弱点的加压轮 40 分钟</b>：只问第一轮答不好的 + 高危题（指针三兄弟 / 大小端 / 优先级反转 / CAN）</span></div>
     <div class="task"><input type="checkbox" data-id="d13-4"><span class="tx"><b>复盘第二轮 + 错题纸更新</b></span></div>
-    <div class="task"><input type="checkbox" data-id="d13-5"><span class="tx"><b>【远程环境演练】</b>：客户端装好（WeMeeting 等）· 麦克风/摄像头测试 · 网络（有线 + 热点备份）· 桌上备 <b>A4 纸 + 笔</b> + 简历打印稿<span class="meta">材料：<a class="src local" href="华为引望OD_嵌入式_面试突击方案_20260917.html" target="_blank">突击方案 §11 环境清单</a></span></span></div>
+    <div class="task"><input type="checkbox" data-id="d13-5"><span class="tx"><b>【远程环境演练】</b>：客户端装好（WeMeeting 等）· 麦克风/摄像头测试 · 网络（有线 + 热点备份）· 桌上备 <b>A4 纸 + 笔</b> + 简历打印稿<span class="meta">材料：突击方案 §11 环境清单<sup style="color:#9aa3b5;font-weight:400">（私有）</sup></span></span></div>
     <div class="task"><input type="checkbox" data-id="d13-6"><span class="tx"><b>桌面与设备清理</b>：关无关程序 / 防弹窗 / 背景整洁 / 笔记本接电源</span></div>
     <div class="exam">
       <span class="et"><b>🎯 学完找我考（模拟日 · 最重要的检查点）</b></span>
@@ -520,7 +520,7 @@
     <h3>🌤 下午（14:00–18:00）：输出最后一遍</h3>
     <div class="task"><input type="checkbox" data-id="d14-4"><span class="tx"><b>手撕 6 道最后一遍</b>（纸上限时，每道 ≤15 分钟）</span></div>
     <div class="task"><input type="checkbox" data-id="d14-5"><span class="tx"><b>全套话术录音</b>：自我介绍 → 项目概述 → 无经验 90 秒 → 离职原因 → 反问<span class="meta">连起来讲一遍，确保衔接自然、无背诵痕迹</span></span></div>
-    <div class="task"><input type="checkbox" data-id="d14-6"><span class="tx"><b>心理建设</b>：三条铁律（不编造 / 不说"很快能学会" / 答不出给方向）<span class="meta">材料：<a class="src local" href="华为引望OD_嵌入式_面试突击方案_20260917.html" target="_blank">突击方案 §10</a></span></span></div>
+    <div class="task"><input type="checkbox" data-id="d14-6"><span class="tx"><b>心理建设</b>：三条铁律（不编造 / 不说"很快能学会" / 答不出给方向）<span class="meta">材料：突击方案 §10<sup style="color:#9aa3b5;font-weight:400">（私有）</sup></span></span></div>
     <div class="task"><input type="checkbox" data-id="d14-7"><span class="tx"><b>【落库】14 天总复盘</b>：生成总结 + 更新进度中枢<span class="meta">跟我说"更新进度"</span></span></div>
     <div class="exam">
       <span class="et"><b>🎯 学完找我考（收口）</b></span>
