@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>嵌入式面试速成计划 · 3 天（2026-10-09 → 10-11）</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:#f4f6fb;color:#1f2430;line-height:1.75;padding-bottom:60px;}
+.hero{background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;padding:32px 0 26px;text-align:center;}
+.hero h1{font-size:24px;margin-bottom:8px;}
+.hero .sub{font-size:13.5px;opacity:.94;}
+.hero .sub b{color:#fde68a;}
+.wrap{max-width:1060px;margin:0 auto;padding:0 18px;}
+h2.sec{font-size:16px;font-weight:700;margin:30px 0 12px;color:#4f46e5;display:flex;align-items:center;gap:9px;}
+h2.sec::after{content:"";flex:1;height:1px;background:#e4e8f0;}
+h2.sec .cnt{font-size:11px;background:#eef2ff;color:#4f46e5;padding:2px 10px;border-radius:10px;font-weight:600;white-space:nowrap;}
+h2.sec .cnt.red{background:#fee2e2;color:#b91c1c;}
+h2.sec .cnt.green{background:#dcfce7;color:#166534;}
+h3.sub{font-size:14px;font-weight:700;margin:18px 0 8px;color:#312e81;}
+.panel{background:#fff;border:1px solid #e4e8f0;border-radius:12px;padding:16px 20px;margin-bottom:14px;}
+.lead{background:#fff;border:2px solid #4f46e5;border-radius:14px;padding:18px 20px;box-shadow:0 6px 20px rgba(79,70,229,.10);margin-bottom:18px;}
+.lead h2{font-size:16px;color:#4f46e5;margin-bottom:8px;}
+.lead p{font-size:13px;color:#5b6478;margin-bottom:6px;}
+table{width:100%;border-collapse:collapse;font-size:12.8px;background:#fff;}
+th,td{border:1px solid #e4e8f0;padding:8px 10px;text-align:left;vertical-align:top;}
+th{background:#f7f8fe;font-weight:700;color:#3730a3;font-size:12.5px;}
+tr:nth-child(even) td{background:#fcfcff;}
+code{background:#f1f3fa;padding:1px 5px;border-radius:4px;font-family:Consolas,monospace;font-size:12.3px;color:#4338ca;}
+b.hl{color:#b91c1c;}
+.day{background:#fff;border:1px solid #e4e8f0;border-radius:14px;padding:18px 20px;margin-bottom:20px;box-shadow:0 3px 12px rgba(31,36,48,.05);}
+.day.urgent{border:2px solid #4f46e5;}
+.day-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px;border-bottom:2px solid #eef2ff;padding-bottom:9px;margin-bottom:12px;flex-wrap:wrap;}
+.day-h .t{font-size:17px;font-weight:800;color:#312e81;}
+.day-h .m{font-size:12.5px;color:#6b7280;}
+.tag{display:inline-block;font-size:10.5px;padding:2px 8px;border-radius:10px;font-weight:700;white-space:nowrap;}
+.tag.red{background:#fee2e2;color:#b91c1c;}
+.tag.blue{background:#eef2ff;color:#4f46e5;}
+.tag.green{background:#dcfce7;color:#166534;}
+.tag.orange{background:#ffedd5;color:#c2410c;}
+.tag.gray{background:#eef0f4;color:#6b7280;}
+.exam{background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:12px 15px;margin-top:12px;}
+.exam .h{font-size:13.5px;font-weight:800;color:#c2410c;margin-bottom:6px;}
+.exam ol{margin-left:20px;font-size:12.8px;}
+.exam li{margin-bottom:3px;}
+.warn{background:#fef2f2;border-left:3px solid #dc2626;border-radius:0 8px 8px 0;padding:11px 14px;font-size:12.6px;margin:10px 0;}
+.info{background:#eff6ff;border-left:3px solid #3b82f6;border-radius:0 8px 8px 0;padding:11px 14px;font-size:12.6px;margin:10px 0;}
+.ok{background:#f0fdf4;border-left:3px solid #16a34a;border-radius:0 8px 8px 0;padding:11px 14px;font-size:12.6px;margin:10px 0;}
+ul.plain{margin-left:20px;font-size:12.9px;}
+ul.plain li{margin-bottom:4px;}
+a{color:#4f46e5;}
+.links{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;}
+.links a{background:#eef2ff;border:1px solid #c7d2fe;color:#4338ca;padding:4px 11px;border-radius:14px;text-decoration:none;font-size:12px;}
+.links a:hover{background:#e0e7ff;}
+.links span.dead{background:#fafbfd;border:1px dashed #d8ddf0;color:#8b93a7;padding:4px 11px;border-radius:14px;font-size:12px;}
+.footer{text-align:center;color:#9aa3b5;font-size:12px;margin-top:34px;}
+</style>
+</head>
+<body>
+<div class="hero"><h1>⚡ 嵌入式面试速成计划 · 3 天</h1>
+<div class="sub">2026-10-09（五）→ 10-11（日）｜ 每天 8 小时 ｜ 共 <b>24 小时</b> ｜ 旧 14 天计划即日起作废</div></div>
+<div class="wrap">
+
+<div class="lead">
+  <h2>📌 先说清楚这份计划为什么长这样</h2>
+  <p><b>1. 旧计划作废。</b>《嵌入式系统学习计划_14 天》按日历走完了（9/24–10/07），实际只走到 Day5（9/29），之后空置 9 天。它的节奏是"每天 1–2 小时、14 天铺开"，与你现在的条件（<b>每天 8 小时、3 天打完</b>）不匹配 —— 保留作参考，不再当作执行文件。</p>
+  <p><b>2. 24 小时装不下"学完一门课"，只装得下"面试能应答"。</b>所以本计划按 <b>JD 频次 × 你的水位</b> 排序，只补"高频 + 你现在最空"的六块，其余主动放弃（见下方取舍表）。</p>
+  <p><b>3. 验收唯一标准：合上材料能口述。</b>"看过之后"的错误你已经犯过两次（指针三兄弟连错两天、大小端连错两天）—— 所以本计划每一步的产出物都写成"能默出来 / 能讲几分钟"，不是"读过"。</p>
+  <p><b>4. 每天固定动作：</b>学完 → 跟我说「<b>今天读完了，来考</b>」→ 我逐题判卷 + 记错题 + 给记忆锚 → 落库推云端。每张 Day 卡片底部的橙框就是当天考核清单。</p>
+</div>
+
+<h2 class="sec">🗓 三天总览 <span class="cnt red">一眼看全</span></h2>
+<table>
+<thead><tr><th style="width:11%">天</th><th style="width:19%">主题</th><th style="width:34%">补的是哪块缺口</th><th>当日硬产出</th></tr></thead>
+<tbody>
+<tr><td><b>Day 1</b><br>10/09 五<br><span class="tag red">今天</span></td><td><b>通信总线收口</b><br>+ RTOS 开局</td><td>通信总线（水位 15 🔴 你说不懂的那块）＋ RTOS 前两题（水位 20 🔴）</td><td>四总线对比表<b>闭卷默写</b>；CAN 90 秒口述稿；任务四态转换图；优先级反转完整因果链</td></tr>
+<tr><td><b>Day 2</b><br>10/10 六</td><td><b>RTOS 收口</b><br>+ MCU 硬件 + 手撕</td><td>RTOS 剩余 3 题 ＋ MCU 硬件 4 题（水位 5 🔴）＋ 中断收尾 ＋ 4 笔手撕欠账</td><td>信号量 vs 互斥锁对比表；启动五步；开漏 ↔ I2C 上拉打通；4 笔手撕<b>全部交卷</b></td></tr>
+<tr><td><b>Day 3</b><br>10/11 日</td><td><b>补零 + 话术</b><br>+ 全真模拟</td><td>Linux 嵌入式化 ＋ 工具链扫盲 ＋ 项目话术出声 ＋ C 语言保温抽查</td><td>全库乱序 20 题过关；项目自述 30 秒<b>出声念顺</b>；60 分钟全真模拟跑完</td></tr>
+</tbody>
+</table>
+
+<div class="info">📎 <b>配套文件</b>：缺口清单与逐题状态在私有库 <code>嵌入式知识缺口盘点_20261009.html</code>（本页只作执行计划，不重复诊断过程）。36 题题库、话术库、手册都在下方各天卡片里给了直达链接。</div>
+
+<!-- ============ DAY 1 ============ -->
+<div class="day urgent">
+<div class="day-h"><div class="t">Day 1 · 10/09（周五）｜ 通信总线收口 + RTOS 开局</div><div class="m">13:30 – 22:30 ｜ 净学 8.0 h</div></div>
+
+<p style="font-size:13px;color:#5b6478;margin-bottom:12px;">今天从下午开始（现在已过午）。<b>今天的两块是整套缺口里"投入产出比"最高的</b> —— 总线是你明确说不懂的那块，RTOS 是水位最低那块，而这两块恰好是成都岗 JD 里出现频率最高的。</p>
+
+<h3 class="sub">⏱ 时间块</h3>
+<table>
+<thead><tr><th style="width:16%">时段</th><th style="width:22%">内容</th><th>怎么做（产出即验收）</th></tr></thead>
+<tbody>
+<tr><td>13:30–15:00</td><td><b>总线 ①</b><br>UART + I2C</td><td>UART：把波特率 / 起始位 / 数据位 / 校验 / 停止位 <b>六个要素</b>逐个说清"为什么必须这样"；I2C：两句收口 —— <b>开漏只能拉低、高电平靠外部上拉</b>；<b>第 9 个时钟 = ACK/NACK</b>。<br><span class="tag orange">产出</span> 手画一张 UART 发一个字节的电平时序（起始位到停止位）</td></tr>
+<tr><td>15:00–16:30</td><td><b>总线 ②</b><br>SPI + CAN</td><td>SPI：四线（SCK/MOSI/MISO/CS）、<b>CS 拉低才听你说话</b>、高电平时从机高阻态。<br>CAN：只求"<b>能讲 90 秒</b>"—— <b>差分传输 + 多主 + ID 仲裁</b>（ID 越小优先级越高，非破坏性仲裁）。<br><span class="tag orange">产出</span> CAN 的 90 秒口述稿（写下来，待会考）</td></tr>
+<tr><td>16:30–17:30</td><td><b>总线 ③</b><br>合表 + 选型</td><td><b>挡住材料</b>默写四总线全表：同步性 / 双工 / 线数 / 速度 / 怎么选中对端 / 典型用途。再练三个场景选型（引脚紧张慢速 → I2C；几十 M 吞吐 → SPI；板间一米调试 → UART）。<br><span class="tag orange">产出</span> 默写全表 + 一句话解释「为什么 SPI 多挂一个从机就多一根线，I2C 不用」</td></tr>
+<tr><td>17:30–18:30</td><td colspan="2"><span class="tag gray">晚饭 + 休息（不动脑）</span></td></tr>
+<tr><td>18:30–20:30</td><td><b>RTOS ①</b><br>任务与调度</td><td><b>四态转换图</b>（就绪 / 运行 / 阻塞 / 挂起）要能自己画出来；<b>抢占式 vs 时间片轮转</b>的区别；上下文切换保存了什么。<br><span class="tag orange">产出</span> 手画四态图 + 说清"任务从运行态会去哪儿、靠什么触发"</td></tr>
+<tr><td>20:30–22:00</td><td><b>RTOS ②</b><br>优先级反转</td><td>完整因果链（<b>高任务等锁 → 中任务抢占 → 高任务被中任务无限延后</b>）+ 至少两种方案（<b>优先级继承</b> / <b>优先级天花板</b>）。<br><span class="tag orange">产出</span> 能连讲三层因果，不卡壳</td></tr>
+<tr><td>22:00–22:30</td><td colspan="2"><span class="tag gray">我出当日错题纸（睡前过一遍）</span></td></tr>
+</tbody>
+</table>
+
+<h3 class="sub">📎 直达材料</h3>
+<div class="links">
+  <a href="嵌入式面试高频题_20260917.html">🎯 36 题题库 · 模块四通信总线 / 模块三 RTOS</a>
+  <a href="嵌入式_Day5学习记录_20260929.html">📓 Day5 记录（总线三选一口诀出处）</a>
+  <a href="学习手册_05_C-C++基础.html">📘 手册 05 · C/C++ 基础</a>
+  <span class="dead">📄 缺口盘点 · UART 专项（私有库）</span>
+</div>
+
+<div class="exam">
+<div class="h">🎯 学完找我考（Day 1 考核清单）</div>
+<ol>
+<li><b>总线 6 问（正式验收）</b>：① 三场景各选哪条总线 + 理由 ② UART/I2C/SPI 线数与拓扑 + 靠什么选中对端 ③ I2C 为什么必须上拉电阻（加分：为什么不能推挽）④ 第 9 个时钟干什么、ACK/NACK 各代表什么 ⑤ SPI 的 CS 干嘛（加分：高电平时从机什么状态）⑥ 哪两个同步哪个异步 + 判据 + 波特率是什么</li>
+<li>CAN：90 秒讲清差分 / 多主 / ID 仲裁</li>
+<li>四总线对比表：挡住材料口述全表</li>
+<li>RTOS：任务四态转换图（手画）</li>
+<li>RTOS：优先级反转完整因果链 + 两种解决方案</li>
+</ol>
+</div>
+</div>
+
+<!-- ============ DAY 2 ============ -->
+<div class="day">
+<div class="day-h"><div class="t">Day 2 · 10/10（周六）｜ RTOS 收口 + MCU 硬件 + 手撕清零</div><div class="m">08:30 – 19:30 ｜ 净学 8.0 h</div></div>
+
+<h3 class="sub">⏱ 时间块</h3>
+<table>
+<thead><tr><th style="width:16%">时段</th><th style="width:22%">内容</th><th>怎么做（产出即验收）</th></tr></thead>
+<tbody>
+<tr><td>08:30–10:30</td><td><b>RTOS ③</b><br>信号量/互斥锁<br>+ 任务通信</td><td>⭐ <b>信号量 vs 互斥锁</b>做对比表（有无所有权 / 能否优先级继承 / 用在哪）—— 这是你最易串的一类。<b>任务通信四方式</b>：队列 / 信号量 / 事件组 / 邮箱，各自适用场景与选型判据。<br><span class="tag orange">产出</span> 两张表都能闭卷默出来</td></tr>
+<tr><td>10:30–12:30</td><td><b>MCU 硬件全量</b><br>启动 / 看门狗<br>DMA / GPIO</td><td>① <b>启动流程五步</b>：复位 → 取复位向量 → 启动文件 → 初始化时钟与外设 → main；② <b>看门狗</b>（含"为什么喂狗放主循环、不能放中断"）；③ <b>DMA</b>（不经过 CPU、释放 CPU、大数据块搬运）；④ <b>GPIO 推挽 vs 开漏</b> —— ⭐ 立刻回流 Day1 的 I2C 上拉电阻，<b>这两个是同一个知识点</b>。<br><span class="tag orange">产出</span> 四个能各讲 60 秒</td></tr>
+<tr><td>12:30–14:00</td><td colspan="2"><span class="tag gray">午饭 + 休息</span></td></tr>
+<tr><td>14:00–15:30</td><td><b>中断收尾</b></td><td>① <b>中断嵌套的代价</b>（栈消耗 / 响应变慢 / 需优先级分组）；② <b>中断 vs 异常</b>（外部硬件异步 vs CPU 内部同步）；③ <b>中断上下文为什么不能 malloc</b>（不可睡眠 / 不可阻塞）。<br><span class="tag orange">产出</span> 三问答得像背过</td></tr>
+<tr><td>15:30–17:00</td><td><b>手撕清零</b><br>4 笔欠账</td><td>① <code>memcpy</code>（含重叠处理）② 单链表反转（补 typedef）③ <code>count_one</code> 方法 B（<code>n &amp;= n-1</code>）④ <code>swap32</code> + <code>ring_init</code>。<br><span class="tag orange">产出</span> <b>四个一次写完贴给我</b>，不许只写一半</td></tr>
+<tr><td>17:00–18:30</td><td colspan="2"><span class="tag gray">晚饭 + 休息</span></td></tr>
+<tr><td>18:30–19:30</td><td><b>回炉自测</b></td><td>把 Day1 + Day2 的内容<b>乱序抽 20 题</b>闭卷自测（我出题），只标"会 / 不会"，不会的当场回炉。</td></tr>
+</tbody>
+</table>
+
+<h3 class="sub">📎 直达材料</h3>
+<div class="links">
+  <a href="嵌入式面试高频题_20260917.html">🎯 36 题题库 · 模块三 RTOS / 模块五 MCU / 模块二 中断</a>
+  <a href="学习手册_05_C-C++基础.html">📘 手册 05 · C/C++ 基础（手撕）</a>
+  <span class="dead">📄 4 笔手撕欠账明细（私有库）</span>
+</div>
+
+<div class="exam">
+<div class="h">🎯 学完找我考（Day 2 考核清单）</div>
+<ol>
+<li>信号量 vs 互斥锁对比表（闭卷）</li>
+<li>任务通信四方式选型（队列/信号量/事件组/邮箱）</li>
+<li>MCU 启动流程五步（按顺序背）</li>
+<li>看门狗：为什么喂狗必须放主循环</li>
+<li>DMA 三个关键词</li>
+<li>GPIO 推挽 vs 开漏 —— 并说明它和 I2C 上拉电阻是同一件事</li>
+<li>中断嵌套的代价 / 中断 vs 异常 / 中断上下文为什么不能 malloc</li>
+<li><b>4 笔手撕全部交卷</b>（我逐行看，重点看重叠处理和边界）</li>
+</ol>
+</div>
+</div>
+
+<!-- ============ DAY 3 ============ -->
+<div class="day">
+<div class="day-h"><div class="t">Day 3 · 10/11（周日）｜ 补零 + 话术出声 + 全真模拟</div><div class="m">08:30 – 20:30 ｜ 净学 8.0 h</div></div>
+
+<h3 class="sub">⏱ 时间块</h3>
+<table>
+<thead><tr><th style="width:16%">时段</th><th style="width:22%">内容</th><th>怎么做（产出即验收）</th></tr></thead>
+<tbody>
+<tr><td>08:30–10:00</td><td><b>Linux 嵌入式化</b><br>+ 工具链扫盲</td><td>Linux：设备文件为什么用系统调用、交叉编译、<code>termios</code> 串口配置、僵尸/孤儿进程（<code>wait/waitpid/SIGCHLD</code>）。<br>工具链：Keil / IAR / 示波器 / 逻辑分析仪 / JTAG <b>各只需一句话</b> —— 目标是"被问到时不像没听过"。<br><span class="tag orange">产出</span> 交叉编译<b>为什么必须用</b>（一句话讲透）</td></tr>
+<tr><td>10:00–11:30</td><td><b>乱序抽查总动员</b></td><td>C 语言 13 题保温（<code>sizeof</code> 指针 / <code>const</code> 换写法 / 对齐换 struct / <code>\0</code> vs 数组退化 / <code>volatile</code> / <code>n&amp;=(n-1)</code>）+ 全库 36 题里随机抽。<b>不翻材料</b>，只标会不会。<br><span class="tag orange">产出</span> 20 题过关记录 + 遗漏清单</td></tr>
+<tr><td>11:30–13:00</td><td colspan="2"><span class="tag gray">午饭 + 休息</span></td></tr>
+<tr><td>13:00–14:30</td><td><b>项目话术出声</b></td><td><b>30 秒三段式</b>：是什么 → 我做了什么 → 结果。补上 <b>OOM 定位过程</b>（怎么发现的 → 怎么定位的 → 怎么改的 → 结果）。再练<b>按岗换皮</b>：同一件事，雷达/通信岗用"资源调度 · 状态监控 · 故障诊断"的措辞重述。<br><span class="tag orange">产出</span> <b>念出声</b>三遍以上，念到不磕巴</td></tr>
+<tr><td>14:30–16:30</td><td><b>全真模拟 ①</b><br>项目深挖</td><td>我按面试官口径连问 8 问（C 双向调用架构怎么设计的 / 分片为什么这么定 / 回调怎么保证可重入 / 怎么做压测 / 项目难点 / 如果是你会怎么改进 …）。<b>全程出声答，不许打字想</b>。<br><span class="tag orange">产出</span> 一份面评</td></tr>
+<tr><td>16:30–17:30</td><td><b>HR 轮</b></td><td>离职原因 / 对 OD 岗的认知 / 期望薪资 / 职业规划 / 加班 / 你还有什么想问。<br><span class="tag orange">产出</span> 六问各有一版不踩雷的回答</td></tr>
+<tr><td>17:30–19:00</td><td colspan="2"><span class="tag gray">晚饭 + 休息</span></td></tr>
+<tr><td>19:00–20:30</td><td><b>总复盘 + 下一步</b></td><td>三天错题一次性过完；确认哪些能"闭卷讲"，哪些只到"有个印象"；定投递节奏（哪些公司现在就能投、哪些等补完再投）。</td></tr>
+</tbody>
+</table>
+
+<h3 class="sub">📎 直达材料</h3>
+<div class="links">
+  <a href="嵌入式面试_无经验应对话术_20260917.html">💬「无经验」应对话术 + 项目 8 问</a>
+  <a href="学习手册_20_项目讲述方法论.html">📘 手册 20 · 项目讲述方法论</a>
+  <a href="学习手册_22_RRM无线资源管理_讲述卡.html">📘 手册 22 · RRM 讲述卡</a>
+  <a href="学习手册_21_RRM无线资源管理_场景模式库.html">📘 手册 21 · RRM 场景模式库</a>
+  <a href="嵌入式面试高频题_20260917.html">🎯 36 题题库（乱序抽查用）</a>
+</div>
+
+<div class="exam">
+<div class="h">🎯 学完找我考（Day 3 考核清单）</div>
+<ol>
+<li>全库乱序 20 题（C 语言保温 + 全模块随机）</li>
+<li>交叉编译：为什么必须用交叉编译器</li>
+<li>项目自述 30 秒 —— <b>出声</b>，我掐表</li>
+<li>OOM 定位过程完整讲一遍（发现 → 定位 → 修复 → 结果）</li>
+<li>全真模拟 ①：项目深挖 8 问</li>
+<li>HR 轮 6 问</li>
+</ol>
+</div>
+</div>
+
+<!-- ============ 取舍 ============ -->
+<h2 class="sec">✂️ 取舍表：24 小时里什么学、什么不学 <span class="cnt">最重要的一页</span></h2>
+<div class="warn">⚠️ <b>不做取舍 = 什么都学不完。</b>下面这张表是本计划的核心决策 —— 凡是"不学"的，被问到就用话术承认 + 转走，别硬答。</div>
+<table>
+<thead><tr><th style="width:9%">判定</th><th style="width:27%">内容</th><th>理由 / 做到什么程度</th></tr></thead>
+<tbody>
+<tr><td><span class="tag red">死磕</span></td><td>四总线对比 + UART/I2C/SPI 细节</td><td>JD 高频 × 你水位 15 —— <b>必须闭卷口述全表</b>，这是嵌入式"脸面题"，答不上直接掉档</td></tr>
+<tr><td><span class="tag red">死磕</span></td><td>RTOS：调度 / 优先级反转 / 信号量 vs 互斥锁 / 任务通信</td><td>JD 极高 × 你水位 20 —— 成都这批岗 80% 点名 RTOS，<b>五题必须全过</b></td></tr>
+<tr><td><span class="tag red">死磕</span></td><td>MCU 四题 + 中断两题</td><td>一天能扫完的"常识题"，性价比极高，<b>各 60 秒能讲</b></td></tr>
+<tr><td><span class="tag orange">够用就行</span></td><td><b>CAN</b></td><td>无实战 → 只求"<b>能讲 90 秒</b>"（差分 / 多主 / ID 仲裁）。别死磕协议栈、帧格式细节、位时序计算</td></tr>
+<tr><td><span class="tag orange">一句话量级</span></td><td>Keil / IAR / 示波器 / 逻辑分析仪 / JTAG</td><td>知道这工具干什么用的即可，<b>不装会</b>。被问就说"没用过，但我知道它是用来…"</td></tr>
+<tr><td><span class="tag green">只保温</span></td><td>C 语言 13 题</td><td>你已经 85 分，<b>不重学</b>，只在 Day3 乱序抽查防遗忘（"连错两天"的三条坑已焊死，但要盯保温度）</td></tr>
+<tr><td><span class="tag gray">放弃</span></td><td>Linux <b>内核</b>驱动深挖（驱动模型 / 设备树语法 / 内核子系统）</td><td>三天补不出实战深度。<b>只到"能说清驱动分层"</b>（用户态 → 系统调用 → 驱动 → 硬件），深问就承认没做过</td></tr>
+<tr><td><span class="tag gray">放弃</span></td><td>RTOS 源码级（调度器源码 / 移植 / 内存算法）</td><td>面试官不会期望一个转岗的人讲到这层；真被问到，用"了解原理但没读过源码"诚实带过</td></tr>
+<tr><td><span class="tag gray">放弃</span></td><td>硬件电路 / PCB / 射频 / FPGA</td><td>不属于你的方向，简历里也没写，<b>不碰</b></td></tr>
+<tr><td><span class="tag gray">放弃</span></td><td>按教材顺序啃完某本书</td><td>你现在要的是"能应答"，不是"学完一门课"</td></tr>
+</tbody>
+</table>
+
+<h2 class="sec">🚨 三条铁律（这比知识问题更要命） <span class="cnt red">贴在显示器上</span></h2>
+<div class="panel">
+<ul class="plain">
+<li><b>① 交卷前数一遍"题目里有几个问号，我答了几个"。</b>Day4 手撕段你曾连续 4 次只交一半（<code>memcpy</code> 只写判空、<code>count_one</code> 只写一种方法、大小端只写第一问、环形缓冲三问全没答）。面试里漏答一半 = 直接判不合格。</li>
+<li><b>② 合上材料能口述才算会。</b>"看过"不算 —— 这个坑已经踩过两次。所以每一步都要有"默写 / 出声讲"的动作。</li>
+<li><b>③ 凡有"两个兄弟"的知识点，一律做对比表。</b>你的核心问题不是学得少，是<b>相近概念容易串</b>（错的几乎全是"说反"类）。固定清单：野/悬空/泄漏 · 大端/小端 · 栈/堆 · <code>const</code> 左/右 · <code>volatile</code>/<code>atomic</code> · 进程/线程 · <b>信号量/互斥锁</b> · <b>UART/I2C/SPI/CAN</b> · <b>推挽/开漏</b> · <b>中断/异常</b>。</li>
+</ul>
+</div>
+
+<h2 class="sec">➕ 提前学完的加餐区 <span class="cnt green">可选项</span></h2>
+<div class="panel">
+<p style="font-size:12.9px;color:#5b6478;margin-bottom:8px;">你说时间多 —— 如果哪天提前完成，按这个顺序加，<b>别自己乱加</b>：</p>
+<ul class="plain">
+<li><b>加餐 1｜有线网络与 802.11 深挖</b>（你的强项，用它拉高整场面试印象分）→ <a href="学习手册_15_无线网络.html">手册 15 · 无线网络</a>　<a href="学习手册_01_计算机网络.html">手册 01 · 计算机网络</a>　<a href="学习手册_14_网络进阶.html">手册 14 · 网络进阶</a></li>
+<li><b>加餐 2｜更多项目深挖问答</b>（把 RRM 素材挖穿）→ <a href="学习手册_21_RRM无线资源管理_场景模式库.html">手册 21</a>　<a href="学习手册_22_RRM无线资源管理_讲述卡.html">手册 22</a></li>
+<li><b>加餐 3｜C 语言手撕再扩</b>（字符串函数 / 位运算 / 排序）→ <a href="学习手册_05_C-C++基础.html">手册 05</a></li>
+<li><b>加餐 4｜卡码笔记查漏</b>（只看嵌入式相关章，别整本啃）→ <a href="学习资源_卡码笔记八股_嵌入式取舍指南_20260924.html">卡码笔记取舍指南</a></li>
+<li><span class="tag gray">不要加</span> 数据库 / Redis / Spring / 设计模式 —— 这些跟嵌入式岗无关，是旧计划留给 Java 方向的残留。</li>
+</ul>
+</div>
+
+<h2 class="sec">🧭 三天之后 <span class="cnt">下一步</span></h2>
+<div class="panel" style="font-size:12.9px;color:#3f4759;">
+<p style="margin-bottom:7px;"><b>① 立刻能投的</b>：不强调 RTOS 的岗（信号/GNSS、通信协议、研究所软件岗）—— 你的 802.11 + 协议栈 + C 底层正好对口，可以边投边等，练真实面评。</p>
+<p style="margin-bottom:7px;"><b>② 等两三天的</b>：JD 写"熟悉 RTOS / FreeRTOS"的岗 —— 等 Day2 过完、能在面试里讲清调度与信号量，再批量投。</p>
+<p><b>③ 长期补的（不急）</b>：Linux 内核驱动、CAN 协议栈细节、真正的裸机实操（能借一块开发板跑通 UART 收发 / GPIO 点灯，比背十道题都值）。</p>
+</div>
+
+<div class="panel" style="border-color:#c7d2fe;background:#fbfcff;font-size:12.8px;">
+📚 <b>旧计划去哪了</b>：《嵌入式系统学习计划_14 天》已移入 <a href="index.html">学习站首页</a> 的<b>存档区</b>，只作历史参考，<b>不再作为执行文件</b>。本页（3 天速成版）是当前唯一执行计划。
+</div>
+
+</div>
+<div class="footer">嵌入式面试速成计划 · 3 天 ｜ 2026-10-09 制定 ｜ 依据：36 题逐题状态 × 成都在招岗位 JD 频次 × Day1–Day5 学习记录<br>执行方式：每天学完 → 说「今天读完了，来考」→ 逐题判卷 → 落库推云端</div>
+</body>
+</html>
