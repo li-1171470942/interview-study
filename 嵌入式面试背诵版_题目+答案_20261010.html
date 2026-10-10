@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>嵌入式面试背诵版 · 问答卡片（2026-10-10）</title>
+<style>
+  body{font-family:"Microsoft YaHei",sans-serif;background:#f5f6fa;color:#2c3e50;margin:0;padding:14px;line-height:1.7;-webkit-text-size-adjust:100%;}
+  .wrap{max-width:900px;margin:0 auto;}
+  h1{font-size:21px;border-bottom:3px solid #2c3e50;padding-bottom:8px;}
+  h2{font-size:17px;margin-top:34px;background:#2c3e50;color:#fff;padding:7px 12px;border-radius:6px;}
+  h2 .cnt{float:right;font-size:13px;font-weight:normal;opacity:.85;}
+  .qa{background:#fff;border:1px solid #dfe4e6;border-radius:8px;margin:10px 0;overflow:hidden;}
+  .q{background:#eaf2f8;padding:8px 12px;font-weight:bold;font-size:15px;color:#1a5276;border-bottom:1px solid #dfe4e6;}
+  .q .n{display:inline-block;background:#2980b9;color:#fff;font-size:12px;border-radius:4px;padding:0 6px;margin-right:7px;vertical-align:1px;}
+  .a{padding:9px 12px;font-size:14.5px;}
+  .anchor{background:#fff8e1;border-left:4px solid #f39c12;padding:6px 10px;margin:8px 0;font-size:14px;border-radius:0 6px 6px 0;}
+  .warn{background:#fdecea;border-left:4px solid #c0392b;padding:6px 10px;margin:8px 0;font-size:14px;border-radius:0 6px 6px 0;}
+  .ok{background:#e8f6ef;border-left:4px solid #27ae60;padding:7px 11px;margin:8px 0;font-size:14px;border-radius:0 6px 6px 0;}
+  .tag{display:inline-block;font-size:12px;padding:1px 8px;border-radius:10px;margin-right:6px;font-weight:bold;}
+  .red{background:#c0392b;color:#fff;}
+  .yellow{background:#f39c12;color:#fff;}
+  .skip{background:#95a5a6;color:#fff;}
+  code{background:#ecf0f1;padding:1px 4px;border-radius:3px;font-family:Consolas,monospace;font-size:13px;}
+  table{width:100%;border-collapse:collapse;margin:10px 0;background:#fff;}
+  th{background:#eaf2f8;text-align:left;padding:7px 8px;border:1px solid #d5dbdb;font-size:13.5px;}
+  td{padding:7px 8px;border:1px solid #d5dbdb;font-size:13.5px;vertical-align:top;}
+  .footer{margin-top:36px;color:#7f8c8d;font-size:12px;border-top:1px solid #d5dbdb;padding-top:10px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>嵌入式面试背诵版 · 问答卡片</h1>
+<div class="ok"><b>用法：</b>手机横竖屏都行 —— <b>先看蓝色问句自问自答，答不上再往下看答案</b>。想自测就把答案区用手/纸遮住。<br><b>共 103 问。</b>标注：🔴=死背 ｜ 🟡=过一遍防手生 ｜ ⚪=只看不动。</div>
+<div class="anchor">🧠 <b>你的底牌</b>：11 项待办里 C/C++、TCP/IP、GDB、Makefile、GCC、Linux、Shell 你<b>已经有底子</b>（过一遍即可）；真空白只有 <b>串口总线 / RTOS / 中断收尾 / MCU 硬件</b> 四块。</div>
+
+<h2>① 串口通信 UART / I2C / SPI / CAN <span class="cnt">22 问 · 🔴最高优先级</span></h2>
+
+<div class="qa"><div class="q"><span class="n">1</span>四条总线各几根线？</div><div class="a">UART <b>2 根</b>（TX/RX 交叉接）· I2C <b>2 根</b>（SDA 数据 / SCL 时钟）· SPI <b>4 根</b>（MOSI / MISO / SCLK / CS）· CAN <b>2 根</b>（CAN_H / CAN_L 差分）。</div></div>
+
+<div class="qa"><div class="q"><span class="n">2</span>各是什么拓扑（谁和谁连）？</div><div class="a">UART <b>点对点</b>（只能一对一）· I2C <b>一主多从总线</b>（SDA/SCL 总线挂多个）· SPI <b>一主多从</b>（星形，每从机一根 CS）· CAN <b>多主多从总线</b>（任一节点都能主动发）。</div></div>
+
+<div class="qa"><div class="q"><span class="n">3</span>同步 / 异步怎么判？四条各归哪类？</div><div class="a"><b>唯一判据：有没有独立的时钟线。</b>UART <b>异步</b>（无时钟线）· I2C <b>同步</b>（SCL）· SPI <b>同步</b>（SCLK）· CAN <b>异步</b>（无时钟线，靠位定时约定）。</div></div>
+
+<div class="qa"><div class="q"><span class="n">4</span>各靠什么选中对端？</div><div class="a">UART <b>没得选</b>（就一个对端）· I2C 靠 <b>从机地址</b>（7/10 位，省线）· SPI 靠 <b>CS 片选线</b>（物理选择，每个从机一根）· CAN 靠 <b>报文 ID 广播</b>（谁匹配谁收）。</div></div>
+
+<div class="qa"><div class="q"><span class="n">5</span>各自速度与应用场景？</div><div class="a">UART 慢（9600~115200 常见）→ 调试打印 / GPS / 蓝牙模块；I2C 100K/400K/3.4M → 低速传感器 / EEPROM；SPI 几十 Mbps → Flash / SD / 屏幕；CAN 最高 1Mbps → 汽车电子 / 工业控制。</div></div>
+
+<div class="qa"><div class="q"><span class="n">6</span>（场景题）① 板上一颗温度传感器、引脚紧张 ② 外部 SPI Flash 要几十 M 吞吐 ③ 板间两块板子连一根线调试打印 —— 各选哪条总线？</div><div class="a">① <b>I2C</b>（两根线挂多设备、速度够用、省引脚）② <b>SPI</b>（要高速，CS 独占）③ <b>UART</b>（最简单、点对点、距离不敏感）。<div class="anchor">🧠 选总线三词：<b>简单(UART) / 省线(I2C) / 要快(SPI) / 车规抗干扰(CAN)</b>。</div></div></div>
+
+<div class="qa"><div class="q"><span class="n">7</span>UART 一帧由哪几部分组成？各占几位？最短、最长多少位？</div><div class="a">1 位起始 + <b>5~8</b> 位数据 + <b>0~1</b> 位校验 + <b>1/1.5/2</b> 位停止 → <b>最短 7 位</b>（1+5+0+1）、<b>最长 12 位</b>（1+8+1+2）。最常用的是 <b>10 位</b>（1+8+0+1）。<div class="warn">⚠️ 只答"10 位"必被追一句"开校验呢"。答法：先说组合公式，再说最常见 10 位。</div></div></div>
+
+<div class="qa"><div class="q"><span class="n">8</span>UART 为什么叫「异步」？</div><div class="a">因为<b>没有独立时钟线</b>，收发双方<b>事先约定波特率</b>，各自掐自己的节奏收发 —— 没有共享节拍器。类比：两个人约好语速打电话，但手上没有同一个节拍器。</div></div>
+
+<div class="qa"><div class="q"><span class="n">9</span>空闲时 TX 线是高还是低？起始位拉低还是拉高？<b>为什么必须这么设计？</b></div><div class="a">空闲 <b>高</b>、起始位 <b>拉低</b>。两个原因：<br>① <b>唯一的同步锚</b>：空闲必为高，所以"高→低"这个下降沿只可能出现在帧头，位置固定、每帧必现；若改成拉高，数据位里 0→1 也会产生上升沿，接收方分不清是帧头还是数据翻转。<br>② <b>安全态</b>：断线/对端掉电时线被上拉呈高电平，看起来就是空闲，<b>不会误触发假帧</b>。<br>收到下降沿后，接收方<b>重启位计数器</b>，之后靠本地时钟去听。</div></div>
+
+<div class="qa"><div class="q"><span class="n">10</span>双方波特率对不上会怎样？为什么？（要讲到采样点）</div><div class="a">现象：<b>乱码，且错的往往是后面的位，前几位还可能对</b>。<br>机制：接收方<b>在每个比特的中点采样</b>（离两侧跳变沿最远→余量最大）；波特率不匹配 → 每采一位累积一点相位误差 → 采样点从比特中点慢慢滑向边缘 → <b>滑过边界后全读错</b>。<div class="anchor">🧠 锚：<b>没有节拍器，每个音数到一半时去听</b>；误差逐位累积 → 后面先崩。</div></div></div>
+
+<div class="qa"><div class="q"><span class="n">11</span>UART 数据位是 MSB 先发还是 LSB 先发？为什么？I2C / SPI 呢？</div><div class="a">UART <b>LSB 先发</b>（比特级小端序）。原因：① 收发端都是<b>移位寄存器</b>，数据右移时低位端自然先溢出，最省电路；② 数据位可短于 8 位，<b>被截掉的是高位</b>，低位才是有效位，语义更自然；③ 历史沿袭（电传打字机时代）。<br>I2C <b>MSB 先发</b>（规范写死）；SPI <b>可配置</b>（默认多为 MSB）。</div></div>
+
+<div class="qa"><div class="q"><span class="n">12</span>为什么 0x55 常被当串口自测 / 测波特率的标准数据？</div><div class="a">0x55 = <code>01010101</code>，LSB 先出后连同起止位 = <code>0 1 0 1 0 1 0 1 0 1</code>，是<b>完美方波</b> —— 边沿最多，示波器上最容易量周期、算波特率、看上升沿质量。发 0x00/0xFF 没有边沿就没法测。<div class="anchor">🧠 顺带：0x55 / 0xAA 也是内存测试模式（查相邻数据线短路）。</div></div></div>
+
+<div class="qa"><div class="q"><span class="n">13</span>I2C 为什么总线上必须挂上拉电阻？</div><div class="a">因为 I2C 引脚是 <b>开漏（open-drain）输出</b>：<b>只能主动拉低、不能主动拉高</b>，所以必须靠上拉电阻把总线恢复到高电平。<br>顺带两个红利：① 开漏 + 上拉天然构成<b>线与</b>，多设备共享总线不会打架（推挽输出一个拉高一个拉低 = 短路）；② 线与也是<b>总线仲裁</b>的实现基础。</div></div>
+
+<div class="qa"><div class="q"><span class="n">14</span>I2C 一个字节发完后的「第 9 个时钟」是干什么的？ACK 和 NACK 分别代表什么？</div><div class="a">是<b>应答位</b>：主机发完 8 位后释放 SDA，接收方在第 9 个 SCL 周期把 SDA <b>拉低 = ACK</b>（收到了/要你的数据）；<b>保持高 = NACK</b>（没收到、或"我读完了别发了"、或"这地址根本不是我的"）。</div></div>
+
+<div class="qa"><div class="q"><span class="n">15</span>I2C 怎么寻址？怎么区分读还是写？</div><div class="a">起始信号后先发 <b>7 位从机地址 + 1 位读写位</b>（0 = 写，1 = 读），地址匹配的从机回 ACK。</div></div>
+
+<div class="qa"><div class="q"><span class="n">16</span>I2C 的起始和停止条件是什么？数据什么时候可变？</div><div class="a"><b>起始</b>：SCL 为高时 SDA 由高变低；<b>停止</b>：SCL 为高时 SDA 由低变高。<b>数据只能在 SCL 低电平期间变化</b>，SCL 高电平期间 SDA 必须稳定（否则会被误判成起停信号）。</div></div>
+
+<div class="warn">⚠️ 防串（高频坑）：<b>UART 的「中点采样」和 I2C 的「第 9 个时钟」是两件完全无关的事</b> —— 前者是异步估节拍，后者是同步用时钟数应答位。别混着说。</div>
+
+<div class="qa"><div class="q"><span class="n">17</span>SPI 四根线各干嘛的？</div><div class="a"><b>MOSI</b>（主发从收）· <b>MISO</b>（主收从发）· <b>SCLK</b>（时钟，主设备产生）· <b>CS/SS</b>（片选）。MOSI/MISO 独立 ⇒ <b>全双工</b>。</div></div>
+
+<div class="qa"><div class="q"><span class="n">18</span>SPI 的 CS 是干嘛的？为什么每多挂一个从机就多一根线，I2C 却不用？</div><div class="a">CS <b>拉低才选中</b>这个从机才听你说话；未选中的从机 MISO 呈<b>高阻态</b>（不干扰总线）。<br>SPI 是<b>物理选中</b>（每个从机独占一根 CS）→ 从机越多线越多；I2C 是<b>地址选中</b>（所有从机共用 SDA/SCL，靠地址区分）→ 加从机不加线，代价是速度慢、协议复杂。</div></div>
+
+<div class="qa"><div class="q"><span class="n">19</span>SPI 的 CPOL / CPHA 是什么？四种模式怎么来的？</div><div class="a"><b>CPOL</b> = 空闲时时钟电平（0 = 空闲低，1 = 空闲高）；<b>CPHA</b> = 在第几个边沿采样（0 = 第一个边沿，1 = 第二个边沿）。两两组合 = <b>Mode 0~3</b>，主从必须配成同一模式，否则数据错位。</div></div>
+
+<div class="qa"><div class="q"><span class="n">20</span>CAN 的核心特点？（90 秒版必背）</div><div class="a">① <b>差分两线</b>（CAN_H / CAN_L），抗干扰强，适合汽车 / 工业；② <b>多主</b>：任一节点可主动发；③ <b>广播式</b>：报文按 ID 广播，各节点自行过滤是否需要；④ <b>非破坏性位仲裁</b>：多节点同时发时逐位比对，<b>显性位(0) 压过隐性位(1)</b>，ID 数值小的优先级高，输的自动退避且不破坏总线；⑤ 报文带 <b>CRC 校验 + ACK 槽</b>，可靠性高。</div></div>
+
+<div class="qa"><div class="q"><span class="n">21</span>CAN 的显性、隐性对应什么电平？终端电阻多少、为什么？</div><div class="a">显性(0)：CAN_H 与 CAN_L 压差大（约 2V）；隐性(1)：压差≈0（两线都约 2.5V）。总线<b>两端各接 120Ω 终端电阻</b>，用于匹配阻抗、吸收信号反射。</div></div>
+
+<div class="qa"><div class="q"><span class="n">22</span>CAN 标准帧多少位 ID？扩展帧呢？数据帧结构？</div><div class="a">标准帧 <b>11 位</b> ID，扩展帧 <b>29 位</b>。<br>数据帧结构：帧起始 → 仲裁段(ID) → 控制段(DLC 数据长度) → <b>数据段(0~8 字节)</b> → CRC 段 → ACK 段 → 帧结束。<div class="anchor">🧠 被追问细节就答到这，然后主动补一句"差分 + 多主 + ID 仲裁"收尾。</div></div></div>
+
+<h2>② RTOS <span class="cnt">11 问 · 🔴 成都 JD 80% 点名</span></h2>
+
+<div class="qa"><div class="q"><span class="n">23</span>裸机（前后台）和 RTOS 的区别？</div><div class="a">裸机 = 前后台系统：主循环 <code>while(1)</code> 轮询 + 中断置标志 —— <b>任务一多实时性就崩</b>（后一个任务要等前面全部跑完，一个长任务会拖死整体）；<br>RTOS = <b>抢占式调度 + 每个任务独立栈</b>，任务按顺序逻辑写（像独占 CPU），由内核负责切换，高优先级任务一就绪立刻抢占。</div></div>
+
+<div class="qa"><div class="q"><span class="n">24</span>RTOS 任务有哪几个状态？</div><div class="a"><b>就绪</b>（万事俱备等 CPU）· <b>运行</b>（正占 CPU）· <b>阻塞</b>（在等事件/延时，<b>不占 CPU</b>）· <b>挂起</b>（被手动 suspend，调度器完全不管）。就绪⇄运行靠调度器，运行→阻塞是任务主动等待。</div></div>
+
+<div class="qa"><div class="q"><span class="n">25</span>RTOS 怎么调度？</div><div class="a"><b>抢占式优先级调度</b>为主：永远让优先级最高的就绪任务跑，高优先级一就绪立刻抢占低优先级；<b>同优先级</b>之间用<b>时间片轮转</b>。</div></div>
+
+<div class="qa"><div class="q"><span class="n">26</span>什么是优先级反转？（高频必问）</div><div class="a">低优先级任务 L 持有锁 → 高优先级任务 H 等这把锁被<b>阻塞</b> → 中优先级任务 M 抢占 L 跑 → 出现「<b>高优先级等低优先级、中优先级插队看戏</b>」的倒挂。危害：实时任务被无限期延迟。<br>解决：<b>优先级继承</b>（H 等锁时把 L 临时提到 H 的优先级，让它尽快跑完放锁）、优先级天花板协议。</div></div>
+
+<div class="qa"><div class="q"><span class="n">27</span>信号量 vs 互斥锁（RTOS 语境）？</div><div class="a"><b>互斥锁</b>：用于<b>保护独占资源</b>，上锁/解锁必须同一任务，RTOS 里带<b>优先级继承</b>，<b>不能在 ISR 用</b>；<br><b>信号量</b>：用于<b>同步 / 事件通知 / 计数</b>，释放与获取可跨任务（ISR 里给信号量是常见用法）。<div class="anchor">🧠 锚：<b>信号量传事件，互斥锁保资源。</b></div></div></div>
+
+<div class="qa"><div class="q"><span class="n">28</span>任务之间怎么传数据？</div><div class="a"><b>队列 / 消息队列</b>（拷贝式，最常用）、信号量（传事件）、<b>事件组</b>（多条件组合等待）、<b>任务通知</b>（最快最省内存，一对一）。<b>ISR 里必须用带 FromISR 后缀的 API</b>。</div></div>
+
+<div class="qa"><div class="q"><span class="n">29</span>硬实时和软实时的区别？</div><div class="a">硬实时 = <b>超时即失败</b>（刹车、电机控制、飞控）；软实时 = 偶尔超时可以接受（视频播放掉帧）。RTOS 追求的是<b>可确定的响应时间（确定性）</b>，不是单纯"快"。</div></div>
+
+<div class="qa"><div class="q"><span class="n">30</span>知道哪些 RTOS？</div><div class="a">FreeRTOS（市占最高，Amazon 收购维护）· RT-Thread（国产，组件生态全）· μC/OS。答这两个就够。</div></div>
+
+<div class="qa"><div class="q"><span class="n">31</span>RTOS 里怎么保护临界区？</div><div class="a">三招：<b>关中断</b>（最彻底，时间必须极短）、<b>调度器加锁（挂起调度）</b>（不影响中断响应）、<b>互斥锁/信号量</b>（会睡眠，不能在 ISR 用）。临界区原则：<b>越短越好</b>。</div></div>
+
+<div class="qa"><div class="q"><span class="n">32</span>任务栈为什么要分配、栈溢出会怎样？</div><div class="a">每个任务有独立栈（局部变量 + 函数调用现场），RTOS 创建任务时必须指定栈大小。栈溢出会<b>踩到别的任务的数据/栈</b>，表现出随机死机、跑飞 —— 靠 <code>configCHECK_FOR_STACK_OVERFLOW</code> 或填充魔数检测。</div></div>
+
+<div class="qa"><div class="q"><span class="n">33</span>RTOS 和 Linux 多线程的区别？</div><div class="a">RTOS：微内核、无 MMU/可选、任务<b>共享同一地址空间</b>、调度确定性高（微秒级），用于 MCU；Linux：有 MMU、进程隔离、调度公平优先、实时性靠 PREEMPT_RT 补丁，用于应用处理器。<b>RTOS 要"确定性"，Linux 要"吞吐/隔离"。</b></div></div>
+
+<h2>③ 中断和轮询 <span class="cnt">8 问 · 🔴 收尾</span></h2>
+
+<div class="qa"><div class="q"><span class="n">34</span>中断 vs 轮询？各自取舍？</div><div class="a"><b>轮询</b>：CPU 主动反复查状态 —— 简单、无上下文开销，但浪费 CPU、实时性差（快递得自己一直站门口看）；<br><b>中断</b>：事件发生硬件主动通知 CPU —— 实时性好、CPU 利用率高（快递到了打电话叫你）。<br>取舍：<b>事件极少见 → 中断；事件极频繁且处理极短 → 轮询反而高效</b>（省掉保存/恢复现场的开销）。</div></div>
+
+<div class="qa"><div class="q"><span class="n">35</span>ISR（中断服务函数）有哪「三禁」？</div><div class="a">① <b>不能睡眠 / 阻塞</b>（中断上下文没有"任务"可被切回来）；② <b>不做耗时工作</b>（长时间占用会丢其他中断）→ 耗时逻辑丢给下半部；③ <b>不调用不可重入 / 可能睡眠的函数</b> —— printf、malloc、带锁的函数都危险（ISR 里拿锁 = 死锁）。</div></div>
+
+<div class="qa"><div class="q"><span class="n">36</span>中断响应的完整流程？</div><div class="a">CPU 执行完当前指令 → <b>保存现场</b>（PSW/PC/寄存器压栈）→ 查<b>中断向量表</b>取得 ISR 地址并跳转 → 执行 ISR → <b>清中断标志</b> → <b>恢复现场</b>返回被中断处。</div></div>
+
+<div class="qa"><div class="q"><span class="n">37</span>中断和异常有什么区别？</div><div class="a">都对正常流程造成打断，但<b>来源不同</b>：<b>异常来自 CPU 内部</b>（除零、非法指令、缺页、软中断指令），是<b>同步</b>的（由当前指令引发）；<b>中断来自外设/外部</b>（按键、串口、定时器），是<b>异步</b>的。ARM 语境里两者统称 exception。</div></div>
+
+<div class="qa"><div class="q"><span class="n">38</span>中断能嵌套吗？优先级怎么起作用？</div><div class="a">可以。高优先级中断能打断正在执行的低优先级 ISR，形成嵌套（需要硬件支持 + 使能嵌套/抢占）。反过来低优先级不能打断高优先级，只能等。<b>同优先级一般不能互相打断。</b>中断嵌套会增加栈深度（每个嵌套层都要压栈）。</div></div>
+
+<div class="qa"><div class="q"><span class="n">39</span>上半部和下半部是什么？Linux 有哪几种下半部？</div><div class="a"><b>上半部 = ISR</b>：只做"取数据 + 置标志"这类最快的事，尽快返回；<b>下半部</b>延后执行耗时处理。Linux 三种：<b>softirq</b>（最快、可并发、静态分配）· <b>tasklet</b>（基于 softirq，同一 tasklet 不并发，<b>不能睡眠</b>）· <b>workqueue</b>（跑在内核线程，<b>可以睡眠</b>）。</div></div>
+
+<div class="qa"><div class="q"><span class="n">40</span>ISR 里能不能给任务发信号 / 用队列？</div><div class="a">能，但<b>必须用 ISR 专用 API</b>（FreeRTOS 的 <code>xQueueSendFromISR</code> / <code>xSemaphoreGiveFromISR</code>），而且如果需要触发调度，要在退出前调用 <code>portYIELD_FROM_ISR()</code>；不能在 ISR 里用普通版（会睡眠/加锁）。</div></div>
+
+<div class="qa"><div class="q"><span class="n">41</span>中断丢失 / 中断风暴一般什么原因？</div><div class="a">丢失：ISR 太久、关中断太久、没清中断标志、中断优先级被屏蔽；风暴：外设中断条件一直满足（如电平触发但没清源）→ CPU 全被 ISR 吃掉。做法：<b>清标志 + 缩短临界区 + 改边沿触发 + 必要时在 ISR 里临时屏蔽该中断</b>。</div></div>
+
+<h2>④ 多线程与多进程 <span class="cnt">9 问 · 🟡</span></h2>
+
+<div class="qa"><div class="q"><span class="n">42</span>进程和线程的区别？</div><div class="a">进程 = <b>资源分配的最小单位</b>（独立地址空间、独立页表）；线程 = <b>CPU 调度的最小单位</b>（<b>共享进程的地址空间</b>，独享栈和寄存器）。进程隔离安全但切换开销大、通信麻烦；线程切换快、通信简单（共享内存），但一个线程崩可能拖垮整个进程。<br><div class="anchor">🧠 锚：<b>进程 = 独立公寓（各走各门），线程 = 合租（客厅共享、卧室私有）</b>。</div></div></div>
+
+<div class="qa"><div class="q"><span class="n">43</span>为什么线程切换比进程切换快？</div><div class="a">因为<b>不切换地址空间</b> —— 不用换页表、不用刷 TLB、Cache 命中率更高。进程切换要保存/恢复更多上下文（页表基址寄存器等）。</div></div>
+
+<div class="qa"><div class="q"><span class="n">44</span>进程间通信（IPC）有哪些方式？哪个最快？</div><div class="a">管道（匿名 pipe / 命名 FIFO）· 消息队列 · <b>共享内存</b> · 信号量 · 信号（signal）· socket（可跨主机）。<b>共享内存最快</b>（无内核拷贝），但要自己配信号量做同步。</div></div>
+
+<div class="qa"><div class="q"><span class="n">45</span>互斥锁和自旋锁的区别？分别在什么场景用？</div><div class="a">拿不到锁时：<b>互斥锁 → 睡眠让出 CPU</b>（有切换开销，适合临界区较长）；<b>自旋锁 → 原地忙等</b>（不睡眠、无切换开销，适合临界区极短、多核）。注意：<b>单核上自旋锁空转没意义</b>（会把持锁者饿死），所以自旋锁常用于多核内核、且持锁期间不能睡眠；<b>ISR 里只能用自旋锁</b>。</div></div>
+
+<div class="qa"><div class="q"><span class="n">46</span>死锁的四个必要条件？（必背）</div><div class="a"><b>互斥 · 占有并等待 · 不可剥夺 · 循环等待</b>。破坏任意一条即可防死锁，最常用：<b>所有锁按固定顺序加锁</b>（破坏循环等待）或一次性申请全部资源。</div></div>
+
+<div class="qa"><div class="q"><span class="n">47</span>volatile 能保证线程安全吗？</div><div class="a"><b>不能。</b>volatile 只保证"每次都从内存读、不被编译器优化掉"，它<b>没有原子性、没有内存屏障</b>。多线程共享计数/标志必须用 <b>atomic 原子操作或锁</b>。</div></div>
+
+<div class="qa"><div class="q"><span class="n">48</span>原子操作和锁怎么选？</div><div class="a"><b>单个变量的加减 / CAS 比较交换</b> 用原子操作（CPU 指令级保证，开销远低于锁）；<b>多个变量、成组逻辑</b>必须用锁。常见组合：原子操作做"无锁"计数器，锁保护复合状态。</div></div>
+
+<div class="qa"><div class="q"><span class="n">49</span>条件变量解决什么问题？为什么必须配互斥锁用？</div><div class="a">解决"<b>等待某个条件成立</b>"而不空转：线程在条件不满足时 <code>wait</code> 睡眠，别的线程改变条件后 <code>signal</code> 唤醒。<br>必须配锁是因为：① 判断条件与修改条件需要互斥保护；② <code>wait</code> 会原子地"放锁 + 睡眠"，防止唤醒信号丢失（lost wakeup）。</div></div>
+
+<div class="qa"><div class="q"><span class="n">50</span>多线程调试过什么问题？（你自己的实战话术）</div><div class="a">用你真实经历：<b>万级设备批量调优时内存峰值过高导致 OOM</b> → 把"单次大数组传参"重构为"定长缓冲区分片 + 回调"，内存峰值从 O(n) 降到 O(chunk)；以及跨语言内存所有权问题（谁分配谁释放）杜绝重复释放。<div class="anchor">🧠 这题必须用你自己的项目，别背通用答案。</div></div></div>
+
+<h2>⑤ C / C++ 易错点 <span class="cnt">12 问 · 🟡 你 85 分，只过"说反类"</span></h2>
+
+<div class="qa"><div class="q"><span class="n">51</span>什么是大端、小端？怎么用代码判断？</div><div class="a"><b>大端</b>：高字节存低地址（= 网络字节序）；<b>小端</b>：低字节存低地址（x86、多数 ARM 默认）。<br>判断：<code>union { int a; char b; } u; u.a = 1; if (u.b == 1) 小端;</code>（取低地址那一个字节看是不是 1）<div class="anchor">🧠 锚：<b>小端 = 低字节放低地址（"低低配"）</b>。跨网络传 u16/u32 必须 <code>htons/htonl</code>。</div></div></div>
+
+<div class="qa"><div class="q"><span class="n">52</span>野指针、悬空指针、内存泄漏分别是什么？</div><div class="a"><b>野指针</b> = 未初始化就使用（或已超出作用域还指）；<b>悬空指针</b> = 指向的内存已经被 free 掉了，指针还留着继续用（读脏数据/写坏别人）；<b>内存泄漏</b> = 用完不 free，堆越吃越多。<div class="anchor">🧠 锚：<b>野 = 没上牌就上路；悬空 = 房子拆了还按旧地址找门；泄漏 = 借了不还。</b></div></div></div>
+
+<div class="qa"><div class="q"><span class="n">53</span>const 在 * 左边和右边有什么区别？</div><div class="a"><code>const char *p</code>（左）：<b>锁值</b> —— 不能通过 p 改内容，p 本身可以改指向；<code>char * const p</code>（右）：<b>锁指针</b> —— p 不能改指向，内容可改。<div class="anchor">🧠 锚：<b>左锁值、右锁向。</b></div></div></div>
+
+<div class="qa"><div class="q"><span class="n">54</span>static 的三个用法？</div><div class="a">① 修饰<b>局部变量</b>：生命周期变为整个程序运行期（存 .data/.bss，只初始化一次）；② 修饰<b>全局变量/函数</b>：作用域限制在<b>本文件</b>内（内部链接，避免命名冲突）；③ C++ 修饰<b>类成员</b>：属于类而非某个对象（静态成员变量需类外定义）。</div></div>
+
+<div class="qa"><div class="q"><span class="n">55</span>volatile 的三个典型场景？</div><div class="a">① <b>ISR 与主程序共享的变量</b>；② <b>内存映射的硬件寄存器</b>；③ 多线程共享的标志位。语义 = 告诉编译器"这个值随时可能被外部改，每次都从内存重新读，别优化掉"。<b>它不保证原子性！</b></div></div>
+
+<div class="qa"><div class="q"><span class="n">56</span>指针数组和数组指针怎么区分？</div><div class="a"><code>int *a[10]</code> = <b>指针数组</b>（数组里装 10 个指针）；<code>int (*a)[10]</code> = <b>数组指针</b>（一个指向"含 10 个 int 的数组"的指针）。<div class="anchor">🧠 锚：<b>看谁先跟谁结合</b> —— [] 优先级高于 *，所以 <code>int *a[10]</code> 先结合成数组。</div></div></div>
+
+<div class="qa"><div class="q"><span class="n">57</span>内存分哪几个区？</div><div class="a"><b>代码段 (.text)</b> 只读指令 · <b>已初始化数据段 (.data)</b> 有初值的全局/静态 · <b>.bss</b> 未初始化/初值为 0 的全局/静态 · <b>堆</b>（向高地址长，malloc） · <b>栈</b>（向低地址长，局部变量、函数调用）。<br>嵌入式关键点：<b>.data 的初值存在 Flash 里，启动时拷到 RAM；.bss 启动时清零。</b></div></div>
+
+<div class="qa"><div class="q"><span class="n">58</span>堆和栈的区别？</div><div class="a">栈：<b>编译器自动管理</b>、连续、分配快（就是移动栈指针）、大小受限（栈溢出风险）、自动回收；堆：<b>手动 malloc/free</b>、不连续（有空闲链表管理）、慢、容易产生碎片、泄漏要自己负责、上限是可用内存。<div class="anchor">🧠 谁快：<b>栈快</b>（一条指令 vs 查链表）。谁危险：<b>堆</b>（泄漏 + 碎片）。</div></div></div>
+
+<div class="qa"><div class="q"><span class="n">59</span>结构体为什么要对齐？怎么计算大小？</div><div class="a">因为 CPU 按字长访存，<b>未对齐要拆成两次访存甚至触发总线错误</b>。规则：① 每个成员相对结构体起始偏移是<b>自身大小</b>的整数倍（前面补 padding）；② 结构体总大小是<b>最大成员大小</b>的整数倍（末尾补 padding）。<br>通信协议报文等场景可用 <code>#pragma pack(1)</code> 强制紧凑（代价是访存变慢）。</div></div>
+
+<div class="qa"><div class="q"><span class="n">60</span>#define、const、inline 有什么区别？</div><div class="a"><code>#define</code> 是预处理期<b>纯文本替换</b> —— 没有类型检查、没有作用域、调试看不到；<code>const</code> 有类型、有作用域、编译器可检查；<code>inline</code> 展开避免了函数调用开销（但有类型检查、可调试）。<b>常量优先 const，短小频繁调用优先 inline。</b></div></div>
+
+<div class="qa"><div class="q"><span class="n">61</span>sizeof 数组名和 sizeof 指针为什么不一样？函数传参为什么 sizeof 失效？</div><div class="a">数组名在 <code>sizeof</code> 里代表整个数组（<code>sizeof(arr)=10*4=40</code>），但作为函数参数会<b>退化为指针</b>（<code>sizeof(p)=8</code>），所以函数里必须额外传长度。<div class="anchor">🧠 这条正是你写 C 接口必踩的坑 —— 定长缓冲区 + 长度参数。</div></div></div>
+
+<div class="qa"><div class="q"><span class="n">62</span>malloc 返回的指针需要强转吗？free 之后要做什么？</div><div class="a">C 里不需要强转（void* 隐式转换，强转反而可能掩盖缺 stdlib.h 的错误）。<code>free</code> 之后<b>要把指针置 NULL</b>、如果多副本还要把所有副本一起置空，否则留下悬空指针；也不能对同一块内存 free 两次。<b>free(NULL) 是安全的。</b></div></div>
+
+<h2>⑥ TCP/IP <span class="cnt">9 问 · 🟡 你的强项，防手生</span></h2>
+
+<div class="qa"><div class="q"><span class="n">63</span>TCP/IP 四层模型？各层代表协议？</div><div class="a">应用层（HTTP / DNS / DHCP / SNMP）→ 传输层（TCP / UDP）→ 网络层（IP / ICMP / ARP）→ 网络接口层（以太网 / WiFi / PPP）。<b>802.11 属链路层。</b></div></div>
+
+<div class="qa"><div class="q"><span class="n">64</span>三次握手过程？为什么不能两次？</div><div class="a">SYN → SYN+ACK → ACK。<br>三次的必要性：<b>让双方都确认"我能发、我也能收"</b> —— 两次只能让服务端确认客户端可达，无法确认客户端收到了服务端的确认；同时能避免<b>历史失效的 SYN</b> 建立错误连接。<div class="anchor">🧠 顺带：SYN 洪泛攻击就是利用半连接队列。</div></div></div>
+
+<div class="qa"><div class="q"><span class="n">65</span>四次挥手？为什么是四次？</div><div class="a">FIN → ACK → FIN → ACK。因为 TCP 是<b>全双工</b>，两个方向要<b>各自独立关闭</b>；被动方收到 FIN 后可能还有数据没发完，所以"确认"和"我也关了"分两次发。</div></div>
+
+<div class="qa"><div class="q"><span class="n">66</span>TIME_WAIT 为什么要等 2MSL？</div><div class="a">① 保证<b>最后一个 ACK 丢了还能重发</b>（对端收不到会重传 FIN）；② 让本连接的<b>旧报文在网络中自然消亡</b>，不污染下一个相同四元组的新连接。只有主动关闭方进入 TIME_WAIT。</div></div>
+
+<div class="qa"><div class="q"><span class="n">67</span>TCP 和 UDP 的区别？怎么选？</div><div class="a">TCP：面向连接、可靠（确认重传、排序、流控、拥塞控制）、<b>字节流</b>、头 20 字节；UDP：无连接、不可靠、<b>数据报</b>（保边界）、头 8 字节、快。<br>选型：文件传输 / 指令下发 / 配置通道用 <b>TCP</b>；音视频、心跳广播、DNS 用 <b>UDP</b>。你自己的设备配置通道（WebSocket + Netconf）就是 TCP 之上的。</div></div>
+
+<div class="qa"><div class="q"><span class="n">68</span>TCP 粘包 / 拆包的原因和处理？（你的送分题）</div><div class="a">原因：TCP 在应用层看来是<b>无边界字节流</b>，发送方合并小包（Nagle）、接收方按缓冲区交付，都可能把多个消息粘一起或切开（和 MTU/MSS 有关）。<br>处理：应用层自己定边界 —— ① <b>定长</b>；② <b>长度头 + 变长 body</b>（最常用）；③ 特殊分隔符。<b>你的 method-data-callback 三段式协议就是长度头方案。</b></div></div>
+
+<div class="qa"><div class="q"><span class="n">69</span>网络字节序是大端还是小端？为什么？</div><div class="a"><b>大端</b>，作为统一标准避免不同主机字节序导致误解。<code>htons/htonl</code> 转成网络序，<code>ntohs/ntohl</code> 转回主机序。</div></div>
+
+<div class="qa"><div class="q"><span class="n">70</span>ping 用的什么协议？traceroute 呢？</div><div class="a">ping 用 <b>ICMP</b>（Echo Request / Reply）；traceroute 用 ICMP 超时报文或 UDP 大端口 + 递增 TTL 探测每一跳。</div></div>
+
+<div class="qa"><div class="q"><span class="n">71</span>ARP 是干什么的？</div><div class="a">把 <b>IP 地址解析成 MAC 地址</b>（广播询问"谁是 192.168.1.1"，对应主机单播回复）。结果缓存进 ARP 表；同一网段内通信必须靠 MAC。</div></div>
+
+<h2>⑦ GCC / 编译 <span class="cnt">5 问 · 🟡</span></h2>
+
+<div class="qa"><div class="q"><span class="n">72</span>编译四个阶段？（必背）</div><div class="a">源码 → <b>预处理</b>（<code>-E</code>，展开 #include / #define / 条件编译）→ <b>编译</b>（<code>-S</code>，生成汇编 .s）→ <b>汇编</b>（<code>-c</code>，生成目标文件 .o）→ <b>链接</b>（合并 .o 与库，生成可执行文件）。</div></div>
+
+<div class="qa"><div class="q"><span class="n">73</span>静态库和动态库的区别？</div><div class="a"><b>静态库 .a</b>：链接期把代码<b>复制进</b>可执行文件 —— 体积大、库更新要重新编译，但运行不依赖外部库；<b>动态库 .so</b>：运行期动态加载 —— 体积小、多个程序共享一份、可独立升级（改接口要注意 ABI 兼容），启动时略慢。<div class="anchor">🧠 你的 C 动态库双向调用就是 .so 方案（可独立升级发布）。</div></div></div>
+
+<div class="qa"><div class="q"><span class="n">74</span>常用 gcc 选项？怎么生成动态库？</div><div class="a"><code>-g</code> 调试信息 · <code>-O2</code> 优化 · <code>-Wall</code> 打开警告 · <code>-I 目录</code> 头文件路径 · <code>-L 目录</code> 库路径 · <code>-l 库名</code> · <code>-D 宏</code> 定义宏 · <code>-fPIC -shared</code> 生成动态库。<br>生成：<code>gcc -fPIC -shared -o libfoo.so foo.c</code>；使用：<code>gcc main.c -L. -lfoo -Wl,-rpath,.</code></div></div>
+
+<div class="qa"><div class="q"><span class="n">75</span>什么是交叉编译？为什么嵌入式需要？</div><div class="a">在 <b>x86 主机上</b>编译出<b>目标架构（ARM 等）可运行</b>的程序。因为目标板 CPU 弱、内存小、跑不动完整工具链。工具链前缀如 <code>arm-linux-gnueabihf-gcc</code>。</div></div>
+
+<div class="qa"><div class="q"><span class="n">76</span>-O2 优化会带来什么风险？</div><div class="a">可能重排/删除"看起来没用"的代码 —— 所以<b>与硬件或 ISR 共享的变量必须加 volatile</b>，否则被优化掉导致逻辑错乱；调试时建议 <code>-O0 -g</code>（优化后变量可能被放进寄存器，GDB 看值不准）。</div></div>
+
+<h2>⑧ Makefile <span class="cnt">5 问 · 🟡</span></h2>
+
+<div class="qa"><div class="q"><span class="n">77</span>Makefile 的基本规则是什么？make 靠什么决定重新编译？</div><div class="a">三段式：<code>目标: 依赖</code> 换行 <b>Tab</b> + 命令。make 比较<b>目标与依赖的时间戳</b>，只重建过期（依赖更新）的部分，实现增量编译。</div></div>
+
+<div class="qa"><div class="q"><span class="n">78</span>三个自动变量？（必背）</div><div class="a"><code>$@</code> = 目标名 · <code>$&lt;</code> = 第一个依赖 · <code>$^</code> = 全部依赖（去重）。</div></div>
+
+<div class="qa"><div class="q"><span class="n">79</span>.PHONY 是干嘛的？</div><div class="a">声明<b>伪目标</b>（如 clean、all），让 make <b>无条件执行</b>对应命令 —— 防止目录里恰好有同名文件时被判为"已最新"而跳过。</div></div>
+
+<div class="qa"><div class="q"><span class="n">80</span>= 和 := 有什么区别？写一个最小模板？</div><div class="a"><code>=</code> 递归/懒惰展开（用到时才求值）；<code>:=</code> 立即展开（定义时求值）。<br><code>CC=gcc<br>CFLAGS=-Wall -g<br>TARGET=app<br>SRC=$(wildcard *.c)<br>OBJ=$(SRC:.c=.o)<br>$(TARGET): $(OBJ)<br>&nbsp;&nbsp;$(CC) $^ -o $@<br>%.o: %.c<br>&nbsp;&nbsp;$(CC) $(CFLAGS) -c $&lt; -o $@<br>clean:<br>&nbsp;&nbsp;rm -f $(OBJ) $(TARGET)<br>.PHONY: clean</code></div></div>
+
+<div class="qa"><div class="q"><span class="n">81</span>你实际写过构建脚本吗？（话术）</div><div class="a">用真实经历：<b>主导设备系统镜像的构建与编译打包流程重构（Makefile / Shell 构建脚本）</b>，支持"一体机 + 虚拟机"双镜像 —— 把手工打包改成脚本化一键构建，交付周期显著缩短。</div></div>
+
+<h2>⑨ GDB 调试 <span class="cnt">6 问 · 🟡</span></h2>
+
+<div class="qa"><div class="q"><span class="n">82</span>GDB 最常用的命令有哪些？</div><div class="a"><code>b</code> 断点（<code>b func</code> / <code>b file.c:20</code>）· <code>r</code> 运行 · <code>n</code> 单步（不进入函数）· <code>s</code> 单步进入 · <code>c</code> 继续 · <code>finish</code> 跑完当前函数 · <code>p var</code> 打印 · <code>display</code> 每步自动显示 · <code>watch var</code> 变量被改就停 · <code>info locals</code> · <code>x/16xw addr</code> 看内存。</div></div>
+
+<div class="qa"><div class="q"><span class="n">83</span>怎么定位段错误（Segfault）？</div><div class="a">① <b>看调用栈</b>：<code>bt</code> 找出崩溃所在函数与调用链；② 配合 <code>frame n</code> 切栈帧、<code>p</code> 打印现场变量；③ 复杂场景用 <b>core dump</b>：<code>ulimit -c unlimited</code> → 崩溃生成 core 文件 → <code>gdb ./app core</code> → <code>bt</code> 直接看崩溃点。<div class="anchor">🧠 你简历写了这条，话术：基于 GDB 断点 / 单步 / 调用栈回溯 + core dump 分析定位段错误与内存越界。</div></div></div>
+
+<div class="qa"><div class="q"><span class="n">84</span>怎么调试多线程 / 多进程程序？</div><div class="a"><code>info threads</code> 看线程列表、<code>thread n</code> 切线程、<code>bt</code> 看该线程栈；多进程用 <code>set follow-fork-mode child|parent</code> 选择跟随哪个进程、<code>set detach-on-fork off</code> 同时调试。</div></div>
+
+<div class="qa"><div class="q"><span class="n">85</span>程序跑飞/死循环怎么查？</div><div class="a">随机崩溃先怀疑<b>内存越界/悬空指针/栈溢出</b>：用 core dump 看崩溃点、<code>watch</code> 盯关键变量、<code>valgrind</code>（Linux）/ <code>AddressSanitizer（-fsanitize=address）</code> 定位越界；嵌入式加看门狗复位日志。</div></div>
+
+<div class="qa"><div class="q"><span class="n">86</span>断点有哪些类型？</div><div class="a"><b>普通断点</b>（<code>b</code>）· <b>条件断点</b>（<code>b file:20 if x==5</code>，调试大循环必需）· <b>观察点</b>（<code>watch</code>，变量被写时停）· <b>临时断点</b>（<code>tbreak</code>，命中一次自动删）。</div></div>
+
+<h2>⑩ Linux <span class="cnt">6 问 · 🟡</span></h2>
+
+<div class="qa"><div class="q"><span class="n">87</span>现场排障常用哪些命令？</div><div class="a">CPU/内存：<code>top</code> / <code>free -h</code> / <code>vmstat</code>；进程：<code>ps aux | grep xxx</code> · <code>kill -9 PID</code>；磁盘：<code>df -h</code> · <code>du -sh *</code>；网络：<code>netstat -tlnp</code>（看端口）· <code>lsof -i:8080</code> · <code>tcpdump -i eth0 port 80 -w a.pcap</code>；文件：<code>find / -name "*.log"</code>。</div></div>
+
+<div class="qa"><div class="q"><span class="n">88</span>软链接和硬链接的区别？</div><div class="a"><b>硬链接</b>：同一 inode 的另一个名字（共享数据），<b>不能跨文件系统、不能指向目录</b>；源文件删除数据仍在（引用计数）。<b>软链接</b>：一个独立文件，内容只是路径，<b>可跨分区、可指目录</b>，源删了就悬空。</div></div>
+
+<div class="qa"><div class="q"><span class="n">89</span>字符设备和块设备有什么区别？</div><div class="a"><b>字符设备</b>：按字节流顺序访问、无缓存（串口 /dev/ttyS*、按键、LED）；<b>块设备</b>：按块随机访问、有页缓存（SD/eMMC/磁盘，如 /dev/mmcblk0）。两者都是 /dev 下的文件，可 read/write/ioctl 访问。</div></div>
+
+<div class="qa"><div class="q"><span class="n">90</span>进程有哪些状态？僵尸进程是什么？</div><div class="a">R 运行/就绪 · S 可中断睡眠 · <b>D 不可中断睡眠</b>（等 IO，kill 杀不掉的就是它）· T 停止 · <b>Z 僵尸</b>（已退出但父进程没 wait 收尸，占着 PCB）。僵尸多了会耗尽进程表，处理办法：父进程 wait，或杀父进程交给 init 收养。</div></div>
+
+<div class="qa"><div class="q"><span class="n">91</span>怎么查一个服务为什么起不来？</div><div class="a">① <code>systemctl status xxx</code> 看状态与最近日志；② <code>journalctl -u xxx -n 100</code> 看详细日志；③ 端口被占？<code>netstat -tlnp | grep 端口</code>；④ 权限/文件缺失？<code>ls -l</code> + <code>strace ./app</code> 跟系统调用。</div></div>
+
+<div class="qa"><div class="q"><span class="n">92</span>嵌入式为什么在 PC 编译、烧到板子？怎么传？</div><div class="a">目标板资源跑不动完整工具链 → 主机交叉编译。传输：<b>NFS</b>（开发阶段挂载运行）、<b>tftp</b>（传内核/文件系统镜像）、<b>串口 xmodem</b>、SD 卡 / J-Flash 烧写。</div></div>
+
+<h2>⑪ Shell <span class="cnt">5 问 · 🟡</span></h2>
+
+<div class="qa"><div class="q"><span class="n">93</span>查日志三板斧？</div><div class="a"><code>tail -f app.log</code> 实时跟；<code>grep -C 5 "ERROR" app.log</code> 带上下文；<code>grep "ERROR" app.log | tail -50</code> 看最近；大文件先 <code>less app.log</code> 再按 <code>/关键字</code> 搜。</div></div>
+
+<div class="qa"><div class="q"><span class="n">94</span>怎么统计日志里某个字段出现次数 Top10？</div><div class="a"><code>awk '{print $1}' log | sort | uniq -c | sort -rn | head -10</code>（取出第 1 列 → 排序 → 去重计数 → 按次数倒排 → 取前 10）。</div></div>
+
+<div class="qa"><div class="q"><span class="n">95</span>Shell 常见特殊变量？</div><div class="a"><code>$0</code> 脚本名 · <code>$1 $2</code> 参数 · <code>$#</code> 参数个数 · <code>$?</code> 上条命令退出码（0 = 成功）· <code>$$</code> 当前进程 PID · <code>$@</code> 全部参数列表。</div></div>
+
+<div class="qa"><div class="q"><span class="n">96</span>管道的原理？</div><div class="a">把前一个进程的 <b>stdout 接到后一个进程的 stdin</b>（内核缓冲区实现），是单向的进程间通信，命令之间可流水线组合。</div></div>
+
+<div class="qa"><div class="q"><span class="n">97</span>怎么判断文件存在 / 写个循环？</div><div class="a"><code>if [ -f file ]; then ... fi</code>（<code>-f</code> 普通文件、<code>-d</code> 目录、<code>-e</code> 存在、<code>-z</code> 空串）；循环用 <code>for f in *.log; do ... done</code> 或 <code>while read line; do ... done &lt; file</code>。脚本首行写 <code>#!/bin/bash</code>。</div></div>
+
+<h2>⑫ MCU 与硬件 <span class="cnt">6 问 · 🔴 只有这几问，30 分钟拿下</span></h2>
+
+<div class="qa"><div class="q"><span class="n">98</span>Flash 和 RAM 的区别？程序里什么东西放哪？</div><div class="a"><b>Flash</b>：掉电不丢、按扇区擦除（写前必须先擦，擦后全 1）、擦写寿命有限、读取快写入慢 → 放<b>代码、常量、字库</b>；<b>RAM</b>：掉电就丢、随机读写快 → 放<b>全局变量、堆、栈</b>。<br>MCU 启动时把 Flash 里的 <b>.data 初值拷到 RAM</b>、把 <b>.bss 清零</b>。</div></div>
+
+<div class="qa"><div class="q"><span class="n">99</span>MCU 从上电到 main 发生了什么？（启动流程）</div><div class="a">上电复位 → 硬件从地址 0 取<b>复位向量</b>（其实是取栈顶地址 + 复位入口）→ 执行启动文件（汇编）：<b>① 初始化栈指针 SP ② 把 .data 段从 Flash 拷到 RAM ③ 把 .bss 段清零 ④ 初始化时钟 / 系统（如 SystemInit）⑤ 跳到 main</b>。</div></div>
+
+<div class="qa"><div class="q"><span class="n">100</span>看门狗（WDT）是干嘛的？</div><div class="a">一个独立递减计数器，<b>归零就复位芯片</b>；程序必须周期性"喂狗"（重装载）。用途：程序跑飞、死循环、卡住时自动复位自愈。分<b>独立看门狗 IWDG</b>（独立低速时钟，主时钟挂了也能复位）与<b>窗口看门狗 WWDG</b>（喂太早或太晚都复位，更严格）。</div></div>
+
+<div class="qa"><div class="q"><span class="n">101</span>DMA 是干嘛的？</div><div class="a"><b>Direct Memory Access</b>：不经 CPU，在外设与内存之间直接搬数据，CPU 只配置一次、搬完收中断。适合大批量传输（ADC 连续采样、串口/UART 收包、SPI 读 Flash），能大幅降低 CPU 占用。</div></div>
+
+<div class="qa"><div class="q"><span class="n">102</span>GPIO 有哪几种模式？</div><div class="a">输入（浮空 / 上拉 / 下拉 / 模拟）、输出（<b>推挽</b>：能主动输出高低；<b>开漏</b>：只能拉低、需外加上拉，可线与）、<b>复用功能</b>（AF，给 UART/SPI/I2C 用）、模拟模式（ADC）。<div class="anchor">🧠 和 I2C 上拉电阻是同一个知识点：<b>开漏 + 上拉</b>。</div></div></div>
+
+<div class="qa"><div class="q"><span class="n">103</span>上拉/下拉电阻的作用？</div><div class="a">给悬空引脚一个<b>确定的默认电平</b>，防止电平漂移导致误触发 / 误读；同时限流。<b>按键常用上拉 + 按下接地</b>（按下读到 0）。</div></div>
+
+<h2>⑬ 被问到「没实战」时的兜底话术 <span class="cnt">⚪ 背 3 句</span></h2>
+<div class="warn"><b>公式：承认没做过（只说一遍）+ 立刻讲原理 + 关联已有经验。</b><br>
+<b>例（RTOS）</b>：「FreeRTOS 我没在生产项目里用过，但原理我清楚：抢占式优先级调度、任务四态、优先级反转用优先级继承解决。我做过生产环境的批量任务调度与内存治理，思路是通的，上手会很快。」<br>
+<b>例（CAN）</b>：「CAN 我没有实车项目经验，协议层面我了解：差分两线抗干扰、多主广播、ID 仲裁时显性位 0 优先、两端 120Ω 终端电阻。」<br>
+<b>例（Keil / 示波器 / 逻辑分析仪）</b>：「这俩工具我上手不多，示波器就是量时序、测电平、算波特率，一两天能熟练。」<br>
+<span class="tag red">红线</span>别反复自贬（「我学得慢」「基础比较差」），也别说「我虽然不会但我愿意学」—— 说完立刻转技术。</div>
+
+<h2>⑭ 只剩一晚的冲刺顺序（约 3.5 小时）</h2>
+<table>
+<tr><th>顺序</th><th>背哪节</th><th>用时</th></tr>
+<tr><td>1</td><td>① 串口通信（22 问，尤其第 6/9/10/13/14/18/20 问）</td><td>50 min</td></tr>
+<tr><td>2</td><td>② RTOS（11 问，重点 26 优先级反转 / 27 锁与信号量）</td><td>40 min</td></tr>
+<tr><td>3</td><td>③ 中断（8 问，重点 35 ISR 三禁）</td><td>20 min</td></tr>
+<tr><td>4</td><td>⑫ MCU 硬件（6 问）</td><td>30 min</td></tr>
+<tr><td>5</td><td>④ 进程线程（9 问，重点 46 死锁四条件 / 47 volatile）</td><td>30 min</td></tr>
+<tr><td>6</td><td>⑦⑧⑨ GCC / Makefile / GDB 快扫</td><td>30 min</td></tr>
+<tr><td>7</td><td>⑤ C 易错（12 问，重点 51 大小端 / 52 三种指针坑 / 53 const）</td><td>20 min</td></tr>
+<tr><td>—</td><td>⑥ TCP/IP、⑩ Linux、⑪ Shell 你有底子，睡前扫答案即可</td><td>—</td></tr>
+</table>
+<div class="anchor">🧠 <b>验收标准：合上这份文件能口述才算会。</b>"看过"不算。答题/交卷前先数一遍"题目几个问号，我答了几个"。</div>
+
+<div class="footer">嵌入式面试背诵版（问答卡片）· 2026-10-10 · 共 103 问八域全覆盖<br>依据：知识缺口盘点 + 3 天速成计划 + 成都 JD 高频要求 · 私人资料，存于私有仓库 interview-study-private</div>
+</div>
+</body>
+</html>
